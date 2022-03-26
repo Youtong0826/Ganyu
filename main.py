@@ -1,6 +1,6 @@
 import random,discord,datetime,ast,json
 from discord.ext import commands
-from ganyu import ganyu,pic,token,update
+from ganyu import ganyu,pic,update
 
 bot = commands.Bot(command_prefix='g!',intents = discord.Intents.all())
 bot.remove_command("help")
@@ -964,4 +964,5 @@ class event:
             await ctx.send(embed=embed)
         print(f"Time:'{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}'\nUser:'{ctx.author.name}' Guild:'{ctx.author.guild}' 'Command:'{ctx.command}'\nError:'{error}' bool1:'{bool1}' bool2:'{bool2}'")
 
-bot.run(token)
+with open("token","r") as f:
+    bot.run(f.read())

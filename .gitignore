@@ -1,4 +1,5 @@
 .vscode/
-.__pycache__/
-.test.py
-.token
+__pycache__/
+test.py
+token
+token

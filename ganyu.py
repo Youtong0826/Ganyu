@@ -1,5 +1,5 @@
 builder = "youtong._.0826#9250"
-token = "OTIxNjczODg2MDQ5OTEwNzk1.Yb2Vsg.FVLrGLXJy_CPMM_9P2YlOFO-HXI"
+token = "OTIxNjczODg2MDQ5OTEwNzk1.Yb2Vsg.6uHcg2NEX-qoJ-yD5NBUqz0wVcA"
 update = "無"
 
 g1 = "趴在草地上，總是能聽見大地的心跳聲"

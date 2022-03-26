@@ -1,6 +1,4 @@
 import random,discord,datetime,ast,json
-from select import select
-from tkinter import Button
 from discord.ext import commands
 from ganyu import ganyu,pic,token,update
 
@@ -353,7 +351,7 @@ class info:
                     view = discord.ui.View(timeout=None)
                     view.add_item(select_main)          
                     await interaction.response.edit_message(embed = embed, view = view)
-                elif select_main.values[0] == "ser":
+                elif select_main.values[0] or select_main.values[1] or select_main.values[2]== "ser":
                     await interaction.response.edit_message(embed = embed_main, view = view_main)
             select_main.callback = mainselectcallback
             button_main_2.callback = bm2callback

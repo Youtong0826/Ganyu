@@ -305,6 +305,7 @@ class info:
             async def backcallback(interaction):   
                 await interaction.response.edit_message(embed = embed,view = view_main)
             async def mainselectcallback(interaction):
+                print(select_main.values)
                 if select_main.values[0] == "bot":
                     embed=discord.Embed(title=f"{bot.user}",color=0x9c8ff,timestamp=datetime.datetime.utcnow())
                     embed.add_field(name="📆 創建時間",value="`2022/1/21(GMT+8:00)`",inline=False)

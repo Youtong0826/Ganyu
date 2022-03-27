@@ -655,6 +655,7 @@ class command:
                 )
 
             await ctx.send(embed = embed)
+            
         print(
             f"""
             Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
@@ -2446,7 +2447,7 @@ class event:
 
         if bool2 == False:
             await ctx.send(embed=embed)
-            
+
         print(f"Time:'{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}'\nUser:'{ctx.author.name}' Guild:'{ctx.author.guild}' 'Command:'{ctx.command}'\nError:'{error}' bool1:'{bool1}' bool2:'{bool2}'")
 
 with open("token","r") as f:

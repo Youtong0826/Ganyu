@@ -1,14 +1,14 @@
 import random , discord , datetime , ast , json
 from discord.ext import commands
 from core.classies import Cog_ExtenSion
-from ganyu import ganyu
+from ganyu import messages
 
 class Other(Cog_ExtenSion):
 
     @commands.command()
     async def about(self,ctx):
 
-        await ctx.send(random.choice(ganyu))
+        await ctx.send(random.choice(messages))
 
         print(
             f"""

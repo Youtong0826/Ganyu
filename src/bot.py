@@ -1,15 +1,39 @@
-import random , discord , datetime , ast , json , os
+import random , discord , datetime , os
 from discord.ext import commands
-from ganyu import ganyu , pic , update
+
+import random
+import requests
+import json
+
+# init random database
+imageIdList = []
+for i in range(3):
+    url = f"https://www.pixiv.net/ajax/search/artworks/%E7%94%98%E9%9B%A8?word=%E7%94%98%E9%9B%A8&order=date_d&mode=all&p={str(i+1)}&s_mode=s_tag_full&type=all&lang=zh_tw"
+    root = requests.get(url)
+    rootData = json.loads(root.text)
+    imageData = rootData["body"]["illustManga"]["data"]
+
+    for i in imageData:
+        imageInfo = {
+            "title":i["title"],
+            "user":i["userName"] #指作者
+        }
+
+        if i["pageCount"] > 1:
+            imageInfo["url"] = f'{str(i["id"])}-1'
+        else:
+            imageInfo["url"] = f'{str(i["id"])}'
+
+        imageIdList.append(imageInfo)
 
 bot = commands.Bot(
     command_prefix='g!',
     intents = discord.Intents.all()
 )
 
-for Filename in os.listdir("./cmds"):
+for Filename in os.listdir("src/commands"):
     if Filename.endswith(".py"):
-        bot.load_extension(f"cmds.{Filename[:-3]}")
+        bot.load_extension(f"commands.{Filename[:-3]}")
 
 bot.remove_command("help")
 
@@ -449,10 +473,10 @@ class command:
 
     @bot.command()
     async def pic(ctx):
-        random_pic = random.choice(pic)
-        picf = discord.File(random_pic)
+        picturePath = f"res/pictures/{random.randint(1,30)}.jpg"
+        pictureFile = discord.File(picturePath)
 
-        await ctx.send(file = picf)
+        await ctx.send(file = pictureFile)
 
         print(
             f"""
@@ -463,8 +487,21 @@ class command:
             Command:{ctx.command}
             """)
 
+    @bot.command()
+    async def pic2(ctx):
+        imgInfo = random.choice(imageIdList)
+
+        imgURL = 'https://pixiv.cat/'+imgInfo["url"]+'.jpg'
+
+        embed = discord.Embed(
+            title = imgInfo["title"],
+            description = f'繪師：{imgInfo["user"]}',
+            color = discord.Colour.nitro_pink(),
+        )
+
+        embed.set_image(url=imgURL)
+        await ctx.send(embed=embed)
     
-        
     @bot.command()
     async def gueit(ctx,dight:int):#guessdight
         r = []
@@ -545,7 +582,8 @@ class event:
     async def on_ready():
         print(">>Bot is online<<")
 
-    @bot.event
+    #NOTE: 暫時移除該事件以便開發報錯(會顯示行數)
+    # @bot.event 
     async def on_command_error(ctx,error):
 
         bool2 = False

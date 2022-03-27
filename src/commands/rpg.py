@@ -5,11 +5,11 @@ from core.classies import Cog_ExtenSion
 class rpg(Cog_ExtenSion):
 
     def getDB():
-        with open("DB.json","r") as f:
+        with open("res/db/DB.json","r") as f:
             return json.loads(f.read())
 
     def addDB(db):
-        with open("DB.json","w") as f:
+        with open("res/db/DB.json","w") as f:
             return f.write(
                 json.dumps(
                     db,
@@ -20,11 +20,11 @@ class rpg(Cog_ExtenSion):
             )
 
     def getRPGDB():
-        with open("rpg.json","r") as f:
+        with open("res/db/rpg.json","r") as f:
             return json.loads(f.read())
 
     def addRPGDB(jobdb):
-        with open("rpg.json","w") as f:
+        with open("res/db/rpg.json","w") as f:
             return f.write(
                 json.dumps(
                     jobdb,

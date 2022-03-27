@@ -1,4 +1,4 @@
-import random , discord , datetime , ast , json , os
+import random , discord , datetime , os
 from discord.ext import commands
 
 import random
@@ -31,9 +31,9 @@ bot = commands.Bot(
     intents = discord.Intents.all()
 )
 
-for Filename in os.listdir("./cmds"):
+for Filename in os.listdir("src/commands"):
     if Filename.endswith(".py"):
-        bot.load_extension(f"cmds.{Filename[:-3]}")
+        bot.load_extension(f"commands.{Filename[:-3]}")
 
 bot.remove_command("help")
 
@@ -473,7 +473,7 @@ class command:
 
     @bot.command()
     async def pic(ctx):
-        picturePath = f"pictures/{random.randint(1,30)}.jpg"
+        picturePath = f"res/pictures/{random.randint(1,30)}.jpg"
         pictureFile = discord.File(picturePath)
 
         await ctx.send(file = pictureFile)

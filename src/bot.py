@@ -1,30 +1,10 @@
 import random , discord , datetime , os
+from turtle import title
 from discord.ext import commands
-
-import random
-import requests
 import json
 
 # init random database
-imageIdList = []
-for i in range(3):
-    url = f"https://www.pixiv.net/ajax/search/artworks/%E7%94%98%E9%9B%A8?word=%E7%94%98%E9%9B%A8&order=date_d&mode=all&p={str(i+1)}&s_mode=s_tag_full&type=all&lang=zh_tw"
-    root = requests.get(url)
-    rootData = json.loads(root.text)
-    imageData = rootData["body"]["illustManga"]["data"]
 
-    for i in imageData:
-        imageInfo = {
-            "title":i["title"],
-            "user":i["userName"] #指作者
-        }
-
-        if i["pageCount"] > 1:
-            imageInfo["url"] = f'{str(i["id"])}-1'
-        else:
-            imageInfo["url"] = f'{str(i["id"])}'
-
-        imageIdList.append(imageInfo)
 
 bot = commands.Bot(
     command_prefix='g!',
@@ -67,8 +47,8 @@ class command:
         )
 
         embed.add_field(
-            name = 'g!other',
-            value = '查看其他指令',
+            name = 'g!cucmd',
+            value = '查看常用的指令',
             inline = False
         )
 
@@ -91,7 +71,7 @@ class command:
 
         otherbutton = discord.ui.Button(
             style = discord.ButtonStyle.green,
-            label = "other",
+            label = "cucmd",
             emoji = "📰"
         )
 
@@ -118,23 +98,8 @@ class command:
             )
 
             embed.add_field(
-                name = "g!say",
-                value = "讓這個機器人模仿你說話"
-            )
-
-            embed.add_field(
-                name = "g!avatar",
-                value = "查看他人/自己的頭貼"
-            )
-
-            embed.add_field(
                 name = "g!dice",
                 value = "讓這個機器人幫你骰骰子"
-            )
-
-            embed.add_field(
-                name = "g!math",
-                value = "算數"
             )
 
             embed.add_field(
@@ -202,7 +167,7 @@ class command:
         async def othercallback(interaction):
 
             embed = discord.Embed(
-                title = "other 指令清單",
+                title = "cucmd 指令清單",
                 color = discord.Colour.random(),
                 timestamp = datetime.datetime.utcnow()
             )
@@ -228,9 +193,20 @@ class command:
             )
 
             embed.add_field(
-                name = "g!about",
+                name = "g!getuser",
                 value = "透過id取的用戶"
             )
+
+            embed.add_field(
+                name="g!embed",
+                value="傳送一則嵌入訊息"
+            )
+
+            embed.add_field(
+                name="g!embedtitle",
+                value="傳送只有標題的嵌入訊息"
+            )
+
 
             embed.set_footer(
                 text = f"{ctx.author.name}",
@@ -262,8 +238,8 @@ class command:
             )
 
             embed.add_field(
-                name = 'g!other',
-                value = '查看其他指令',
+                name = 'g!cucmd',
+                value = '查看常用的指令',
                 inline = False
             )
 
@@ -288,11 +264,11 @@ class command:
 
         print(
             f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
+Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}
+User:{ctx.author} 
+ID:{ctx.author.id} 
+Guild:{ctx.author.guild} 
+Command:{ctx.command}
             """)
 
     @bot.command()
@@ -303,25 +279,9 @@ class command:
             color = discord.Colour.random(),
             timestamp = datetime.datetime.utcnow()
         )
-
-        embed.add_field(
-            name = "g!say",
-            value = "讓這個機器人模仿你說話"
-        )
-
-        embed.add_field(
-            name = "g!avatar",
-            value = "查看他人/自己的頭貼"
-        )
-
         embed.add_field(
             name = "g!dice",
             value = "讓這個機器人幫你骰骰子"
-        )
-
-        embed.add_field(
-            name = "g!math",
-            value = "算數"
         )
 
         embed.add_field(
@@ -340,11 +300,11 @@ class command:
 
         print(
             f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
+Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
+User:{ctx.author} 
+ID:{ctx.author.id} 
+Guild:{ctx.author.guild} 
+Command:{ctx.command}
             """)
 
     @bot.command()
@@ -408,10 +368,10 @@ class command:
             """)
         
     @bot.command()
-    async def other(ctx):
+    async def cucmd(ctx):
 
         embed = discord.Embed(
-            title = "other 指令清單",
+            title = "cucmd 指令清單",
             color = discord.Colour.random(),
             timestamp = datetime.datetime.utcnow()
         )
@@ -436,6 +396,16 @@ class command:
             value = "透過id取得用戶"
         )
 
+        embed.add_field(
+            name="g!embed",
+            value="傳送一則嵌入訊息"
+        )
+
+        embed.add_field(
+            name="g!embedtitle",
+            value="傳送只有標題的嵌入訊息"
+        )
+
         embed.set_footer(
             text = f"{ctx.author.name}",
             icon_url = ctx.author.avatar
@@ -451,109 +421,21 @@ class command:
             Guild:{ctx.author.guild} 
             Command:{ctx.command}
             """)
-
-    @bot.command()
-    async def ban(ctx , member : discord.Member ,*, reason=None):
-
-        if ctx.author == ctx.author.guild.owner:
-            await member.ban(reason = reason)
-            await ctx.send("banned "+ f"{member}" )   
-
-        else:
-            await ctx.send("你沒有權限!") 
-
-            print(
-                f"""
-                Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-                User:{ctx.author} 
-                ID:{ctx.author.id} 
-                Guild:{ctx.author.guild} 
-                Command:{ctx.command}
-                """)
-
-    @bot.command()
-    async def pic(ctx):
-        picturePath = f"res/pictures/{random.randint(1,30)}.jpg"
-        pictureFile = discord.File(picturePath)
-
-        await ctx.send(file = pictureFile)
-
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
-            """)
-
-    @bot.command()
-    async def pic2(ctx):
-        imgInfo = random.choice(imageIdList)
-
-        imgURL = 'https://pixiv.cat/'+imgInfo["url"]+'.jpg'
-
-        embed = discord.Embed(
-            title = imgInfo["title"],
-            description = f'繪師：{imgInfo["user"]}',
-            color = discord.Colour.nitro_pink(),
-        )
-
-        embed.set_image(url=imgURL)
-        await ctx.send(embed=embed)
     
-    @bot.command()
-    async def gueit(ctx,dight:int):#guessdight
-        r = []
-
-        for n in range(1,1001):
-            r.append(n)
-
-        ans =  random.choice(r)
-        time = 0
-        olddight = ""
-        
-        #embed = discord.Embed(title="太大了!",description="謎底比你想的還要小喔",color=discord.Colour.random())
-                           
-        #embed = discord.Embed(title="接近答案了!",description="但還是有點大XD",color=discord.Colour.random())
-                  
-        #embed = discord.Embed(title="就差一點了!",description="再小一點啦",color=discord.Colour.random())
-                    
-        #embed = discord.Embed(title="太小了",description="謎底比擬想的還要小喔",color=discord.Colour.random())
-                    
-        #embed = discord.Embed(title="接近答案了",description="但還是有點小XD",color=discord.Colour.random())
-                    
-        #embed = discord.Embed(title="就差一點了!",description="再大一點啦",color=discord.Colour.random())
-                    
-        embed = discord.Embed(
-            title = "恭喜!",
-            description = f"您猜中了數字! 答案是{ans} ",
-            color = discord.Colour.random(),
-            timestamp = datetime.datetime.utcnow()
-        )
-
-        embed.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url = ctx.author.avatar
-        )
-
-        await ctx.send(embed = embed)
 
     @bot.command()
     async def test(ctx):
+        ctx.author : discord.Member
         embed = discord.Embed(
-            title="This is test command owo"
+            title="This is a test command owo"
         )
-        await ctx.send(embed)  
+        if ctx.author.guild_permissions.manage_messages:
+            print("yes")
+        else:
+            print("no")
         
-    #    @bot.command()
-    #    async def ac(ctx,arg):
-    #        arg = str(arg)
-    #        length = 0
-    #        for n in arg:
-    #            length += 1
-    #        if "×" or "x" or "*" in f"{arg}":
-    #            print(arg.index("x"))
+        await ctx.send(embed = embed)  
+        
     
     @bot.command()
     async def time(ctx,key):
@@ -583,11 +465,11 @@ class event:
         print(">>Bot is online<<")
 
     #NOTE: 暫時移除該事件以便開發報錯(會顯示行數)
-    # @bot.event 
+    @bot.event 
     async def on_command_error(ctx,error):
 
-        bool2 = False
         bool1 = False
+        bool2 = False
 
         def on_cmd_error(keywords,error):#尋找回報中是否含有關鍵字
 
@@ -622,6 +504,7 @@ class event:
         if on_cmd_error(keywords=['Command','is not found'],error=error):
 
             bool1 = True
+            bool2 = False
             embed=event.embed_copy(des="沒有這個指令啦!")
             
         if on_cmd_error(keywords=['Converting to "literal_eval" failed for parameter "a".'],error=error):
@@ -851,6 +734,10 @@ class event:
             bool1 = True
             embed=event.embed_copy(des=f"缺少用來查找id的用戶名")
 
+        if on_cmd_error(keywords=["description is a required argument that is missing."],error=error):
+            bool1 = True
+            embed = event.embed_copy(des="缺少內容")
+
         if on_cmd_error(keywords=['member is a required argument that is missing.'],error=error):
             bool1 = True
 
@@ -861,6 +748,7 @@ class event:
                     color=discord.Colour.random(),
                     timestamp=datetime.datetime.utcnow()
                 )
+
                 embed.set_image(url=user.avatar)
 
                 embed.set_footer(
@@ -942,10 +830,11 @@ class event:
                 await ctx.send(embed=embed_main,view = view_main)
 
         if bool1 == False:
-            embed=event.embed_copy(des="待釐清... :(")
+            #embed=event.embed_copy(des="待釐清... :(")
+            print(error)
 
         if bool2 == False:
-            await ctx.send(embed=embed)
+            await ctx.send(embed = embed)
 
         print(f"Time:'{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}'\nUser:'{ctx.author.name}' Guild:'{ctx.author.guild}' 'Command:'{ctx.command}'\nError:'{error}' bool1:'{bool1}' bool2:'{bool2}'")
 

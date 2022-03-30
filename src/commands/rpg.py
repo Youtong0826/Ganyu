@@ -1,4 +1,4 @@
-import random , discord , datetime , ast , json
+import random , discord , datetime , json
 from discord.ext import commands
 from core.classies import Cog_ExtenSion
 
@@ -50,6 +50,7 @@ class rpg(Cog_ExtenSion):
             rpgdb[id] = {"name":"","job":"","exp":0,"level":0,"coin":0}
 
         rpgdb[id] = {"name":f"{name}","job":job,"exp":exp,"level":level,"coin":rpgdb[id].get('coin') + coin}
+        
         rpg.addRPGDB(rpgdb)#{f'{id}':f'{job}'})
 
     def getjob(id):

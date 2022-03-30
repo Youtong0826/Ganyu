@@ -1,8 +1,15 @@
-import random , discord , datetime , ast , json
+import discord , datetime
 from discord.ext import commands
 from core.classies import Cog_ExtenSion
 from ganyu import update
-
+"""
+g!allinfo
+g!serinfo
+g!botinfo
+g!userinfo
+g!update
+g!invite
+"""
 class Info(Cog_ExtenSion):
     @commands.command()
     async def allinfo(self,ctx):
@@ -600,11 +607,11 @@ Command:{ctx.command}"""
 
         print(
             f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}"""
+Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
+User:{ctx.author} 
+ID:{ctx.author.id} 
+Guild:{ctx.author.guild} 
+Command:{ctx.command}"""
         )
 
     @commands.command()
@@ -622,12 +629,13 @@ Command:{ctx.command}"""
         await ctx.send(embed = embed)
         print(
             f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
-            """)
+Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
+User:{ctx.author} 
+ID:{ctx.author.id} 
+Guild:{ctx.author.guild} 
+Command:{ctx.command}"""
+        )
+
     @commands.command()
     async def update(ctx):
 
@@ -646,11 +654,11 @@ Command:{ctx.command}"""
 
         print(
             f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
-            """)
+Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
+User:{ctx.author} ID:{ctx.author.id} 
+Guild:{ctx.author.guild} 
+Command:{ctx.command}"""
+        )
 
 def setup(bot):
     bot.add_cog(Info(bot))

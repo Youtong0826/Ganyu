@@ -1,57 +1,14 @@
-import random , discord , datetime , ast , json
+import random , discord 
 from discord.ext import commands
 from core.classies import Cog_ExtenSion
 
 """
 fun command list
-g!say
-g!avatar
 g!dice
-g!math
 g!rpg
 """
 
 class Fun(Cog_ExtenSion):
-    
-    @commands.command()
-    async def say(self,ctx ,*, arg):
-
-        await ctx.message.delete()
-        await ctx.send(arg)
-
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
-            """)
-    
-    @commands.command()
-    async def avatar(self,ctx,*,member:discord.Member):
-
-        embed = discord.Embed(
-            title = f"這是 {member.name} 的頭貼",
-            color = discord.Colour.random(),
-            timestamp = datetime.datetime.utcnow()
-        )
-
-        embed.set_image(url=member.avatar)
-
-        embed.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url = ctx.author.avatar
-        )
-
-        await ctx.send(embed = embed)#_url_as(format=None, static_format='webp', size=1024))
-
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
-            """)
 
     @commands.command()
     async def dice(self,ctx,nember:int):

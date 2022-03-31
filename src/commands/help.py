@@ -213,7 +213,7 @@ class Help(Cog_ExtenSion):
 
                 embed.add_field(
                     name="g!embed `title` `description`",
-                    value="傳送一則嵌入訊息(如有空格需加"")"
+                    value='傳送一則嵌入訊息\n(如有空格需加"")'
                 )
 
                 embed.add_field(
@@ -415,7 +415,7 @@ Command:{ctx.command}
 
         embed.add_field(
             name="g!embed `title` `descripion`",
-            value="傳送一則嵌入訊息(如有空格請加上"")"
+            value='傳送一則嵌入訊息\n(如有空格請加上"")'
         )
 
         embed.add_field(

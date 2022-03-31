@@ -15,8 +15,6 @@ for Filename in os.listdir("src/commands"):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 
-bot.remove_command("help")
-
 bot.activity = discord.Game(
     name="g!help owo"
 )
@@ -24,405 +22,7 @@ bot.activity = discord.Game(
 have_job = False
 
 class command:
-
-    @bot.command()
-    async def help(ctx):
-
-        embed = discord.Embed(
-            title="Ganyu 指令清單",
-            color = 0xec8fff,
-            timestamp = datetime.datetime.utcnow()
-        )
-
-        embed.add_field(
-            name = 'g!fun',
-            value = '查看娛樂的指令清單',
-            inline = False
-        )
-
-        embed.add_field(
-            name = 'g!info',
-            value = '查看資訊的指令清單',
-            inline = False
-        )
-
-        embed.add_field(
-            name = 'g!cucmd',
-            value = '查看常用的指令',
-            inline = False
-        )
-
-        embed.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url = ctx.author.avatar
-        )
-
-        funbutton = discord.ui.Button(
-            style = discord.ButtonStyle.green,
-            label =" fun",
-            emoji = "🎉"
-        )
-
-        infobutton = discord.ui.Button(
-            style = discord.ButtonStyle.primary,
-            label = "info",
-            emoji = "📘"
-        )
-
-        otherbutton = discord.ui.Button(
-            style = discord.ButtonStyle.green,
-            label = "cucmd",
-            emoji = "📰"
-        )
-
-        backbutton = discord.ui.Button(
-            style = discord.ButtonStyle.green,
-            label = "back",
-            emoji = "🔙"
-        )
-
-        backview = discord.ui.View(timeout=None)
-        main_view = discord.ui.View(timeout=None)
-
-        backview.add_item(backbutton)       
-        main_view.add_item(funbutton)
-        main_view.add_item(infobutton)
-        main_view.add_item(otherbutton)
-
-        async def funcallback(interaction):
-
-            embed = discord.Embed(
-                title = "fun 指令清單",
-                color = discord.Colour.random(),
-                timestamp = datetime.datetime.utcnow()
-            )
-
-            embed.add_field(
-                name = "g!dice",
-                value = "讓這個機器人幫你骰骰子"
-            )
-
-            embed.add_field(
-                name = "g!rpg",
-                value = "RPG系統(製作中)"
-            )
-
-            embed.set_footer(
-                text = f"{ctx.author.name}",
-                icon_url = ctx.author.avatar
-            )
-
-            await interaction.response.edit_message(
-                embed = embed,
-                view = backview
-            )
-
-        async def infocallback(interaction): 
-            embed = discord.Embed(
-                title = "info 指令清單",
-                color = discord.Colour.random(),
-                timestamp = datetime.datetime.utcnow()
-            )
-
-            embed.add_field(
-                name = "g!userinfo",
-                value = "查看使用者在此伺服器的資訊"
-            )
-
-            embed.add_field(
-                name = "g!serinfo",
-                value = "查看伺服器的資訊"
-            )
-
-            embed.add_field(
-                name = "g!botinfo",
-                value = "查看機器人的資訊"
-            )
-
-            embed.add_field(
-                name = "g!time",
-                value = "查看各國時間"
-            )
-
-            embed.add_field(
-                name = "g!update",
-                value = "查看更新資訊"
-            )
-
-            embed.add_field(
-                name="g!invite",
-                value="獲取邀請連結"
-            )
-
-            embed.set_footer(
-                text = f"{ctx.author.name}",
-                icon_url = ctx.author.avatar
-            )  
-
-            await interaction.response.edit_message(
-                embed = embed,
-                view = backview
-            )
-
-        async def othercallback(interaction):
-
-            embed = discord.Embed(
-                title = "cucmd 指令清單",
-                color = discord.Colour.random(),
-                timestamp = datetime.datetime.utcnow()
-            )
-
-            embed.add_field(
-                name = "g!about",
-                value = "關於甘雨"
-            )
-
-            embed.add_field(
-                name = "g!ping",
-                value = "查看機器人延遲"
-            )
-
-            embed.add_field(
-                name = "g!say",
-                value = "讓這個機器人模仿你說話"
-            )
-
-            embed.add_field(
-                name = "g!getid",
-                value =" 透過用戶取得用戶id"
-            )
-
-            embed.add_field(
-                name = "g!getuser",
-                value = "透過id取的用戶"
-            )
-
-            embed.add_field(
-                name="g!embed",
-                value="傳送一則嵌入訊息"
-            )
-
-            embed.add_field(
-                name="g!embedtitle",
-                value="傳送只有標題的嵌入訊息"
-            )
-
-
-            embed.set_footer(
-                text = f"{ctx.author.name}",
-                icon_url = ctx.author.avatar
-            )  
-
-            await interaction.response.edit_message(
-                embed = embed,
-                view = backview
-            )
-
-        async def backcallback(interaction):
-            embed=discord.Embed(
-                title = "Ganyu 指令清單",
-                color = 0xec8fff,
-                timestamp = datetime.datetime.utcnow()
-            )
-
-            embed.add_field(
-                name = 'g!fun' , 
-                value = '查看娛樂的指令清單', 
-                inline = False
-            )
-
-            embed.add_field(
-                name = 'g!info',
-                value = '查看資訊的指令清單',
-                inline = False
-            )
-
-            embed.add_field(
-                name = 'g!cucmd',
-                value = '查看常用的指令',
-                inline = False
-            )
-
-            embed.set_footer(
-                text = f"{ctx.author.name}",
-                icon_url = ctx.author.avatar)
-
-            await interaction.response.edit_message(
-                embed = embed,
-                view = main_view
-            )
-
-        funbutton.callback = funcallback
-        infobutton.callback = infocallback
-        otherbutton.callback = othercallback
-        backbutton.callback = backcallback
-
-        await ctx.send(
-            embed = embed,
-            view = main_view
-        )
-
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}
-            """)
-
-    @bot.command()
-    async def fun(ctx):
-
-        embed = discord.Embed(
-            title = "fun 指令清單",
-            color = discord.Colour.random(),
-            timestamp = datetime.datetime.utcnow()
-        )
-        embed.add_field(
-            name = "g!dice",
-            value = "讓這個機器人幫你骰骰子"
-        )
-
-        embed.add_field(
-            name = "g!rpg",
-            value = "RPG系統(製作中)"
-        )
-
-        embed.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url = ctx.author.avatar
-        )
-
-        await ctx.send(
-            embed = embed
-        )
-
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}
-            """)
-
-    @bot.command()
-    async def info(ctx):
-
-        embed = discord.Embed(
-            title = "info 指令清單",
-            color = discord.Colour.random(),
-            timestamp = datetime.datetime.utcnow()
-        )
-
-        embed.add_field(
-            name = "g!allinfo",
-            value = "一次性查看所有資訊!"
-        )
-
-        embed.add_field(
-            name = "g!userinfo",
-            value = "查看使用者在此伺服器的資訊"
-        )
-
-        embed.add_field(
-            name = "g!serinfo",
-            value = "查看伺服器的資訊"
-        )
-
-        embed.add_field(
-            name = "g!botinfo",
-            value = "查看機器人的資訊"
-        )
-
-        embed.add_field(
-            name = "g!time",
-            value = "查看各國時間"
-        )
-
-        embed.add_field(
-            name = "g!update",
-            value = "查看更新資訊"
-        )
-
-        embed.add_field(
-            name = "g!invite",
-            value = "獲取邀請連結"
-        )
-
-        embed.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url = ctx.author.avatar
-        )
-
-        await ctx.send(embed=embed)
-
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
-            """)
-        
-    @bot.command()
-    async def cucmd(ctx):
-
-        embed = discord.Embed(
-            title = "cucmd 指令清單",
-            color = discord.Colour.random(),
-            timestamp = datetime.datetime.utcnow()
-        )
-
-        embed.add_field(
-            name = "g!about",
-            value = "關於甘雨"
-        )
-
-        embed.add_field(
-            name = "g!ping",
-            value = "查看機器人延遲"
-        )
-
-        embed.add_field(
-            name = "g!getid",
-            value = "透過用戶取得用戶id"
-        )
-
-        embed.add_field(
-            name = "g!getuser",
-            value = "透過id取得用戶"
-        )
-
-        embed.add_field(
-            name="g!embed",
-            value="傳送一則嵌入訊息"
-        )
-
-        embed.add_field(
-            name="g!embedtitle",
-            value="傳送只有標題的嵌入訊息"
-        )
-
-        embed.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url = ctx.author.avatar
-        )
-
-        await ctx.send(embed=embed)
-
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
-            """)
     
-
     @bot.command()
     async def test(ctx):
         ctx.author : discord.Member
@@ -447,6 +47,56 @@ Command:{ctx.command}
             )
 
         await ctx.send(embed=embed)
+
+    @bot.command()
+    async def load(ctx,extension):
+        if ctx.author.id == 611118369474740244 or 856041155341975582:
+            bot.load_extension(f"commands.{extension}")
+            embed = discord.Embed(
+                title=f"Loaded - {extension} - Cog",
+                color=0x5cff8d
+            )
+        else:
+            embed = discord.Embed(
+                title="此為開發者專屬功能",
+                color=0x5cff8d
+            ) 
+
+        await ctx.send(embed = embed)
+        print("")
+
+    @bot.command()
+    async def unload(ctx,extension):
+        if ctx.author.id == 611118369474740244 or 856041155341975582:
+            bot.unload_extension(f"commands.{extension}")
+            embed = discord.Embed(
+                title=f"Unloaded - {extension} - Cog",
+                color=0x5cff8d
+            )
+        else:
+            embed = discord.Embed(
+                title="此為開發者專屬功能",
+                color=0x5cff8d
+            ) 
+
+        await ctx.send(embed = embed)
+
+    @bot.command()
+    async def reload(ctx,extension):
+        if ctx.author.id == 611118369474740244 or 856041155341975582:
+            bot.reload_extension(f"commands.{extension}")
+            embed = discord.Embed(
+                title=f"Reloaded - {extension} - Cog",
+                color=0x5cff8d
+            )
+        else:
+            embed = discord.Embed(
+                title="此為開發者專屬功能",
+                color=0x5cff8d
+            ) 
+
+        await ctx.send(embed = embed)
+
 
 class event:
 
@@ -758,6 +408,9 @@ class event:
 
             elif "ban" in f"{ctx.command}":
                 embed = event.embed_copy(des="是要我ban誰啦")
+            
+            elif ctx.command == "kick":
+                embed = event.embed_copy(des="是要我kick誰啦")
 
             elif f"{ctx.command}" == "userinfo":
                 user = ctx.author

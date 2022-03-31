@@ -166,7 +166,7 @@ class Info(Cog_ExtenSion):
                 ) 
 
                 embed.add_field(
-                    name = f"📰 身分組:({roles_count})",
+                    name = f"📰 身分組[{roles_count}]:",
                     value = f"\n {roles}",inline=False
                 )
 
@@ -589,7 +589,7 @@ Command:{ctx.command}"""
         ) 
 
         embed_main.add_field(
-            name = f"📰 身分組:({roles_count})",
+            name = f"📰 身分組[{roles_count}]:",
             value = f"\n {roles}",inline=False
         )
 

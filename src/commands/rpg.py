@@ -1,8 +1,9 @@
 import random , discord , datetime , json
 from discord.ext import commands
-from core.classies import Cog_ExtenSion
+from core.classes import Cog_ExtenSion
 
 class rpg(Cog_ExtenSion):
+    have_job = False
 
     def getDB():
         with open("res/db/DB.json","r") as f:
@@ -34,14 +35,7 @@ class rpg(Cog_ExtenSion):
                 )
             )
     
-    def addrpg( 
-        id,
-        job,
-        exp : int, 
-        level : int,
-        coin:int,
-        name 
-    ):
+    def addrpg(id, job, exp:int, level:int, coin:int, name):
         id = str(id)
         rpgdb = rpg.getRPGDB()
 

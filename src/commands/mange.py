@@ -1,6 +1,6 @@
 import discord , datetime
 from discord.ext import commands
-from core.classies import Cog_ExtenSion
+from core.classes import Cog_ExtenSion
 
 class Mange(Cog_ExtenSion):
 
@@ -14,19 +14,35 @@ class Mange(Cog_ExtenSion):
                 color = 0xff2e2e,
                 timestamp=datetime.datetime.utcnow() 
             )
+
+            if reason == None:
+                reason = "無"
+
+            embed.add_field(
+                name="Reason",value=f"```{reason}```"
+            )
+
             embed.set_footer(text=f"{ctx.author.name}",icon_url=ctx.author.avatar)
             await member.kick(reason=reason)
 
         else:
             embed = discord.Embed(
                 title="你沒有權限!",
-                description=f"缺少權限 `kick_members` `踢除成員`",
+                description=f"缺少權限 `kick_members` `踢出成員`",
                 color = 0xff2e2e,
                 timestamp=datetime.datetime.utcnow() 
             )
             embed.set_footer(text=f"{ctx.author.name}",icon_url=ctx.author.avatar)
         
         await ctx.send(embed=embed)
+        print(
+            f"""
+Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
+User:{ctx.author} 
+ID:{ctx.author.id} 
+Guild:{ctx.author.guild} 
+Command:{ctx.command}
+                """)
 
     @commands.command()
     async def ban(self, ctx , member : discord.Member ,*, reason = None):
@@ -38,6 +54,14 @@ class Mange(Cog_ExtenSion):
                 color = 0xff2e2e,
                 timestamp=datetime.datetime.utcnow() 
             )
+            
+            if reason == None:
+                reason = "無"
+                
+            embed.add_field(
+                name="Reason",value=f"```{reason}```"
+            )
+
             embed.set_footer(text=f"{ctx.author.name}",icon_url=ctx.author.avatar)
             await member.ban(reason = reason)
         else:

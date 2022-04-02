@@ -1,7 +1,7 @@
 from site import venv
 import discord , datetime
 from discord.ext import commands
-from core.classies import Cog_ExtenSion
+from core.classes import Cog_ExtenSion
 
 class Help(Cog_ExtenSion):
 

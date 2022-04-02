@@ -13,16 +13,13 @@ for Filename in os.listdir("src/commands"):
 bot.activity = discord.Game(
     name="g!help owo"
 )
-
-have_job = False
-
     
 @bot.command()
 async def test(ctx):
-        embed = discord.Embed(
-            title="This is a test command owo"
-        )
-        await ctx.send(embed = embed)  
+    embed = discord.Embed(
+        title="This is a test command owo"
+    )
+    await ctx.send(embed = embed)
     
 
 @bot.command()
@@ -49,7 +46,7 @@ async def load(ctx,extension):
             color=0x5cff8d
         ) 
     await ctx.send(embed = embed)
-    print(f"[{datetime.datetime.utcnow}]: {ctx.author.name} loaded {extension} Cog in {ctx.author.guild}")
+    print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} loaded {extension} Cog in {ctx.author.guild}")
 
 @bot.command()
 async def unload(ctx,extension):
@@ -65,7 +62,7 @@ async def unload(ctx,extension):
             color=0x5cff8d
         ) 
     await ctx.send(embed = embed)
-    print(f"[{datetime.datetime.utcnow}]: {ctx.author.name} unloaded {extension} Cog in {ctx.author.guild}")
+    print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} unloaded {extension} Cog in {ctx.author.guild}")
 
 @bot.command()
 async def reload(ctx,extension):
@@ -81,7 +78,7 @@ async def reload(ctx,extension):
             color=0x5cff8d
         ) 
     await ctx.send(embed = embed)
-    print(f"[{datetime.datetime.utcnow}]: {ctx.author.name} reloaded {extension} Cog in {ctx.author.guild}")
+    print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} reloaded {extension} Cog in {ctx.author.guild}")
 
 @bot.event
 async def on_ready():
@@ -407,10 +404,10 @@ async def on_command_error(ctx,error):
         await ctx.send(embed = embed)
     print(f"""
 Time:'{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}'
-\nUser:'{ctx.author.name}' 
-'Guild:'{ctx.author.guild}' 
-'Command:'{ctx.command}'
-\nError:'{error}' 
+User:'{ctx.author.name}' 
+Guild:{ctx.author.guild}' 
+Command:{ctx.command}'
+Error:'{error}' 
 bool1:'{bool1}' 
 bool2:'{bool2}'
 """)

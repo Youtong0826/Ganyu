@@ -1,6 +1,6 @@
 import random , discord , datetime , json , requests
 from discord.ext import commands
-from core.classies import Cog_ExtenSion
+from core.classes import Cog_ExtenSion
 from ganyu import messages
 
 imageIdList = []
@@ -30,10 +30,10 @@ class Cucmd(Cog_ExtenSion):
 
         print(
             f"""
-    Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-    User:{ctx.author} ID:{ctx.author.id} 
-    Guild:{ctx.author.guild} 
-    Command:{ctx.command}
+Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
+User:{ctx.author} ID:{ctx.author.id} 
+Guild:{ctx.author.guild} 
+Command:{ctx.command}
             """)
 
     @commands.command()
@@ -152,22 +152,26 @@ Guild:{ctx.author.guild} Command:{ctx.command}
             title = imgInfo["title"],
             description = f'繪師：{imgInfo["user"]}',
             color = discord.Colour.nitro_pink(),
+            timestamp=datetime.datetime.utcnow()
         )
 
         embed.set_image(url=imgURL)
 
         pixiv_image_url = "https://www.bing.com/th?id=ODL.d9cafa2b269e74dcb05b3314a76d721f&w=100&h=100&c=12&pcl=faf9f7&o=6&dpr=1.25&pid=13.1"
-        embed.set_footer(text="image from Pixiv.net",icon_url=pixiv_image_url)
+        embed.set_footer(text="from Pixiv.net",icon_url=pixiv_image_url)
 
         main_view = discord.ui.View(timeout=None)
-        website_button = discord.ui.Button(label="在Pixiv上查看這張圖片!",url=imgURL,emoji="🖼️")
+        website_button = discord.ui.Button(label="在Pixiv上查看這張圖片!",url=f"https://pixiv.net/artworks/{imgInfo['url']}",emoji="🖼️")
 
         main_view.add_item(website_button)
 
         await ctx.send(embed=embed,view = main_view)
     
     @commands.command()
-    async def embed(self,ctx,title,description):
+    async def embed(self,ctx,title,description = None):
+
+        if description == None:
+            description = ""
 
         embed = discord.Embed(
             title = title,
@@ -176,16 +180,72 @@ Guild:{ctx.author.guild} Command:{ctx.command}
         )
 
         await ctx.send(embed = embed)
-
+    
     @commands.command()
-    async def embedtitle(self,ctx , title):
+    async def report(self,ctx):
+        view = discord.ui.View(timeout=None)
+        report_button = discord.ui.Button(style=discord.ButtonStyle.success,label="開啟回報表單!")
+        view.add_item(report_button)
+
+        async def report_button_callback(interaction):
+            modal = discord.ui.Modal(
+                title="機器人Bug回報表單"
+            )
+
+            input_text_title = discord.ui.InputText(style=discord.InputTextStyle.short,
+            label="名稱",
+            placeholder="此次回報的名稱"
+            )
+
+            input_text_description = discord.ui.InputText(style=discord.InputTextStyle.long,
+            label="詳細敘述",
+            placeholder="此次回報的敘述"
+            )
+
+            async def Moadl_callback(interaction):
+                def bug_callbacl(title,description):
+                    with open("Error report","a") as f:
+                        return f.write(f"\
+                        [{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\n\
+                        \n#名稱:\n{title}\n\
+                        \n#詳細敘述:\n{description}\n\
+                        \n提出者:{ctx.author.name} (id:{ctx.author.id})\n ")
+                bug_callbacl(title = modal.children[0].value,description = modal.children[1].value)
+
+                modal_embed = discord.Embed(
+                    title=f"感謝 {ctx.author.name} 提出回報!",
+                    color=discord.Colour.random(),
+                    timestamp=datetime.datetime.utcnow()
+                )
+                modal_embed.add_field(
+                    name="此次回報的內容",
+                    value=f"\n\
+                    **名稱:** \n{modal.children[0].value}\n\n\
+                    **詳細敘述:**\n {modal.children[0].value}\n"
+                )
+
+                modal_embed.set_footer(text=ctx.author.name,icon_url=ctx.author.avatar)
+
+                await interaction.response.send_message(embed = modal_embed)
+
+                print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the error report in {ctx.author.guild}")
+            
+            modal.callback = Moadl_callback
+
+            modal.add_item(input_text_title)
+            modal.add_item(input_text_description)
+
+            await interaction.response.send_modal(modal)
+
+        report_button.callback = report_button_callback
 
         embed = discord.Embed(
-            title = title,
+            title="錯誤回報",
+            description="可用來回報錯誤 或是有什麼話想對開發者說都可以使用此功能喔<3",
             color = discord.Colour.random()
         )
-
-        await ctx.send(embed = embed)
+        
+        await ctx.send(embed = embed,view=view)
 
 def setup(bot):
     bot.add_cog(Cucmd(bot))

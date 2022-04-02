@@ -30,10 +30,10 @@ class Cucmd(Cog_ExtenSion):
 
         print(
             f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}
+    Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
+    User:{ctx.author} ID:{ctx.author.id} 
+    Guild:{ctx.author.guild} 
+    Command:{ctx.command}
             """)
 
     @commands.command()

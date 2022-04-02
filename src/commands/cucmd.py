@@ -156,7 +156,15 @@ Guild:{ctx.author.guild} Command:{ctx.command}
 
         embed.set_image(url=imgURL)
 
-        await ctx.send(embed=embed)
+        pixiv_image_url = "https://www.bing.com/th?id=ODL.d9cafa2b269e74dcb05b3314a76d721f&w=100&h=100&c=12&pcl=faf9f7&o=6&dpr=1.25&pid=13.1"
+        embed.set_footer(text="image from Pixiv.net",icon_url=pixiv_image_url)
+
+        main_view = discord.ui.View(timeout=None)
+        website_button = discord.ui.Button(label="在Pixiv上查看這張圖片!",url=imgURL,emoji="🖼️")
+
+        main_view.add_item(website_button)
+
+        await ctx.send(embed=embed,view = main_view)
     
     @commands.command()
     async def embed(self,ctx,title,description):

@@ -206,25 +206,25 @@ Guild:{ctx.author.guild} Command:{ctx.command}
                 def bug_callbacl(title,description):
                     with open("Error report","a") as f:
                         return f.write(f"\
-                        [{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\n\
+                        [\n{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\n\
                         \n#名稱:\n{title}\n\
-                        \n#詳細敘述:\n{description}\n\
-                        \n提出者:{ctx.author.name} (id:{ctx.author.id})\n ")
+                        \n#詳細敘述:\n{description}\n")
+                        
                 bug_callbacl(title = modal.children[0].value,description = modal.children[1].value)
 
                 modal_embed = discord.Embed(
-                    title=f"感謝 {ctx.author.name} 提出回報!",
+                    title=f"感謝．．．提出回報!",
                     color=discord.Colour.random(),
                     timestamp=datetime.datetime.utcnow()
                 )
                 modal_embed.add_field(
                     name="此次回報的內容",
-                    value=f"\n\
+                    value=f"\n\n\
                     **名稱:** \n{modal.children[0].value}\n\n\
-                    **詳細敘述:**\n {modal.children[0].value}\n"
+                    **詳細敘述:**\n {modal.children[1].value}\n"
                 )
 
-                modal_embed.set_footer(text=ctx.author.name,icon_url=ctx.author.avatar)
+                modal_embed.set_footer(text="Erro report",icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
 
                 await interaction.response.send_message(embed = modal_embed)
 

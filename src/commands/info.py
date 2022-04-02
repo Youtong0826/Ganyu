@@ -258,19 +258,24 @@ class Info(Cog_ExtenSion):
                     rulebutton = discord.ui.Button(
                         style=discord.ButtonStyle.success,
                         emoji="🔖",
-                        label="點擊前往規則頻道!",
+                        label="Rules channel",
                         url=f"https://discord.com/channels/{guild.id}/{guild.rules_channel.id}"
                     )
 
                 chechboosterbutton = discord.ui.Button(
                     style=discord.ButtonStyle.success,
                     emoji="📖",
-                    label="點擊查看加成此伺服器的人!"
+                    label="Booster"
+                )
+                Rolesbutton = discord.ui.Button(
+                    style=discord.ButtonStyle.primary,
+                    emoji="📋",
+                    label="Roles"
                 )
                 backbutton = discord.ui.Button(
                     style=discord.ButtonStyle.success,
                     emoji="🔙",
-                    label="回去伺服器資訊"
+                    label="back"
                 )
 
                 view = discord.ui.View(timeout=None)
@@ -278,6 +283,7 @@ class Info(Cog_ExtenSion):
                 view_else.add_item(backbutton)
                 view.add_item(rulebutton)
                 view.add_item(chechboosterbutton)
+                view.add_item(Rolesbutton)
                 view.add_item(select_main)
 
                 async def checkboostercallback(interaction):   
@@ -295,8 +301,33 @@ class Info(Cog_ExtenSion):
                         view = view
                     )
 
+                async def rolescallback(interaction):
+                    roles_count = 0
+                    roles = ""
+
+                    for n in guild.roles:
+                        if n.name != '@everyone':
+                            roles += f"{n.mention} | "
+                            roles_count += 1
+
+                            if len(roles) < 1014:
+                                roles_count2 = roles_count
+                                roles3 = f"{roles}"
+
+                    if len(roles) > 1014:
+                        roles = f"{roles3}+{roles_count-roles_count2} Roles..."
+
+                    await interaction.response.edit_message(
+                        embed = discord.Embed(
+                            title=f"身分組[{roles_count}]",
+                            description=f"{roles}"
+                        ),
+                        view = view_else
+                        )
+
                 chechboosterbutton.callback = checkboostercallback
                 backbutton.callback = backcallback
+                Rolesbutton.callback = rolescallback
 
                 await interaction.response.edit_message(
                     embed=embed,
@@ -391,21 +422,27 @@ class Info(Cog_ExtenSion):
             else:
                 linkbutton = discord.ui.Button(
                     style = discord.ButtonStyle.success,
-                    emoji = "🔖",label="點擊前往規則頻道!",
+                    emoji = "🔖",label="Rules chnnel",
                     url = f"https://discord.com/channels/{guild.id}/{guild.rules_channel.id}"
                 )
 
             checkboosterbutton = discord.ui.Button(
                 style = discord.ButtonStyle.success,
                 emoji = "📖",
-                label = "點擊查看加成此伺服器的人!"
+                label = "Booster"
             )              
 
             backbutton = discord.ui.Button(
                 style = discord.ButtonStyle.success,
                 emoji = "🔙",
-                label = "回去伺服器資訊"
+                label = "back"
             )
+
+            rolesbutton = discord.ui.Button(
+                    style=discord.ButtonStyle.primary,
+                    emoji="📋",
+                    label="Roles"
+                )
 
             view_main = discord.ui.View(timeout=None)
             view = discord.ui.View(timeout=None) 
@@ -413,12 +450,13 @@ class Info(Cog_ExtenSion):
             view.add_item(backbutton)
             view_main.add_item(linkbutton)
             view_main.add_item(checkboosterbutton)
+            view_main.add_item(rolesbutton)
 
             async def cbbcallback(interaction):
 
                 await interaction.response.edit_message(
                     embed = discord.Embed(
-                        title = f"加成此伺服器的人 ({len(guild.premium_subscribers)})",
+                        title = f"加成此伺服器的人({len(guild.premium_subscribers)})",
                         description = f"{booster}"),
                         view = view
                 )
@@ -428,9 +466,34 @@ class Info(Cog_ExtenSion):
                 await interaction.response.edit_message(
                     embed = embed_main,
                     view = view_main
-                )          
+                )
+
+            async def rolescallback(interaction):
+                    roles_count = 0
+                    roles = ""
+
+                    for n in guild.roles:
+                        if n.name != '@everyone':            
+                            roles += f"{n.mention} | "
+                            roles_count += 1
+
+                            if len(roles) < 1014:
+                                roles_count2 = roles_count
+                                roles3 = f"{roles}"
+
+                    if len(roles) > 1014:
+                        roles = f"{roles3}+{roles_count-roles_count2} Roles..."
+
+                    await interaction.response.edit_message(
+                        embed = discord.Embed(
+                        title=f"身分組[{roles_count}]",
+                        description=f"{roles}"
+                        ),
+                    view = view
+                    )
             checkboosterbutton.callback = cbbcallback
             backbutton.callback = backcallback
+            rolesbutton.callback = rolescallback
 
             await ctx.send(
                 embed = embed_main,
@@ -617,7 +680,7 @@ Command:{ctx.command}"""
     @commands.command()
     async def invite(ctx):
 
-        link = "https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=0&scope=bot"
+        link = "https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=8192&scope=bot"
 
         embed = discord.Embed(
             title = "邀請我至你的伺服器!",
@@ -635,23 +698,6 @@ ID:{ctx.author.id}
 Guild:{ctx.author.guild} 
 Command:{ctx.command}"""
         )
-
-    @commands.command()
-    async def update(ctx):
-
-        embed = discord.Embed(
-            title = "更新資訊(此功能所提供的資訊並非完全準確)",
-            description = f"{datetime.datetime.utcnow().strftime('%Y/%m/%d')}\n{update}",
-            color = discord.Colour.random(),timestamp=datetime.datetime.utcnow()
-        )
-
-        embed.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url=  ctx.author.avatar
-        )
-
-        await ctx.send(embed=embed)
-
         print(
             f"""
 Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 

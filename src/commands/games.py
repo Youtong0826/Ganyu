@@ -1,6 +1,6 @@
 import random , discord 
 from discord.ext import commands
-from core.classies import Cog_ExtenSion
+from core.classes import Cog_ExtenSion
 
 """
 game commands list

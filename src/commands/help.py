@@ -10,6 +10,7 @@ class Help(Cog_ExtenSion):
 
         embed = discord.Embed(
             title="Ganyu 指令清單",
+            description="可使用`g!report`來回報錯誤",
             color = 0xec8fff,
             timestamp = datetime.datetime.utcnow()
         )
@@ -88,6 +89,7 @@ class Help(Cog_ExtenSion):
             if main_select.values[0] == "ganyu":
                 embed = discord.Embed(
                     title="Ganyu 指令清單",
+                    description="可使用g!report來開啟回報表單",
                     color = 0xec8fff,
                     timestamp = datetime.datetime.utcnow()
                 )   
@@ -149,7 +151,11 @@ class Help(Cog_ExtenSion):
                     title = "info 指令清單",
                     color = discord.Colour.random(),
                     timestamp = datetime.datetime.utcnow()
-                )       
+                )
+                embed.add_field(
+                    name="g!allinfo",
+                    value="一次性查看所有資訊"
+                )
                 embed.add_field(
                     name = "g!userinfo",
                     value = "查看使用者在此伺服器的資訊"
@@ -165,10 +171,6 @@ class Help(Cog_ExtenSion):
                 embed.add_field(
                     name = "g!time",
                     value = "查看各國時間"
-                )       
-                embed.add_field(
-                    name = "g!update",
-                    value = "查看更新資訊"
                 )       
                 embed.add_field(
                     name="g!invite",
@@ -220,7 +222,6 @@ class Help(Cog_ExtenSion):
                     name="g!embedtitle `title`",
                     value="傳送只有標題的嵌入訊息(同上)"
                 )
-
 
                 embed.set_footer(
                     text = f"{ctx.author.name}",
@@ -351,11 +352,6 @@ Command:{ctx.command}
         embed.add_field(
             name = "g!time",
             value = "查看各國時間"
-        )
-
-        embed.add_field(
-            name = "g!update",
-            value = "查看更新資訊"
         )
 
         embed.add_field(

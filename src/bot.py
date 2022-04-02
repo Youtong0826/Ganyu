@@ -6,7 +6,8 @@ bot = commands.Bot(
     intents = discord.Intents.all()
 )
 
-for Filename in os.listdir("src/commands"):
+path = "C:\Users\Aspire 5\OneDrive\文件\GitHub\Ganyu_Bot\src\commands"
+for Filename in os.listdir("./commands"):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 

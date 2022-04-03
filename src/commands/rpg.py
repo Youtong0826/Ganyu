@@ -1,3 +1,4 @@
+from pickle import TRUE
 import random , discord , datetime , json
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
@@ -81,17 +82,25 @@ class rpg(Cog_ExtenSion):
     def top(type):#type=level or coin 
         rpgdb = rpg.getRPGDB()
         ramtop = {} 
-        top = []
+        realtop = {}
         time = 0
 
         for key in rpgdb:
-            time += 1
-            l = rpgdb[key].get(type)
-            n = rpgdb[key].get("name")
-            ramtop["name"]= n
-            ramtop["int"]= l
-            top.append(ramtop)
-            print(sorted(top, key = lambda i: i['int'],reverse=True) )
+            v = rpgdb[key].get(type)
+            name = rpgdb[key].get("name")
+            ramtop[name] = v
+
+        top = sorted(ramtop.items(), key = lambda kv:(kv[1], kv[0]),reverse=True)
+
+        name = [i[0] for i in top]
+        num = [i[1] for i in top]
+
+        for n in range(10):
+            realtop[name[n]] = num[n]
+            
+        return realtop
+
+        print(f"{name},{num}")
 
     @commands.command()
     async def rpg(
@@ -216,15 +225,28 @@ class rpg(Cog_ExtenSion):
             )
 
         elif key == "cointop":
-            #top = rpg.top()
-            #embed = discord.Embed(title=f"** Coin Top 等級排行**",description=f"1.  {top[1].get('name')}  **{top[1].get('coin')}** $\n2.  {top[2].get('name')}  **{top[2].get('coin')}** $\
-#\n3.  {top[3].get('name')}  **{top[3].get('coin')}** $\n4.  {top[4].get('name')}  **{top[4].get('coin')}** $\n5.  {top[5].get('name')}  **{top[5].get('coin')}** $\n6.  {top[6].get('name')}  **{top[6].get('coin')}** $\n",color=discord.Colour.random())
-            #await ctx.send(rpg.top(type="coin"))
+            top_dict = rpg.top(type="coin")
+            top_name = []
+            top_coin = []
+
+            for n in top_dict:
+                top_name.append(n)
+                top_coin.append(top_dict[n])
 
             embed = discord.Embed(
-                title=f"** 暫未開放 **",
-                color=discord.Colour.random()
+                title="冒險幣排名",
+                description=f"此排名的時間全依照指令使用的時間",
+                color=discord.Colour.random(),
+                timestamp=datetime.datetime.utcnow()
             )
+
+            embed.add_field(
+                name=f"{top_name[0]}",
+                value=top_coin[0]
+            )
+            
+            print(f"{top_name}\n{top_coin}")
+            
 
         elif key == "levtop":
             top = rpg.top(type="level")

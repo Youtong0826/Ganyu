@@ -6,8 +6,7 @@ bot = commands.Bot(
     intents = discord.Intents.all()
 )
 
-path = "C:\Users\Aspire 5\OneDrive\文件\GitHub\Ganyu_Bot\src\commands"
-for Filename in os.listdir("./commands"):
+for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 
@@ -80,6 +79,58 @@ async def reload(ctx,extension):
         ) 
     await ctx.send(embed = embed)
     print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} reloaded {extension} Cog in {ctx.author.guild}")
+
+@bot.command()
+async def modal(ctx):
+
+    embed = discord.Embed(
+        title="Modal",
+        description="modal test"
+    )
+
+    view = discord.ui.View()
+
+    modal_button = discord.ui.Button(
+        label="open modal"
+    )
+
+    async def modal_button_callback(interaction):
+
+        modal = discord.ui.Modal(title="測試表單")
+
+        input_text_title = discord.ui.InputText(
+            style=discord.InputTextStyle.short,
+            label="title",
+            placeholder="input your title"
+        )
+
+        input_text_description = discord.ui.InputText(
+            style=discord.InputTextStyle.long,
+            label="description",
+            placeholder="input your discription"
+        )
+
+        async def modal_callback(interaction):
+
+            modal_embed = discord.Embed(
+                title=f"{modal.children[0].value}",
+                description=f"{modal.children[1].value}"
+            )
+
+            await interaction.response.send_message(embed = modal_embed)
+
+        modal.add_item(input_text_title)
+        modal.add_item(input_text_description)
+
+        modal.callback = modal_callback
+
+        await interaction.response.send_modal(modal)
+    
+    view.add_item(modal_button)
+    
+    modal_button.callback = modal_button_callback
+
+    ctx.send(embed=embed, view = view)
 
 @bot.event
 async def on_ready():

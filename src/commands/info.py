@@ -262,6 +262,8 @@ class Info(Cog_ExtenSion):
                         url=f"https://discord.com/channels/{guild.id}/{guild.rules_channel.id}"
                     )
 
+                    view_main.add_item(rulebutton)
+
                 chechboosterbutton = discord.ui.Button(
                     style=discord.ButtonStyle.success,
                     emoji="📖",
@@ -279,9 +281,9 @@ class Info(Cog_ExtenSion):
                 )
 
                 view = discord.ui.View(timeout=None)
-                view_else = discord.ui.View(timeout=None)            
+                view_else = discord.ui.View(timeout=None)   
+                         
                 view_else.add_item(backbutton)
-                view.add_item(rulebutton)
                 view.add_item(chechboosterbutton)
                 view.add_item(Rolesbutton)
                 view.add_item(select_main)
@@ -426,6 +428,8 @@ class Info(Cog_ExtenSion):
                     url = f"https://discord.com/channels/{guild.id}/{guild.rules_channel.id}"
                 )
 
+                view_main.add_item(linkbutton)
+
             checkboosterbutton = discord.ui.Button(
                 style = discord.ButtonStyle.success,
                 emoji = "📖",
@@ -448,7 +452,6 @@ class Info(Cog_ExtenSion):
             view = discord.ui.View(timeout=None) 
 
             view.add_item(backbutton)
-            view_main.add_item(linkbutton)
             view_main.add_item(checkboosterbutton)
             view_main.add_item(rolesbutton)
 

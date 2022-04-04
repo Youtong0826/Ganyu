@@ -584,86 +584,153 @@ Command:{ctx.command}"""
         )
 
     @commands.command()
-    async def userinfo(self,ctx,member:discord.Member):
+    async def userinfo(self,ctx,member:discord.Member=None):
+        if member != None:
+            roles = ""
+            roles3 = ""
+            roles_count = 0
 
-        roles = ""
-        roles3 = ""
-        roles_count = 0
+            if member.nick == None:
+                nick = "無"
 
-        if member.nick == None:
-            nick = "無"
+            else:
+                nick=member.nick
+
+            if member.bot:
+                dbot = "Yes"
+
+            else:
+                dbot = "No"
+
+            for n in member.roles:
+
+                if n.name != '@everyone':
+
+                    roles += f"{n.mention} | "
+                    roles_count += 1
+
+                    if len(roles) < 1014:
+
+                        roles_count2 = roles_count
+                        roles3 = f"{roles}"
+
+            if len(roles) > 1014:
+                roles = f"{roles3}+{roles_count-roles_count2} Roles..."
+
+            embed_main = discord.Embed(
+                title = f"{member.name} 的個人資訊 ",
+                color = 0x9c8fff,
+                timestamp = datetime.datetime.utcnow()
+            )
+
+            embed_main.set_thumbnail(
+                url = member.avatar
+            )
+
+            embed_main.add_field(
+                name = "🐬 暱稱",
+                value = f"{nick}"
+            )
+
+            embed_main.add_field(
+                name = "🤖 Bot",
+                value = f"{dbot}"
+            )
+
+            embed_main.add_field(
+                name = "💳 ID",
+                value = f"`{member.id}`",
+                inline = False
+            ) 
+
+            embed_main.add_field(
+                name = "📆 創建時間",
+                value = f"{member.created_at.strftime('%Y/%m/%d')}"
+            )
+
+            embed_main.add_field(
+                name = "📆 加入時間",
+                value = f"{member.joined_at.strftime('%Y/%m/%d')}"
+            ) 
+
+            embed_main.add_field(
+                name = f"📰 身分組[{roles_count}]:",
+                value = f"\n {roles}",inline=False
+            )
+
+            embed_main.set_footer(
+                text = f"{ctx.author.name}",
+                icon_url = ctx.author.avatar
+            )
+
+            main_view = discord.ui.View(timeout=None)
 
         else:
-            nick=member.nick
 
-        if member.bot:
-            dbot = "Yes"
+            user = ctx.author
+            role = ""
+            roles2 = ""
+            roles_count = 0
 
-        else:
-            dbot = "No"
+            if user.nick == None:
+                nick="無"
 
-        for n in member.roles:
+            else:
+                nick=user.nick
 
-            if n.name != '@everyone':
+            if user.bot:
+                dbot = "Yes"
 
-                roles += f"{n.mention} | "
-                roles_count += 1
+            else:
+                dbot = "No"
 
-                if len(roles) < 1014:
+            for n in user.roles:
+                if n.name != '@everyone':
+                    role += f"{n.mention} | "
+                    roles_count += 1
+                    
+                    if len(role) < 1014:
+                        roles_count2 = roles_count 
+                        roles2 = f"{role}"
 
-                    roles_count2 = roles_count
-                    roles3 = f"{roles}"
+            if len(role) > 1014:
+                role = f"{roles2}+{roles_count - roles_count2} Roles"
 
-        if len(roles) > 1014:
-            roles = f"{roles3}+{roles_count-roles_count2} Roles..."
-
-        embed_main = discord.Embed(
-            title = f"{member.name} 的個人資訊 ",
-            color = 0x9c8fff,
-            timestamp = datetime.datetime.utcnow()
-        )
-
-        embed_main.set_thumbnail(
-            url = member.avatar
-        )
-
-        embed_main.add_field(
-            name = "🐬 暱稱",
-            value = f"{nick}"
-        )
-
-        embed_main.add_field(
-            name = "🤖 Bot",
-            value = f"{dbot}"
-        )
-
-        embed_main.add_field(
-            name = "💳 ID",
-            value = f"`{member.id}`",
-            inline = False
-        ) 
-
-        embed_main.add_field(
-            name = "📆 創建時間",
-            value = f"{member.created_at.strftime('%Y/%m/%d')}"
-        )
-
-        embed_main.add_field(
-            name = "📆 加入時間",
-            value = f"{member.joined_at.strftime('%Y/%m/%d')}"
-        ) 
-
-        embed_main.add_field(
-            name = f"📰 身分組[{roles_count}]:",
-            value = f"\n {roles}",inline=False
-        )
-
-        embed_main.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url = ctx.author.avatar
-        )
-
-        main_view = discord.ui.View(timeout=None)
+            embed_main=discord.Embed(
+                title=f"{user.name} 的個人資料",
+                color=0x9c8fff,timestamp=datetime.datetime.utcnow()
+            )
+            embed_main.set_thumbnail(url=user.avatar)
+            embed_main.add_field(
+                name="🐬 暱稱",
+                value=f"{nick}"
+            )
+            embed_main.add_field(
+                name="🤖 Bot",
+                value=f"{dbot}"
+            )
+            embed_main.add_field(
+                name="💳 ID",
+                value=f"`{user.id}`",
+                inline=False
+            )                
+            embed_main.add_field(
+                name=f"🗓️ 創建時間",
+                value=f"{user.created_at.strftime('%Y/%m/%d')}"
+            )
+            embed_main.add_field(
+                name="🗓️ 加入時間",
+                value=f"{user.joined_at.strftime('%Y/%m/%d')}"
+            ) 
+            embed_main.add_field(
+                name=f"📰 身分組:({roles_count})",
+                value=f" {role}",inline=False
+            )
+            embed_main.set_footer(
+                text=f"{user.name}",
+                icon_url=f"{user.avatar}"
+            )
+            main_view = discord.ui.View(timeout=None)
 
         await ctx.send(
             embed = embed_main,

@@ -1,5 +1,6 @@
 from pickle import TRUE
 import random , discord , datetime , json
+from tkinter import _ExceptionReportingCallback
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
@@ -101,10 +102,7 @@ class rpg(Cog_ExtenSion):
         return realtop
 
     @commands.command()
-    async def rpg(
-        self,
-        ctx,
-        key):
+    async def rpg(self,ctx,key=None):
 
         user = ctx.author
         id = str(user.id)
@@ -410,24 +408,58 @@ class rpg(Cog_ExtenSion):
 
         else:            
             embed = discord.Embed(
-                title="**錯誤X**",
-                description=f'RPG沒有"{key}"這個分類喔~',
-                color=discord.Colour.random())
+                title="RPG系統",
+                color=discord.Colour.random()
+            )
+            embed.add_field(
+                name="g!rpg  job",
+                value="選擇你的職業"
+            )
+            embed.add_field(
+                name="g!rpg  start",
+                value="開始你的旅程!"
+            )
+            embed.add_field(
+                name="g!rpg  info",
+                value="查看你的RPG資訊"
+            )
+            embed.add_field(
+                name="g!rpg  ann",
+                value="獲取最新公告"
+            )
+            embed.add_field(
+                name="g!rpg  levtop",
+                value="查看等級排行"
+            )
+            embed.add_field(
+                name="g!rpg  cointop",
+                value="查看冒險幣排"
+            )
 
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def knight(self,ctx,key):
+    async def knight(self,ctx,key=None):
         if rpg.have_job(ctx.author.id):
             embed = discord.Embed(title="**您已經選過職業了!**",color=discord.Colour.random())
         else:
             if key == "y":
                 embed = discord.Embed(title="**成功選擇騎士!**",color=discord.Colour.random())
                 rpg.addrpg(id=f"{ctx.author.id}",job="Knight",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
+            else:
+                embed = discord.Embed(
+                title="騎士 Knight",
+                description="作為最基本的職業，騎士擁有強大的攻擊力及優越的防禦，但是他們受到魔法的傷害比其他職業還高．",
+                color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 12/20\n**魔法傷害:** 02/20\n**物理防禦:** 14/20\n**魔法防禦:** 06/20\n**敏捷度:** 08/20\n**智力:** 06/20\n\n輸入g!knight y來確認選取職業"
+                )
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def shooter(self,ctx,key):
+    async def shooter(self,ctx,key=None):
 
         if rpg.have_job(self.author.id):
             embed = discord.Embed(
@@ -436,7 +468,6 @@ class rpg(Cog_ExtenSion):
             )
 
         else:
-
             if key == "y":
                 embed = discord.Embed(
                     title="**成功選擇射手!**",
@@ -444,11 +475,22 @@ class rpg(Cog_ExtenSion):
                 )
 
                 rpg.addrpg(id=f"{ctx.author.id}",job="Shooter",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
+    
+            else:
+                embed = discord.Embed(
+                title="遊俠 Shooter",
+                description="遊俠是所有職業裡敏捷度最高的職業，同時也具有較高的物傷，但是其他屬性則相對較低．",
+                color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 16/20\n**魔法傷害:** 08/20\n**物理防禦:** 02/20\n**魔法防禦:** 02/20\n**敏捷度:** 14/20\n**智力:** 06/20\n\n輸入g!shooter y來確認選取職業"
+                )
 
         await ctx.send(embed=embed)
     
     @commands.command()
-    async def mage(self,ctx,key):
+    async def mage(self,ctx,key=None):
 
         if rpg.have_job(ctx.author.id):
             embed = discord.Embed(
@@ -464,11 +506,22 @@ class rpg(Cog_ExtenSion):
                 )
 
                 rpg.addrpg(id=f"{ctx.author.id}",job="Mage",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
+            
+            else:
+                embed = discord.Embed(
+                title="法師 Mage",
+                description="法師是所有職業裡法傷最高的職業，如果說刺客是物傷天花板，那法師就是法傷天花板，除此之外其他屬性就普普而已．",
+                color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 02/20\n**魔法傷害:** 18/20\n**物理防禦:** 02/20\n**魔法防禦:** 10/20\n**敏捷度:** 04/20\n**智力:** 12/20\n\n輸入g!mage y來確認選取職業"
+                )
 
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def assassin(self,ctx,key):
+    async def assassin(self,ctx,key=None):
 
         if rpg.have_job(ctx.author.id):
             embed = discord.Embed(
@@ -484,10 +537,21 @@ class rpg(Cog_ExtenSion):
 
                 rpg.addrpg(id=f"{ctx.author.id}",job="Assassin",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
 
+            else:
+                embed = discord.Embed(
+                title="刺客 Assassin",
+                description="物傷的極致，神秘又帥氣的職業，除了超高的物傷外還具有較高的敏捷度，但其他屬性相對較低．"
+                ,color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 18/20\n**魔法傷害:** 02/20\n**物理防禦:** 06/20\n**魔法防禦:** 02/20\n**敏捷度:** 12/20\n**智力:** 08/20\n\n輸入g!assassin y來確認選取職業"
+                )
+
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def tank(self,ctx,key):
+    async def tank(self,ctx,key=None):
 
         if rpg.have_job(ctx.author.id):
             embed = discord.Embed(
@@ -503,6 +567,16 @@ class rpg(Cog_ExtenSion):
                     color=discord.Colour.random())
 
                 rpg.addrpg(id=f"{ctx.author.id}",job="Tank",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
+            else:
+                embed = discord.Embed(
+                title="坦克 Tank",
+                description="顧名思義，坦克比任何職業的防禦能力都還要高，不管是在物防還是魔防部分都具有超高的防禦，其他屬性則沒什特點．"
+                ,color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 06/20\n**魔法傷害:** 02/20\n**物理防禦:** 16/20\n**魔法防禦:** 16/20\n**敏捷度:** 02/20\n**智力:** 08/20\n\n輸入g!tank y來確認選取職業"
+                )
 
         await ctx.send(embed=embed)
     

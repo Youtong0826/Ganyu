@@ -37,20 +37,35 @@ Command:{ctx.command}
             """)
 
     @commands.command()
-    async def avatar(self,ctx,*,member:discord.Member):
+    async def avatar(self,ctx,*,member:discord.Member=None):
+        user = ctx.author
+        if member != None:
+            embed = discord.Embed(
+                title = f"這是 {member.name} 的頭貼",
+                color = discord.Colour.random(),
+                timestamp = datetime.datetime.utcnow()
+            )
 
-        embed = discord.Embed(
-            title = f"這是 {member.name} 的頭貼",
-            color = discord.Colour.random(),
-            timestamp = datetime.datetime.utcnow()
-        )
+            embed.set_image(url=member.avatar)
 
-        embed.set_image(url=member.avatar)
+            embed.set_footer(
+                text = f"{ctx.author.name}",
+                icon_url = ctx.author.avatar
+            )
 
-        embed.set_footer(
-            text = f"{ctx.author.name}",
-            icon_url = ctx.author.avatar
-        )
+        else:
+            embed = discord.Embed(
+                title=f"這是 {user.name} 的頭貼",
+                color=discord.Colour.random(),
+                timestamp=datetime.datetime.utcnow()
+            )
+
+            embed.set_image(url=user.avatar)
+
+            embed.set_footer(
+                text=f"{user.name}",
+                icon_url=user.avatar
+            )
 
         await ctx.send(embed = embed)
 
@@ -64,9 +79,7 @@ Command:{ctx.command}
 
     @commands.command()
     async def about(self,ctx):
-
         await ctx.send(random.choice(messages))
-
         print(
             f"""
 Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 

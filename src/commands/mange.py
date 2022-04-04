@@ -35,15 +35,8 @@ class Mange(Cog_ExtenSion):
             embed.set_footer(text=f"{ctx.author.name}",icon_url=ctx.author.avatar)
         
         await ctx.send(embed=embed)
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}
-                """)
-
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        
     @commands.command()
     async def ban(self, ctx , member : discord.Member ,*, reason = None):
 
@@ -75,14 +68,7 @@ Command:{ctx.command}
             
         await ctx.send(embed=embed) 
 
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}
-                """)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(Mange(bot))

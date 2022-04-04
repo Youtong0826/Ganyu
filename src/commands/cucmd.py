@@ -80,14 +80,7 @@ Command:{ctx.command}
     @commands.command()
     async def about(self,ctx):
         await ctx.send(random.choice(messages))
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}
-            """)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def ping(self,ctx):
@@ -105,14 +98,7 @@ Command:{ctx.command}
 
         await ctx.send(embed=embed)
 
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}
-            """)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def getuser(self,ctx,id:int):
@@ -129,6 +115,7 @@ Command:{ctx.command}
         )
 
         await ctx.send(embed = embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def getid(self,ctx,name:discord.Member):
@@ -147,13 +134,7 @@ Command:{ctx.command}
 
         await ctx.send(embed = embed)
 
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} Command:{ctx.command}
-            """)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def pic(self,ctx):
@@ -179,9 +160,10 @@ Guild:{ctx.author.guild} Command:{ctx.command}
         main_view.add_item(website_button)
 
         await ctx.send(embed=embed,view = main_view)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
     
     @commands.command()
-    async def embed(self,ctx,title,description = None):
+    async def embed(self,ctx,title,*,description = None):
 
         if description == None:
             description = ""
@@ -193,6 +175,7 @@ Guild:{ctx.author.guild} Command:{ctx.command}
         )
 
         await ctx.send(embed = embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
     
     @commands.command()
     async def report(self,ctx):
@@ -224,17 +207,18 @@ Guild:{ctx.author.guild} Command:{ctx.command}
             async def Moadl_callback(interaction):
 
                 def bug_callbacl(title,description):
-                    with open("Error report","a") as f:
+                    with open("Error report","a",encoding="utf-8") as f:
                         return f.write(f"\
 [{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\n\
                         \n#名稱:\n{title}\n\
-                        \n#詳細敘述:\n{description}\n")
+                        \n#詳細敘述:\n{description}\n\n\
+                        提出者:{interaction.user}  id:{interaction.user.id}")
                         
                 bug_callbacl(title = modal.children[0].value,description = modal.children[1].value)
 
                 modal_embed = discord.Embed(
-                    title=f"感謝．．．提出回報!",
-                    description="以下為回報內容",
+                    title=f"感謝 {interaction.user.name} 提出回報!",
+                    description=f"以下為 {interaction.user.mention} 的回報內容",
                     color=discord.Colour.random(),
                     timestamp=datetime.datetime.utcnow()
                 )

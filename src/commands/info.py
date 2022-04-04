@@ -339,6 +339,7 @@ class Info(Cog_ExtenSion):
         select_main.callback = mainselectcallback
 
         await ctx.send(embed = embed , view = view_main)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def serinfo(self,ctx):
@@ -508,14 +509,7 @@ class Info(Cog_ExtenSion):
                 color = discord.Colour.random()
             )
 
-        print(f"""\
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} \
-ID:{ctx.author.id}\
-Guild:{ctx.author.guild} \
-Command:{ctx.command}"""
-)
-
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def botinfo(self,ctx):
@@ -546,7 +540,7 @@ Command:{ctx.command}"""
                 name = "🌐 伺服器",
                 value = f'`{len(self.bot.guilds)}`'
             )
-
+            print(len(self.bot.guilds))
             embed.add_field(
                 name = "📊 用戶",
                 value = f'`{len(self.bot.users)}`'
@@ -574,14 +568,7 @@ Command:{ctx.command}"""
 
         await ctx.send(embed=embed,view=mian_view)
 
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def userinfo(self,ctx,member:discord.Member=None):
@@ -688,7 +675,7 @@ Command:{ctx.command}"""
                 if n.name != '@everyone':
                     role += f"{n.mention} | "
                     roles_count += 1
-                    
+
                     if len(role) < 1014:
                         roles_count2 = roles_count 
                         roles2 = f"{role}"
@@ -737,14 +724,7 @@ Command:{ctx.command}"""
             view = main_view
         ) 
 
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def invite(self,ctx):
@@ -761,21 +741,7 @@ Command:{ctx.command}"""
 
         #embed = discord.Embed(title="🚫此功能暫未開啟",color=discord.Colour.random())
         await ctx.send(embed = embed)
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} 
-ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}"""
-        )
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(Info(bot))

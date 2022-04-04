@@ -1,14 +1,6 @@
 import discord , datetime , os
 from discord.ext import commands
 
-async def slash_guild_id():
-    guild_ids = []
-
-    for n in bot.guilds:
-        guild_ids.append(n.id)
-
-    yield guild_ids
-
 bot = commands.Bot(
     command_prefix='g!',
     intents = discord.Intents.all()
@@ -17,6 +9,14 @@ bot = commands.Bot(
 for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
+
+def guild_ids():
+    guild_ids = []  
+
+    for n in bot.guilds:  
+        guild_ids.append(n.id)
+        
+    return guild_ids
 
 bot.activity = discord.Game(
     name="g!help owo"
@@ -39,7 +39,7 @@ bot.activity = discord.Game(
 @bot.slash_command(
     name="test",
     description="Test",
-    guild_ids=[719198103227465738]
+    guild_ids=guild_ids()
 )
 async def test(ctx):
     embed = discord.Embed(
@@ -240,7 +240,7 @@ async def on_command_error(ctx,error):
     if bool1 == False:
         #embed=event.embed_copy(des="待釐清... :(")
         print(error)
-        
+
     if bool2 == False:
         await ctx.send(embed = embed)
 

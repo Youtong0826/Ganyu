@@ -1,4 +1,4 @@
-import random , discord 
+import random , discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
@@ -41,8 +41,9 @@ class Fun(Cog_ExtenSion):
             description="輸入 g!dice 1~6",
             color=discord.Colour.random()
         )
-        
+
         await ctx.send(embed = embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(Fun(bot))

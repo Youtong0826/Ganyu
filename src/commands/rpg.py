@@ -1,6 +1,4 @@
-from pickle import TRUE
 import random , discord , datetime , json
-from tkinter import _ExceptionReportingCallback
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
@@ -429,14 +427,15 @@ class rpg(Cog_ExtenSion):
             )
             embed.add_field(
                 name="g!rpg  levtop",
-                value="查看等級排行"
+                value="查看等級排名"
             )
             embed.add_field(
                 name="g!rpg  cointop",
-                value="查看冒險幣排"
+                value="查看冒險幣排名"
             )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def knight(self,ctx,key=None):
@@ -457,6 +456,7 @@ class rpg(Cog_ExtenSion):
                     value="**物理傷害:** 12/20\n**魔法傷害:** 02/20\n**物理防禦:** 14/20\n**魔法防禦:** 06/20\n**敏捷度:** 08/20\n**智力:** 06/20\n\n輸入g!knight y來確認選取職業"
                 )
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def shooter(self,ctx,key=None):
@@ -488,6 +488,7 @@ class rpg(Cog_ExtenSion):
                 )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
     
     @commands.command()
     async def mage(self,ctx,key=None):
@@ -519,6 +520,7 @@ class rpg(Cog_ExtenSion):
                 )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def assassin(self,ctx,key=None):
@@ -549,6 +551,7 @@ class rpg(Cog_ExtenSion):
                 )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def tank(self,ctx,key=None):
@@ -579,12 +582,14 @@ class rpg(Cog_ExtenSion):
                 )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
     
     @commands.command()
     async def ranjob(self,ctx):
 
         await ctx.send(embed = discord.Embed(
-            title="正在選擇職業..")
+            title="",
+            description="正在選擇職業..")
             )
 
         knight = discord.Embed(
@@ -643,6 +648,7 @@ class rpg(Cog_ExtenSion):
         )
 
         await ctx.send(embed=end)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(rpg(bot))

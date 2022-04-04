@@ -7,11 +7,11 @@ class rpg(Cog_ExtenSion):
     have_job = False
 
     def getDB():
-        with open("res/db/DB.json","r") as f:
+        with open("res/db/DB.json","r",encoding="utf-8") as f:
             return json.loads(f.read())
 
     def addDB(db):
-        with open("res/db/DB.json","w") as f:
+        with open("res/db/DB.json","w",encoding="utf-8") as f:
             return f.write(
                 json.dumps(
                     db,
@@ -22,11 +22,11 @@ class rpg(Cog_ExtenSion):
             )
 
     def getRPGDB():
-        with open("res/db/rpg.json","r") as f:
+        with open("res/db/rpg.json","r",encoding="utf-8") as f:
             return json.loads(f.read())
 
     def addRPGDB(jobdb):
-        with open("res/db/rpg.json","w") as f:
+        with open("res/db/rpg.json","w",encoding="utf-8") as f:
             return f.write(
                 json.dumps(
                     jobdb,
@@ -99,8 +99,6 @@ class rpg(Cog_ExtenSion):
             realtop[name[n]] = num[n]
             
         return realtop
-
-        print(f"{name},{num}")
 
     @commands.command()
     async def rpg(
@@ -235,25 +233,155 @@ class rpg(Cog_ExtenSion):
 
             embed = discord.Embed(
                 title="冒險幣排名",
-                description=f"此排名的時間全依照指令使用的時間",
+                description=f"排名時間:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}",
                 color=discord.Colour.random(),
                 timestamp=datetime.datetime.utcnow()
             )
 
             embed.add_field(
-                name=f"{top_name[0]}",
-                value=top_coin[0]
+                name=f":one:  {top_name[0]}",
+                value=f"擁有 **{top_coin[0]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":two:  {top_name[1]}",
+                value=f"擁有 **{top_coin[1]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":three:  {top_name[2]}",
+                value=f"擁有 **{top_coin[2]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":four:  {top_name[3]}",
+                value=f"擁有 **{top_coin[3]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":five:  {top_name[4]}",
+                value=f"擁有 **{top_coin[4]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":six:  {top_name[5]}",
+                value=f"擁有 **{top_coin[5]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":seven:  {top_name[6]}",
+                value=f"擁有 **{top_coin[6]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":eight:  {top_name[7]}",
+                value=f"擁有 **{top_coin[7]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":nine:  {top_name[8]}",
+                value=f"擁有 **{top_coin[8]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":keycap_ten:  {top_name[9]}",
+                value=f"擁有 **{top_coin[9]}** 冒險幣",
+                inline=False
+            )
+
+            embed.set_footer(
+                text=f"{ctx.author.name}",
+                icon_url=ctx.author.avatar
             )
             
-            print(f"{top_name}\n{top_coin}")
-            
-
         elif key == "levtop":
-            top = rpg.top(type="level")
-            #embed = discord.Embed(title=f"** Level Top 冒險幣排行**\n1.  {top[1].get('name')}  Lv.{top[1].get('level')}",color=discord.Colour.random())
+            top_dict = rpg.top(type="level")
+            top_name = []
+            top_level = []
+
+            for n in top_dict:
+                top_name.append(n)
+                top_level.append(top_dict[n])
+
             embed = discord.Embed(
-                title=f"* 暫未開放 **",
-                color=discord.Colour.random()
+                title="等級排名",
+                description=f"排名時間:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}",
+                color=discord.Colour.random(),
+                timestamp=datetime.datetime.utcnow()
+            )
+
+            embed.add_field(
+                name=f":one:  {top_name[0]}",
+                value=f"LV.**{top_level[0]}**",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":two:  {top_name[1]}",
+                value=f"LV.{top_level[1]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":three:  {top_name[2]}",
+                value=f"LV.{top_level[2]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":four:  {top_name[3]}",
+                value=f"LV.{top_level[3]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":five:  {top_name[4]}",
+                value=f"LV.{top_level[4]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":six:  {top_name[5]}",
+                value=f"LV.{top_level[5]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":seven:  {top_name[6]}",
+                value=f"LV.{top_level[6]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":eight:  {top_name[7]}",
+                value=f"LV.{top_level[7]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":nine:  {top_name[8]}",
+                value=f"LV.{top_level[8]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":keycap_ten:  {top_name[9]}",
+                value=f"LV.{top_level[9]}",
+                inline=False
+            )
+
+            embed.set_footer(
+                text=f"{ctx.author.name}",
+                icon_url=ctx.author.avatar
             )
 
         elif key == "ann":

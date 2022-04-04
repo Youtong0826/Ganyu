@@ -1,6 +1,14 @@
 import discord , datetime , os
 from discord.ext import commands
 
+async def slash_guild_id():
+    guild_ids = []
+
+    for n in bot.guilds:
+        guild_ids.append(n.id)
+
+    yield guild_ids
+
 bot = commands.Bot(
     command_prefix='g!',
     intents = discord.Intents.all()
@@ -14,17 +22,34 @@ bot.activity = discord.Game(
     name="g!help owo"
 )
     
-@bot.command()
+#@bot.command()
+#async def send(ctx,membed:discord.Member = None,message=None):
+#    link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
+#    embed = discord.Embed(
+#        title="來自 Ganyu 甘雨 官方的重要公告!",
+#        description=f"由於開發者的疏失，導致目前在您伺服器內的{bot.user.mention}需要被重新邀請否則對日後的更新會有__重大影響__\n\n此為新的邀請連結 > {link}\n\n造成您的不便請見諒 也請各位迅速邀請 以便於日後的更新",
+#        color=discord.Colour.random()
+#    )
+#    sended = []
+#    for n in bot.guilds:
+#        if n.owner not in sended:
+#            sended.append(n.owner)
+#            await n.owner.send(embed=embed)
+
+@bot.slash_command(
+    name="test",
+    description="Test",
+    guild_ids=[719198103227465738]
+)
 async def test(ctx):
     embed = discord.Embed(
         title="This is a test command owo"
     )
-    await ctx.send(embed = embed)
+    await ctx.respond("test")
     
 
 @bot.command()
 async def time(ctx,key):
-
         if f"{key}" == "taiwan" or "TW" or "tw" or "Tw":
             embed = discord.Embed(
                 title="台北時間",

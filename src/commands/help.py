@@ -1,11 +1,10 @@
-from site import venv
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
 class Help(Cog_ExtenSion):
 
-    @commands.command()
+    @commands.command(name="help",description="查看指令清單")
     async def help(self,ctx):
 
         embed = discord.Embed(

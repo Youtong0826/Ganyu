@@ -1,7 +1,6 @@
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
-from ganyu import update
 """
 g!allinfo
 g!serinfo
@@ -282,7 +281,7 @@ class Info(Cog_ExtenSion):
 
                 view = discord.ui.View(timeout=None)
                 view_else = discord.ui.View(timeout=None)   
-                         
+
                 view_else.add_item(backbutton)
                 view.add_item(chechboosterbutton)
                 view.add_item(Rolesbutton)
@@ -567,7 +566,7 @@ Command:{ctx.command}"""
                 style = discord.ButtonStyle.primary,
                 label = "Invite Link",
                 emoji = "🔗",
-                url = "https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=0&scope=bot"
+                url = "https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands"
             ) 
 
             mian_view = discord.ui.View(timeout=None)
@@ -681,14 +680,16 @@ Command:{ctx.command}"""
         )
 
     @commands.command()
-    async def invite(ctx):
+    async def invite(self,ctx):
 
-        link = "https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=8192&scope=bot"
+        link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
+        server_link = "[點擊這裡!](https://discord.gg/K3kxVAHHF8)"
+
 
         embed = discord.Embed(
             title = "邀請我至你的伺服器!",
+            description=f"邀請連結 > {link}",
             color = discord.Colour.random(),
-            url = link
         )
 
         #embed = discord.Embed(title="🚫此功能暫未開啟",color=discord.Colour.random())

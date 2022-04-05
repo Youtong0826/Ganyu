@@ -369,41 +369,66 @@ class Info(Cog_ExtenSion):
         if booster == "":
             booster = "無"
 
+        emojis = []
+        animated_emojis = [] 
+
+        for n in guild.emojis:
+            if n.animated:
+                animated_emojis.append(n)
+            else:
+                emojis.append(n)
+
+
         if can_see == True:
             embed_main = discord.Embed(
                 title = f'{guild}',
+                description=f"伺服器id:`{guild.id}`",
                 color = 0x9c8fff,
                 timestamp = datetime.datetime.utcnow()
             )
 
             embed_main.add_field(
-                name = "__:blue_book: 資訊__",
-                value = f"\
-                    **創建者:** \n`{guild.owner}`\
-                    \n**創建者ID:** `\n{guild.owner_id}`\
-                    \n**創建時間:** \n`{guild.created_at.strftime('%Y/%m/%d')}`\
-                    \n**伺服器ID:** \n`{guild.id}`"
+                name="一般",
+                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\n 擁有者: `{guild.owner}`\n id: `{guild.owner_id}`"
             )
 
             embed_main.add_field(
-                name = "__:bar_chart: 統計__",
+                name = "人數",
                 value = f"\
-                    **總成員數:** `{guild.member_count}`\
-                    \n**活人:** `{person}`\
-                    \n**機器人:** `{mbot}`\
-                    \n**頻道數:** `{len(guild.channels)}`\
-                    \n**身分組數:** `{len(guild.roles)}`\
-                    \n**表情符號數:** `{len(guild.emojis)}`"     
+                    **總人數:** {guild.member_count}\n\
+                    **活人:** {person}\n\
+                    **機器人:** {mbot}"
+                )     
+
+            embed_main.add_field(
+                name = "頻道數",
+                value = f"\
+                    **頻道數:** {len(guild.channels)}\n\
+                    **文字頻道:** {len(guild.text_channels)}\n\
+                    **語音頻道:** {len(guild.voice_channels)}")
+                       
+            embed_main.add_field(
+                name="加成",
+                value=f"\
+                    **次數:** `{guild.premium_subscription_count}`\n\
+                    **等級:** `{guild.premium_tier}`\n\
+                    **進度條:** `{bar}`"
             )
 
             embed_main.add_field(
-                name = "__:newspaper: 其他__",
-                value = f"\
-                    **加成次數:** `{guild.premium_subscription_count}`\
-                    \n**群組等級:** `{guild.premium_tier}`\
-                    \n**加成進度條:** `{bar}`\
-                    \n**主要語言:** `{guild.preferred_locale}`\
-                    \n**規則頻道:** `#{guild.rules_channel}`",inline=True)
+                name="貼圖",
+                value=f"\
+                    **數量:** {len(guild.emojis)}\n\
+                    **靜態貼圖:** {len(emojis)} \n\
+                    **動態貼圖:** {len(animated_emojis)}"
+            )
+
+            embed_main.add_field(
+                name="其他",
+                value=f"\
+                    **主要語言:** {guild.preferred_locale}\n\
+                    **規則頻道:** \n{guild.rules_channel.mention}"
+            )
 
             embed_main.set_thumbnail(
                 url = guild.icon
@@ -413,22 +438,6 @@ class Info(Cog_ExtenSion):
                 text = f"{ctx.author.name}",
                 icon_url = ctx.author.avatar
             )
-
-            if guild.rules_channel == None:
-                linkbutton = discord.ui.Button(
-                    style = discord.ButtonStyle.danger,
-                    emoji = "🔖",
-                    label = "無法前往規則頻道!"
-                )
-    
-            else:
-                linkbutton = discord.ui.Button(
-                    style = discord.ButtonStyle.success,
-                    emoji = "🔖",label="Rules chnnel",
-                    url = f"https://discord.com/channels/{guild.id}/{guild.rules_channel.id}"
-                )
-
-                view_main.add_item(linkbutton)
 
             checkboosterbutton = discord.ui.Button(
                 style = discord.ButtonStyle.success,

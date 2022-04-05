@@ -10,7 +10,7 @@ class Mange(Cog_ExtenSion):
         if ctx.author.guild_permissions.kick_members:
             embed = discord.Embed(
                 title=f"{member.name} 從這個伺服器消失了!",
-                description=f"{member.mention} 遭到 {ctx.author.mention} 使用 `kick` 指令停權了",
+                description=f"{member.mention} 遭到 {ctx.author.mention} 使用 `kick` 指令踢出了",
                 color = 0xff2e2e,
                 timestamp=datetime.datetime.utcnow() 
             )

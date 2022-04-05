@@ -39,16 +39,13 @@ bot.activity = discord.Game(
 @bot.slash_command(
     name="test",
     description="Test",
-    guild_ids=guild_ids()
+    guild_ids = 939145544926912552
 )
 async def test(ctx):
     embed = discord.Embed(
         title="This is a test command owo"
     )
     await ctx.respond("test")
-    
-
-
 
 @bot.command()
 async def load(ctx,extension):
@@ -253,6 +250,20 @@ Error:'{error}'
 bool1:'{bool1}' 
 bool2:'{bool2}'
 """)
+
+#@bot.event
+#async def on_member_join(member : discord.Member):
+#    chnnel = bot.get_channel(719521057286914129)
+#    embed = discord.Embed(
+#        title=f"{member.name} 來到了{member.guild.name}!",
+#        description=f" {member.mention} 您是第本伺服器第 **{member.guild.member_count}** 個用戶，請先查看 {member.guild.rules_channel.mention} 再進行其他操作喔",
+#        color=discord.Colour.random(),
+#        timestamp=datetime.datetime.utcnow()
+#    )
+#    embed.set_thumbnail(url=member.avatar)
+#    embed.set_footer(text="成員加入",icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
+#    
+#    await chnnel.send(embed=embed)
 
 if __name__ == "__main__":
     with open("token","r") as f:

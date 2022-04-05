@@ -165,19 +165,26 @@ async def on_command_error(ctx,error):
 
     await ctx.send(embed=embed)
 
-#@bot.event
-#async def on_member_join(member : discord.Member):
-#    chnnel = bot.get_channel(719521057286914129)
-#    embed = discord.Embed(
-#        title=f"{member.name} 來到了{member.guild.name}!",
-#        description=f" {member.mention} 您是第本伺服器第 **{member.guild.member_count}** 個用戶，請先查看 {member.guild.rules_channel.mention} 再進行其他操作喔",
-#        color=discord.Colour.random(),
-#        timestamp=datetime.datetime.utcnow()
-#    )
-#    embed.set_thumbnail(url=member.avatar)
-#    embed.set_footer(text="成員加入",icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
-#    
-#    await chnnel.send(embed=embed)
+@bot.event
+async def on_member_join(member : discord.Member):
+    if member.guild.id == 719198103227465738:
+        chnnel = bot.get_channel(719521057286914129)
+        embed = discord.Embed(
+            title=f"{member.name} 來到了{member.guild.name}!",
+            description=f" {member.mention} 您是第本伺服器第 **{member.guild.member_count}** 個用戶，請先查看 {member.guild.rules_channel.mention} 再進行其他操作喔",
+            color=discord.Colour.random(),
+            timestamp=datetime.datetime.utcnow()
+        )
+        embed.set_thumbnail(url=member.avatar)
+        embed.set_footer(text="成員加入",icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
+
+        await chnnel.send(embed=embed)
+
+@bot.event
+async def on_reaction_add(reaction : discord.Reaction,user : discord.Member):
+    if reaction.message.id == 960762107966656582:
+        if reaction.emoji == "👍":
+            user.add_roles(roles=960443431291871252)
 
 if __name__ == "__main__":
     with open("token","r") as f:

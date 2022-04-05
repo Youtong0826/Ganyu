@@ -756,5 +756,37 @@ class Info(Cog_ExtenSion):
         await ctx.send(embed = embed)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
+    @commands.command()
+    async def invites(self,ctx:discord.ApplicationContext):
+        embed = discord.Embed(title=f"{ctx.guild.name} 的邀請榜",color=discord.Color.blue())
+        context = ""
+        invites = await ctx.guild.invites()
+        
+        invites.sort(key=lambda k:k.uses,reverse=True)
+
+        numbers = [
+            ":one:",
+            ":two:",
+            ":three:",
+            ":four:",
+            ":five:",
+            ":six:",
+            ":seven:",
+            ":eight:",
+            ":nine:",
+            ":kepcap_ten:"
+        ]
+
+        for index, invite in enumerate(invites):
+            if index == 10:
+                break
+            context += f"{numbers[index]} {invite.inviter} 邀請 {invite.uses} 人\n\n"
+
+        embed.description = context
+
+        await ctx.channel.send(embed=embed)
+        
+
+
 def setup(bot):
     bot.add_cog(Info(bot))

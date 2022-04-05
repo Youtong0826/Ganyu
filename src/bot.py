@@ -1,5 +1,6 @@
 import discord , datetime , os
 from discord.ext import commands
+from lib.translate import translate
 
 bot = commands.Bot(
     command_prefix='g!',
@@ -156,100 +157,13 @@ async def on_command_error(ctx,error):
     bool1 = False
     bool2 = False
 
-    def on_cmd_error(keywords,error):#尋找回報中是否含有關鍵字
-        test = 0
-        for n in keywords:
-            if n in f'{error}':
-                test += 1
+    chiness = translate(str(error),"zh-TW")
+    if chiness.endswith("。"):
+        chiness = chiness[:-1]
+    
+    embed = discord.Embed(title="錯誤",description=chiness,color=discord.Color.red())
 
-        if test == len(keywords):
-            return True
-
-        else:
-            return False
-
-    def embed_copy(des):#快速嵌入訊息
-        embed = discord.Embed(
-            title = "指令執行失敗..",
-            description = f"原因: {des}",
-            color = discord.Colour.random()
-        )
-
-        return embed
-
-    if on_cmd_error(keywords=["Missing Permission"],error=error):
-        bool1 = True
-        if f"{ctx.command}" == "say":
-            embed = embed_copy(des="我沒有刪除訊息的權限")
-
-        else:
-
-            embed= embed_copy(des="我沒有權限..")
-    if on_cmd_error(keywords=["Member","not found"],error=error):
-        bool1 = True
-        embed= embed_copy(des="查無此人")
-
-    if on_cmd_error(keywords=['Command','is not found'],error=error):
-        bool1 = True
-        bool2 = False
-        embed= embed_copy(des="沒有這個指令啦!")
-
-    if on_cmd_error(keywords=['Converting to "literal_eval" failed for parameter "a".'],error=error):
-        bool1 = True
-        embed= embed_copy(des="第一個數字是不是怪怪的hmm")
-
-    if on_cmd_error(keywords=['Converting to "literal_eval" failed for parameter "b".'],error=error):
-        bool1 = True
-        embed= embed_copy(des="第二個數字是不是怪怪的hmm")
-
-    if on_cmd_error(keywords=["b is a required argument that is missing."],error=error):
-        bool1 = True
-        embed= embed_copy(des="阿你的第二個數字勒..")
-
-    if on_cmd_error(keywords=['a is a required argument that is missing.'],error=error):
-        bool1 = True
-        embed= embed_copy(des="你不輸入數字我怎麼算...")
-
-    if on_cmd_error(keywords=['arg is a required argument that is missing.'],error=error):
-        bool1 = True
-        if f"{ctx.command}" == "say":
-            embed= embed_copy(des="沒有可以模仿的話..")
-
-        elif f"{ctx.command}" == "ac":
-            embed= embed_copy(des="此為測試功能")
-
-    if on_cmd_error(keywords=['Converting to "int" failed for parameter "nember"'],error=error):
-        bool1 = True
-        embed= embed_copy(des=f"奇怪..您好像不是輸入一個完整的數字欸")
-
-    if on_cmd_error(keywords=['id is a required argument that is missing.'],error=error):
-        bool1 = True
-        embed= embed_copy(des=f"缺少用來查找用戶的id")
-
-    if on_cmd_error(keywords=['name is a required argument that is missing.'],error=error):
-        bool1 = True
-        embed= embed_copy(des=f"缺少用來查找id的用戶名")
-
-    if on_cmd_error(keywords=["description is a required argument that is missing."],error=error):
-        bool1 = True
-        embed = embed_copy(des="缺少內容")
-
-    if bool1 == False:
-        #embed=event.embed_copy(des="待釐清... :(")
-        print(error)
-
-    if bool2 == False:
-        await ctx.send(embed = embed)
-
-    print(f"""
-Time:'{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}'
-User:'{ctx.author.name}' 
-Guild:{ctx.author.guild}' 
-Command:{ctx.command}'
-Error:'{error}' 
-bool1:'{bool1}' 
-bool2:'{bool2}'
-""")
+    await ctx.send(embed=embed)
 
 @bot.event
 async def on_member_join(member : discord.Member):

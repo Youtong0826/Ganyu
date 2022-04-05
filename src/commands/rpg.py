@@ -1,6 +1,10 @@
+from html import entities
 import random , discord , datetime , json
+from turtle import back
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
+
+bot_icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"
 
 class rpg(Cog_ExtenSion):
     have_job = False
@@ -35,17 +39,23 @@ class rpg(Cog_ExtenSion):
                 )
             )
     
-    def addrpg(id, job, exp:int, level:int, coin:int, name):
+    def addrpg(id, job, exp:int, level:int, coin:int, name, hp:int,atk:int,Def:int):
         id = str(id)
         rpgdb = rpg.getRPGDB()
 
         if f'{id}' not in rpgdb:
 
-            rpgdb[id] = {"name":"","job":"","exp":0,"level":0,"coin":0}
-
-        rpgdb[id] = {"name":f"{name}","job":job,"exp":exp,"level":level,"coin":rpgdb[id].get('coin') + coin}
+            rpgdb[id] = {"name":"","job":"","exp":0,"level":0,"coin":0,"hp":100}
+   
+        rpgdb[id] = {"name":f"{name}","job":job,"exp":rpgdb[id].get('exp') + exp,\
+            "level":rpgdb[id].get('level') + level,"coin":rpgdb[id].get('coin') + coin,\
+                "hp":rpgdb[id].get('hp') + hp,"atk":rpgdb[id].get('atk') + atk,"def":rpgdb[id].get('def') + Def}
         
         rpg.addRPGDB(rpgdb)#{f'{id}':f'{job}'})
+
+    def getrpg_entity():
+        with open("res/db/rpg_entity.json","r",encoding="utf-8") as f:
+            return json.loads(f.read())
 
     def getjob(id):
 
@@ -106,6 +116,13 @@ class rpg(Cog_ExtenSion):
         id = str(user.id)
         taked = rpg.getDB()
         rpgdb = rpg.getRPGDB()
+        default_job = rpgdb[id].get("job")
+        default_exp = rpgdb[id].get("exp")
+        default_level = rpgdb[id].get("level")
+        default_coin = rpgdb[id].get("coin")
+        default_name = rpgdb[id].get("name")
+        default_atk = rpgdb[id].get("atk")
+        default_def = rpgdb[id].get("def")
 
         if key == "job":
             embed = discord.Embed(
@@ -141,17 +158,241 @@ class rpg(Cog_ExtenSion):
                 text=f"{ctx.author.name}",
                 icon_url=ctx.author.avatar
             )
+            main_view = discord.ui.View(timeout=None)
 
         elif key == "start":
+            if rpg.have_job(id):
+                embed = discord.Embed(
+                    title="開始你的旅程",
+                    description="您目前所在的位置是 新手村"
+                )
+
+                main_view = discord.ui.View(timeout=None)
+
+                backview = discord.ui.View(timeout=None)
+
+                profile_button = discord.ui.Button(
+                    style=discord.ButtonStyle.primary,
+                    label="個資",
+                    emoji="📰"
+                )
+
+                entity_button = discord.ui.Button(
+                    style=discord.ButtonStyle.success,
+                    label="尋找怪物",
+                    emoji="📰"
+                )
+
+                back_button = discord.ui.Button(
+                    style=discord.ButtonStyle.success,
+                    label="back",
+                    emoji="🔙"
+                )
+
+                async def profile_button_callback(interaction):
+                    
+                    user = interaction.user
+
+                    if user.nick == None:
+                        nick = user.name
+
+                    else:
+                        nick = user.nick
+
+                    if rpg.have_job(id):
+                    
+                        if "Knight" in rpgdb[id].get("job"):
+                            job = "騎士"
+
+                        elif "Shooter" in rpgdb[id].get("job"):
+                            job = "遊俠"
+
+                        elif "Mage" in rpgdb[id].get("job"):
+                            job = "法師"
+
+                        elif "Assassin" in rpgdb[id].get("job"):
+                            job = "刺客"
+
+                        elif "Tank" in rpgdb[id].get("job"):
+                            job = "坦克"
+
+                        else:
+                            job = "無"
+
+                        level = rpgdb[id].get('level')
+                        coin = rpgdb[id].get('coin')
+                        hp = rpgdb[id].get('hp')
+                        atk = rpgdb[id].get('atk')
+                        Def = rpgdb[id].get('def') 
+
+                    else:
+                        job = "無"
+                        level = 0     
+                        coin = 0
+                        hp = 0
+                        atk = 0
+                        Def = 0
+
+                    embed = discord.Embed(
+                        title=f"**{nick}的RPG資訊**",
+                        color=discord.Colour.random(),
+                        timestamp=datetime.datetime.utcnow()
+                    )
+                    embed.add_field(
+                        name="**職業**",
+                        value=f"{job}"
+                    )
+                    embed.add_field(
+                        name="**等級**",
+                        value=f"Lv.{level}"
+                    )
+                    embed.add_field(
+                        name="**血量**",
+                        value=f"{hp}"
+                    )
+                    embed.add_field(
+                        name="**攻擊力**",
+                        value=f"{atk}"
+                    )
+                    embed.add_field(
+                        name="**防禦力**",
+                        value=f"{Def}"
+                    )
+                    embed.add_field(
+                        name="**冒險幣**",
+                        value=f"{coin} $"
+                    )
+                    embed.set_footer(
+                        text=f"RPG Profile",
+                        icon_url= bot_icon_url
+                    )
+
+                    await interaction.response.edit_message(embed=embed,view = backview)
+
+                
+                async def back_button_callback(interaction):
+                    await interaction.response.edit_message(embed = embed,view = main_view)
+
+                async def entity_button_callback(interaction):
+                    entity_place = ["村莊旁邊的草原","村莊旁邊的湖裡","村莊旁邊的樹林里","村長老婆的房間裡","村子的井裡","村子旁邊的洞窟裡"]
+                    entity_Feeling = ["生氣的","開心的","沮喪的","失落的","憤怒的","興奮的","難過的","肚子餓的","想睡覺的","覺得無聊的"]
+                    entities_db = rpg.getrpg_entity()
+                    entitys = []
+
+                    for n in entities_db:
+                        entitys.append(n)
+
+                    select_entity = random.choice(entitys)
+
+                    embed = discord.Embed(
+                        title=f"成功在 {random.choice(entity_place)} 找到 一隻{random.choice(entity_Feeling)}{entities_db[select_entity].get('name')}",
+                    )
+
+                    embed.add_field(
+                        name="攻擊力 ATK",
+                        value=f"**{entities_db[select_entity].get('atk')}**",
+                        inline=False
+                    )
+                    embed.add_field(
+                        name="防禦力 DEF",
+                        value=f"**{entities_db[select_entity].get('def')}**",
+                        inline=False
+                    )
+                    embed.add_field(
+                        name="血量 HP",
+                        value=f"**{entities_db[select_entity].get('hp')}**",
+                        inline=False
+                    )
+
+                    entity_view = discord.ui.View(timeout=None)
+
+                    run_button = discord.ui.Button(
+                        style=discord.ButtonStyle.gray,
+                        label="逃跑",
+                        emoji="♿"
+                    )
+
+                    async def run_button_callback(interaction):
+                        success = random.randint(1,5)
+
+                        if success == 1:
+                            embed = discord.Embed(
+                                title="成功逃跑!",
+                                description="而且沒受到任何傷害!"
+                            )
+                            embed.add_field(
+                                name="損失",
+                                value="HP -0"
+                            )
+                            embed.add_field(
+                                name="獲得",
+                                value="EXP +0\n無其他道具"
+                            )
+                        
+                        if success == 2 or 3 or 4:
+                            lost_hp = round(entities_db[select_entity].get('atk')*0.4)
+
+                            rpg.addrpg(id=id,job=default_job,exp=0,level=0,coin=0,name=default_name,hp = -lost_hp ,atk=0,Def=0)
+
+                            embed = discord.Embed(
+                                title="成功逃跑!",
+                                description="但是受到了點小傷害..."
+                            )
+                            embed.add_field(
+                                name="損失",
+                                value=f"HP -{lost_hp}"
+                            )
+                            embed.add_field(
+                                name="獲得",
+                                value="EXP +0\n無其他道具"
+                            )
+                        
+                        if success == 5:
+                            lost_hp = round(entities_db[select_entity].get('atk')*0.8)
+                            rpg.addrpg(id=id,job=default_job,exp=0,level=0,coin=0,name=default_name,hp = -lost_hp ,atk=0,Def=0)
+
+                            embed = discord.Embed(
+                                title="成功逃跑!",
+                                description="但是受到了重傷..."
+                            )
+                            embed.add_field(
+                                name="損失",
+                                value=f"HP -{lost_hp}"
+                            )
+                            embed.add_field(
+                                name="獲得",
+                                value="EXP +0\n無其他道具"
+                            )
+
+                        await interaction.response.edit_message(embed = embed,view = main_view)
+                        
+                    entity_view.add_item(run_button)
+                    run_button.callback = run_button_callback
+
+                    await interaction.response.edit_message(embed = embed,view = entity_view)
+
+                main_view.add_item(profile_button)
+                main_view.add_item(entity_button)
+                backview.add_item(back_button)
+
+                back_button.callback = back_button_callback
+                entity_button.callback = entity_button_callback
+                profile_button.callback = profile_button_callback
+            else:
+                embed=discord.Embed(
+                    title="請先選擇職業!"
+                )
+
+        elif key == "task":
 
             if rpg.have_job(id):
                 embed = discord.Embed(
                     title="**選擇你要前往的副本!**",
                     color=discord.Colour.random()
                 )
-                embed = discord.Embed(
-                    title="**暫未開放**",
-                    color=discord.Colour.random()
+                
+                embed.add_field(
+                    name=""
                 )
 
             else:
@@ -159,6 +400,8 @@ class rpg(Cog_ExtenSion):
                     title="**請先選擇職業!**",
                     color=discord.Colour.random()
                 )
+
+            main_view = discord.ui.View(timeout=None)
 
         elif key == "info":
 
@@ -190,11 +433,17 @@ class rpg(Cog_ExtenSion):
 
                 level = rpgdb[id].get('level')
                 coin = rpgdb[id].get('coin')
+                hp = rpgdb[id].get('hp')
+                atk = rpgdb[id].get('atk')
+                Def = rpgdb[id].get('def') 
 
             else:
                 job = "無"
                 level = 0     
                 coin = 0
+                hp = 0
+                atk = 0
+                Def = 0
 
             embed = discord.Embed(
                 title=f"**{nick}的RPG資訊**",
@@ -210,6 +459,18 @@ class rpg(Cog_ExtenSion):
                 value=f"Lv.{level}"
             )
             embed.add_field(
+                name="**血量**",
+                value=f"{hp}"
+            )
+            embed.add_field(
+                name="**攻擊力**",
+                value=f"{atk}"
+            )
+            embed.add_field(
+                name="**防禦力**",
+                value=f"{Def}"
+            )
+            embed.add_field(
                 name="**冒險幣**",
                 value=f"{coin} $"
             )
@@ -217,6 +478,8 @@ class rpg(Cog_ExtenSion):
                 text=f"{ctx.author.name}",
                 icon_url=ctx.author.avatar
             )
+
+            main_view = discord.ui.View(timeout=None)
 
         elif key == "cointop":
             top_dict = rpg.top(type="coin")
@@ -299,6 +562,8 @@ class rpg(Cog_ExtenSion):
                 icon_url=ctx.author.avatar
             )
             
+            main_view = discord.ui.View(timeout=None)
+
         elif key == "levtop":
             top_dict = rpg.top(type="level")
             top_name = []
@@ -380,6 +645,8 @@ class rpg(Cog_ExtenSion):
                 icon_url=ctx.author.avatar
             )
 
+            main_view = discord.ui.View(timeout=None)
+
         elif key == "ann":
             embed = discord.Embed(
                 title=f"**RPG公告**",
@@ -392,6 +659,8 @@ class rpg(Cog_ExtenSion):
                 icon_url=ctx.author.avatar
             )
 
+            main_view = discord.ui.View(timeout=None)
+
         elif key == "kit":
             #if not id in taked:
             #    embed = discord.Embed(title=f"**成功領取補償包!**",color=discord.Colour.random())
@@ -400,9 +669,10 @@ class rpg(Cog_ExtenSion):
             #    rpg.addDB(taked)
             #else:
                 #embed = discord.Embed(title=f"**您已經領過了!**",color=discord.Colour.random())
-                embed = discord.Embed(
-                    title = "目前尚無可領取的禮包喔~", 
-                )
+            embed = discord.Embed(
+                title = "目前尚無可領取的禮包喔~", 
+            )
+            main_view = discord.ui.View(timeout=None)
 
         else:            
             embed = discord.Embed(
@@ -434,7 +704,9 @@ class rpg(Cog_ExtenSion):
                 value="查看冒險幣排名"
             )
 
-        await ctx.send(embed=embed)
+            main_view = discord.ui.View(timeout=None)
+
+        await ctx.send(embed=embed,view = main_view)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()

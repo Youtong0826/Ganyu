@@ -613,6 +613,8 @@ class Info(Cog_ExtenSion):
             if len(roles) > 1014:
                 roles = f"{roles3}+{roles_count-roles_count2} Roles..."
 
+            roles.strip("|")
+
             embed_main = discord.Embed(
                 title = f"{member.name} 的個人資訊 ",
                 color = 0x9c8fff,
@@ -691,6 +693,8 @@ class Info(Cog_ExtenSion):
 
             if len(role) > 1014:
                 role = f"{roles2}+{roles_count - roles_count2} Roles"
+                
+            roles.strip("|")
 
             embed_main=discord.Embed(
                 title=f"{user.name} 的個人資料",

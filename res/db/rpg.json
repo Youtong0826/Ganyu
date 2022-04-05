@@ -3,7 +3,7 @@
         "name": "youtong._.0826",
         "job": "Mage",
         "exp": 0,
-        "level": 0,
+        "level": 999,
         "coin": 5000
     },
     "875645774405468191": {
@@ -14,7 +14,7 @@
         "coin": 300
     },
     "611118369474740244": {
-        "name": "�B�t",
+        "name": "冰川",
         "job": "Assassin",
         "exp": 0,
         "level": 0,
@@ -28,7 +28,7 @@
         "coin": 300
     },
     "765918273254064128": {
-        "name": "��iMXcTw",
+        "name": "赤iMXcTw",
         "job": "Shooter",
         "exp": 0,
         "level": 0,
@@ -56,14 +56,14 @@
         "coin": 0
     },
     "757472686002929784": {
-        "name": "�C�l",
+        "name": "颜彬",
         "job": "Shooter",
         "exp": 0,
         "level": 0,
         "coin": 0
     },
     "935084204151173130": {
-        "name": "��v",
+        "name": "喬治",
         "job": "Shooter",
         "exp": 0,
         "level": 0,

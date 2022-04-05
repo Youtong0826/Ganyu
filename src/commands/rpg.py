@@ -6,11 +6,11 @@ class rpg(Cog_ExtenSion):
     have_job = False
 
     def getDB():
-        with open("res/db/DB.json","r") as f:
+        with open("res/db/DB.json","r",encoding="utf-8") as f:
             return json.loads(f.read())
 
     def addDB(db):
-        with open("res/db/DB.json","w") as f:
+        with open("res/db/DB.json","w",encoding="utf-8") as f:
             return f.write(
                 json.dumps(
                     db,
@@ -21,11 +21,11 @@ class rpg(Cog_ExtenSion):
             )
 
     def getRPGDB():
-        with open("res/db/rpg.json","r") as f:
+        with open("res/db/rpg.json","r",encoding="utf-8") as f:
             return json.loads(f.read())
 
     def addRPGDB(jobdb):
-        with open("res/db/rpg.json","w") as f:
+        with open("res/db/rpg.json","w",encoding="utf-8") as f:
             return f.write(
                 json.dumps(
                     jobdb,
@@ -81,23 +81,26 @@ class rpg(Cog_ExtenSion):
     def top(type):#type=level or coin 
         rpgdb = rpg.getRPGDB()
         ramtop = {} 
-        top = []
+        realtop = {}
         time = 0
 
         for key in rpgdb:
-            time += 1
-            l = rpgdb[key].get(type)
-            n = rpgdb[key].get("name")
-            ramtop["name"]= n
-            ramtop["int"]= l
-            top.append(ramtop)
-            print(sorted(top, key = lambda i: i['int'],reverse=True) )
+            v = rpgdb[key].get(type)
+            name = rpgdb[key].get("name")
+            ramtop[name] = v
+
+        top = sorted(ramtop.items(), key = lambda kv:(kv[1], kv[0]),reverse=True)
+
+        name = [i[0] for i in top]
+        num = [i[1] for i in top]
+
+        for n in range(10):
+            realtop[name[n]] = num[n]
+            
+        return realtop
 
     @commands.command()
-    async def rpg(
-        self,
-        ctx,
-        key):
+    async def rpg(self,ctx,key=None):
 
         user = ctx.author
         id = str(user.id)
@@ -216,22 +219,165 @@ class rpg(Cog_ExtenSion):
             )
 
         elif key == "cointop":
-            #top = rpg.top()
-            #embed = discord.Embed(title=f"** Coin Top 等級排行**",description=f"1.  {top[1].get('name')}  **{top[1].get('coin')}** $\n2.  {top[2].get('name')}  **{top[2].get('coin')}** $\
-#\n3.  {top[3].get('name')}  **{top[3].get('coin')}** $\n4.  {top[4].get('name')}  **{top[4].get('coin')}** $\n5.  {top[5].get('name')}  **{top[5].get('coin')}** $\n6.  {top[6].get('name')}  **{top[6].get('coin')}** $\n",color=discord.Colour.random())
-            #await ctx.send(rpg.top(type="coin"))
+            top_dict = rpg.top(type="coin")
+            top_name = []
+            top_coin = []
+
+            for n in top_dict:
+                top_name.append(n)
+                top_coin.append(top_dict[n])
 
             embed = discord.Embed(
-                title=f"** 暫未開放 **",
-                color=discord.Colour.random()
+                title="冒險幣排名",
+                description=f"排名時間:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}",
+                color=discord.Colour.random(),
+                timestamp=datetime.datetime.utcnow()
             )
 
+            embed.add_field(
+                name=f":one:  {top_name[0]}",
+                value=f"擁有 **{top_coin[0]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":two:  {top_name[1]}",
+                value=f"擁有 **{top_coin[1]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":three:  {top_name[2]}",
+                value=f"擁有 **{top_coin[2]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":four:  {top_name[3]}",
+                value=f"擁有 **{top_coin[3]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":five:  {top_name[4]}",
+                value=f"擁有 **{top_coin[4]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":six:  {top_name[5]}",
+                value=f"擁有 **{top_coin[5]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":seven:  {top_name[6]}",
+                value=f"擁有 **{top_coin[6]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":eight:  {top_name[7]}",
+                value=f"擁有 **{top_coin[7]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":nine:  {top_name[8]}",
+                value=f"擁有 **{top_coin[8]}** 冒險幣",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":keycap_ten:  {top_name[9]}",
+                value=f"擁有 **{top_coin[9]}** 冒險幣",
+                inline=False
+            )
+
+            embed.set_footer(
+                text=f"{ctx.author.name}",
+                icon_url=ctx.author.avatar
+            )
+            
         elif key == "levtop":
-            top = rpg.top(type="level")
-            #embed = discord.Embed(title=f"** Level Top 冒險幣排行**\n1.  {top[1].get('name')}  Lv.{top[1].get('level')}",color=discord.Colour.random())
+            top_dict = rpg.top(type="level")
+            top_name = []
+            top_level = []
+
+            for n in top_dict:
+                top_name.append(n)
+                top_level.append(top_dict[n])
+
             embed = discord.Embed(
-                title=f"* 暫未開放 **",
-                color=discord.Colour.random()
+                title="等級排名",
+                description=f"排名時間:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}",
+                color=discord.Colour.random(),
+                timestamp=datetime.datetime.utcnow()
+            )
+
+            embed.add_field(
+                name=f":one:  {top_name[0]}",
+                value=f"LV.**{top_level[0]}**",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":two:  {top_name[1]}",
+                value=f"LV.{top_level[1]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":three:  {top_name[2]}",
+                value=f"LV.{top_level[2]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":four:  {top_name[3]}",
+                value=f"LV.{top_level[3]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":five:  {top_name[4]}",
+                value=f"LV.{top_level[4]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":six:  {top_name[5]}",
+                value=f"LV.{top_level[5]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":seven:  {top_name[6]}",
+                value=f"LV.{top_level[6]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":eight:  {top_name[7]}",
+                value=f"LV.{top_level[7]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":nine:  {top_name[8]}",
+                value=f"LV.{top_level[8]}",
+                inline=False
+            )
+
+            embed.add_field(
+                name=f":keycap_ten:  {top_name[9]}",
+                value=f"LV.{top_level[9]}",
+                inline=False
+            )
+
+            embed.set_footer(
+                text=f"{ctx.author.name}",
+                icon_url=ctx.author.avatar
             )
 
         elif key == "ann":
@@ -260,24 +406,60 @@ class rpg(Cog_ExtenSion):
 
         else:            
             embed = discord.Embed(
-                title="**錯誤X**",
-                description=f'RPG沒有"{key}"這個分類喔~',
-                color=discord.Colour.random())
+                title="RPG系統",
+                color=discord.Colour.random()
+            )
+            embed.add_field(
+                name="g!rpg  job",
+                value="選擇你的職業"
+            )
+            embed.add_field(
+                name="g!rpg  start",
+                value="開始你的旅程!"
+            )
+            embed.add_field(
+                name="g!rpg  info",
+                value="查看你的RPG資訊"
+            )
+            embed.add_field(
+                name="g!rpg  ann",
+                value="獲取最新公告"
+            )
+            embed.add_field(
+                name="g!rpg  levtop",
+                value="查看等級排名"
+            )
+            embed.add_field(
+                name="g!rpg  cointop",
+                value="查看冒險幣排名"
+            )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
-    async def knight(self,ctx,key):
+    async def knight(self,ctx,key=None):
         if rpg.have_job(ctx.author.id):
             embed = discord.Embed(title="**您已經選過職業了!**",color=discord.Colour.random())
         else:
             if key == "y":
                 embed = discord.Embed(title="**成功選擇騎士!**",color=discord.Colour.random())
                 rpg.addrpg(id=f"{ctx.author.id}",job="Knight",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
+            else:
+                embed = discord.Embed(
+                title="騎士 Knight",
+                description="作為最基本的職業，騎士擁有強大的攻擊力及優越的防禦，但是他們受到魔法的傷害比其他職業還高．",
+                color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 12/20\n**魔法傷害:** 02/20\n**物理防禦:** 14/20\n**魔法防禦:** 06/20\n**敏捷度:** 08/20\n**智力:** 06/20\n\n輸入g!knight y來確認選取職業"
+                )
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
-    async def shooter(self,ctx,key):
+    async def shooter(self,ctx,key=None):
 
         if rpg.have_job(self.author.id):
             embed = discord.Embed(
@@ -286,7 +468,6 @@ class rpg(Cog_ExtenSion):
             )
 
         else:
-
             if key == "y":
                 embed = discord.Embed(
                     title="**成功選擇射手!**",
@@ -294,11 +475,23 @@ class rpg(Cog_ExtenSion):
                 )
 
                 rpg.addrpg(id=f"{ctx.author.id}",job="Shooter",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
+    
+            else:
+                embed = discord.Embed(
+                title="遊俠 Shooter",
+                description="遊俠是所有職業裡敏捷度最高的職業，同時也具有較高的物傷，但是其他屬性則相對較低．",
+                color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 16/20\n**魔法傷害:** 08/20\n**物理防禦:** 02/20\n**魔法防禦:** 02/20\n**敏捷度:** 14/20\n**智力:** 06/20\n\n輸入g!shooter y來確認選取職業"
+                )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
     
     @commands.command()
-    async def mage(self,ctx,key):
+    async def mage(self,ctx,key=None):
 
         if rpg.have_job(ctx.author.id):
             embed = discord.Embed(
@@ -314,11 +507,23 @@ class rpg(Cog_ExtenSion):
                 )
 
                 rpg.addrpg(id=f"{ctx.author.id}",job="Mage",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
+            
+            else:
+                embed = discord.Embed(
+                title="法師 Mage",
+                description="法師是所有職業裡法傷最高的職業，如果說刺客是物傷天花板，那法師就是法傷天花板，除此之外其他屬性就普普而已．",
+                color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 02/20\n**魔法傷害:** 18/20\n**物理防禦:** 02/20\n**魔法防禦:** 10/20\n**敏捷度:** 04/20\n**智力:** 12/20\n\n輸入g!mage y來確認選取職業"
+                )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
-    async def assassin(self,ctx,key):
+    async def assassin(self,ctx,key=None):
 
         if rpg.have_job(ctx.author.id):
             embed = discord.Embed(
@@ -334,10 +539,22 @@ class rpg(Cog_ExtenSion):
 
                 rpg.addrpg(id=f"{ctx.author.id}",job="Assassin",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
 
+            else:
+                embed = discord.Embed(
+                title="刺客 Assassin",
+                description="物傷的極致，神秘又帥氣的職業，除了超高的物傷外還具有較高的敏捷度，但其他屬性相對較低．"
+                ,color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 18/20\n**魔法傷害:** 02/20\n**物理防禦:** 06/20\n**魔法防禦:** 02/20\n**敏捷度:** 12/20\n**智力:** 08/20\n\n輸入g!assassin y來確認選取職業"
+                )
+
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
-    async def tank(self,ctx,key):
+    async def tank(self,ctx,key=None):
 
         if rpg.have_job(ctx.author.id):
             embed = discord.Embed(
@@ -353,14 +570,26 @@ class rpg(Cog_ExtenSion):
                     color=discord.Colour.random())
 
                 rpg.addrpg(id=f"{ctx.author.id}",job="Tank",exp=0,level=0,coin=0,name=f"{ctx.author.name}")
+            else:
+                embed = discord.Embed(
+                title="坦克 Tank",
+                description="顧名思義，坦克比任何職業的防禦能力都還要高，不管是在物防還是魔防部分都具有超高的防禦，其他屬性則沒什特點．"
+                ,color=discord.Colour.random()
+                )
+                embed.add_field(
+                    name="**能力值:**",
+                    value="**物理傷害:** 06/20\n**魔法傷害:** 02/20\n**物理防禦:** 16/20\n**魔法防禦:** 16/20\n**敏捷度:** 02/20\n**智力:** 08/20\n\n輸入g!tank y來確認選取職業"
+                )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
     
     @commands.command()
     async def ranjob(self,ctx):
 
         await ctx.send(embed = discord.Embed(
-            title="正在選擇職業..")
+            title="",
+            description="正在選擇職業..")
             )
 
         knight = discord.Embed(
@@ -419,6 +648,7 @@ class rpg(Cog_ExtenSion):
         )
 
         await ctx.send(embed=end)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(rpg(bot))

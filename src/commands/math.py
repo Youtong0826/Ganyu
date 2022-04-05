@@ -48,12 +48,7 @@ class Math(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}""")
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def add(
@@ -69,12 +64,7 @@ class Math(Cog_ExtenSion):
         )
         await ctx.send(embed=embed)
 
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}""")
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def remove(
@@ -89,14 +79,7 @@ class Math(Cog_ExtenSion):
         )
 
         await ctx.send(embed=embed)
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def mupy(
@@ -113,14 +96,7 @@ class Math(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def dvsn(
@@ -136,13 +112,7 @@ class Math(Cog_ExtenSion):
         )
 
         await ctx.send(embed=embed)
-        print(
-            f"""
-            Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def sqrt(
@@ -168,13 +138,7 @@ class Math(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
-        print(
-            f"""Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def square(
@@ -190,13 +154,7 @@ class Math(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
-        print(
-            f"""Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def fac(
@@ -248,13 +206,7 @@ class Math(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
-        print(
-            f"""Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-            User:{ctx.author} 
-            ID:{ctx.author.id} 
-            Guild:{ctx.author.guild} 
-            Command:{ctx.command}"""
-        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(Math(bot))

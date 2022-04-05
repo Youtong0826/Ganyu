@@ -175,6 +175,11 @@ class Help(Cog_ExtenSion):
                     name="g!invite",
                     value="獲取邀請連結"
                 )       
+                embed.add_field(
+                    name = "g!invites",
+                    value = "查看本服邀請榜"
+                )
+
                 embed.set_footer(
                     text = f"{ctx.author.name}",
                     icon_url = ctx.author.avatar
@@ -342,6 +347,11 @@ class Help(Cog_ExtenSion):
         embed.add_field(
             name = "g!invite",
             value = "獲取邀請連結"
+        )
+        
+        embed.add_field(
+            name = "g!invites",
+            value = "查看本服邀請榜"
         )
 
         embed.set_footer(

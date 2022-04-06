@@ -2,9 +2,7 @@ import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
-class Time(Cog_ExtenSion):
-
-        
+class Time(Cog_ExtenSion):    
 
     @commands.command()
     async def time(self,ctx,key=None):

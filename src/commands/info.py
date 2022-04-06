@@ -1,4 +1,5 @@
 from os import remove
+from types import NoneType
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
@@ -370,6 +371,11 @@ class Info(Cog_ExtenSion):
         if booster == "":
             booster = "無"
 
+        if guild.rules_channel != None:
+            rules_channel = f"\n{guild.rules_channel.mention}"
+        else:
+            rules_channel = "無"
+
         emojis = []
         animated_emojis = [] 
 
@@ -390,7 +396,7 @@ class Info(Cog_ExtenSion):
 
             embed_main.add_field(
                 name="一般",
-                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\n 擁有者: `{guild.owner}`\n id: `{guild.owner_id}`"
+                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\n 擁有者: `{guild.owner.name}`\n 個人id: `{guild.owner_id}`"
             )
 
             embed_main.add_field(
@@ -428,7 +434,7 @@ class Info(Cog_ExtenSion):
                 name="其他",
                 value=f"\
                     **主要語言:** {guild.preferred_locale}\n\
-                    **規則頻道:** \n{guild.rules_channel.mention}"
+                    **規則頻道:** {rules_channel}"
             )
 
             embed_main.set_thumbnail(
@@ -665,7 +671,6 @@ class Info(Cog_ExtenSion):
             main_view = discord.ui.View(timeout=None)
 
         else:
-
             user = ctx.author
             role = ""
             roles2 = ""
@@ -695,7 +700,7 @@ class Info(Cog_ExtenSion):
             if len(role) > 1014:
                 role = f"{roles2}+{roles_count - roles_count2} Roles"
                 
-            roles.strip("|")
+            role.strip("|")
 
             embed_main=discord.Embed(
                 title=f"{user.name} 的個人資料",
@@ -775,7 +780,7 @@ class Info(Cog_ExtenSion):
             ":seven:",
             ":eight:",
             ":nine:",
-            ":kepcap_ten:"
+            ":keycap_ten:"
         ]
         for n in invites:
             if str(n.inviter)[:-5] == "":
@@ -785,8 +790,6 @@ class Info(Cog_ExtenSion):
             if index == 10:
                 break      
             context += f"{numbers[index]} {str(invite.inviter)[:-5]} 邀請 {invite.uses} 人\n\n"
-
-        print(invites)
 
         embed.description = context
 

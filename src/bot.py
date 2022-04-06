@@ -162,7 +162,7 @@ async def on_command_error(ctx,error):
         chiness = chiness[:-1]
     
     embed = discord.Embed(title="錯誤",description=chiness,color=discord.Color.red())
-
+    print(error)
     await ctx.send(embed=embed)
 
 @bot.event

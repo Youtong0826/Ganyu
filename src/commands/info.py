@@ -1,5 +1,5 @@
-import discord
-import datetime
+from os import remove
+import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 """
@@ -778,11 +778,16 @@ class Info(Cog_ExtenSion):
             ":nine:",
             ":kepcap_ten:"
         ]
+        for n in invites:
+            if str(n.inviter)[:-5] == "":
+                invites.remove(n)
 
         for index, invite in enumerate(invites):
             if index == 10:
-                break
-            context += f"{numbers[index]} {invite.inviter} 邀請 {invite.uses} 人\n\n"
+                break      
+            context += f"{numbers[index]} {str(invite.inviter)[:-5]} 邀請 {invite.uses} 人\n\n"
+
+        print(invites)
 
         embed.description = context
 

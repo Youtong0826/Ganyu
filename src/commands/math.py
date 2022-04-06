@@ -1,13 +1,22 @@
+<<<<<<< HEAD
 import  discord , datetime , ast
+=======
+import random
+import discord
+import datetime
+import ast
+import json
+>>>>>>> 4a26b9d9f551679ba7316a4fba2ecd69fb1f9a22
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
+
 
 class Math(Cog_ExtenSion):
 
     @commands.command()
-    async def math(self,ctx):
+    async def math(self, ctx):
 
-        embed=discord.Embed(
+        embed = discord.Embed(
             title="算數",
             description="ex:g!add 10 20 ex:g!sqrt 20",
             color=discord.Colour.random()
@@ -54,8 +63,8 @@ class Math(Cog_ExtenSion):
     async def add(
         self,
         ctx,
-        a : ast.literal_eval,
-        b : ast.literal_eval
+        a: ast.literal_eval,
+        b: ast.literal_eval
     ):
         embed = discord.Embed(
             title=" 執行成功!",
@@ -69,8 +78,8 @@ class Math(Cog_ExtenSion):
     @commands.command()
     async def remove(
         self,
-        ctx,a : ast.literal_eval,
-        b : ast.literal_eval
+        ctx, a: ast.literal_eval,
+        b: ast.literal_eval
     ):
         embed = discord.Embed(
             title=" 執行成功!",
@@ -85,8 +94,8 @@ class Math(Cog_ExtenSion):
     async def mupy(
         self,
         ctx,
-        a : ast.literal_eval,
-        b : ast.literal_eval
+        a: ast.literal_eval,
+        b: ast.literal_eval
     ):
         embed = discord.Embed(
             title=" 執行成功!",
@@ -102,8 +111,8 @@ class Math(Cog_ExtenSion):
     async def dvsn(
         self,
         ctx,
-        a : ast.literal_eval,
-        b : ast.literal_eval
+        a: ast.literal_eval,
+        b: ast.literal_eval
     ):
         embed = discord.Embed(
             title=" 執行成功!",
@@ -118,7 +127,7 @@ class Math(Cog_ExtenSion):
     async def sqrt(
         self,
         ctx,
-        a : ast.literal_eval
+        a: ast.literal_eval
     ):
         if "-" in f'{a}':
 
@@ -144,7 +153,7 @@ class Math(Cog_ExtenSion):
     async def square(
         self,
         ctx,
-        a : ast.literal_eval
+        a: ast.literal_eval
     ):
         embed = discord.Embed(
             title=" 執行成功!",
@@ -160,7 +169,7 @@ class Math(Cog_ExtenSion):
     async def fac(
         self,
         ctx,
-        a : ast.literal_eval
+        a: ast.literal_eval
     ):
         if len(f"{a}") > 6:
 
@@ -173,20 +182,20 @@ class Math(Cog_ExtenSion):
 
             if '-' in f'{a}':
 
-                    embed = discord.Embed(
-                        title="無法執行..",
-                        description=f"原因:正負因數不列入考量..",
-                        color=discord.Colour.random())
+                embed = discord.Embed(
+                    title="無法執行..",
+                    description=f"原因:正負因數不列入考量..",
+                    color=discord.Colour.random())
             else:
 
-                fac=[]
+                fac = []
                 time = 0
 
-                for i in range(1, a+1): 
+                for i in range(1, a+1):
                     time += 1
 
                     if a % i == 0:
-                        fac.append(i) 
+                        fac.append(i)
                         continue
 
                     else:
@@ -207,6 +216,7 @@ class Math(Cog_ExtenSion):
         await ctx.send(embed=embed)
 
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+
 
 def setup(bot):
     bot.add_cog(Math(bot))

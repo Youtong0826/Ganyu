@@ -1,14 +1,21 @@
-import discord , datetime
+import discord
+import datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
+<<<<<<< HEAD
 class Time(Cog_ExtenSion):    
+=======
+
+class Time(Cog_ExtenSion):
+>>>>>>> 4a26b9d9f551679ba7316a4fba2ecd69fb1f9a22
 
     @commands.command()
-    async def time(self,ctx,key=None):
+    async def time(self, ctx, key=None):
 
         if key == None:
-            embed = discord.Embed(title="世界時間 world time",color=discord.Colour.random())
+            embed = discord.Embed(title="世界時間 world time",
+                                  color=discord.Colour.random())
             embed.add_field(
                 name="台北 Taipei ",
                 value=f"{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')}"
@@ -62,7 +69,7 @@ class Time(Cog_ExtenSion):
                 value=f"{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=2))).strftime('%Y-%m-%d %H:%M:%S')}"
             )
             embed.add_field(
-                name="莫斯科 Moscow",value=f"{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=3))).strftime('%Y-%m-%d %H:%M:%S')}"
+                name="莫斯科 Moscow", value=f"{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=3))).strftime('%Y-%m-%d %H:%M:%S')}"
             )
             embed.add_field(
                 name="杜拜 Dubai",
@@ -102,6 +109,6 @@ class Time(Cog_ExtenSion):
         await ctx.send(embed=embed)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
+
 def setup(bot):
     bot.add_cog(Time(bot))
-    

@@ -16,8 +16,7 @@ ganyuCommands = {
         discord.Embed(
             title="Ganyu 指令清單",
             description="可使用`g!report`來回報錯誤",
-            color=0xec8fff,
-            timestamp=datetime.datetime.utcnow()
+            color=0xec8fff
         ),
         [
             ["g!fun", "查看娛樂的指令清單"],
@@ -30,8 +29,7 @@ ganyuCommands = {
     "fun": mustFieldEmbed(
         discord.Embed(
             title="Fun 娛樂指令清單",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
+            color=discord.Colour.random()
         ),
         [
             ["g!dice `int` ", "讓這個機器人幫你骰骰子"],
@@ -41,8 +39,7 @@ ganyuCommands = {
     "info": mustFieldEmbed(
         discord.Embed(
             title="Info 資訊指令清單",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
+            color=discord.Colour.random()
         ),
         [
             ["g!allinfo", "一次性查看所有資訊"],
@@ -57,8 +54,7 @@ ganyuCommands = {
     "cmd": mustFieldEmbed(
         discord.Embed(
             title="Cucmd 常用指令清單",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
+            color=discord.Colour.random()
         ),
         [
             ["g!about ", "關於甘雨"],
@@ -73,8 +69,7 @@ ganyuCommands = {
     "manage": mustFieldEmbed(
         discord.Embed(
             title="Mange 管理指令清單",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
+            color=discord.Colour.random()
         ),
         [
             ["g!ban `user`", "停權其他用戶"],
@@ -84,8 +79,7 @@ ganyuCommands = {
     "owner": mustFieldEmbed(
         discord.Embed(
             title="Owner 開發者專屬指令",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
+            color=discord.Colour.random()
         ),
         [
             ["g!load `name`", "載入Cog"],

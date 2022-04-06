@@ -1,30 +1,34 @@
-import discord , datetime , os
+import discord
+import datetime
+import os
 from discord.ext import commands
 from lib.translate import translate
 
 bot = commands.Bot(
     command_prefix='g!',
-    intents = discord.Intents.all()
+    intents=discord.Intents.all()
 )
 
 for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 
-def guild_ids():
-    guild_ids = []  
 
-    for n in bot.guilds:  
+def guild_ids():
+    guild_ids = []
+
+    for n in bot.guilds:
         guild_ids.append(n.id)
-        
+
     return guild_ids
+
 
 bot.activity = discord.Game(
     name="g!help owo"
 )
 
-#@bot.command()
-#async def send(ctx,membed:discord.Member = None,message=None):
+# @bot.command()
+# async def send(ctx,membed:discord.Member = None,message=None):
 #    link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
 #    embed = discord.Embed(
 #        title="來自 Ganyu 甘雨 官方的重要公告!",
@@ -37,10 +41,11 @@ bot.activity = discord.Game(
 #            sended.append(n.owner)
 #            await n.owner.send(embed=embed)
 
+
 @bot.slash_command(
     name="test",
     description="Test",
-    guild_ids = 939145544926912552
+    guild_ids=939145544926912552
 )
 async def test(ctx):
     embed = discord.Embed(
@@ -48,8 +53,9 @@ async def test(ctx):
     )
     await ctx.respond("test")
 
+
 @bot.command()
-async def load(ctx,extension):
+async def load(ctx, extension):
     if ctx.author.id == 611118369474740244 or 856041155341975582:
         bot.load_extension(f"commands.{extension}")
         embed = discord.Embed(
@@ -60,12 +66,13 @@ async def load(ctx,extension):
         embed = discord.Embed(
             title="此為開發者專屬功能",
             color=0x5cff8d
-        ) 
-    await ctx.send(embed = embed)
+        )
+    await ctx.send(embed=embed)
     print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} loaded {extension} Cog in {ctx.author.guild}")
 
+
 @bot.command()
-async def unload(ctx,extension):
+async def unload(ctx, extension):
     if ctx.author.id == 611118369474740244 or 856041155341975582:
         bot.unload_extension(f"commands.{extension}")
         embed = discord.Embed(
@@ -76,12 +83,13 @@ async def unload(ctx,extension):
         embed = discord.Embed(
             title="此為開發者專屬功能",
             color=0x5cff8d
-        ) 
-    await ctx.send(embed = embed)
+        )
+    await ctx.send(embed=embed)
     print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} unloaded {extension} Cog in {ctx.author.guild}")
 
+
 @bot.command()
-async def reload(ctx,extension):
+async def reload(ctx, extension):
     if ctx.author.id == 611118369474740244 or 856041155341975582:
         bot.reload_extension(f"commands.{extension}")
         embed = discord.Embed(
@@ -92,9 +100,10 @@ async def reload(ctx,extension):
         embed = discord.Embed(
             title="此為開發者專屬功能",
             color=0x5cff8d
-        ) 
-    await ctx.send(embed = embed)
+        )
+    await ctx.send(embed=embed)
     print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} reloaded {extension} Cog in {ctx.author.guild}")
+
 
 @bot.command()
 async def modal(ctx):
@@ -133,7 +142,7 @@ async def modal(ctx):
                 description=f"{modal.children[1].value}"
             )
 
-            await interaction.response.send_message(embed = modal_embed)
+            await interaction.response.send_message(embed=modal_embed)
 
         modal.add_item(input_text_title)
         modal.add_item(input_text_description)
@@ -141,32 +150,36 @@ async def modal(ctx):
         modal.callback = modal_callback
 
         await interaction.response.send_modal(modal)
-    
+
     view.add_item(modal_button)
-    
+
     modal_button.callback = modal_button_callback
 
-    ctx.send(embed=embed, view = view)
+    ctx.send(embed=embed, view=view)
+
 
 @bot.event
 async def on_ready():
     print(">>Bot is online<<")
 
-@bot.event 
-async def on_command_error(ctx,error):
+
+@bot.event
+async def on_command_error(ctx, error):
     bool1 = False
     bool2 = False
 
-    chiness = translate(str(error),"zh-TW")
+    chiness = translate(str(error), "zh-TW")
     if chiness.endswith("。"):
         chiness = chiness[:-1]
-    
-    embed = discord.Embed(title="錯誤",description=chiness,color=discord.Color.red())
+
+    embed = discord.Embed(title="錯誤", description=chiness,
+                          color=discord.Color.red())
 
     await ctx.send(embed=embed)
 
+
 @bot.event
-async def on_member_join(member : discord.Member):
+async def on_member_join(member: discord.Member):
     if member.guild.id == 719198103227465738:
         chnnel = bot.get_channel(719521057286914129)
         embed = discord.Embed(
@@ -176,16 +189,18 @@ async def on_member_join(member : discord.Member):
             timestamp=datetime.datetime.utcnow()
         )
         embed.set_thumbnail(url=member.avatar)
-        embed.set_footer(text="成員加入",icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
+        embed.set_footer(
+            text="成員加入", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
 
         await chnnel.send(embed=embed)
 
+
 @bot.event
-async def on_reaction_add(reaction : discord.Reaction,user : discord.Member):
+async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
     if reaction.message.id == 960762107966656582:
         if reaction.emoji == "👍":
             user.add_roles(roles=960443431291871252)
 
 if __name__ == "__main__":
-    with open("token","r") as f:
+    with open("token", "r") as f:
         bot.run(f.read())

@@ -700,13 +700,10 @@ class Info(Cog_ExtenSion):
 
             if len(role) > 1014:
                 role = f"{roles2}+{roles_count - roles_count2} Roles"
-<<<<<<< HEAD
-                
+             
             role.strip("|")
-=======
 
             roles.strip("|")
->>>>>>> 4a26b9d9f551679ba7316a4fba2ecd69fb1f9a22
 
             embed_main = discord.Embed(
                 title=f"{user.name} 的個人資料",

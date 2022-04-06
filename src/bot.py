@@ -171,16 +171,10 @@ async def on_command_error(ctx, error):
     chiness = translate(str(error), "zh-TW")
     if chiness.endswith("。"):
         chiness = chiness[:-1]
-<<<<<<< HEAD
     
     embed = discord.Embed(title="錯誤",description=chiness,color=discord.Color.red())
     print(error)
-=======
-
-    embed = discord.Embed(title="錯誤", description=chiness,
-                          color=discord.Color.red())
-
->>>>>>> 4a26b9d9f551679ba7316a4fba2ecd69fb1f9a22
+    
     await ctx.send(embed=embed)
 
 

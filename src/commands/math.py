@@ -1,12 +1,4 @@
-<<<<<<< HEAD
 import  discord , datetime , ast
-=======
-import random
-import discord
-import datetime
-import ast
-import json
->>>>>>> 4a26b9d9f551679ba7316a4fba2ecd69fb1f9a22
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 

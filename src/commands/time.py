@@ -1,14 +1,8 @@
-import discord
-import datetime
+import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
-<<<<<<< HEAD
-class Time(Cog_ExtenSion):    
-=======
-
 class Time(Cog_ExtenSion):
->>>>>>> 4a26b9d9f551679ba7316a4fba2ecd69fb1f9a22
 
     @commands.command()
     async def time(self, ctx, key=None):

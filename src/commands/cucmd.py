@@ -199,20 +199,20 @@ Command:{ctx.command}
                 title="機器人Bug回報表單"
             )
 
-            input_text_title = discord.ui.InputText(style=discord.InputTextStyle.short,
-                                                    label="名稱",
-                                                    placeholder="此次回報的名稱"
-                                                    )
+            input_text_title = discord.ui.InputText(
+                style=discord.InputTextStyle.short,
+                label="名稱",
+                placeholder="此次回報的名稱"
+            )
 
-            input_text_description = discord.ui.InputText(style=discord.InputTextStyle.long,
-                                                          label="詳細敘述",
-                                                          placeholder="此次回報的敘述",
-                                                          max_length=1024
-                                                          )
+            input_text_description = discord.ui.InputText(
+                style=discord.InputTextStyle.long,
+                label="詳細敘述",
+                placeholder="此次回報的敘述",
+                max_length=1024
+            )
 
             async def Moadl_callback(interaction):
-
-<<<<<<< HEAD
                 def bug_callbacl(title,description):
                     with open("Error report.txt","a",encoding="utf-8") as f:
                         return f.write(f"\
@@ -222,7 +222,7 @@ Command:{ctx.command}
                             \n----提出者: {interaction.user}  id:{interaction.user.id}")
                         
                 bug_callbacl(title = modal.children[0].value,description = modal.children[1].value)
-=======
+
                 def bug_callbacl(title, description):
                     with open("Error report", "a", encoding="utf-8") as f:
                         return f.write(f"\
@@ -233,7 +233,7 @@ Command:{ctx.command}
 
                 bug_callbacl(
                     title=modal.children[0].value, description=modal.children[1].value)
->>>>>>> 4a26b9d9f551679ba7316a4fba2ecd69fb1f9a22
+
 
                 modal_embed = discord.Embed(
                     title=f"感謝 {interaction.user.name} 提出回報!",

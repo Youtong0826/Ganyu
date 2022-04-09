@@ -2,7 +2,6 @@ import random
 import discord
 import datetime
 import json
-import tkinter
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
@@ -10,6 +9,10 @@ bot_icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335
 
 
 class rpg(Cog_ExtenSion):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+
     have_job = False
 
     def getDB():

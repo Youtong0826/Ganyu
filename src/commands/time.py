@@ -1,4 +1,4 @@
-import discord , datetime , tkinter
+import discord , datetime 
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
@@ -6,6 +6,9 @@ class Time(Cog_ExtenSion):
 
     @commands.command()
     async def time(self, ctx, key=None):
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
 
         if key == None:
             embed = discord.Embed(title="世界時間 world time",

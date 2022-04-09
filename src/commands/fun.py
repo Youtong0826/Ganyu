@@ -1,7 +1,6 @@
 import random
 import discord
 import datetime
-import tkinter 
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
@@ -13,7 +12,10 @@ g!rpg
 
 
 class Fun(Cog_ExtenSion):
-
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    
     @commands.command()
     async def dice(self, ctx, number: int = None):
         if number != None:

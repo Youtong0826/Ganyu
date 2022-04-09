@@ -3,7 +3,6 @@ import discord
 import datetime
 import json
 import requests
-import tkinter
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from ganyu import messages
@@ -27,6 +26,9 @@ for i in range(3):
 
 
 class Cucmd(Cog_ExtenSion):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
 
     @commands.command()
     async def say(self, ctx, *, arg):

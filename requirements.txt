@@ -1,3 +1,0 @@
-git+https://github.com/Youtong0826/Ganyu_Bot.git
-pycord == 2.0.0b5
-discord.py

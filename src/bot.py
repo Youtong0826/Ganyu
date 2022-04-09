@@ -205,5 +205,6 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
             user.add_roles(roles=960443431291871252)
 
 if __name__ == "__main__":
-    with open("token", "r") as f:
-        bot.run(f.read())
+    bot.run("OTIxNjczODg2MDQ5OTEwNzk1.Yb2Vsg.qnZ86wXlT1dQdJzYoDrKUVQlhZU")
+    #with open("token", "r") as f:
+    #    bot.run(f.read())

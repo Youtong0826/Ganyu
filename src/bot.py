@@ -42,16 +42,16 @@ bot.activity = discord.Game(
 #            await n.owner.send(embed=embed)
 
 
-@bot.slash_command(
-    name="test",
-    description="Test",
-    guild_ids=939145544926912552
-)
-async def test(ctx):
-    embed = discord.Embed(
-        title="This is a test command owo"
-    )
-    await ctx.respond("test")
+#@bot.slash_command(
+#    name="test",
+#    description="Test",
+#    guild_ids=939145544926912552
+#)
+#async def test(ctx):
+#    embed = discord.Embed(
+#        title="This is a test command owo"
+#    )
+#    await ctx.respond("test")
 
 
 @bot.command()
@@ -161,13 +161,11 @@ async def modal(ctx):
 @bot.event
 async def on_ready():
     print(">>Bot is online<<")
+    print(f"--Watching {len(bot.guilds)} guilds & {len(bot.users)} users")
 
 
 @bot.event
 async def on_command_error(ctx, error):
-    bool1 = False
-    bool2 = False
-
     chiness = translate(str(error), "zh-TW")
     if chiness.endswith("。"):
         chiness = chiness[:-1]
@@ -180,8 +178,7 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_member_join(member: discord.Member):
-    if member.guild.id == 719198103227465738:
-        chnnel = bot.get_channel(719521057286914129)
+    def join_message():
         embed = discord.Embed(
             title=f"{member.name} 來到了{member.guild.name}!",
             description=f" {member.mention} 您是第本伺服器第 **{member.guild.member_count}** 個用戶，請先查看 {member.guild.rules_channel.mention} 再進行其他操作喔",
@@ -191,8 +188,14 @@ async def on_member_join(member: discord.Member):
         embed.set_thumbnail(url=member.avatar)
         embed.set_footer(
             text="成員加入", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
+        return embed
 
-        await chnnel.send(embed=embed)
+    if member.guild.id == 719198103227465738:
+        chnnel = bot.get_channel(719521057286914129)
+        await chnnel.send(embed=join_message())
+    if member.guild.id == 956614306345123923:
+        chnnel = bot.get_channel(957157665526673419)
+        await chnnel.send(embed=join_message())
 
 
 @bot.event

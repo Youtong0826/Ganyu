@@ -1,8 +1,7 @@
-from os import remove
-from types import NoneType
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
+
 """
 g!allinfo
 g!serinfo

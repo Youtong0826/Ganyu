@@ -4,10 +4,6 @@ from core.classes import Cog_ExtenSion
 
 
 class Math(Cog_ExtenSion):
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plts
-
     @commands.command()
     async def math(self, ctx):
 

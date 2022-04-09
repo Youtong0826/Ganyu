@@ -26,9 +26,6 @@ for i in range(3):
 
 
 class Cucmd(Cog_ExtenSion):
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
 
     @commands.command()
     async def say(self, ctx, *, arg):

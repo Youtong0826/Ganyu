@@ -2,15 +2,6 @@ import  discord , datetime , ast , tkinter
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
-try:
-    # for Python2
-    # sudo apt-get install python-tk 
-    from Tkinter import *   ## notice capitalized T in Tkinter 
-except ImportError:
-    # for Python3
-    # sudo apt-get install python3-tk 
-    from tkinter import *   ## notice lowercase 't' in tkinter here
-    
 class Math(Cog_ExtenSion):
     @commands.command()
     async def math(self, ctx):

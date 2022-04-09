@@ -10,7 +10,15 @@ def mustFieldEmbed(embed: discord.Embed, fields: list) -> discord.Embed:
         embed.add_field(name=i[0], value=i[1])
     return embed
 
-
+try:
+    # for Python2
+    # sudo apt-get install python-tk 
+    from Tkinter import *   ## notice capitalized T in Tkinter 
+except ImportError:
+    # for Python3
+    # sudo apt-get install python3-tk 
+    from tkinter import *   ## notice lowercase 't' in tkinter here
+    
 # 定義指令的help
 ganyuCommands = {
     "ganyu": mustFieldEmbed(

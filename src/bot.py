@@ -161,7 +161,7 @@ async def modal(ctx):
 @bot.event
 async def on_ready():
     print(">>Bot is online<<")
-    print(f"--Watching {len(bot.guilds)} guilds & {len(bot.users)} users")
+    print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users")
 
 
 @bot.event

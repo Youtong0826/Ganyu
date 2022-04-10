@@ -3,7 +3,6 @@ import datetime
 import os
 from discord.ext import commands
 from lib.translate import translate
-from tkinter import *   
 
 bot = commands.Bot(
     command_prefix='g!',

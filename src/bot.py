@@ -9,7 +9,7 @@ bot = commands.Bot(
     intents=discord.Intents.all()
 )
 
-for Filename in os.listdir('src/commands'):
+for Filename in os.listdir('Ganyu_Bot/src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 

@@ -7,14 +7,31 @@ from core.classes import Cog_ExtenSion
 
 bot_icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"
 
+numbers = [
+            ":one:",
+            ":two:",
+            ":three:",
+            ":four:",
+            ":five:",
+            ":six:",
+            ":seven:",
+            ":eight:",
+            ":nine:",
+            ":keycap_ten:"
+        ]
+
+def TopEmbed(embed: discord.Embed, namefields: list,valuefields: list) -> discord.Embed:
+    for index in range(10):
+        embed.add_field(
+            name=f"{numbers[index]} {namefields[index]}",
+            value=f"擁有 **{valuefields[index]}** 冒險幣",
+            inline=True
+        ) 
+    return embed
 
 class rpg(Cog_ExtenSion):
 
     have_job = False
-
-    def getDB():
-        with open("res/db/DB.json", "r", encoding="utf-8") as f:
-            return json.loads(f.read())
 
     def addDB(db):
         with open("res/db/DB.json", "w", encoding="utf-8") as f:
@@ -120,15 +137,15 @@ class rpg(Cog_ExtenSion):
 
         user = ctx.author
         id = str(user.id)
-        taked = rpg.getDB()
         rpgdb = rpg.getRPGDB()
-        default_job = rpgdb[id].get("job")
-        default_exp = rpgdb[id].get("exp")
-        default_level = rpgdb[id].get("level")
-        default_coin = rpgdb[id].get("coin")
-        default_name = rpgdb[id].get("name")
-        default_atk = rpgdb[id].get("atk")
-        default_def = rpgdb[id].get("def")
+        if id in rpgdb:
+            default_job = rpgdb[id].get("job")
+            default_exp = rpgdb[id].get("exp")
+            default_level = rpgdb[id].get("level")
+            default_coin = rpgdb[id].get("coin")
+            default_name = rpgdb[id].get("name")
+            default_atk = rpgdb[id].get("atk")
+            default_def = rpgdb[id].get("def")
 
         if key == "job":
             embed = discord.Embed(
@@ -393,6 +410,7 @@ class rpg(Cog_ExtenSion):
                 embed = discord.Embed(
                     title="請先選擇職業!"
                 )
+                main_view = discord.ui.View()
 
         elif key == "task":
 
@@ -508,69 +526,11 @@ class rpg(Cog_ExtenSion):
                 timestamp=datetime.datetime.utcnow()
             )
 
-            embed.add_field(
-                name=f":one:  {top_name[0]}",
-                value=f"擁有 **{top_coin[0]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":two:  {top_name[1]}",
-                value=f"擁有 **{top_coin[1]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":three:  {top_name[2]}",
-                value=f"擁有 **{top_coin[2]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":four:  {top_name[3]}",
-                value=f"擁有 **{top_coin[3]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":five:  {top_name[4]}",
-                value=f"擁有 **{top_coin[4]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":six:  {top_name[5]}",
-                value=f"擁有 **{top_coin[5]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":seven:  {top_name[6]}",
-                value=f"擁有 **{top_coin[6]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":eight:  {top_name[7]}",
-                value=f"擁有 **{top_coin[7]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":nine:  {top_name[8]}",
-                value=f"擁有 **{top_coin[8]}** 冒險幣",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":keycap_ten:  {top_name[9]}",
-                value=f"擁有 **{top_coin[9]}** 冒險幣",
-                inline=False
-            )
+            embed = TopEmbed(embed=embed,namefields=top_name,valuefields=top_coin)
 
             embed.set_footer(
-                text=f"{ctx.author.name}",
-                icon_url=ctx.author.avatar
+                text=f"Coin Top",
+                icon_url=bot_icon_url
             )
 
             main_view = discord.ui.View(timeout=None)
@@ -673,16 +633,21 @@ class rpg(Cog_ExtenSion):
             main_view = discord.ui.View(timeout=None)
 
         elif key == "kit":
-            # if not id in taked:
-            #    embed = discord.Embed(title=f"**成功領取補償包!**",color=discord.Colour.random())
-            #    rpg.addrpg(id=f"{id}",job=f"{rpgdb[id].get('job')}",exp=rpgdb[id].get('exp'),level=rpgdb[id].get('level'),name=f"{rpgdb[id].get('name')}",coin=300)
-            #    taked[user.id] = user.name
-            #    rpg.addDB(taked)
-            # else:
-            #embed = discord.Embed(title=f"**您已經領過了!**",color=discord.Colour.random())
-            embed = discord.Embed(
-                title="目前尚無可領取的禮包喔~",
-            )
+            with open("res/db/DB.json", "r", encoding="utf-8") as f:
+                kit_db =  json.loads(f.read())
+            open = False
+            if open:
+                if not id in kit_db:
+                    embed = discord.Embed(title=f"**成功領取補償包!**",color=discord.Colour.random())
+                    rpg.addrpg(id=f"{id}",job=f"{rpgdb[id].get('job')}",exp=rpgdb[id].get('exp'),level=rpgdb[id].get('level'),name=f"{rpgdb[id].get('name')}",coin=300)
+                    kit_db[user.id] = user.name
+                    rpg.addDB(kit_db)
+                else:
+                    embed = discord.Embed(title=f"**您已經領過了!**",color=discord.Colour.random())
+            else:
+                embed = discord.Embed(
+                    title="目前尚無可領取的禮包喔~",
+                )
             main_view = discord.ui.View(timeout=None)
 
         else:

@@ -229,14 +229,7 @@ class Info(Cog_ExtenSion):
                 )
 
                 embed.add_field(
-                name="📘__一般__",
-                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\
-                    \n 擁有者: `{guild.owner.name}`\
-                    \n 個人id: `{guild.owner_id}`"
-                )
-
-                embed.add_field(
-                    name="📈__人數__",
+                    name="📈 __人數__",
                     value=f"\
                         總人數: {guild.member_count}\n\
                         活人: {person}\n\
@@ -244,14 +237,23 @@ class Info(Cog_ExtenSion):
                 )
 
                 embed.add_field(
-                    name="📊__頻道數__",
+                    name="📊 __頻道數__",
                     value=f"\
                         頻道數: {len(guild.channels)}\n\
                         文字頻道: {len(guild.text_channels)}\n\
-                        語音頻道: {len(guild.voice_channels)}")
+                        語音頻道: {len(guild.voice_channels)}"
+                )
 
                 embed.add_field(
-                    name="☄️__加成__",
+                    name="📘 __一般__",
+                    value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\
+                        \n 擁有者: `{guild.owner.name}`\
+                        \n 個人id: `{guild.owner_id}`",
+                    inline=False
+                )
+
+                embed.add_field(
+                    name="☄️ __加成__",
                     value=f"\
                         次數: `{guild.premium_subscription_count}`\n\
                         等級: `{guild.premium_tier}`\n\
@@ -259,7 +261,7 @@ class Info(Cog_ExtenSion):
                 )
 
                 embed.add_field(
-                    name="👾__貼圖__",
+                    name="👾 __貼圖__",
                     value=f"\
                         數量: {len(guild.emojis)}\n\
                         靜態貼圖: {len(emojis)} \n\
@@ -267,7 +269,7 @@ class Info(Cog_ExtenSion):
                 )
 
                 embed.add_field(
-                    name="📰__其他__",
+                    name="📰 __其他__",
                     value=f"\
                         主要語言: {guild.preferred_locale}\n\
                         規則頻道: {rules_channel}"
@@ -426,14 +428,7 @@ class Info(Cog_ExtenSion):
             )
 
             embed_main.add_field(
-                name="📘__一般__",
-                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\
-                    \n 擁有者: `{guild.owner.name}`\
-                    \n 個人id: `{guild.owner_id}`"
-            )
-
-            embed_main.add_field(
-                name="📈__人數__",
+                name="📈 __人數__",
                 value=f"\
                     總人數: {guild.member_count}\n\
                     活人: {person}\n\
@@ -441,11 +436,19 @@ class Info(Cog_ExtenSion):
             )
 
             embed_main.add_field(
-                name="📊__頻道數__",
+                name="📊 __頻道數__",
                 value=f"\
                     頻道數: {len(guild.channels)}\n\
                     文字頻道: {len(guild.text_channels)}\n\
                     語音頻道: {len(guild.voice_channels)}")
+
+            embed_main.add_field(
+                name="📘 __一般__",
+                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\
+                    \n 擁有者: `{guild.owner.name}`\
+                    \n 個人id: `{guild.owner_id}`",
+                inline=False
+            )
 
             embed_main.add_field(
                 name="☄️__加成__",
@@ -456,7 +459,7 @@ class Info(Cog_ExtenSion):
             )
 
             embed_main.add_field(
-                name="👾__貼圖__",
+                name="👾 __貼圖__",
                 value=f"\
                     數量: {len(guild.emojis)}\n\
                     靜態貼圖: {len(emojis)} \n\
@@ -464,7 +467,7 @@ class Info(Cog_ExtenSion):
             )
 
             embed_main.add_field(
-                name="📰__其他__",
+                name="📰 __其他__",
                 value=f"\
                     主要語言: {guild.preferred_locale}\n\
                     規則頻道: {rules_channel}"

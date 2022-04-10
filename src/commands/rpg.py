@@ -551,65 +551,7 @@ class rpg(Cog_ExtenSion):
                 timestamp=datetime.datetime.utcnow()
             )
 
-            embed.add_field(
-                name=f":one:  {top_name[0]}",
-                value=f"LV.**{top_level[0]}**",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":two:  {top_name[1]}",
-                value=f"LV.{top_level[1]}",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":three:  {top_name[2]}",
-                value=f"LV.{top_level[2]}",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":four:  {top_name[3]}",
-                value=f"LV.{top_level[3]}",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":five:  {top_name[4]}",
-                value=f"LV.{top_level[4]}",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":six:  {top_name[5]}",
-                value=f"LV.{top_level[5]}",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":seven:  {top_name[6]}",
-                value=f"LV.{top_level[6]}",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":eight:  {top_name[7]}",
-                value=f"LV.{top_level[7]}",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":nine:  {top_name[8]}",
-                value=f"LV.{top_level[8]}",
-                inline=False
-            )
-
-            embed.add_field(
-                name=f":keycap_ten:  {top_name[9]}",
-                value=f"LV.{top_level[9]}",
-                inline=False
-            )
+            
 
             embed.set_footer(
                 text=f"{ctx.author.name}",

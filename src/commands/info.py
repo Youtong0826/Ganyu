@@ -208,6 +208,20 @@ class Info(Cog_ExtenSion):
                 if booster == "":
                     booster = "無"
 
+                if guild.rules_channel != None:
+                    rules_channel = f"\n{guild.rules_channel.mention}"
+                else:
+                    rules_channel = "無"
+
+                emojis = []
+                animated_emojis = []
+
+                for n in guild.emojis:
+                    if n.animated:
+                        animated_emojis.append(n)
+                    else:
+                        emojis.append(n)
+
                 embed = discord.Embed(
                     title=f'{guild}',
                     color=0x9c8fff,
@@ -215,31 +229,48 @@ class Info(Cog_ExtenSion):
                 )
 
                 embed.add_field(
-                    name="__:blue_book: 資訊__",
-                    value=f"\
-                    **創建者:** \n`{guild.owner}`\
-                    \n**創建者ID:** `\n{guild.owner_id}`\
-                    \n**創建時間:** \n`{guild.created_at.strftime('%Y/%m/%d')}`\
-                    \n**伺服器ID:** \n`{guild.id}`"
+                name="📘__一般__",
+                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\
+                    \n 擁有者: `{guild.owner.name}`\
+                    \n 個人id: `{guild.owner_id}`"
                 )
+
                 embed.add_field(
-                    name="__:bar_chart: 統計__",
+                    name="📈__人數__",
                     value=f"\
-                    **總成員數:** `{guild.member_count}`\
-                    \n**活人:** `{person}`\
-                    \n**機器人:** `{mbot}`\
-                    \n**頻道數:** `{len(guild.channels)}`\
-                    \n**身分組數:** `{len(guild.roles)}`\
-                    \n**表情符號數:** `{len(guild.emojis)}`"
+                        總人數: {guild.member_count}\n\
+                        活人: {person}\n\
+                        機器人: {mbot}"
                 )
+
                 embed.add_field(
-                    name="__:newspaper: 其他__",
+                    name="📊__頻道數__",
                     value=f"\
-                    **加成次數:** `{guild.premium_subscription_count}`\
-                    \n**群組等級:** `{guild.premium_tier}`\
-                    \n**加成進度條:** `{bar}`\
-                    \n**主要語言:** `{guild.preferred_locale}`\
-                    \n**規則頻道:** `#{guild.rules_channel}`"
+                        頻道數: {len(guild.channels)}\n\
+                        文字頻道: {len(guild.text_channels)}\n\
+                        語音頻道: {len(guild.voice_channels)}")
+
+                embed.add_field(
+                    name="☄️__加成__",
+                    value=f"\
+                        次數: `{guild.premium_subscription_count}`\n\
+                        等級: `{guild.premium_tier}`\n\
+                        進度條: `{bar}`"
+                )
+
+                embed.add_field(
+                    name="👾__貼圖__",
+                    value=f"\
+                        數量: {len(guild.emojis)}\n\
+                        靜態貼圖: {len(emojis)} \n\
+                        動態貼圖: {len(animated_emojis)}"
+                )
+
+                embed.add_field(
+                    name="📰__其他__",
+                    value=f"\
+                        主要語言: {guild.preferred_locale}\n\
+                        規則頻道: {rules_channel}"
                 )
 
                 embed.set_thumbnail(url=guild.icon)
@@ -395,46 +426,48 @@ class Info(Cog_ExtenSion):
             )
 
             embed_main.add_field(
-                name="一般",
-                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\n 擁有者: `{guild.owner.name}`\n 個人id: `{guild.owner_id}`"
+                name="📘__一般__",
+                value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\
+                    \n 擁有者: `{guild.owner.name}`\
+                    \n 個人id: `{guild.owner_id}`"
             )
 
             embed_main.add_field(
-                name="人數",
+                name="📈__人數__",
                 value=f"\
-                    **總人數:** {guild.member_count}\n\
-                    **活人:** {person}\n\
-                    **機器人:** {mbot}"
+                    總人數: {guild.member_count}\n\
+                    活人: {person}\n\
+                    機器人: {mbot}"
             )
 
             embed_main.add_field(
-                name="頻道數",
+                name="📊__頻道數__",
                 value=f"\
-                    **頻道數:** {len(guild.channels)}\n\
-                    **文字頻道:** {len(guild.text_channels)}\n\
-                    **語音頻道:** {len(guild.voice_channels)}")
+                    頻道數: {len(guild.channels)}\n\
+                    文字頻道: {len(guild.text_channels)}\n\
+                    語音頻道: {len(guild.voice_channels)}")
 
             embed_main.add_field(
-                name="加成",
+                name="☄️__加成__",
                 value=f"\
-                    **次數:** `{guild.premium_subscription_count}`\n\
-                    **等級:** `{guild.premium_tier}`\n\
-                    **進度條:** `{bar}`"
+                    次數: `{guild.premium_subscription_count}`\n\
+                    等級: `{guild.premium_tier}`\n\
+                    進度條: `{bar}`"
             )
 
             embed_main.add_field(
-                name="貼圖",
+                name="👾__貼圖__",
                 value=f"\
-                    **數量:** {len(guild.emojis)}\n\
-                    **靜態貼圖:** {len(emojis)} \n\
-                    **動態貼圖:** {len(animated_emojis)}"
+                    數量: {len(guild.emojis)}\n\
+                    靜態貼圖: {len(emojis)} \n\
+                    動態貼圖: {len(animated_emojis)}"
             )
 
             embed_main.add_field(
-                name="其他",
+                name="📰__其他__",
                 value=f"\
-                    **主要語言:** {guild.preferred_locale}\n\
-                    **規則頻道:** {rules_channel}"
+                    主要語言: {guild.preferred_locale}\n\
+                    規則頻道: {rules_channel}"
             )
 
             embed_main.set_thumbnail(

@@ -276,6 +276,8 @@ Command:{ctx.command}
 
         await ctx.send(embed=embed, view=view)
 
-
+    @commands.command()
+    async def vote(self,ctx):
+        embed = discord.Embed()
 def setup(bot):
     bot.add_cog(Cucmd(bot))

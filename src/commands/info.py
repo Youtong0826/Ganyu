@@ -272,7 +272,8 @@ class Info(Cog_ExtenSion):
                     name="📰 __其他__",
                     value=f"\
                         主要語言: {guild.preferred_locale}\n\
-                        規則頻道: {rules_channel}"
+                        規則頻道: {rules_channel}",
+                    inline=False
                 )
 
                 embed.set_thumbnail(url=guild.icon)
@@ -470,7 +471,8 @@ class Info(Cog_ExtenSion):
                 name="📰 __其他__",
                 value=f"\
                     主要語言: {guild.preferred_locale}\n\
-                    規則頻道: {rules_channel}"
+                    規則頻道: {rules_channel}",
+                inline=False
             )
 
             embed_main.set_thumbnail(

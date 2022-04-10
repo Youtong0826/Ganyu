@@ -1,4 +1,4 @@
-import discord , datetime , tkinter
+import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 

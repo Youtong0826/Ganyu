@@ -4,6 +4,15 @@ import os
 from discord.ext import commands
 from lib.translate import translate
 
+try:
+    # for Python2
+    # sudo apt-get install python-tk 
+    from Tkinter import *   ## notice capitalized T in Tkinter 
+except ImportError:
+    # for Python3
+    # sudo apt-get install python3-tk 
+    from tkinter import *   ## notice lowercase 't' in tkinter here
+    
 bot = commands.Bot(
     command_prefix='g!',
     intents=discord.Intents.all()

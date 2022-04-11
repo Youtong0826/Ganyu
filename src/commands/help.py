@@ -61,8 +61,6 @@ ganyuCommands = {
             ["g!say `text`", "讓這個機器人模仿你說話"],
             ["g!getid `user`", "透過用戶取得id"],
             ["g!getuser `id`", "透過id取得用戶"],
-            ["g!embed `title` `description`", "傳送一則嵌入訊息\n(如有空格需加"")"],
-            ["g!embedtitle `title`", "傳送一則嵌入訊息\n(如有空格需加"")"]
         ]
     ),
     "manage": mustFieldEmbed(
@@ -86,6 +84,15 @@ ganyuCommands = {
             ["g!unload `name`", "移除Cog"],
         ]
     ),
+    "tool": mustFieldEmbed(
+        discord.Embed(
+            title="Tool 實用小工具",
+            color=discord.Colour.random()
+        ),
+        [
+            ["g!translate","翻譯"]
+        ]
+    )
 }
 
 
@@ -121,7 +128,14 @@ class Help(Cog_ExtenSion):
                     value="manage",
                     description="查看 Manage 指令清單",
                     emoji="⚙️"
-                ), discord.SelectOption(
+                ),
+                discord.SelectOption(
+                    label=" Tool ",
+                    value="tool",
+                    description="查看 Tool 指令清單",
+                    emoji="⚙️"
+                ),
+                discord.SelectOption(
                     label=" Owner ",
                     value="owner",
                     description="開發者專屬",

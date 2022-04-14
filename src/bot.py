@@ -165,20 +165,24 @@ async def on_ready():
         discord.Game(name = f"{len(bot.commands)} 條指令")
     ]
 
-    await bot.change_presence(activity=discord.Game(name = bot_activitys[1]),status=discord.Status.online)  
+    ac = 0
+    times = 0
+    game =discord.Game(name = bot_activitys[0])
+    while True:
+        times += 1
 
-    #while running:
-    #    times += 1
-    #    bot_activity = discord.Activity()
-    #    bot_activity.type = discord.ActivityType.watching
-    #    bot_activity.name = "g!help"
-#
-    #    if times == 4000:
-    #        times = 0
-#
-    #    if times % 500 == 0 :      
-    #        bot_activity.name = bot_activitys[ac]
-    #        ac +=1
+        if times == 4000:
+            times = 0
+
+        if times % 100 == 0 :
+            ac +=1
+            if ac == 3:
+                ac = 0
+            game = discord.Game(name=f"{bot_activitys[ac]}")
+            print("success")
+        
+        await bot.change_presence(activity=game,status=discord.Status.online)
+        print(times)
 
 @bot.event
 async def on_command_error(ctx, error):

@@ -162,10 +162,10 @@ async def on_ready():
     bot_activitys = [
         discord.Game(name = f"{len(bot.guilds)} 個伺服器"),
         discord.Game(name = f"{len(bot.users)} 個用戶"),
-        discord.Game(name = f"{bot.commands} 條指令")
+        discord.Game(name = f"{len(bot.commands)} 條指令")
     ]
 
-    await bot.change_presence(activity=discord.Game(name = f"g!help"),status=discord.Status.online)  
+    await bot.change_presence(activity=discord.Game(name = bot_activitys[1]),status=discord.Status.online)  
 
     #while running:
     #    times += 1

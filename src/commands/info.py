@@ -710,7 +710,7 @@ class Info(Cog_ExtenSion):
 
         else:
             user = ctx.author
-            role = ""
+            roles = ""
             roles2 = ""
             roles_count = 0
 
@@ -728,17 +728,17 @@ class Info(Cog_ExtenSion):
 
             for n in user.roles:
                 if n.name != '@everyone':
-                    role += f"{n.mention} | "
+                    roles += f"{n.mention} | "
                     roles_count += 1
 
-                    if len(role) < 1014:
+                    if len(roles) < 1014:
                         roles_count2 = roles_count
-                        roles2 = f"{role}"
+                        roles2 = f"{roles}"
 
-            if len(role) > 1014:
-                role = f"{roles2}+{roles_count - roles_count2} Roles"
+            if len(roles) > 1014:
+                roles = f"{roles2}+{roles_count - roles_count2} Roles"
              
-            role.strip("|")
+            roles.strip("|")
 
             roles.strip("|")
 
@@ -770,7 +770,7 @@ class Info(Cog_ExtenSion):
             )
             embed_main.add_field(
                 name=f"📰 身分組:({roles_count})",
-                value=f" {role}", inline=False
+                value=f" {roles}", inline=False
             )
             embed_main.set_footer(
                 text=f"{user.name}",

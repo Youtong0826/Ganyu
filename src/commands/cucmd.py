@@ -6,6 +6,7 @@ import requests
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from ganyu import messages
+from rpg import bot_icon_url
 
 imageIdList = []
 for i in range(3):
@@ -33,13 +34,7 @@ class Cucmd(Cog_ExtenSion):
         await ctx.message.delete()
         await ctx.send(arg)
 
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}
-            """)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def avatar(self, ctx, *, member: discord.Member = None):
@@ -74,13 +69,7 @@ Command:{ctx.command}
 
         await ctx.send(embed=embed)
 
-        print(
-            f"""
-Time:{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')} 
-User:{ctx.author} ID:{ctx.author.id} 
-Guild:{ctx.author.guild} 
-Command:{ctx.command}
-            """)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def about(self, ctx):
@@ -91,14 +80,14 @@ Command:{ctx.command}
     async def ping(self, ctx):
 
         embed = discord.Embed(
-            title=f"💫💫💫 Ping: {round(self.bot.latency*1000)} ms",
+            title=f" 💫💫💫 Ping: {round(self.bot.latency*1000)} ms",
             color=discord.Colour.random(),
             timestamp=datetime.datetime.utcnow()
         )
 
         embed.set_footer(
-            text=f"{ctx.author.name}",
-            icon_url=ctx.author.avatar
+            text=f"Ping 延遲",
+            icon_url=bot_icon_url
         )
 
         await ctx.send(embed=embed)

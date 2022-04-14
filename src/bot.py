@@ -185,7 +185,13 @@ async def on_member_join(member: discord.Member):
             color=discord.Colour.random(),
             timestamp=datetime.datetime.utcnow()
         )
-        embed.set_thumbnail(url=member.avatar)
+        if member.avatar == None:
+            thunbnail = member.default_avatar
+        
+        else:
+            thunbnail = member.avatar
+
+        embed.set_thumbnail(url=thunbnail)
         embed.set_footer(
             text="成員加入", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
         return embed

@@ -6,7 +6,7 @@ import requests
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from ganyu import messages
-from rpg import bot_icon_url
+from commands.rpg import bot_icon_url 
 
 imageIdList = []
 for i in range(3):

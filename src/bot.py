@@ -14,6 +14,7 @@ for Filename in os.listdir('src/commands'):
         bot.load_extension(f"commands.{Filename[:-3]}")
 
 
+
 def guild_ids():
     guild_ids = []
 
@@ -21,11 +22,6 @@ def guild_ids():
         guild_ids.append(n.id)
 
     return guild_ids
-
-
-bot.activity = discord.Game(
-    name="g!help owo"
-)
 
 # @bot.command()
 # async def send(ctx,membed:discord.Member = None,message=None):
@@ -161,8 +157,28 @@ async def modal(ctx):
 @bot.event
 async def on_ready():
     print(">>Bot is online<<")
-    print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users")
+    print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users ")
 
+    bot_activitys = [
+        discord.Game(name = f"{len(bot.guilds)} 個伺服器"),
+        discord.Game(name = f"{len(bot.users)} 個用戶"),
+        discord.Game(name = f"{bot.commands} 條指令")
+    ]
+
+    await bot.change_presence(activity=discord.Game(name = f"g!help"),status=discord.Status.online)  
+
+    #while running:
+    #    times += 1
+    #    bot_activity = discord.Activity()
+    #    bot_activity.type = discord.ActivityType.watching
+    #    bot_activity.name = "g!help"
+#
+    #    if times == 4000:
+    #        times = 0
+#
+    #    if times % 500 == 0 :      
+    #        bot_activity.name = bot_activitys[ac]
+    #        ac +=1
 
 @bot.event
 async def on_command_error(ctx, error):

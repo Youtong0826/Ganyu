@@ -6,7 +6,7 @@ import requests
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from ganyu import messages
-from commands.rpg import bot_icon_url 
+from commands.rpg import bot_icon_url
 
 imageIdList = []
 for i in range(3):
@@ -28,7 +28,7 @@ for i in range(3):
 
 class Cucmd(Cog_ExtenSion):
 
-    @commands.command()
+    @commands.slash_command(name="say",description="讓機器人說話")
     async def say(self, ctx, *, arg):
 
         await ctx.message.delete()
@@ -270,3 +270,4 @@ class Cucmd(Cog_ExtenSion):
         embed = discord.Embed()
 def setup(bot):
     bot.add_cog(Cucmd(bot))
+    

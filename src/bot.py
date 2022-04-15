@@ -13,16 +13,6 @@ for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 
-
-
-def guild_ids():
-    guild_ids = []
-
-    for n in bot.guilds:
-        guild_ids.append(n.id)
-
-    return guild_ids
-
 # @bot.command()
 # async def send(ctx,membed:discord.Member = None,message=None):
 #    link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
@@ -41,8 +31,7 @@ def guild_ids():
 #@bot.slash_command(
 #    name="test",
 #    description="Test",
-#    guild_ids=939145544926912552
-#)
+#    guild_ids=guild_ids())
 #async def test(ctx):
 #    embed = discord.Embed(
 #        title="This is a test command owo"
@@ -158,6 +147,14 @@ async def modal(ctx):
 async def on_ready():
     print(">>Bot is online<<")
     print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users ")
+ 
+    def guild_ids():
+        guild_ids = []
+
+        for n in bot.guilds:
+            guild_ids.append(n.id)
+        
+        return guild_ids
 
     bot_activitys = [
         discord.Game(name = f"{len(bot.guilds)} 個伺服器"),
@@ -165,24 +162,10 @@ async def on_ready():
         discord.Game(name = f"{len(bot.commands)} 條指令")
     ]
 
-    ac = 0
-    times = 0
-    game =discord.Game(name = bot_activitys[0])
-    while True:
-        times += 1
-
-        if times == 4000:
-            times = 0
-
-        if times % 100 == 0 :
-            ac +=1
-            if ac == 3:
-                ac = 0
-            game = discord.Game(name=f"{bot_activitys[ac]}")
-            print("success")
-        
-        await bot.change_presence(activity=game,status=discord.Status.online)
-        print(times)
+    
+    game =discord.Game(name = "g!help")
+    
+    await bot.change_presence(activity=game,status=discord.Status.online)
 
 @bot.event
 async def on_command_error(ctx, error):

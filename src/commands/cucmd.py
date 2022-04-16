@@ -271,11 +271,9 @@ class Cucmd(Cog_ExtenSion):
         embed = discord.Embed()
 
     @commands.command()
-    async def getfuild(self,ctx):
-        guilds = []
-        for guild in self.bot.guilds:
-            guilds.append(guild)
-
+    async def getguild(self,ctx):
+        guilds = [f"{guild}\n" for guild in self.bot.guilds]
+        
         embed = discord.Embed(
             title="所在的伺服器",
             description = guilds

@@ -273,7 +273,7 @@ class Cucmd(Cog_ExtenSion):
     async def getguild(self,ctx):
         guilds = ""
         for guild in self.bot.guilds:
-            guilds += f"[{guild.name}] 擁有者:{guild.owner}/n" 
+            guilds += f"[{guild.name}] 擁有者:{guild.owner}\n" 
         
         embed = discord.Embed(
             title="所在的伺服器",

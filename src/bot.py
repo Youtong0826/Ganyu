@@ -203,7 +203,7 @@ async def on_member_join(member: discord.Member):
         chnnel = bot.get_channel(719521057286914129)
         await chnnel.send(embed=join_message())
 
-    if member.guild.id == 956614306345123923:
+    elif member.guild.id == 956614306345123923:
         chnnel = bot.get_channel(957157665526673419)
         await chnnel.send(embed=join_message())
 

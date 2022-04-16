@@ -133,7 +133,7 @@ class Help(Cog_ExtenSion):
                     label=" Tool ",
                     value="tool",
                     description="查看 Tool 指令清單",
-                    emoji="⚙️"
+                    emoji="🛠️"
                 ),
                 discord.SelectOption(
                     label=" Owner ",

@@ -636,8 +636,19 @@ class rpg(Cog_ExtenSion):
             if key == "y":
                 embed = discord.Embed(
                     title="**成功選擇騎士!**", color=discord.Colour.random())
-                rpg.addrpg(id=f"{ctx.author.id}", job="Knight",
-                           exp=0, level=0, coin=0, name=f"{ctx.author.name}")
+
+                rpg.addrpg(
+                    id=f"{ctx.author.id}",
+                    job="Knight",
+                    exp=0,
+                    level=0,
+                    coin=0,
+                    name=f"{ctx.author.name}",
+                    hp=0,
+                    atk=0,
+                    Def=0
+                )
+
             else:
                 embed = discord.Embed(
                     title="騎士 Knight",
@@ -648,6 +659,7 @@ class rpg(Cog_ExtenSion):
                     name="**能力值:**",
                     value="**物理傷害:** 12/20\n**魔法傷害:** 02/20\n**物理防禦:** 14/20\n**魔法防禦:** 06/20\n**敏捷度:** 08/20\n**智力:** 06/20\n\n輸入g!knight y來確認選取職業"
                 )
+                
         await ctx.send(embed=embed)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
@@ -667,9 +679,17 @@ class rpg(Cog_ExtenSion):
                     color=discord.Colour.random()
                 )
 
-                rpg.addrpg(id=f"{ctx.author.id}", job="Shooter",
-                           exp=0, level=0, coin=0, name=f"{ctx.author.name}")
-
+                rpg.addrpg(
+                    id=f"{ctx.author.id}",
+                    job="Shooter",
+                    exp=0,
+                    level=0,
+                    coin=0,
+                    name=f"{ctx.author.name}",
+                    hp=0,
+                    atk=0,
+                    Def=0
+                )
             else:
                 embed = discord.Embed(
                     title="遊俠 Shooter",
@@ -700,9 +720,17 @@ class rpg(Cog_ExtenSion):
                     color=discord.Colour.random()
                 )
 
-                rpg.addrpg(id=f"{ctx.author.id}", job="Mage", exp=0,
-                           level=0, coin=0, name=f"{ctx.author.name}")
-
+                rpg.addrpg(
+                    id=f"{ctx.author.id}",
+                    job="Mage",
+                    exp=0,
+                    level=0,
+                    coin=0,
+                    name=f"{ctx.author.name}",
+                    hp=0,
+                    atk=0,
+                    Def=0
+                )
             else:
                 embed = discord.Embed(
                     title="法師 Mage",
@@ -732,8 +760,17 @@ class rpg(Cog_ExtenSion):
                     color=discord.Colour.random()
                 )
 
-                rpg.addrpg(id=f"{ctx.author.id}", job="Assassin",
-                           exp=0, level=0, coin=0, name=f"{ctx.author.name}")
+                rpg.addrpg(
+                    id=f"{ctx.author.id}",
+                    job="Assassin",
+                    exp=0,
+                    level=0,
+                    coin=0,
+                    name=f"{ctx.author.name}",
+                    hp=0,
+                    atk=0,
+                    Def=0
+                )
 
             else:
                 embed = discord.Embed(
@@ -764,8 +801,17 @@ class rpg(Cog_ExtenSion):
                     title="**成功選擇坦克!**",
                     color=discord.Colour.random())
 
-                rpg.addrpg(id=f"{ctx.author.id}", job="Tank", exp=0,
-                           level=0, coin=0, name=f"{ctx.author.name}")
+                rpg.addrpg(
+                    id=f"{ctx.author.id}",
+                    job="Tank",
+                    exp=0,
+                    level=0,
+                    coin=0,
+                    name=f"{ctx.author.name}",
+                    hp=0,
+                    atk=0,
+                    Def=0
+                )
             else:
                 embed = discord.Embed(
                     title="坦克 Tank",

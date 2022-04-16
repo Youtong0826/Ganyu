@@ -1,5 +1,4 @@
 import random
-from socket import gaierror
 import discord
 import datetime
 import json
@@ -272,7 +271,8 @@ class Cucmd(Cog_ExtenSion):
 
     @commands.command()
     async def getguild(self,ctx):
-        guilds = [f"{guild.name}/n" for guild in self.bot.guilds]
+        for guild in self.bot.guilds:
+            guilds += f"[{guild.name}] 擁有者:{guild.owner}/n" 
         
         embed = discord.Embed(
             title="所在的伺服器",

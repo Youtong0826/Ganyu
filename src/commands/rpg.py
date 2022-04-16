@@ -65,12 +65,27 @@ class rpg(Cog_ExtenSion):
 
         if f'{id}' not in rpgdb:
 
-            rpgdb[id] = {"name": "", "job": "", "exp": 0,
-                         "level": 0, "coin": 0, "hp": 100}
+            rpgdb[id] = {
+                "name": "",
+                "job": "",
+                "exp": 0,
+                "level": 0,
+                "coin": 0,
+                "hp": 100,
+                "atk": 1,
+                "def" : 1
+            }
 
-        rpgdb[id] = {"name": f"{name}", "job": job, "exp": rpgdb[id].get('exp') + exp,
-                     "level": rpgdb[id].get('level') + level, "coin": rpgdb[id].get('coin') + coin,
-                     "hp": rpgdb[id].get('hp') + hp, "atk": rpgdb[id].get('atk') + atk, "def": rpgdb[id].get('def') + Def}
+        rpgdb[id] = {
+            "name": f"{name}",
+            "job": job,
+            "exp": rpgdb[id].get('exp') + exp,
+            "level": rpgdb[id].get('level') + level,
+            "coin": rpgdb[id].get('coin') + coin,
+            "hp": rpgdb[id].get('hp') + hp,
+            "atk": rpgdb[id].get('atk') + atk,
+            "def": rpgdb[id].get('def') + Def
+        }
 
         rpg.addRPGDB(rpgdb)  # {f'{id}':f'{job}'})
 
@@ -659,7 +674,7 @@ class rpg(Cog_ExtenSion):
                     name="**能力值:**",
                     value="**物理傷害:** 12/20\n**魔法傷害:** 02/20\n**物理防禦:** 14/20\n**魔法防禦:** 06/20\n**敏捷度:** 08/20\n**智力:** 06/20\n\n輸入g!knight y來確認選取職業"
                 )
-                
+
         await ctx.send(embed=embed)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 

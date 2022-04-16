@@ -1,4 +1,5 @@
 import random
+from socket import gaierror
 import discord
 import datetime
 import json
@@ -268,6 +269,17 @@ class Cucmd(Cog_ExtenSion):
     @commands.command()
     async def vote(self,ctx):
         embed = discord.Embed()
+
+    @commands.command()
+    async def vote(self,ctx):
+        guilds = [guild.name for guild in self.bot.guilds]
+
+        embed = discord.Embed(
+            title="所在的伺服器",
+            description = guilds
+        )
+
+        await ctx.send(embed=embed)
 def setup(bot):
     bot.add_cog(Cucmd(bot))
     

@@ -271,7 +271,7 @@ class Cucmd(Cog_ExtenSion):
         embed = discord.Embed()
 
     @commands.command()
-    async def vote(self,ctx):
+    async def getfuild(self,ctx):
         guilds = [guild.name for guild in self.bot.guilds]
 
         embed = discord.Embed(

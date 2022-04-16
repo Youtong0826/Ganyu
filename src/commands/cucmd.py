@@ -271,6 +271,7 @@ class Cucmd(Cog_ExtenSion):
 
     @commands.command()
     async def getguild(self,ctx):
+        guilds = ""
         for guild in self.bot.guilds:
             guilds += f"[{guild.name}] 擁有者:{guild.owner}/n" 
         

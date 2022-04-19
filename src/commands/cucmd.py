@@ -222,7 +222,7 @@ class Cucmd(Cog_ExtenSion):
 
                     embed.set_footer(
                         text=F"感謝{interaction.user.name}提出",
-                        icon_url=interaction.user.avatat
+                        icon_url=interaction.user.avatar
                     )
 
                     channel.send(embed=embed)

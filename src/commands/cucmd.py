@@ -203,7 +203,7 @@ class Cucmd(Cog_ExtenSion):
 
             async def Moadl_callback(interaction):
 
-                def bug_callback(title,description):
+                def bug_callback(title,description,modal,user):
                     with open("Error report.txt","a",encoding="utf-8") as f:
                         return f.write(f"\
                             \n[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\
@@ -211,11 +211,21 @@ class Cucmd(Cog_ExtenSion):
                             \n----詳細敘述: {description}\
                             \n----提出者: {interaction.user}  id:{interaction.user.id}")
 
-                    
+                    embed = discord.Embed(
+                        title=title,
+                        description=description,
+                        timestamp=datetime.datetime.utcnow(),
+                        color=discord.Colour.random()
+                    )
 
-                bug_callback(title = modal.children[0].value,description = modal.children[1].value)
+                    embed.set_footer(
+                        text=f"感謝 {user.name} 提出回報",
+                        icon_url=user.avatar
+                    )
 
-                channel = self.bot.get_channel("966010451643215912")
+                    channel = self.bot.get_channel("966010451643215912")
+
+                    channel.send(embed=embed)
 
                 modal_embed = discord.Embed(
                     title=f"感謝 {interaction.user.name} 提出回報!",
@@ -237,7 +247,9 @@ class Cucmd(Cog_ExtenSion):
                 modal_embed.set_footer(
                     text="Erro report", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
                 
-                channel.send(embed=embed)
+                
+
+                bug_callback(title = modal.children[0].value,description = modal.children[1].value,modal=modal,user=interaction.user)
 
                 await interaction.response.send_message(embed=modal_embed)
 

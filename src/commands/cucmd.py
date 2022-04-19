@@ -225,7 +225,7 @@ class Cucmd(Cog_ExtenSion):
                         icon_url=interaction.user.avatat
                     )
 
-                    channel.send()
+                    channel.send(embed=embed)
                         
                 bug_callback(title = modal.children[0].value,description = modal.children[1].value)
 

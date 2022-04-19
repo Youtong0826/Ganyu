@@ -202,26 +202,32 @@ class Cucmd(Cog_ExtenSion):
             )
 
             async def Moadl_callback(interaction):
-                def bug_callbacl(title,description):
+
+                def bug_callback(title,description):
                     with open("Error report.txt","a",encoding="utf-8") as f:
                         return f.write(f"\
                             \n[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\
                             \n----名稱: {title}\
                             \n----詳細敘述: {description}\
                             \n----提出者: {interaction.user}  id:{interaction.user.id}")
+
+                    channel = self.bot.get_channel("966010451643215912")
+
+                    embed = discord.Embed(
+                        title={modal.children[0].value},
+                        description={modal.children[1].value},
+                        timestamp=datetime.datetime.utcnow(),
+                        color=discord.Colour.random()
+                    )
+
+                    embed.set_footer(
+                        text=F"感謝{interaction.user.name}提出",
+                        icon_url=interaction.user.avatat
+                    )
+
+                    channel.send()
                         
-                bug_callbacl(title = modal.children[0].value,description = modal.children[1].value)
-
-                def bug_callbacl(title, description):
-                    with open("Error report", "a", encoding="utf-8") as f:
-                        return f.write(f"\
-[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\n\
-                        \n#名稱:\n{title}\n\
-                        \n#詳細敘述:\n{description}\n\n\
-                        提出者:{interaction.user}  id:{interaction.user.id}")
-
-                bug_callbacl(
-                    title=modal.children[0].value, description=modal.children[1].value)
+                bug_callback(title = modal.children[0].value,description = modal.children[1].value)
 
 
                 modal_embed = discord.Embed(

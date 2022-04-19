@@ -211,24 +211,11 @@ class Cucmd(Cog_ExtenSion):
                             \n----詳細敘述: {description}\
                             \n----提出者: {interaction.user}  id:{interaction.user.id}")
 
-                    channel = self.bot.get_channel("966010451643215912")
+                    
 
-                    embed = discord.Embed(
-                        title={modal.children[0].value},
-                        description={modal.children[1].value},
-                        timestamp=datetime.datetime.utcnow(),
-                        color=discord.Colour.random()
-                    )
-
-                    embed.set_footer(
-                        text=F"感謝{interaction.user.name}提出",
-                        icon_url=interaction.user.avatar
-                    )
-
-                    channel.send(embed=embed)
-                        
                 bug_callback(title = modal.children[0].value,description = modal.children[1].value)
 
+                channel = self.bot.get_channel("966010451643215912")
 
                 modal_embed = discord.Embed(
                     title=f"感謝 {interaction.user.name} 提出回報!",
@@ -249,6 +236,8 @@ class Cucmd(Cog_ExtenSion):
 
                 modal_embed.set_footer(
                     text="Erro report", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
+                
+                channel.send(embed=embed)
 
                 await interaction.response.send_message(embed=modal_embed)
 

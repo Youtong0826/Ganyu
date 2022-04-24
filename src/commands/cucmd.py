@@ -28,7 +28,7 @@ for i in range(3):
 
 class Cucmd(Cog_ExtenSion):
 
-    @commands.slash_command(name="say",description="讓機器人說話")
+    @commands.command()
     async def say(self, ctx, *, arg):
 
         await ctx.message.delete()

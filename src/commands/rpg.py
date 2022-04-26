@@ -1,5 +1,4 @@
 import random
-from tkinter.tix import Tree
 import discord
 import datetime
 import json

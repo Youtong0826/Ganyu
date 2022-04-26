@@ -292,6 +292,11 @@ class Cucmd(Cog_ExtenSion):
         )
 
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def dm(self,ctx,member:discord.Member=None , message = None):
+        await member.send(content=message)
+
 def setup(bot):
     bot.add_cog(Cucmd(bot))
     

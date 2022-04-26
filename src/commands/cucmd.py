@@ -227,7 +227,7 @@ class Cucmd(Cog_ExtenSion):
                     icon_url=user.avatar
                 )
 
-                channel = self.bot.get_channel("966010451643215912")
+                channel = self.bot.get_channel(966010451643215912)
 
                 await channel.send(embed=report_embed)
 

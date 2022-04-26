@@ -223,7 +223,7 @@ class Cucmd(Cog_ExtenSion):
                 )
 
                 report_embed.set_footer(
-                    text=f"感謝 {user.name} 提出回報",
+                    text=f"{user.name} 提出回報",
                     icon_url=user.avatar
                 )
 
@@ -255,7 +255,7 @@ class Cucmd(Cog_ExtenSion):
                 
                 await user.send(embed=dm_embed)
 
-                await interaction.response.send_message(content="已成功提出回報，詳細內容請查看私訊",ephemeral=False)
+                await interaction.response.send_message(content=f"✅ 已成功提出回報，詳細內容請查看私訊",ephemeral=True)
 
                 print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the error report in {ctx.author.guild}")
 

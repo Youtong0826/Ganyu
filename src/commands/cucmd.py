@@ -295,7 +295,10 @@ class Cucmd(Cog_ExtenSion):
 
     @commands.command()
     async def dm(self,ctx,member:discord.Member=None , message = None):
-        await member.send(content=message)
+        if ctx.author.id == 611118369474740244 or 856041155341975582:
+            await member.send(content=message)
+        else:
+            await ctx.send("此為管理員專用!")
 
 def setup(bot):
     bot.add_cog(Cucmd(bot))

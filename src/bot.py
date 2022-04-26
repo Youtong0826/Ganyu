@@ -1,7 +1,8 @@
+from itertools import count
 import discord
 import datetime 
 import os
-from discord.ext import commands
+from discord.ext import commands , tasks
 from lib.translate import translate
 
 bot = commands.Bot(
@@ -156,17 +157,6 @@ async def on_ready():
         
         return guild_ids
 
-    bot_activitys = [
-        discord.Game(name = f"{len(bot.guilds)} 個伺服器"),
-        discord.Game(name = f"{len(bot.users)} 個用戶"),
-        discord.Game(name = f"{len(bot.commands)} 條指令")
-    ]
-
-    
-    game =discord.Game(name = "g!help")
-    
-    await bot.change_presence(activity=game,status=discord.Status.online)
-
 @bot.event
 async def on_command_error(ctx, error):
     chiness = translate(str(error), "zh-TW")
@@ -213,6 +203,20 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
     if reaction.message.id == 960762107966656582:
         if reaction.emoji == "👍":
             user.add_roles(roles=960443431291871252)
+
+@tasks.loop(seconds="10",count=4)
+async def activity():
+
+    bot_activitys = [
+        discord.Game(name = "g!help"),
+        discord.Game(name = f"{len(bot.guilds)} 個伺服器"),
+        discord.Game(name = f"{len(bot.users)} 個用戶"),
+        discord.Game(name = f"{len(bot.commands)} 條指令")
+    ]
+
+    game = bot_activitys[count-1]
+    
+    await bot.change_presence(activity=game,status=discord.Status.online)
 
 if __name__ == "__main__":
         bot.run("OTIxNjczODg2MDQ5OTEwNzk1.Yb2Vsg.qnZ86wXlT1dQdJzYoDrKUVQlhZU")

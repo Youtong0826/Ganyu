@@ -32,7 +32,8 @@ ganyuCommands = {
         ),
         [
             ["g!dice `int` ", "讓這個機器人幫你骰骰子"],
-            ["g!rpg", "RPG系統(製作中)"],
+            ["g!rpg", "RPG系統(製作中 暫不開放)"],
+            ["g!rainbow","彩虹"]
         ]
     ),
     "info": mustFieldEmbed(
@@ -90,7 +91,7 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["g!translate","翻譯"]
+            ["g!translate","中英翻譯"]
         ]
     )
 }

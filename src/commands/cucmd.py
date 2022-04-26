@@ -203,55 +203,59 @@ class Cucmd(Cog_ExtenSion):
 
             async def Moadl_callback(interaction):
 
-                def bug_callback(title,description,modal,user):
-                    with open("Error report.txt","a",encoding="utf-8") as f:
-                        return f.write(f"\
-                            \n[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\
-                            \n----名稱: {title}\
-                            \n----詳細敘述: {description}\
-                            \n----提出者: {interaction.user}  id:{interaction.user.id}")
+                title = modal.children[0].value
+                description = modal.children[1].value
+                user = interaction.user
 
-                    embed = discord.Embed(
-                        title=title,
-                        description=description,
-                        timestamp=datetime.datetime.utcnow(),
-                        color=discord.Colour.random()
-                    )
+                #def bug_callback(title,description,modal,user):
+                #    with open("Error report.txt","a",encoding="utf-8") as f:
+                #        return f.write(f"\
+                #            \n[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\
+                #            \n----名稱: {title}\
+                #            \n----詳細敘述: {description}\
+                #            \n----提出者: {interaction.user}  id:{interaction.user.id}")
+#
+                report_embed = discord.Embed(
+                    title=title,
+                    description=description,
+                    timestamp=datetime.datetime.utcnow(),
+                    color=discord.Colour.random()
+                )
 
-                    embed.set_footer(
-                        text=f"感謝 {user.name} 提出回報",
-                        icon_url=user.avatar
-                    )
+                report_embed.set_footer(
+                    text=f"感謝 {user.name} 提出回報",
+                    icon_url=user.avatar
+                )
 
-                    channel = self.bot.get_channel("966010451643215912")
+                channel = self.bot.get_channel("966010451643215912")
 
-                    channel.send(embed=embed)
+                await channel.send(embed=report_embed)
 
-                modal_embed = discord.Embed(
-                    title=f"感謝 {interaction.user.name} 提出回報!",
-                    description=f"以下為 {interaction.user.mention} 的回報內容",
+                dm_embed = discord.Embed(
+                    title=f"感謝您提出回報!!",
+                    description=f"以下為您的回報內容",
                     color=discord.Colour.random(),
                     timestamp=datetime.datetime.utcnow()
                 )
-                modal_embed.add_field(
-                    name="名稱:",
-                    value=f"{modal.children[0].value}",
+                dm_embed.add_field(
+                    name="回報名稱:",
+                    value=f"{title}",
                     inline=False
                 )
-                modal_embed.add_field(
+                dm_embed.add_field(
                     name="詳細敘述:",
-                    value=f"{modal.children[1].value}",
+                    value=f"{description}",
                     inline=False
                 )
 
-                modal_embed.set_footer(
-                    text="Erro report", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
+                dm_embed.set_footer(
+                    text="Error report", 
+                    icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"
+                    )
                 
-                
+                await user.send(embed=dm_embed)
 
-                bug_callback(title = modal.children[0].value,description = modal.children[1].value,modal=modal,user=interaction.user)
-
-                await interaction.response.send_message(embed=modal_embed)
+                await interaction.response.send_message(content="已成功提出回報，詳細內容請查看私訊",ephemeral=False)
 
                 print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the error report in {ctx.author.guild}")
 

@@ -47,6 +47,13 @@ class Fun(Cog_ExtenSion):
         await ctx.send(embed=embed)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
+    @commands.command()
+    async def rainbow(self,ctx):
+        embed = discord.Embed()
+
+        embed.set_image("https://cdn.discordapp.com/attachments/616315208251605005/616319462349602816/Tw.gif")
+
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Fun(bot))

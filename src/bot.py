@@ -204,7 +204,7 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
         if reaction.emoji == "👍":
             user.add_roles(roles=960443431291871252)
 
-@tasks.loop(seconds="10",count=4)
+@tasks.loop(seconds=10,count=4)
 async def activity():
 
     bot_activitys = [

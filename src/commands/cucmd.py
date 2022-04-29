@@ -30,9 +30,11 @@ class Cucmd(Cog_ExtenSion):
 
     @commands.command()
     async def say(self, ctx, *, arg):
-
-        await ctx.message.delete()
-        await ctx.send(arg)
+        if self.bot.manage_messages == True:
+            await ctx.message.delete()
+            await ctx.send(arg)
+        else:
+            await ctx.send(arg)
 
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
@@ -294,10 +296,12 @@ class Cucmd(Cog_ExtenSion):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def dm(self,ctx,member:discord.Member=None , message = None):
+    async def dm(self,ctx,member:discord.Member=None ,*, message = None):
         if ctx.author.id == 611118369474740244 or 856041155341975582:
+            print("y")
             await member.send(content=message)
         else:
+            print("n")
             await ctx.send("此為管理員專用!")
 
 def setup(bot):

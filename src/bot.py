@@ -3,7 +3,7 @@ import discord
 import datetime 
 import os
 from discord.ext import commands , tasks
-from lib.translate import translate
+from lib.function import translate
 
 bot = commands.Bot(
     command_prefix='g!',

@@ -91,7 +91,7 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["g!translate","中英翻譯"]
+            ["g!translate","翻譯"]
         ]
     )
 }

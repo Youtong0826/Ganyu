@@ -51,7 +51,7 @@ class Tool(Cog_ExtenSion):
         web = requests.get(wiki_url)
 
         web_data = web.text
-        print(web_data)
+        print(type(web_data))
         
         if text != None:
             embed = discord.Embed(

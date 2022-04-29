@@ -4,13 +4,12 @@ import datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
-"""
-fun command list
-g!dice
-g!rpg
-"""
-
 class Fun(Cog_ExtenSion):
+    """
+    fun command list\n
+    g!dice\n
+    g!rpg
+    """
 
     @commands.command()
     async def dice(self, ctx, number: int = None):

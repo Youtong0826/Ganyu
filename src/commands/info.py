@@ -1,3 +1,4 @@
+from os import name
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
@@ -835,6 +836,29 @@ class Info(Cog_ExtenSion):
 
         await ctx.channel.send(embed=embed)
 
+    @commands.command()
+    async def rolesinfo(self,ctx : discord.ApplicationContext,role : discord.Role = None ):
+        if role != None:
+            role_data = {
+                "name" : role.name,
+                "id" : role.id,
+                "members" : role.members,
+                "color" : role.color,
+                "creat_at" : role.created_at,
+                "emoji" : role.unicode_emoji
+            }
+
+            embed = discord.Embed(
+                title=f'有關 {role_data["name"]}身分組的資訊',
+                color=role_data["color"],
+                timestamp=datetime.datetime.utcnow()
+            )
+
+            for n in role_data:
+                if n != "name":
+                    embed.add_field(name=n , value=role_data[n])
+
+            await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Info(bot))

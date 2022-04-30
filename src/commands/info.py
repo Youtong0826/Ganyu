@@ -856,17 +856,16 @@ class Info(Cog_ExtenSion):
             for n in role_data:
                 if n == None:
                     n = "無"
-                embed.add_field(name=n,value=role_data[n])
-
-            await ctx.send(embed=embed)
-
-        
+                embed.add_field(name=n,value=role_data[n],inline=True)
+  
         else:
             embed = discord.Embed(
                 title="g!roleinfo 取得身分組資訊!",
                 description="使用方法❓: g!roleinfo `標註身分組/身分組名稱/身分組id`",
                 color=discord.Colour.random()
             )
+
+            await ctx.send(embed=embed)
             
 def setup(bot):
     bot.add_cog(Info(bot))

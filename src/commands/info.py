@@ -411,8 +411,6 @@ class Info(Cog_ExtenSion):
         else:
             rules_channel = "無"
 
-        for n in guild.channel:
-
         emojis = []
         animated_emojis = []
 

@@ -2,6 +2,7 @@ import re
 import html
 from urllib import parse
 import requests
+import discord
 
 def translate(text, to_language="auto", text_language="auto"):
     GOOGLE_TRANSLATE_URL = 'http://translate.google.cn/m?q=%s&tl=%s&sl=%s'
@@ -15,6 +16,10 @@ def translate(text, to_language="auto", text_language="auto"):
         return ""
     return html.unescape(result[0])
 
+def mustFieldEmbed(embed: discord.Embed, fields: list) -> discord.Embed:
+    for i in fields:
+        embed.add_field(name=i[0], value=i[1])
+    return embed
 
 def wiki_search(text):
     

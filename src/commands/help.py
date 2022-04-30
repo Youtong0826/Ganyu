@@ -2,12 +2,9 @@ import discord
 import datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
+from lib.function import mustFieldEmbed
 
 
-def mustFieldEmbed(embed: discord.Embed, fields: list) -> discord.Embed:
-    for i in fields:
-        embed.add_field(name=i[0], value=i[1])
-    return embed
 
 # 定義指令的help
 ganyuCommands = {
@@ -42,13 +39,13 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["g!allinfo", "一次性查看所有資訊"],
             ["g!userinfo", "查看使用者在此伺服器的資訊"],
             ["g!serinfo", "查看伺服器的資訊"],
             ["g!botinfo", "查看機器人的資訊"],
             ["g!time", "查看各國時間"],
             ["g!invite", "獲取邀請連結"],
             ["g!invites", "查看本服邀請榜"],
+            ["g!roleinfo","取得身分組資訊"]
         ]
     ),
     "cmd": mustFieldEmbed(

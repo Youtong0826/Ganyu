@@ -9,7 +9,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
 
     if type == "kick":
         pms["per"] = "`kick_member`"
-        pms["ch_name"] = "`踢出成員`"
+        pms["ch_name"] = "` 踢出成員 `"
         pms["name"] = "kick"
         pms["ch_v"] = "踢出" 
 
@@ -17,7 +17,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
 
     elif type == "ban":
         pms["per"] = "`ban_member`"
-        pms["ch_name"] = "`對成員停權`"
+        pms["ch_name"] = "` 對成員停權 `"
         pms["name"] = "ban"
         pms["ch_v"] = "停權"
 
@@ -25,11 +25,19 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
 
     elif type == "unban":
         pms["per"] = "`ban_member`"
-        pms["ch_name"] = "`解除停權`"
+        pms["ch_name"] = "` 解除停權 `"
         pms["name"] = "unban"
         pms["ch_v"] = "解除停權"
 
         haved_pms = user.guild_permissions.ban_members
+
+    elif type == "mute":
+        pms["per"] = "`mute_members`"
+        pms["ch_name"] = "`禁言成員`"
+        pms["name"] = "mute"
+        pms["ch_v"] = "禁言"
+
+        haved_pms = user.guild_permissions.mute_members
 
     if haved_pms:
         embed = discord.Embed(
@@ -54,6 +62,16 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
 
             elif type == "unban":
                 await member.unban(reason=reason)
+
+            elif type == "mute":
+                mute_role = await member.guild.create_role(
+                    reason=reason,
+                    name="Muted",
+                    permissions=discord.Permissions.general,
+                    color=discord.Colour.dark_gray,
+                )
+
+                await member.add_roles(roles=mute_role.id,reason=reason)
 
     else:
         embed = discord.Embed(
@@ -97,7 +115,26 @@ class Mange(Cog_ExtenSion):
 
     @commands.command()
     async def unban(self, ctx, member: discord.Member, *, reason=None):
-        mange_member
+        await mange_member(
+            ctx=ctx,
+            user=ctx.author,
+            member=member,
+            type="unban",
+            title="解封了!",
+            reason=reason
+        )
+
+    @commands.command()
+    async def mute(self,ctx,member:discord.Member,*,reason=None):
+        await mange_member(
+            ctx=ctx,
+            user=ctx.author,
+            member=member,
+            type="mute",
+            title="禁言",
+            reason=reason
+        )
+
 
     @commands.command()
     async def joinmsg(self, ctx, key = "on"):

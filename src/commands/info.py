@@ -3,6 +3,7 @@ import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from lib.bot_config import bot_icon_url
+from lib.function import mustFieldEmbed
 
 """
 g!allinfo
@@ -432,9 +433,9 @@ class Info(Cog_ExtenSion):
             embed_main.add_field(
                 name="📘 __概要__",
                 value=f"\
-                創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\
-                \n 擁有者: `{guild.owner.name}`\
-                \n 個人id: `{guild.owner_id}`",
+                創建時間: ` {guild.created_at.strftime('%Y/%m/%d')} `\
+                \n 擁有者: ` {guild.owner.name} `\
+                \n 個人id: ` {guild.owner_id} `",
             )
 
             embed_main.add_field(
@@ -442,7 +443,7 @@ class Info(Cog_ExtenSion):
                 value=f"\
                 次數: {guild.premium_subscription_count}\
                 \n等級: {guild.premium_tier}\
-                \n進度條: `{bar}`"
+                \n進度條: ` {bar} `"
             )
 
             embed_main.add_field(
@@ -459,8 +460,6 @@ class Info(Cog_ExtenSion):
                 頻道數: {len(guild.text_channels) + len(guild.voice_channels)}\
                 \n文字頻道: {len(guild.text_channels)}\
                 \n語音頻道: {len(guild.voice_channels)}")
-
-            
 
             embed_main.add_field(
                 name="👾 __貼圖__",
@@ -482,8 +481,8 @@ class Info(Cog_ExtenSion):
             )
 
             embed_main.set_footer(
-                text=f"{ctx.author.name}",
-                icon_url=ctx.author.avatar
+                text=f"serverinfo | 伺服器資訊",
+                icon_url=bot_icon_url
             )
 
             checkboosterbutton = discord.ui.Button(
@@ -608,7 +607,7 @@ class Info(Cog_ExtenSion):
             )
 
             embed.set_footer(
-                text="created by Youtong._.0826",
+                text="made by Youtong._.0826",
                 icon_url="https://cdn.discordapp.com/avatars/856041155341975582/a5a57f0acdd5c5fb868c9ad50cf7c319.png?size=256"
             )
 
@@ -704,8 +703,8 @@ class Info(Cog_ExtenSion):
             )
 
             embed_main.set_footer(
-                text=f"{ctx.author.name}",
-                icon_url=ctx.author.avatar
+                text=f"userinfo | 用戶資訊",
+                icon_url=bot_icon_url
             )
 
             main_view = discord.ui.View(timeout=None)
@@ -742,13 +741,13 @@ class Info(Cog_ExtenSion):
              
             roles.strip("|")
 
-            roles.strip("|")
-
             embed_main = discord.Embed(
                 title=f"{user.name} 的個人資料",
-                color=0x9c8fff, timestamp=datetime.datetime.utcnow()
+                color=0x9c8fff,
+                timestamp=datetime.datetime.utcnow()
             )
             embed_main.set_thumbnail(url=user.avatar)
+
             embed_main.add_field(
                 name="🐬 暱稱",
                 value=f"{nick}"
@@ -775,8 +774,8 @@ class Info(Cog_ExtenSion):
                 value=f" {roles}", inline=False
             )
             embed_main.set_footer(
-                text=f"{user.name}",
-                icon_url=f"{user.avatar}"
+                text=f"userinfo | 用戶資訊",
+                icon_url=bot_icon_url
             )
             main_view = discord.ui.View(timeout=None)
 

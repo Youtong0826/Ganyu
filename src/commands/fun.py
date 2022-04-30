@@ -48,7 +48,7 @@ class Fun(Cog_ExtenSion):
 
     @commands.command()
     async def rainbow(self,ctx):
-        embed = discord.Embed(color=discord.Colour.dark_gray)
+        embed = discord.Embed(color=0x5c5c5c)
 
         embed.set_image(url="https://cdn.discordapp.com/attachments/616315208251605005/616319462349602816/Tw.gif")
 

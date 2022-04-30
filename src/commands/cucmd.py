@@ -5,8 +5,8 @@ import json
 import requests
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
-from ganyu import messages
-from commands.rpg import bot_icon_url
+from lib.bot_config import messages
+from lib.bot_config import bot_icon_url
 
 imageIdList = []
 for i in range(3):
@@ -30,11 +30,8 @@ class Cucmd(Cog_ExtenSion):
 
     @commands.command()
     async def say(self, ctx, *, arg):
-        if self.bot.manage_messages == True:
-            await ctx.message.delete()
-            await ctx.send(arg)
-        else:
-            await ctx.send(arg)
+        await ctx.message.delete()
+        await ctx.send(arg)
 
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 

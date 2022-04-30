@@ -1,3 +1,4 @@
+import html
 import  discord , datetime , requests , json 
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
@@ -51,7 +52,10 @@ class Tool(Cog_ExtenSion):
         web = requests.get(wiki_url)
 
         web_data = web.text
-        print(type(web_data))
+        web_data.index("")
+        web_header = web.headers
+        web_content = web.content
+        print(web_header)
         
         if text != None:
             embed = discord.Embed(

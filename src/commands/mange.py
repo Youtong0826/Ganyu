@@ -98,9 +98,10 @@ class Mange(Cog_ExtenSion):
     @commands.command()
     async def unban(self, ctx, member: discord.Member, *, reason=None):
         mange_member
-        
 
-        
+    @commands.command()
+    async def joinmsg(self, ctx, key = "on"):
+        await ctx.send(ctx.author.guild.system_channel.name)
 
 def setup(bot):
     bot.add_cog(Mange(bot))

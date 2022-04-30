@@ -50,7 +50,7 @@ class Fun(Cog_ExtenSion):
     async def rainbow(self,ctx):
         embed = discord.Embed()
 
-        embed.set_image("https://cdn.discordapp.com/attachments/616315208251605005/616319462349602816/Tw.gif")
+        embed.set_image(url="https://cdn.discordapp.com/attachments/616315208251605005/616319462349602816/Tw.gif")
 
         await ctx.send(embed=embed)
 

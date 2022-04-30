@@ -401,15 +401,17 @@ class Info(Cog_ExtenSion):
             bar = "未開啟"
 
         for n in guild.premium_subscribers:
-            booster += f"{n}\n"
+            booster += f"{n.mention}\n"
 
         if booster == "":
             booster = "無"
 
         if guild.rules_channel != None:
-            rules_channel = f"\n{guild.rules_channel.mention}"
+            rules_channel = f"{guild.rules_channel.mention}"
         else:
             rules_channel = "無"
+
+        for n in guild.channel:
 
         emojis = []
         animated_emojis = []
@@ -455,7 +457,7 @@ class Info(Cog_ExtenSion):
             embed_main.add_field(
                 name="📊 __頻道數__",
                 value=f"\
-                頻道數: {len(guild.channels)}\
+                頻道數: {len(guild.text_channels) + len(guild.voice_channels)}\
                 \n文字頻道: {len(guild.text_channels)}\
                 \n語音頻道: {len(guild.voice_channels)}")
 
@@ -848,7 +850,7 @@ class Info(Cog_ExtenSion):
             }
 
             embed = discord.Embed(
-                title=f'有關 {role.name}身分組的資訊',
+                title=f'有關 {role.name} 身分組的資訊',
                 color=role.color,
                 timestamp=datetime.datetime.utcnow()
             )

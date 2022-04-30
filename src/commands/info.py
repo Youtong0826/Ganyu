@@ -840,25 +840,33 @@ class Info(Cog_ExtenSion):
     async def roleinfo(self,ctx : discord.ApplicationContext,role : discord.Role = None ):
         if role != None:
             role_data = {
-                "name" : role.name,
-                "id" : role.id,
-                "members" : role.members,
-                "color" : role.color,
-                "creat_at" : role.created_at,
-                "emoji" : role.unicode_emoji
+                "🗒️ 名字" : role.mention,
+                "💳 id" : role.id,
+                "📊 人數" : len(role.members),
+                "🗓️ 創建時間" : role.created_at.strftime('%Y/%m/%d'),
+                "👾 貼圖" : role.unicode_emoji
             }
 
             embed = discord.Embed(
-                title=f'有關 {role_data["name"]}身分組的資訊',
-                color=role_data["color"],
+                title=f'有關 {role.name}身分組的資訊',
+                color=role.color,
                 timestamp=datetime.datetime.utcnow()
             )
 
             for n in role_data:
-                if n != "name":
-                    embed.add_field(name=n , value=role_data[n])
+                if n == None:
+                    n = "無"
+                embed.add_field(name=n,value=role_data[n])
 
             await ctx.send(embed=embed)
 
+        
+        else:
+            embed = discord.Embed(
+                title="g!roleinfo 取得身分組資訊!",
+                description="使用方法❓: g!roleinfo `標註身分組/身分組名稱/身分組id`",
+                color=discord.Colour.random()
+            )
+            
 def setup(bot):
     bot.add_cog(Info(bot))

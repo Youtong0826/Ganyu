@@ -130,6 +130,15 @@ class Cucmd(Cog_ExtenSion):
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
+    async def getroleid(self,ctx,role: discord.Role):
+        embed = discord.Embed(
+            title=f"成功",
+            description=f"{role.mention} 的id為 {role.id}",
+            color=discord.discord.Colour.random()
+        )
+
+        await ctx.send(embed=embed)
+    @commands.command()
     async def pic(self, ctx):
         imgInfo = random.choice(imageIdList)
 

@@ -2,6 +2,7 @@ from os import name
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
+from lib.bot_config import bot_icon_url
 
 """
 g!allinfo
@@ -860,11 +861,15 @@ class Info(Cog_ExtenSion):
   
         else:
             embed = discord.Embed(
-                title="g!roleinfo 取得身分組資訊!",
+                title="使用 g!roleinfo 取得身分組資訊!",
                 description="使用方法❓ g!roleinfo `標註身分組/身分組名稱/身分組id`",
                 color=discord.Colour.random()
             )
 
+        embed.set_footer(
+            text="rolenfo | 身分組資訊",
+            icon_url=bot_icon_url
+        )
         await ctx.send(embed=embed)
             
 def setup(bot):

@@ -865,7 +865,7 @@ class Info(Cog_ExtenSion):
                 color=discord.Colour.random()
             )
 
-            await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
             
 def setup(bot):
     bot.add_cog(Info(bot))

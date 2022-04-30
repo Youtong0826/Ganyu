@@ -837,7 +837,7 @@ class Info(Cog_ExtenSion):
         await ctx.channel.send(embed=embed)
 
     @commands.command()
-    async def rolesinfo(self,ctx : discord.ApplicationContext,role : discord.Role = None ):
+    async def roleinfo(self,ctx : discord.ApplicationContext,role : discord.Role = None ):
         if role != None:
             role_data = {
                 "name" : role.name,

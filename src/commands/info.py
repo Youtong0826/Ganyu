@@ -1,9 +1,7 @@
-from os import name
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from lib.bot_config import bot_icon_url
-from lib.function import mustFieldEmbed
 
 """
 g!allinfo
@@ -14,9 +12,26 @@ g!update
 g!invite
 """
 
+def InfoDict(user:discord.Member,bot:commands.Bot):
+    infodict = {
+        "server" : {
+            "title": user.guild.name,
+            "id": user.guild.id,
+            "owner" : user.guild.owner,
+            "members" : user.guild.member_count,
+            "roles" : user.guild.roles,
+            "createdtime" : user.guild.created_at,
+            "channels" : user.guild.text_channels + user.guild.voice_channels,
+            "emojis" : user.guild.emojis,
+            "boost" :{
+                "booster" : user.guild.premium_subscription_count ,
+                "boost_level" : user.guild.premium_tier
+            }
+        }
+    }
 
 class Info(Cog_ExtenSion):
-    @commands.command()
+    #@commands.command()
     async def allinfo(self, ctx):
         embed = discord.Embed(
             title="一次查看所有資訊!",
@@ -386,7 +401,7 @@ class Info(Cog_ExtenSion):
         mbot = 0
         person = 0
         booster = ""
-        guild = ctx.author.guild
+        guild : discord.Guild = ctx.author.guild
 
         for n in guild.members:
 
@@ -425,56 +440,62 @@ class Info(Cog_ExtenSion):
         if can_see == True:
             embed_main = discord.Embed(
                 title=f'{guild}',
-                description=f"伺服器id:`{guild.id}`",
                 color=0x9c8fff,
                 timestamp=datetime.datetime.utcnow()
             )
 
             embed_main.add_field(
-                name="📘 __概要__",
-                value=f"\
-                創建時間: ` {guild.created_at.strftime('%Y/%m/%d')} `\
-                \n 擁有者: ` {guild.owner.name} `\
-                \n 個人id: ` {guild.owner_id} `",
+                name="🚹 __服主__",
+                value=guild.owner.mention
             )
 
             embed_main.add_field(
-                name="☄️ __加成__",
+                name=" 💳 __ID__",
                 value=f"\
-                次數: {guild.premium_subscription_count}\
-                \n等級: {guild.premium_tier}\
-                \n進度條: ` {bar} `"
+                    `{guild.id}`"
+                #創建時間: ` {guild.created_at.strftime('%Y/%m/%d')} `\
+                #\n 擁有者: ` {guild.owner.name} `\
+                #\n 個人id: ` {guild.owner_id} `",
             )
+
+            #embed_main.add_field(
+            #    name="☄️ __加成__",
+            #    value=f"\
+            #    次數: \
+            #    \n等級: {guild.premium_tier}\
+            #    \n進度條: ` {bar} `"
+            #)
 
             embed_main.add_field(
                 name="📈 __人數__",
                 value=f"\
-                總人數: {guild.member_count}\
-                \n活人: {person}\
-                \n機器人: {mbot}"
+                {guild.member_count}"
+                #\n活人: {person}\
+                #\n機器人: {mbot}"
             )
 
             embed_main.add_field(
                 name="📊 __頻道數__",
                 value=f"\
-                頻道數: {len(guild.text_channels) + len(guild.voice_channels)}\
-                \n文字頻道: {len(guild.text_channels)}\
-                \n語音頻道: {len(guild.voice_channels)}")
+                {len(guild.text_channels) + len(guild.voice_channels)}"
+            )
+                #\n文字頻道: {len(guild.text_channels)}\
+                #\n語音頻道: {len(guild.voice_channels)}")
 
             embed_main.add_field(
-                name="👾 __貼圖__",
+                name="👾 __表情符號__",
                 value=f"\
-                數量: {len(guild.emojis)}\
-                \n靜態貼圖: {len(emojis)} \
-                \n動態貼圖: {len(animated_emojis)}"
+                {len(guild.emojis)}"
+                #\n靜態貼圖: {len(emojis)} \
+                #\n動態貼圖: {len(animated_emojis)}"
             )
 
-            embed_main.add_field(
-                name="📰 __其他__",
-                value=f"\
-                主要語言: {guild.preferred_locale}\
-                \n規則頻道: {rules_channel}",
-            )
+            #embed_main.add_field(
+            #    name="📰 __其他__",
+            #    value=f"\
+            #    主要語言: {guild.preferred_locale}\
+            #    \n規則頻道: {rules_channel}",
+            #)
 
             embed_main.set_thumbnail(
                 url=guild.icon

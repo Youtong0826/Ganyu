@@ -300,7 +300,7 @@ class Cucmd(Cog_ExtenSion):
         for guild in bot.guilds:
             embed.add_field(
                 name=guild.name,
-                value=f"擁有者:{guild.owner.name}\n人數{len(guild.members)}",
+                value=f"擁有者:**__{guild.owner.name}__**\n人數:**__{len(guild.members)}__**",
                 inline=True
             )
 

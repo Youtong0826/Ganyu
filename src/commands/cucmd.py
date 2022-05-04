@@ -291,13 +291,18 @@ class Cucmd(Cog_ExtenSion):
     @commands.command()
     async def getguild(self,ctx):
         guilds = ""
-        for guild in self.bot.guilds:
-            guilds += f"[{guild.name}] 擁有者:{guild.owner}\n" 
-        
+        bot : commands.Bot = self.bot 
+
         embed = discord.Embed(
             title="所在的伺服器",
-            description = guilds
         )
+        
+        for guild in bot.guilds:
+            embed.add_field(
+                name=guild.name,
+                value=f"擁有者:{guild.owner.name}\n人數{len(guild.members)}",
+                inline=True
+            )
 
         await ctx.send(embed=embed)
 

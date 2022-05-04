@@ -444,58 +444,27 @@ class Info(Cog_ExtenSion):
                 timestamp=datetime.datetime.utcnow()
             )
 
-            embed_main.add_field(
-                name="🚹 __服主__",
-                value=guild.owner.mention
-            )
-
-            embed_main.add_field(
-                name=" 💳 __ID__",
-                value=f"\
-                    `{guild.id}`"
-                #創建時間: ` {guild.created_at.strftime('%Y/%m/%d')} `\
-                #\n 擁有者: ` {guild.owner.name} `\
-                #\n 個人id: ` {guild.owner_id} `",
-            )
-
-            #embed_main.add_field(
-            #    name="☄️ __加成__",
-            #    value=f"\
-            #    次數: \
-            #    \n等級: {guild.premium_tier}\
-            #    \n進度條: ` {bar} `"
-            #)
-
-            embed_main.add_field(
-                name="📈 __人數__",
-                value=f"\
-                {guild.member_count}"
-                #\n活人: {person}\
-                #\n機器人: {mbot}"
-            )
-
-            embed_main.add_field(
-                name="📊 __頻道數__",
-                value=f"\
-                {len(guild.text_channels) + len(guild.voice_channels)}"
-            )
-                #\n文字頻道: {len(guild.text_channels)}\
-                #\n語音頻道: {len(guild.voice_channels)}")
-
-            embed_main.add_field(
-                name="👾 __表情符號__",
-                value=f"\
-                {len(guild.emojis)}"
-                #\n靜態貼圖: {len(emojis)} \
-                #\n動態貼圖: {len(animated_emojis)}"
-            )
-
-            #embed_main.add_field(
-            #    name="📰 __其他__",
-            #    value=f"\
-            #    主要語言: {guild.preferred_locale}\
-            #    \n規則頻道: {rules_channel}",
-            #)
+            embed_dict ={
+                "🚹 __服主__" : guild.owner.mention,
+                "💳 __ID__" : guild.id,
+                "🗓️ __創建時間__" : guild.created_at.strftime('%Y/%m/%d'),
+                "📈 __人數__" : guild.member_count,
+                "📊 __頻道數__" : len(guild.text_channels) + len(guild.voice_channels),
+                "👾 __表情符號__" : len(guild.emojis),
+                "📌 __身分組__" : len(guild.roles),               
+            }       
+                #次數: \
+                #等級: {guild.premium_tier}\
+                #進度條: ` {bar} `"             
+                #活人: {person}\
+                #機器人: {mbot}"     
+                #靜態貼圖: {len(emojis)} \
+                #動態貼圖: {len(animated_emojis)}"       
+                #主要語言: {guild.preferred_locale}\
+                #規則頻道: {rules_channel}",
+            
+            for n in embed_dict:
+                embed_main.add_field(name=n,value=embed_dict[n],inline=False)
 
             embed_main.set_thumbnail(
                 url=guild.icon

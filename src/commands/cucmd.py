@@ -298,11 +298,8 @@ class Cucmd(Cog_ExtenSion):
         )
         
         for guild in bot.guilds:
-            embed.add_field(
-                name=guild.name,
-                value=f"擁有者:**__{guild.owner.name}__**\n人數:**__{len(guild.members)}__**",
-                inline=True
-            )
+
+            guilds += f"[名字:**__{guild.name}__**擁有者:**__{guild.owner.name}__**\n人數:**__{len(guild.members)}__**]\n"
 
         await ctx.send(embed=embed)
 

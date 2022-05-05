@@ -293,13 +293,14 @@ class Cucmd(Cog_ExtenSion):
         guilds = ""
         bot : commands.Bot = self.bot 
 
-        embed = discord.Embed(
-            title="所在的伺服器",
-        )
-        
         for guild in bot.guilds:
 
             guilds += f"[名字:**__{guild.name}__**擁有者:**__{guild.owner.name}__**\n人數:**__{len(guild.members)}__**]\n"
+
+        embed = discord.Embed(
+            title="所在的伺服器",
+            description=guilds
+        )
 
         await ctx.send(embed=embed)
 

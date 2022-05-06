@@ -143,7 +143,7 @@ class Fun(Cog_ExtenSion):
             else:
                 embed = discord.Embed(
                     title = "你輸了..",
-                    description = "甘雨出了石頭...沒關西，你還有下一次機會!",
+                    description = "甘雨出了布...沒關西，你還有下一次機會!",
                     color = discord.Colour.random()
                 )
 
@@ -154,7 +154,7 @@ class Fun(Cog_ExtenSion):
             if moraed == "剪刀":
                 embed = discord.Embed(
                     title = "你輸了..",
-                    description = "甘雨出了石頭...沒關西，你還有下一次機會!",
+                    description = "甘雨出了剪刀...沒關西，你還有下一次機會!",
                     color = discord.Colour.random()
                 )
 

@@ -67,7 +67,7 @@ class Fun(Cog_ExtenSion):
             "偷偷告訴你||我出剪刀ㄛ||",
             "~~給我一瓶椰奶我就投降~~"
         ]
-        talking = random.choice(talking)
+        talking = random.choice(talkings)
 
         MainEmbed = discord.Embed(
             title = "這次想出什麼呢?",

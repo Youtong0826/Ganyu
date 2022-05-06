@@ -60,17 +60,18 @@ class Fun(Cog_ExtenSion):
         moras = ["剪刀","石頭","布"]
         moraed = random.choice(moras)
 
-        talking = [
+        talkings = [
             "你不知道甘雨是猜拳高手嗎?",
             "偷偷告訴你||我出石頭ㄛ||",
             "偷偷告訴你||我出布ㄛ||",
             "偷偷告訴你||我出剪刀ㄛ||",
             "~~給我一瓶椰奶我就投降~~"
         ]
+        talking = random.choice(talking)
 
         MainEmbed = discord.Embed(
             title = "這次想出什麼呢?",
-            description = random.choice(talking),
+            description = talking,
             color = discord.Colour.random(),
             timestamp = datetime.datetime.utcnow()
         )
@@ -180,6 +181,7 @@ class Fun(Cog_ExtenSion):
             await interaction.response.edit_message(embed=embed,view=AgainView)
 
         async def AgainButtonCallback(interaction:discord.Interaction):
+            talking = random.choice(talking)
             await interaction.response.edit_message(embed=MainEmbed,view=MainView)
 
         ScissorsButton.callback = ScissorsButtonCallback

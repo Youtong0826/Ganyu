@@ -79,7 +79,6 @@ class Fun(Cog_ExtenSion):
         MainEmbed.set_footer(text="猜拳",icon_url=bot_icon_url)
 
         MainView = discord.ui.View(timeout=None)
-        AgainView = discord.ui.View(timeout=None)
 
         ScissorsButton = discord.ui.Button(
             style = discord.ButtonStyle.success,
@@ -97,12 +96,6 @@ class Fun(Cog_ExtenSion):
             style = discord.ButtonStyle.success,
             label = "布",
             emoji = "🧻"
-        )
-
-        AgainButton = discord.ui.Button(
-            style = discord.ButtonStyle.gray,
-            label = "再玩一次!",
-            emoji = "↩️"
         )
 
         async def ScissorsButtonCallback(interaction:discord.Interaction):
@@ -128,7 +121,7 @@ class Fun(Cog_ExtenSion):
                     color = discord.Colour.random()
                 )
 
-            await interaction.response.edit_message(embed=embed,view=AgainView)
+            await interaction.response.edit_message(embed=embed)
 
         async def  RockButtonCallback(interaction:discord.Interaction):
 
@@ -153,7 +146,7 @@ class Fun(Cog_ExtenSion):
                     color = discord.Colour.random()
                 )
 
-            await interaction.response.edit_message(embed=embed,view=AgainView)
+            await interaction.response.edit_message(embed=embed)
 
         async def  ClothButtonCallback(interaction:discord.Interaction):
 
@@ -178,23 +171,16 @@ class Fun(Cog_ExtenSion):
                     color = discord.Colour.random()
                 )
 
-            await interaction.response.edit_message(embed=embed,view=AgainView)
+            await interaction.response.edit_message(embed=embed)
 
-        async def AgainButtonCallback(interaction:discord.Interaction):
-            global talking , moraed
-            talking = random.choice(talkings)
-            moraed = random.choice(moras)
-            await interaction.response.edit_message(embed=MainEmbed,view=MainView)
-
+        
         ScissorsButton.callback = ScissorsButtonCallback
         RockButton.callback = RockButtonCallback
         ClothButton.callback = ClothButtonCallback
-        AgainButton.callback = AgainButtonCallback
 
         MainView.add_item(ScissorsButton)
         MainView.add_item(RockButton)
         MainView.add_item(ClothButton)
-        AgainView.add_item(AgainButton)
 
         await ctx.send(embed = MainEmbed, view = MainView)
 

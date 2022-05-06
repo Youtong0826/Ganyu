@@ -79,6 +79,7 @@ class Fun(Cog_ExtenSion):
         MainEmbed.set_footer(text="猜拳",icon_url=bot_icon_url)
 
         MainView = discord.ui.View(timeout=None)
+        DefaultView = discord.ui.View()
 
         ScissorsButton = discord.ui.Button(
             style = discord.ButtonStyle.success,
@@ -121,7 +122,7 @@ class Fun(Cog_ExtenSion):
                     color = discord.Colour.random()
                 )
 
-            await interaction.response.edit_message(embed=embed)
+            await interaction.response.edit_message(embed=embed,view=DefaultView)
 
         async def  RockButtonCallback(interaction:discord.Interaction):
 
@@ -146,7 +147,7 @@ class Fun(Cog_ExtenSion):
                     color = discord.Colour.random()
                 )
 
-            await interaction.response.edit_message(embed=embed)
+            await interaction.response.edit_message(embed=embed,view=DefaultView)
 
         async def  ClothButtonCallback(interaction:discord.Interaction):
 
@@ -171,7 +172,7 @@ class Fun(Cog_ExtenSion):
                     color = discord.Colour.random()
                 )
 
-            await interaction.response.edit_message(embed=embed)
+            await interaction.response.edit_message(embed=embed,view=DefaultView)
 
         
         ScissorsButton.callback = ScissorsButtonCallback

@@ -146,7 +146,7 @@ class rpg(Cog_ExtenSion):
 
         return realtop
 
-    @commands.command()
+    #@commands.command()
     async def rpg(self, ctx, key=None):
 
         user = ctx.author

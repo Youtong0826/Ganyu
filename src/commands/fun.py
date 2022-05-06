@@ -181,7 +181,7 @@ class Fun(Cog_ExtenSion):
             await interaction.response.edit_message(embed=embed,view=AgainView)
 
         async def AgainButtonCallback(interaction:discord.Interaction):
-            talking = random.choice(talking)
+            talking = random.choice(talkings)
             await interaction.response.edit_message(embed=MainEmbed,view=MainView)
 
         ScissorsButton.callback = ScissorsButtonCallback

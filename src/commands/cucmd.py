@@ -1,3 +1,4 @@
+from optparse import Option
 import random
 import discord
 import datetime
@@ -285,8 +286,99 @@ class Cucmd(Cog_ExtenSion):
         await ctx.send(embed=embed, view=view)
 
     @commands.command()
-    async def vote(self,ctx):
-        embed = discord.Embed()
+    async def vote(self,ctx,topic=None,quantity:int=None):
+
+        if topic and quantity != None:
+            MainEmbed = discord.Embed(
+                title="請點擊以下按鈕來設置選項內容!",
+                color=discord.Colour.random(),
+            )
+
+            MainView = discord.ui.View(timeout=None)
+
+            SettingButton = discord.ui.Button(
+                style=discord.ButtonStyle.success,
+                label="設置投票內容",
+                emoji="📊"
+            )
+
+            async def SettingButtonCallback(interaction:discord.Interaction):
+                SettingModal = discord.ui.Modal(title="投票設置")
+
+                async def SettingModalCallback(interaction:discord.Interaction):
+                    options = ""
+                    ModalView = discord.ui.View(timeout=None)
+
+                    for n in(0,quantity*2):
+                        if n % 2 == 0:
+                            options +=f"{n/2+1}.{SettingModal.children[n].value} ▬▬ 0%\n\n"
+
+                    ModalEmbed = discord.Embed(
+                        title=f"{interaction.user.name} 已發起投票",
+                        description=f"主題 ▬▬ **{topic}** 選項:\n{options}",
+                        color=discord.Colour.random(),
+                        timestamp=datetime.datetime.utcnow()
+                    )
+
+                    async def OptionButtonCallback(interaction:discord.Interaction):
+
+                        if interaction.custom_id == 0:
+                            print()
+
+
+                    for n in range(0,quantity*2):
+                        if n % 2 == 0:
+
+                            OptionButton = discord.ui.Button(
+                                    style=discord.ButtonStyle.gray,
+                                    label=SettingModal.children[n].value,
+                                    emoji=SettingModal.children[n+1].value,
+                                    custom_id=n
+                                )
+
+                            ModalView.add_item(OptionButton)
+
+                    await interaction.response.edit_message(embed=ModalEmbed,view=ModalView)
+
+                for n in range(1,quantity+1):
+                    option = discord.ui.InputText(
+                            style=discord.InputTextStyle.short,
+                            label=f"選項{n}",
+                            placeholder=f"填入選項{n}的名稱",
+                            max_length=18,
+                            custom_id=str(n+10)
+                        )
+
+                    SettingModal.add_item(option)
+
+                    emoji = discord.ui.InputText(
+                            style=discord.InputTextStyle.short,
+                            label=f"選項{n}的表情符號",
+                            placeholder=f"填入選項{n}的表情符號",
+                            max_length=1,
+                            custom_id=str(n+20)
+                        )
+
+                    SettingModal.add_item(emoji)
+                
+                SettingModal.callback = SettingModalCallback
+
+                await interaction.response.send_modal(SettingModal)
+                
+            SettingButton.callback = SettingButtonCallback
+            MainView.add_item(SettingButton)
+        
+        else:
+
+            MainEmbed = discord.Embed(
+                title="歡迎使用投票功能",
+                description="使用方法: g!vote `主題` `幾個選項`",
+                color=discord.Colour.random(),
+            )
+
+            MainView = discord.ui.View(timeout=None)
+        
+        await ctx.send(embed=MainEmbed,view=MainView)
 
     @commands.command()
     async def getguild(self,ctx):
@@ -295,7 +387,7 @@ class Cucmd(Cog_ExtenSion):
 
         for guild in bot.guilds:
 
-            guilds += f"[名字:**__{guild.name}__**擁有者:**__{guild.owner.name}__**\n人數:**__{len(guild.members)}__**]\n"
+            guilds += f"[**{guild.name}** 擁有者:**__{guild.owner.name}__**\n人**{len(guild.members)}**人]\n"
 
         embed = discord.Embed(
             title="所在的伺服器",

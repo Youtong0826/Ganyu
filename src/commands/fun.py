@@ -3,6 +3,7 @@ import discord
 import datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
+from lib.bot_config import bot_icon_url
 
 class Fun(Cog_ExtenSion):
     """
@@ -53,6 +54,145 @@ class Fun(Cog_ExtenSion):
         embed.set_image(url="https://cdn.discordapp.com/attachments/616315208251605005/616319462349602816/Tw.gif")
 
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def mora(self,ctx):
+        moras = ["剪刀","石頭","布"]
+        moraed = random.choice(moras)
+
+        talking = [
+            "你不知道甘雨是猜拳高手嗎?",
+            "偷偷告訴你||我出石頭ㄛ||",
+            "偷偷告訴你||我出布ㄛ||",
+            "偷偷告訴你||我出剪刀ㄛ||",
+            "~~給我一瓶椰奶我就投降~~"
+        ]
+
+        MainEmbed = discord.Embed(
+            title = "這次想出什麼呢?",
+            description = random.choice(talking),
+            color = discord.Colour.random(),
+            timestamp = datetime.datetime.utcnow()
+        )
+
+        MainEmbed.set_footer(text="猜拳",icon_url=bot_icon_url)
+
+        MainView = discord.ui.View(timeout=None)
+        AgainView = discord.ui.View(timeout=None)
+
+        ScissorsButton = discord.ui.Button(
+            style = discord.ButtonStyle.success,
+            label = "剪刀",
+            emoji = "✂️"
+        )
+
+        RockButton = discord.ui.Button(
+            style = discord.ButtonStyle.success,
+            label = "石頭",
+            emoji = "🪨"
+        )
+
+        ClothButton = discord.ui.Button(
+            style = discord.ButtonStyle.success,
+            label = "布",
+            emoji = "🧻"
+        )
+
+        AgainButton = discord.ui.Button(
+            style = discord.ButtonStyle.gray,
+            label = "再玩一次!",
+            emoji = "↩️"
+        )
+
+        async def ScissorsButtonCallback(interaction:discord.Interaction):
+
+            if moraed == "剪刀":
+                embed = discord.Embed(
+                    title = "平手!",
+                    description = "你們兩人都出了剪刀XD",
+                    color = discord.Colour.random()
+                )
+
+            elif moraed == "石頭":
+                embed = discord.Embed(
+                    title = "你輸了..",
+                    description = "甘雨出了石頭...沒關西，你還有下一次機會!",
+                    color = discord.Colour.random()
+                )
+
+            else:
+                embed = discord.Embed(
+                    title = "你贏了!!",
+                    description = "但是甘雨好像很難過(?",
+                    color = discord.Colour.random()
+                )
+
+            await interaction.response.edit_message(embed=embed,view=AgainView)
+
+        async def  RockButtonCallback(interaction:discord.Interaction):
+
+            if moraed == "剪刀":
+                embed = discord.Embed(
+                    title = "你贏了!!",
+                    description = "但是甘雨好像很難過(?",
+                    color = discord.Colour.random()
+                )
+
+            elif moraed == "石頭":
+                embed = discord.Embed(
+                    title = "平手!",
+                    description = "你們兩人都出了石頭XD",
+                    color = discord.Colour.random()
+                )
+
+            else:
+                embed = discord.Embed(
+                    title = "你輸了..",
+                    description = "甘雨出了石頭...沒關西，你還有下一次機會!",
+                    color = discord.Colour.random()
+                )
+
+            await interaction.response.edit_message(embed=embed,view=AgainView)
+
+        async def  ClothButtonCallback(interaction:discord.Interaction):
+
+            if moraed == "剪刀":
+                embed = discord.Embed(
+                    title = "你輸了..",
+                    description = "甘雨出了石頭...沒關西，你還有下一次機會!",
+                    color = discord.Colour.random()
+                )
+
+            elif moraed == "石頭":
+                embed = discord.Embed(
+                    title = "你贏了!!",
+                    description = "但是甘雨好像很難過(?",
+                    color = discord.Colour.random()
+                )
+
+            else:
+                embed = discord.Embed(
+                    title = "平手!",
+                    description = "你們兩人都出了布XD",
+                    color = discord.Colour.random()
+                )
+
+            await interaction.response.edit_message(embed=embed,view=AgainView)
+
+        async def AgainButtonCallback(interaction:discord.Interaction):
+            await interaction.response.edit_message(embed=MainEmbed,view=MainView)
+
+        ScissorsButton.callback = ScissorsButtonCallback
+        RockButton.callback = RockButtonCallback
+        ClothButton.callback = ClothButtonCallback
+        AgainButton.callback = AgainButtonCallback
+
+        MainView.add_item(ScissorsButton)
+        MainView.add_item(RockButton)
+        MainView.add_item(ClothButton)
+        AgainView.add_item(AgainButton)
+
+        await ctx.send(embed = MainEmbed, view = MainView)
 
 def setup(bot):
     bot.add_cog(Fun(bot))

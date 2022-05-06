@@ -30,6 +30,7 @@ ganyuCommands = {
         [
             ["g!dice `int` ", "讓這個機器人幫你骰骰子"],
             ["g!rpg", "RPG系統(製作中 暫不開放)"],
+            ["g!mora","猜拳"],
             ["g!rainbow","彩虹"]
         ]
     ),
@@ -39,13 +40,15 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["g!userinfo", "查看使用者在此伺服器的資訊"],
+            ["g!userinfo `user`", "查看使用者在此伺服器的資訊"],
             ["g!serinfo", "查看伺服器的資訊"],
             ["g!botinfo", "查看機器人的資訊"],
             ["g!time", "查看各國時間"],
             ["g!invite", "獲取邀請連結"],
             ["g!invites", "查看本服邀請榜"],
-            ["g!roleinfo","取得身分組資訊"]
+            ["g!roleinfo `role`","取得身分組資訊"],
+            ["g!getid `user`", "透過用戶取得id"],
+            ["g!getuser `id`", "透過id取得用戶"],
         ]
     ),
     "cmd": mustFieldEmbed(
@@ -57,8 +60,7 @@ ganyuCommands = {
             ["g!about ", "關於甘雨"],
             ["g!ping", "查看機器人延遲"],
             ["g!say `text`", "讓這個機器人模仿你說話"],
-            ["g!getid `user`", "透過用戶取得id"],
-            ["g!getuser `id`", "透過id取得用戶"],
+            ["g!dm `text`" , "讓 Ganyu 私訊某人"]
         ]
     ),
     "manage": mustFieldEmbed(

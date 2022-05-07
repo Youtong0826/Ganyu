@@ -138,7 +138,7 @@ class Mange(Cog_ExtenSion):
     @commands.command()
     async def delete(self,ctx:discord.ApplicationContext,count : int = None):
         channel : discord.TextChannel = ctx.channel
-        channel.last_message.delete()
+        await channel.last_message.delete()
 
     @commands.command()
     async def joinmsg(self, ctx, key = "on"):

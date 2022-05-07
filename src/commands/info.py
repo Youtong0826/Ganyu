@@ -825,6 +825,7 @@ class Info(Cog_ExtenSion):
         embed.description = context
 
         await ctx.channel.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def roleinfo(self,ctx : discord.ApplicationContext,*,role : discord.Role = None ):
@@ -903,6 +904,7 @@ class Info(Cog_ExtenSion):
             icon_url=bot_icon_url
         )
         await ctx.send(embed=embed,view=view)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
             
 def setup(bot):
     bot.add_cog(Info(bot))

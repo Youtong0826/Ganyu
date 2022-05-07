@@ -1,3 +1,4 @@
+from random import random
 import discord
 import datetime
 from discord.ext import commands
@@ -138,7 +139,24 @@ class Mange(Cog_ExtenSion):
     @commands.command()
     async def delete(self,ctx:discord.ApplicationContext,count : int = None):
         channel : discord.TextChannel = ctx.channel
-        await channel.last_message.delete()
+
+        if count != None:
+            for n in range(count):
+                await channel.last_message.delete()
+            
+            embed = discord.Embed(
+                title=f"已成功刪除 {count} 個訊息",
+                color=discord.discord.Colour.random()
+            )
+
+        else:
+            embed = discord.Embed(
+                title="歡迎使用g!delete來刪除訊息!",
+                description="使用方法g!delete `數量`",
+                color=discord.discord.Colour.random()
+            )
+
+        await ctx.send(embed=embed)
 
     @commands.command()
     async def joinmsg(self, ctx, key = "on"):

@@ -143,7 +143,7 @@ class Mange(Cog_ExtenSion):
         if count != None:
             for n in range(count):
                 print("s")
-                await channel.delete_messages(channel.last_message_id)
+                await channel.delete_messages(channel.last_message)
             
             embed = discord.Embed(
                 title=f"已成功刪除 {count} 個訊息",

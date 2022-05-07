@@ -864,7 +864,7 @@ class Info(Cog_ExtenSion):
                 role_members_count = 0
                 for n in role.members:
                     role_members_count += 1
-                    role_members += f"{n.mention}\n"
+                    role_members += f"{n.name}\n"
                     if len(role_members) >= 1014:
                         role_members += f"+{len(role.members) - role_members_count}人.."
                         break

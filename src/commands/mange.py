@@ -72,7 +72,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
                     color=discord.Colour.dark_gray,
                 )
 
-                await member.add_roles(roles=mute_role.id,reason=reason)
+                await member.add_roles(roles=mute_role,reason=reason)
 
     else:
         embed = discord.Embed(

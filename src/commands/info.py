@@ -849,7 +849,7 @@ class Info(Cog_ExtenSion):
 
             checkbutton = discord.ui.Button(
                 style=discord.ButtonStyle.success,
-                label="擁有人",
+                label="擁有者",
                 emoji="📊"
             )
             backbutton = discord.ui.Button(
@@ -864,7 +864,7 @@ class Info(Cog_ExtenSion):
                 for n in role.members:
                     role_members_count += 1
                     role_members += f"{n.mention}\n"
-                    if role_members >= 1014:
+                    if len(role_members) >= 1014:
                         role_members += f"+{len(role.members) - role_members_count}人.."
                         break
 

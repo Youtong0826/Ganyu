@@ -142,18 +142,19 @@ class Mange(Cog_ExtenSion):
 
         if count != None:
             for n in range(count):
+                print("s")
                 await channel.last_message.delete()
             
             embed = discord.Embed(
                 title=f"已成功刪除 {count} 個訊息",
-                color=discord.discord.Colour.random()
+                color=discord.Colour.random()
             )
 
         else:
             embed = discord.Embed(
                 title="歡迎使用g!delete來刪除訊息!",
                 description="使用方法g!delete `數量`",
-                color=discord.discord.Colour.random()
+                color=discord.Colour.random()
             )
 
         await ctx.send(embed=embed)

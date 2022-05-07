@@ -1,3 +1,4 @@
+from turtle import back
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
@@ -828,6 +829,7 @@ class Info(Cog_ExtenSion):
 
     @commands.command()
     async def roleinfo(self,ctx : discord.ApplicationContext,*,role : discord.Role = None ):
+        
         if role != None:
             role_data = {
                 "🗒️ 名字" : role.mention,
@@ -843,12 +845,54 @@ class Info(Cog_ExtenSion):
                 timestamp=datetime.datetime.utcnow()
             )
 
+            view = discord.ui.View(timeout=None)
+            backview = discord.ui.View(timeout=None)
+
+            checkbutton = discord.ui.Button(
+                style=discord.ButtonStyle.success,
+                label="擁有人",
+                emoji="📊"
+            )
+            backbutton = discord.ui.Button(
+                style=discord.ButtonStyle.primary,
+                label="回去",
+                emoji="🔙"
+            )
+
+            async def checkbuttoncallback(interaction:discord.Interaction):
+                role_members = ""
+                role_members_count = 0
+                for n in role.members:
+                    role_members_count += 1
+                    role_members += f"{n.mention}\n"
+                    if role_members >= 1014:
+                        role_members += f"+{len(role.members) - role_members_count}人.."
+                        break
+
+                checkembed = discord.Embed(
+                    title=f"擁有此身分組的人",
+                    description=role_members,
+                    color=discord.Colour.random()
+                )
+
+                await interaction.response.edit_message(embed=checkembed,view=backview)
+
+            async def backbuttoncallback(interaction:discord.Interaction):
+                await interaction.response.edit_message(embed=embed,view=view)
+            
             for n in role_data:
                 if n == None:
                     n = "無"
                 embed.add_field(name=n,value=role_data[n],inline=False)
+
+            checkbutton.callback = checkbuttoncallback
+            backbutton.callback = backbuttoncallback
+
+            view.add_item(checkbutton)
+            backview.add_item(backbutton)
   
         else:
+            view = discord.ui.View()
             embed = discord.Embed(
                 title="使用 g!roleinfo 取得身分組資訊!",
                 description="使用方法❓ g!roleinfo `標註身分組/身分組名稱/身分組id`",
@@ -859,7 +903,7 @@ class Info(Cog_ExtenSion):
             text="rolenfo | 身分組資訊",
             icon_url=bot_icon_url
         )
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed,view=view)
             
 def setup(bot):
     bot.add_cog(Info(bot))

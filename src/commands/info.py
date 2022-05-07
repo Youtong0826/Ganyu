@@ -1,4 +1,3 @@
-from turtle import back
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
@@ -829,7 +828,7 @@ class Info(Cog_ExtenSion):
 
     @commands.command()
     async def roleinfo(self,ctx : discord.ApplicationContext,*,role : discord.Role = None ):
-        
+
         if role != None:
             role_data = {
                 "🗒️ 名字" : role.mention,

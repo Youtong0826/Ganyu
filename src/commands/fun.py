@@ -201,7 +201,7 @@ class Fun(Cog_ExtenSion):
         embed = discord.Embed(
             title=f"{ctx.author.name} 感謝您使用此功能!",
             description="以下為您的測驗結果",
-            color=0x9b59b6,
+            color=discord.Colour.random()
             timestamp=datetime.datetime.utcnow()
         )
 

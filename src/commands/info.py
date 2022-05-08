@@ -569,7 +569,7 @@ class Info(Cog_ExtenSion):
             Botinfo = BotDict(self.bot)
 
             for n in Botinfo:
-                embed.add_field(name=n,value=Botinfo[n[0]],inline=Botinfo[n[1]])
+                embed.add_field(name=n,value=Botinfo[n].get("value"),inline=Botinfo[n].get("inline"))
 
             embed.set_footer(
                 text="made by Youtong._.0826",

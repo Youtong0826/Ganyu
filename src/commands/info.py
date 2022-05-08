@@ -15,15 +15,25 @@ g!invite
 
 def ServerDict(guild:discord.Guild):
     server ={
-                "🚹 __服主__" : guild.owner.mention,
-                "💳 __ID__" : guild.id,
-                "🗓️ __創建時間__" : guild.created_at.strftime('%Y/%m/%d'),
-                "📈 __人數__" : guild.member_count,
-                "📊 __頻道數__" : len(guild.text_channels) + len(guild.voice_channels),
-                "👾 __表情符號__" : len(guild.emojis),
-                "📌 __身分組__" : len(guild.roles),               
+        "🚹 __服主__" : guild.owner.mention,
+        "💳 __ID__" : guild.id,
+        "🗓️ __創建時間__" : guild.created_at.strftime('%Y/%m/%d'),
+        "📈 __人數__" : guild.member_count,
+        "📊 __頻道數__" : len(guild.text_channels) + len(guild.voice_channels),
+        "👾 __表情符號__" : len(guild.emojis),
+        "📌 __身分組__" : len(guild.roles),               
             }
     return server
+
+def BotDict(bot:commands.Bot):
+    bot = {
+        "📆 創建時間":["`2022/1/21(GMT+8:00)`",False],
+        "📜 ID":["`921673886049910795`",False],
+        "🌐 伺服器" : [f"`{len(bot.guilds)}`",True],
+        "📊 用戶" : [f"`{len(bot.users)}`",True],
+        "💫 Ping" : [f"{round(bot.latency * 100)}",True]
+    }
+    return bot
 
 class Info(Cog_ExtenSion):
     #@commands.command()
@@ -556,32 +566,10 @@ class Info(Cog_ExtenSion):
                 timestamp=datetime.datetime.utcnow()
             )
 
-            embed.add_field(
-                name="📆 創建時間",
-                value="`2022/1/21(GMT+8:00)`",
-                inline=False
-            )
+            Botinfo = BotDict(self.bot)
 
-            embed.add_field(
-                name="📜 ID",
-                value=f"`921673886049910795`",
-                inline=False
-            )
-
-            embed.add_field(
-                name="🌐 伺服器",
-                value=f'`{len(self.bot.guilds)}`'
-            )
-            
-            embed.add_field(
-                name="📊 用戶",
-                value=f'`{len(self.bot.users)}`'
-            )
-
-            embed.add_field(
-                name="💫 Ping",
-                value=f"`{round(self.bot.latency*1000)} ms`"
-            )
+            for n in Botinfo:
+                embed.add_field(name=n,value=Botinfo[n[0]],inline=Botinfo[n[1]])
 
             embed.set_footer(
                 text="made by Youtong._.0826",

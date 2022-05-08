@@ -27,11 +27,11 @@ def ServerDict(guild:discord.Guild):
 
 def BotDict(bot:commands.Bot):
     bot = {
-        "📆 創建時間":["`2022/1/21(GMT+8:00)`",False],
-        "📜 ID":["`921673886049910795`",False],
-        "🌐 伺服器" : [f"`{len(bot.guilds)}`",True],
-        "📊 用戶" : [f"`{len(bot.users)}`",True],
-        "💫 Ping" : [f"{round(bot.latency * 100)}",True]
+        "📆 創建時間":{"value":"`2022/1/21(GMT+8:00)`","inline":False},
+        "📜 ID":{"value":"`921673886049910795`","inline":False},
+        "🌐 伺服器" : {"value":f"`{len(bot.guilds)}`","inline":True},
+        "📊 用戶" : {"value":f"`{len(bot.users)}`","inline":True},
+        "💫 Ping" : {"value":f"{round(bot.latency * 1000)}","inline":True}
     }
     return bot
 

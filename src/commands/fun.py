@@ -205,14 +205,16 @@ class Fun(Cog_ExtenSion):
             timestamp=datetime.datetime.utcnow()
         )
 
-        luckybar = ""
+        luckybar = "["
 
         for n in range(round(luckypoint/10)):
             luckybar += "█"
 
         if len(luckybar) != 10:
             for n in range(10 - len(luckybar)):
-                luckybar += "░"
+                luckybar += " "
+
+        luckybar += "]"
 
         luckform = {
             "🔯 幸運指數":f"{luckybar} {luckypoint}%",

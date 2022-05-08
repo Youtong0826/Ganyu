@@ -205,13 +205,21 @@ class Fun(Cog_ExtenSion):
             timestamp=datetime.datetime.utcnow()
         )
 
+        luckybar = ""
+
+        for n in range(round(luckypoint/10)):
+            luckybar += "█"
+
+        while (len(luckybar) == 10):
+            luckybar+="░"
+
         luckform = {
             "🔯 幸運指數":luckypoint,
             "🔷 幸運色" : random.choice(luckycolor),
         }
 
         for n in luckform:
-            embed.add_field(name=n,value=luckform[n])
+            embed.add_field(name=n,value=luckform[n],inline=False)
 
         embed.set_footer(text="lucktest | 運氣測試",icon_url=bot_icon_url)
 

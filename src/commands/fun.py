@@ -210,9 +210,9 @@ class Fun(Cog_ExtenSion):
         for n in range(round(luckypoint/10)):
             luckybar += "█"
 
-        while len(luckybar) == 10:
-            print("i")
-            luckybar +="░"
+        if len(luckybar) != 10:
+            for n in range(10 - len(luckybar)):
+                luckybar += "░"
 
         luckform = {
             "🔯 幸運指數":f"{luckybar} {luckypoint}%",

@@ -213,7 +213,7 @@ class Fun(Cog_ExtenSion):
         for n in luckform:
             embed.add_field(name=n,value=luckform[n])
 
-        embed.set_footer("lucktest | 運氣測試",bot_icon_url)
+        embed.set_footer(text="lucktest | 運氣測試",icon_url=bot_icon_url)
 
         await ctx.send(embed=embed)
 

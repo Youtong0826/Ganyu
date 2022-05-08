@@ -208,11 +208,11 @@ class Fun(Cog_ExtenSion):
         luckybar = "["
 
         for n in range(round(luckypoint/10)):
-            luckybar += "█"
+            luckybar += "＃"
 
         if len(luckybar) != 10:
             for n in range(10 - len(luckybar)):
-                luckybar += " "
+                luckybar += "．"
 
         luckybar += "]"
 

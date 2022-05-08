@@ -96,7 +96,7 @@ class Fun(Cog_ExtenSion):
         ClothButton = discord.ui.Button(
             style = discord.ButtonStyle.success,
             label = "布",
-            emoji = "🧻"
+            emoji = "📄"
         )
 
         async def ScissorsButtonCallback(interaction:discord.Interaction):
@@ -184,6 +184,38 @@ class Fun(Cog_ExtenSion):
         MainView.add_item(ClothButton)
 
         await ctx.send(embed = MainEmbed, view = MainView)
+
+    @commands.command()
+    async def luck(self,ctx):
+        luckypoint = random.randint(0,100)
+
+        luckycolor = [
+            "紅色","橘色","金色","琥珀色","黃色","檸檬綠色","蔚藍色","綠色","淺藍色","藍綠色","綠松色","道奇藍","洋紅色","鴨綠色","靛色",
+            "紫色","奶油色","薰衣草色","蘭花色","粉紅色","灰色","白色","黑色"
+        ]
+        
+        luckystick = [
+            "大大吉","大吉","吉",""
+        ]
+
+        embed = discord.Embed(
+            title=f"{ctx.author.name} 感謝您使用此功能!",
+            description="以下為您的測驗結果",
+            color=discord.Colour.purple,
+            timestamp=datetime.datetime.utcnow()
+        )
+
+        luckform = {
+            "🔯 幸運指數":luckypoint,
+            "🔷 幸運色" : random.choice(luckycolor),
+        }
+
+        for n in luckform:
+            embed.add_field(name=n,value=luckform[n])
+
+        embed.set_footer("lucktest | 運氣測試")
+
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Fun(bot))

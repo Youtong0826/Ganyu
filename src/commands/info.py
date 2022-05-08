@@ -1,3 +1,4 @@
+from http import server
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
@@ -12,23 +13,17 @@ g!update
 g!invite
 """
 
-def InfoDict(user:discord.Member,bot:commands.Bot):
-    infodict = {
-        "server" : {
-            "title": user.guild.name,
-            "id": user.guild.id,
-            "owner" : user.guild.owner,
-            "members" : user.guild.member_count,
-            "roles" : user.guild.roles,
-            "createdtime" : user.guild.created_at,
-            "channels" : user.guild.text_channels + user.guild.voice_channels,
-            "emojis" : user.guild.emojis,
-            "boost" :{
-                "booster" : user.guild.premium_subscription_count ,
-                "boost_level" : user.guild.premium_tier
+def ServerDict(guild:discord.Guild):
+    server ={
+                "🚹 __服主__" : guild.owner.mention,
+                "💳 __ID__" : guild.id,
+                "🗓️ __創建時間__" : guild.created_at.strftime('%Y/%m/%d'),
+                "📈 __人數__" : guild.member_count,
+                "📊 __頻道數__" : len(guild.text_channels) + len(guild.voice_channels),
+                "👾 __表情符號__" : len(guild.emojis),
+                "📌 __身分組__" : len(guild.roles),               
             }
-        }
-    }
+    return server
 
 class Info(Cog_ExtenSion):
     #@commands.command()
@@ -442,17 +437,7 @@ class Info(Cog_ExtenSion):
                 title=f'{guild}',
                 color=0x9c8fff,
                 timestamp=datetime.datetime.utcnow()
-            )
-
-            embed_dict ={
-                "🚹 __服主__" : guild.owner.mention,
-                "💳 __ID__" : guild.id,
-                "🗓️ __創建時間__" : guild.created_at.strftime('%Y/%m/%d'),
-                "📈 __人數__" : guild.member_count,
-                "📊 __頻道數__" : len(guild.text_channels) + len(guild.voice_channels),
-                "👾 __表情符號__" : len(guild.emojis),
-                "📌 __身分組__" : len(guild.roles),               
-            }       
+            )      
                 #次數: \
                 #等級: {guild.premium_tier}\
                 #進度條: ` {bar} `"             
@@ -463,8 +448,10 @@ class Info(Cog_ExtenSion):
                 #主要語言: {guild.preferred_locale}\
                 #規則頻道: {rules_channel}",
             
-            for n in embed_dict:
-                embed_main.add_field(name=n,value=embed_dict[n],inline=False)
+            serverinfo = ServerDict(guild=guild)
+
+            for n in serverinfo:
+                embed_main.add_field(name=n,value=serverinfo[n],inline=False)
 
             embed_main.set_thumbnail(
                 url=guild.icon
@@ -585,7 +572,7 @@ class Info(Cog_ExtenSion):
                 name="🌐 伺服器",
                 value=f'`{len(self.bot.guilds)}`'
             )
-            print(len(self.bot.guilds))
+            
             embed.add_field(
                 name="📊 用戶",
                 value=f'`{len(self.bot.users)}`'
@@ -647,9 +634,7 @@ class Info(Cog_ExtenSion):
                         roles3 = f"{roles}"
 
             if len(roles) > 1014:
-                roles = f"{roles3}+{roles_count-roles_count2} Roles..."
-
-            roles.strip("|")
+                roles = f"{roles3}+{roles_count-roles_count2} Roles...".strip("|")
 
             embed_main = discord.Embed(
                 title=f"{member.name} 的個人資訊 ",
@@ -663,7 +648,7 @@ class Info(Cog_ExtenSion):
 
             embed_main.add_field(
                 name="🐬 暱稱",
-                value=f"{nick}"
+                value=f"{nick}",
             )
 
             embed_main.add_field(

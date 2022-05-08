@@ -214,7 +214,7 @@ class Fun(Cog_ExtenSion):
             luckybar+="░"
 
         luckform = {
-            "🔯 幸運指數":luckypoint,
+            "🔯 幸運指數":f"{luckybar} {luckypoint}%",
             "🔷 幸運色" : random.choice(luckycolor),
         }
 

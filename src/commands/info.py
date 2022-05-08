@@ -23,6 +23,7 @@ def ServerDict(guild:discord.Guild):
         "👾 __表情符號__" : len(guild.emojis),
         "📌 __身分組__" : len(guild.roles),               
             }
+
     return server
 
 def BotDict(bot:commands.Bot):
@@ -33,6 +34,7 @@ def BotDict(bot:commands.Bot):
         "📊 用戶" : {"value":f"`{len(bot.users)}`","inline":True},
         "💫 Ping" : {"value":f"{round(bot.latency * 1000)}","inline":True}
     }
+    
     return bot
 
 class Info(Cog_ExtenSion):
@@ -798,6 +800,42 @@ class Info(Cog_ExtenSion):
         embed.description = context
 
         await ctx.channel.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+
+    @commands.command()
+    async def getuser(self, ctx, id: int):
+        embed = discord.Embed(
+            title="成功!",
+            description=f"id為 {id} 的用戶是 {self.bot.get_user(id).name} !",
+            color=discord.Colour.random(),
+            timestamp=datetime.datetime.utcnow()
+        )
+
+        embed.set_footer(
+            text=f"{ctx.author.name}",
+            icon_url=ctx.author.avatar
+        )
+
+        await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+
+    @commands.command()
+    async def getid(self, ctx, name: discord.Member):
+
+        embed = discord.Embed(
+            title="成功!",
+            description=f"用戶名為 {name.name} 的id是 {name.id} !",
+            color=discord.Colour.random(),
+            timestamp=datetime.datetime.utcnow()
+        )
+
+        embed.set_footer(
+            text=f"{ctx.author.name}",
+            icon_url=ctx.author.avatar
+        )
+
+        await ctx.send(embed=embed)
+
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()

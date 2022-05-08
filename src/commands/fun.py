@@ -211,7 +211,8 @@ class Fun(Cog_ExtenSion):
             luckybar += "█"
 
         while (len(luckybar) == 10):
-            luckybar+="░"
+            print("i")
+            luckybar +="░"
 
         luckform = {
             "🔯 幸運指數":f"{luckybar} {luckypoint}%",

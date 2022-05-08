@@ -80,7 +80,7 @@ class Cucmd(Cog_ExtenSion):
     async def ping(self, ctx):
 
         embed = discord.Embed(
-            title=f" 💫💫💫 Ping: {round(self.bot.latency*1000)} ms",
+            title=f"Ping: {round(self.bot.latency*1000)} ms 💫💫💫 ",
             color=discord.Colour.random(),
             timestamp=datetime.datetime.utcnow()
         )
@@ -88,42 +88,6 @@ class Cucmd(Cog_ExtenSion):
         embed.set_footer(
             text=f"Ping 延遲",
             icon_url=bot_icon_url
-        )
-
-        await ctx.send(embed=embed)
-
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
-
-    @commands.command()
-    async def getuser(self, ctx, id: int):
-        embed = discord.Embed(
-            title="成功!",
-            description=f"id為 {id} 的用戶是 {self.bot.get_user(id).name} !",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
-        )
-
-        embed.set_footer(
-            text=f"{ctx.author.name}",
-            icon_url=ctx.author.avatar
-        )
-
-        await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
-
-    @commands.command()
-    async def getid(self, ctx, name: discord.Member):
-
-        embed = discord.Embed(
-            title="成功!",
-            description=f"用戶名為 {name.name} 的id是 {name.id} !",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
-        )
-
-        embed.set_footer(
-            text=f"{ctx.author.name}",
-            icon_url=ctx.author.avatar
         )
 
         await ctx.send(embed=embed)

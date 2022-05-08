@@ -168,7 +168,7 @@ async def on_command_error(ctx, error):
         chiness = chiness[:-1]
     
     embed = discord.Embed(title="錯誤",description=chiness,color=discord.Color.red())
-    print(error)
+    print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {error} in {ctx.author.guild}")
     
     #await ctx.send(embed=embed)
 

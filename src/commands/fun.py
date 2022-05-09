@@ -188,6 +188,7 @@ class Fun(Cog_ExtenSion):
     @commands.command()
     async def luck(self,ctx):
         luckypoint = random.randint(0,100)
+        luckybar = ""
 
         luckycolor = [
             "紅色","橘色","金色","琥珀色","黃色","檸檬綠色","蔚藍色","綠色","淺藍色","藍綠色","綠松色","道奇藍","洋紅色","鴨綠色","靛色",
@@ -204,15 +205,12 @@ class Fun(Cog_ExtenSion):
             color=discord.Colour.purple(),
             timestamp=datetime.datetime.utcnow()
         )
-        luckybar = "["
 
         for n in range(round(luckypoint/10)):
             luckybar += "▮"
 
-        while (len(luckybar) != 11):
+        while (len(luckybar) != 10):
             luckybar += "▯"
-
-        luckybar += "]"
 
         luckform = {
             "🔯 幸運指數":f"{luckybar} {luckypoint}%",

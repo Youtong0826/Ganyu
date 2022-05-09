@@ -31,7 +31,8 @@ ganyuCommands = {
             ["g!dice `int` ", "讓這個機器人幫你骰骰子"],
             ["g!rpg", "RPG系統(製作中 暫不開放)"],
             ["g!mora","猜拳"],
-            ["g!rainbow","彩虹"]
+            ["g!rainbow","彩虹"],
+            ["g!luck","幸運值"]
         ]
     ),
     "info": mustFieldEmbed(

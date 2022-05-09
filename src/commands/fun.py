@@ -204,7 +204,7 @@ class Fun(Cog_ExtenSion):
             color=discord.Colour.purple(),
             timestamp=datetime.datetime.utcnow()
         )
-        luckybar = ""
+        luckybar = "["
 
         for n in range(round(luckypoint/10)):
             luckybar += "▮"
@@ -212,6 +212,7 @@ class Fun(Cog_ExtenSion):
         while (len(luckybar) != 11):
             luckybar += "▯"
 
+        luckybar += "]"
 
         luckform = {
             "🔯 幸運指數":f"{luckybar} {luckypoint}%",

@@ -210,7 +210,7 @@ class Fun(Cog_ExtenSion):
         for n in range(round(luckypoint/10)):
             luckybar += "▮"
 
-        while (len(luckybar) != 10):
+        while (len(luckybar) != 11):
             luckybar += "▯"
 
         luckybar += "]"

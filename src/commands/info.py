@@ -32,7 +32,7 @@ def BotDict(bot:commands.Bot):
         "📜 ID":{"value":"`921673886049910795`","inline":False},
         "🌐 伺服器" : {"value":f"`{len(bot.guilds)}`","inline":True},
         "📊 用戶" : {"value":f"`{len(bot.users)}`","inline":True},
-        "💫 Ping" : {"value":f"{round(bot.latency * 1000)}","inline":True}
+        "💫 Ping" : {"value":f"`{round(bot.latency * 1000)}`","inline":True}
     }
     
     return bot

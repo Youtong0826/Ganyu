@@ -354,7 +354,7 @@ class Cucmd(Cog_ExtenSion):
                 guilds += f"[**{guild.name}** 擁有者:**{guild.owner.name}** **{len(guild.members)}**人]\n"
 
         embed = discord.Embed(
-            title="所在的伺服器",
+            title="所在的伺服器(多人)",
             description=guilds
         )
 

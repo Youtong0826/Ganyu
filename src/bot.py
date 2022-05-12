@@ -210,17 +210,17 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
 
 @tasks.loop(seconds=10)
 async def looping():
-    channel = bot.get_channel(957161962733723678)
-    await channel.send("qq")
-    #bot_activitys = [
-    #    discord.Activity(type = discord.ActivityType.listening,name = "g!help"),
-    #    discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.guilds)} 個伺服器"),
-    #    discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.users)} 個用戶"),
-    #    discord.Activity(type=discord.ActivityType.playing,name = f"{len(bot.commands)} 條指令")
-    #]
+
+    bot_activitys = [
+        discord.Activity(type = discord.ActivityType.listening,name = "g!help"),
+        discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.guilds)} 個伺服器"),
+        discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.users)} 個用戶"),
+        discord.Activity(type=discord.ActivityType.playing,name = f"{len(bot.commands)} 條指令")
+    ]
     
-    #activity = random.choice(bot_activitys)
-    #await bot.change_presence(status = discord.Status.streaming, activity = activity)
+    activity = random.choice(bot_activitys)
+    
+    await bot.change_presence(status = discord.Status.streaming, activity = activity)
 
 looping.start()
 

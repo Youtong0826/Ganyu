@@ -208,21 +208,21 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
         if reaction.emoji == "👍":
             user.add_roles(roles=960443431291871252)
 
-@tasks.loop(seconds=10)
-async def looping(bot:commands.Bot):
-
-    bot_activitys = [
-        discord.Activity(type = discord.ActivityType.listening,name = "g!help"),
-        discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.guilds)} 個伺服器"),
-        discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.users)} 個用戶"),
-        discord.Activity(type=discord.ActivityType.playing,name = f"{len(bot.commands)} 條指令")
-    ]
-    
-    activity = random.choice(bot_activitys)
-
-    await bot.change_presence(status = discord.Status.streaming, activity = activity)
-
-looping(bot).start()
+#@tasks.loop(seconds=10)
+#async def looping():
+#
+#    bot_activitys = [
+#        discord.Activity(type = discord.ActivityType.listening,name = "g!help"),
+#        discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.guilds)} 個伺服器"),
+#        discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.users)} 個用戶"),
+#        discord.Activity(type=discord.ActivityType.playing,name = f"{len(bot.commands)} 條指令")
+#    ]
+#    
+#    activity = random.choice(bot_activitys)
+#
+#    await bot.change_presence(status = discord.Status.streaming, activity = activity)
+#
+#looping(bot).start()
 
 if __name__ == "__main__":
         bot.run("OTIxNjczODg2MDQ5OTEwNzk1.Yb2Vsg.qnZ86wXlT1dQdJzYoDrKUVQlhZU")

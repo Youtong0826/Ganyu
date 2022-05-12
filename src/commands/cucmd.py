@@ -350,8 +350,8 @@ class Cucmd(Cog_ExtenSion):
         bot : commands.Bot = self.bot 
 
         for guild in bot.guilds:
-
-            guilds += f"[**{guild.name}** 擁有者:**{guild.owner.name}** **{len(guild.members)}**人]\n"
+            if guild.member_count >= 30:
+                guilds += f"[**{guild.name}** 擁有者:**{guild.owner.name}** **{len(guild.members)}**人]\n"
 
         embed = discord.Embed(
             title="所在的伺服器",
@@ -362,12 +362,10 @@ class Cucmd(Cog_ExtenSion):
 
     @commands.command()
     async def dm(self,ctx,member:discord.Member=None ,*, message = None):
-        if ctx.author.id == 611118369474740244 or 856041155341975582:
-            print("y")
-            await member.send(content=message)
-        else:
-            print("n")
-            await ctx.send("此為管理員專用!")
+        await member.send(content=message)
+        embed = discord.Embed(title="已成功傳送私訊!")
+
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Cucmd(bot))

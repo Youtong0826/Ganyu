@@ -13,7 +13,7 @@ g!update
 g!invite
 """
 
-def ServerDict(guild:discord.Guild,type):
+def ServerDict(guild:discord.Guild):
     #次數: 
     #等級: {guild.premium_tier}
     #進度條: ` {bar} `"             
@@ -146,14 +146,15 @@ def ServerDict(guild:discord.Guild,type):
         "📌 __身分組__" : len(guild.roles),               
             }
 
+    setting = {
+        "Embed" : embed_main,
+        "View" : view_main
+    }
+
     for n in normal:
         embed_main.add_field(name=n,value=normal[n],inline=False)
     
-    if type == "Embed":
-        return embed_main
-
-    elif type == "View":
-        return view_main
+    return setting
 
 
 def BotDict(bot:commands.Bot):
@@ -535,12 +536,12 @@ class Info(Cog_ExtenSion):
     @commands.command()
     async def serinfo(self, ctx):
 
-            embed_main = ServerDict(guild=ctx.author.guild,type="Embed")
-            view_main = ServerDict(guild=ctx.author.guild,type="View")
+            Setting = ServerDict(guild=ctx.author.guild)
+ 
             
             await ctx.send(
-                embed=embed_main,
-                view=view_main
+                embed=Setting["Embed"],
+                view=Setting["View"]
             )
 
             print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")

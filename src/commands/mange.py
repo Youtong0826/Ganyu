@@ -166,8 +166,8 @@ class Mange(Cog_ExtenSion):
     @commands.command()
     async def addrole(self,ctx,role : discord.Role=None,member : discord.Member=None):
         user : discord.Member = ctx.author
-        if user.guild_permissions.manage_roles:
-            if role and member != None:
+        if role and member != None:
+            if user.guild_permissions.manage_roles:
                 await member.add_roles(role)
 
                 embed = discord.Embed(
@@ -176,20 +176,20 @@ class Mange(Cog_ExtenSion):
                 )
 
             else:
-
                 embed = discord.Embed(
+                title="你沒有權限!",
+                description=f"缺少權限 `mange_roles` `管理身分組`",
+                color=0xff2e2e,
+            )
+                
+
+        else:
+            embed = discord.Embed(
                     title="使用g!addrole來替成員新增身分組!",
                     description='使用方法: g!addrole `身分組名稱/id` `提及成員/成員名稱/id`\
                     \n特殊情況: 如果是 `身分組名稱/id` 或 `提及成員/成員名稱/id` 內有空格的話 請在兩邊加上"" 範例:`g!addrole "管理 管理員" "You Tong0826"`',
                     color=discord.Colour.random()
                 )
-
-        else:
-            embed = discord.Embed(
-                title="你沒有權限!",
-                description=f"缺少權限 `mange_roles` `管理身分組`",
-                color=0xff2e2e,
-            )
 
         await ctx.send(embed=embed)
 

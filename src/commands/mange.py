@@ -179,7 +179,7 @@ class Mange(Cog_ExtenSion):
 
                 embed = discord.Embed(
                     title="使用g!addrole來替成員新增身分組!",
-                    description="使用方法: g!addrole `名稱/id`",
+                    description="使用方法: g!addrole `身分組名稱/id` `提及成員/成員名稱/id`",
                     color=discord.Colour.random()
                 )
 

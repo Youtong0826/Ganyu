@@ -71,7 +71,8 @@ ganyuCommands = {
         ),
         [
             ["g!ban `user`", "停權其他用戶"],
-            ["g!kick `user`", "踢出其他用戶"]
+            ["g!kick `user`", "踢出其他用戶"],
+            ["g!addrole `role` `user`", "新增身分組至一名用戶" ]
         ]
     ),
     "owner": mustFieldEmbed(

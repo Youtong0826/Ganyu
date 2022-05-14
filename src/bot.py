@@ -5,7 +5,7 @@ from discord.ext import commands , tasks
 from lib.function import translate
 import random
 
-bot = discord.Bot(
+bot = commands.Bot(
     command_prefix='g!',
     intents=discord.Intents.all()
 )
@@ -167,10 +167,20 @@ async def on_command_error(ctx, error):
     if chiness.endswith("。"):
         chiness = chiness[:-1]
     
-    embed = discord.Embed(title="錯誤",description=chiness,color=discord.Color.red())
+    embed = discord.Embed(title="錯誤",description="以下為回報內容",color=discord.Color.red())
+
+    embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
+
+    embed.add_field(name="翻譯後",value=chiness,inline=False)
+
+    embed.add_field(
+        name="應對措施",
+        value="如果Bot發生錯誤或是使用指令沒回應的話 極有可能是Bot本身的問題 如遇到此情況可使用 `g!report` 來回報給作者們 當然也可能是使用者的問題w",
+        inline=False
+    )
     print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {error} in {ctx.author.guild}")
     
-    #await ctx.send(embed=embed)
+    await ctx.send(embed=embed)
 
 
 @bot.event

@@ -13,8 +13,130 @@ g!update
 g!invite
 """
 
-def ServerDict(guild:discord.Guild):
-    server ={
+def ServerDict(guild:discord.Guild,type):
+    #次數: 
+    #等級: {guild.premium_tier}
+    #進度條: ` {bar} `"             
+    #活人: {person}\
+    #機器人: {mbot}"     
+    #靜態貼圖: {len(emojis)} 
+    #動態貼圖: {len(animated_emojis)}"       
+    #主要語言: {guild.preferred_locale}
+    #規則頻道: {rules_channel}",
+
+    mbot = 0
+    person = 0
+    booster = ""
+
+    for n in guild.members:
+        if n.bot:
+            mbot += 1
+        else:
+            person += 1
+
+    if guild.premium_progress_bar_enabled:
+        bar = "已開啟"
+
+    else:
+        bar = "未開啟"
+
+    for n in guild.premium_subscribers:
+        booster += f"{n.mention}\n"
+
+    if booster == "":
+        booster = "無"
+
+    if guild.rules_channel != None:
+        rules_channel = f"{guild.rules_channel.mention}"
+
+    else:
+        rules_channel = "無"
+
+    emojis = []
+    animated_emojis = []
+
+    for n in guild.emojis:
+
+        if n.animated:
+            animated_emojis.append(n)
+
+        else:
+            emojis.append(n)
+
+    embed_main = discord.Embed(
+        title=f'{guild}',
+        color=0x9c8fff,
+        timestamp=datetime.datetime.utcnow()
+    )
+    
+    embed_main.set_thumbnail(
+                url=guild.icon
+            )
+            
+    embed_main.set_footer(
+        text=f"serverinfo | 伺服器資訊",
+        icon_url=bot_icon_url
+    )
+
+    checkboosterbutton = discord.ui.Button(
+        style=discord.ButtonStyle.success,
+        emoji="📖",
+        label="Booster"
+    )
+    backbutton = discord.ui.Button(
+        style=discord.ButtonStyle.success,
+        emoji="🔙",
+        label="back"
+    )
+    rolesbutton = discord.ui.Button(
+        style=discord.ButtonStyle.primary,
+        emoji="📋",
+        label="Roles"
+    )
+
+    view_main = discord.ui.View(timeout=None)
+    view = discord.ui.View(timeout=None)
+    view.add_item(backbutton)
+    view_main.add_item(checkboosterbutton)
+    view_main.add_item(rolesbutton)
+
+    async def cbbcallback(interaction):
+        await interaction.response.edit_message(
+            embed=discord.Embed(
+                title=f"加成此伺服器的人({len(guild.premium_subscribers)})",
+                description=f"{booster}"),
+                view=view
+        )
+    async def backcallback(interaction):
+        await interaction.response.edit_message(
+            embed=embed_main,
+            view=view_main
+        )
+            
+    async def rolescallback(interaction):
+        roles_count = 0
+        roles = ""
+        for n in guild.roles:
+            if n.name != '@everyone':
+                roles += f"{n.mention} | "
+                roles_count += 1
+                if len(roles) >= 1014:
+                    roles += f" +{len(guild.roles) - roles_count} Roles..."
+                    break
+
+
+        await interaction.response.edit_message(
+            embed=discord.Embed(
+                title=f"身分組[{roles_count}]",
+                description=f"{roles}"
+            ),
+            view=view
+        )
+    checkboosterbutton.callback = cbbcallback
+    backbutton.callback = backcallback
+    rolesbutton.callback = rolescallback
+
+    normal ={
         "🚹 __服主__" : guild.owner.mention,
         "💳 __ID__" : guild.id,
         "🗓️ __創建時間__" : guild.created_at.strftime('%Y/%m/%d'),
@@ -24,7 +146,15 @@ def ServerDict(guild:discord.Guild):
         "📌 __身分組__" : len(guild.roles),               
             }
 
-    return server
+    for n in normal:
+        embed_main.add_field(name=n,value=normal[n],inline=False)
+    
+    if type == "Embed":
+        return embed_main
+
+    elif type == "View":
+        return view_main
+
 
 def BotDict(bot:commands.Bot):
     bot = {
@@ -404,156 +534,16 @@ class Info(Cog_ExtenSion):
 
     @commands.command()
     async def serinfo(self, ctx):
-        can_see = True
-        mbot = 0
-        person = 0
-        booster = ""
-        guild : discord.Guild = ctx.author.guild
 
-        for n in guild.members:
-
-            if n.bot:
-                mbot += 1
-
-            else:
-                person += 1
-
-        if guild.premium_progress_bar_enabled:
-            bar = "已開啟"
-
-        else:
-            bar = "未開啟"
-
-        for n in guild.premium_subscribers:
-            booster += f"{n.mention}\n"
-
-        if booster == "":
-            booster = "無"
-
-        if guild.rules_channel != None:
-            rules_channel = f"{guild.rules_channel.mention}"
-        else:
-            rules_channel = "無"
-
-        emojis = []
-        animated_emojis = []
-
-        for n in guild.emojis:
-            if n.animated:
-                animated_emojis.append(n)
-            else:
-                emojis.append(n)
-
-        if can_see == True:
-            embed_main = discord.Embed(
-                title=f'{guild}',
-                color=0x9c8fff,
-                timestamp=datetime.datetime.utcnow()
-            )      
-                #次數: \
-                #等級: {guild.premium_tier}\
-                #進度條: ` {bar} `"             
-                #活人: {person}\
-                #機器人: {mbot}"     
-                #靜態貼圖: {len(emojis)} \
-                #動態貼圖: {len(animated_emojis)}"       
-                #主要語言: {guild.preferred_locale}\
-                #規則頻道: {rules_channel}",
+            embed_main = ServerDict(guild=ctx.author.guild,type="Embed")
+            view_main = ServerDict(guild=ctx.author.guild,type="View")
             
-            serverinfo = ServerDict(guild=guild)
-
-            for n in serverinfo:
-                embed_main.add_field(name=n,value=serverinfo[n],inline=False)
-
-            embed_main.set_thumbnail(
-                url=guild.icon
-            )
-
-            embed_main.set_footer(
-                text=f"serverinfo | 伺服器資訊",
-                icon_url=bot_icon_url
-            )
-
-            checkboosterbutton = discord.ui.Button(
-                style=discord.ButtonStyle.success,
-                emoji="📖",
-                label="Booster"
-            )
-
-            backbutton = discord.ui.Button(
-                style=discord.ButtonStyle.success,
-                emoji="🔙",
-                label="back"
-            )
-
-            rolesbutton = discord.ui.Button(
-                style=discord.ButtonStyle.primary,
-                emoji="📋",
-                label="Roles"
-            )
-
-            view_main = discord.ui.View(timeout=None)
-            view = discord.ui.View(timeout=None)
-
-            view.add_item(backbutton)
-            view_main.add_item(checkboosterbutton)
-            view_main.add_item(rolesbutton)
-
-            async def cbbcallback(interaction):
-
-                await interaction.response.edit_message(
-                    embed=discord.Embed(
-                        title=f"加成此伺服器的人({len(guild.premium_subscribers)})",
-                        description=f"{booster}"),
-                    view=view
-                )
-
-            async def backcallback(interaction):
-
-                await interaction.response.edit_message(
-                    embed=embed_main,
-                    view=view_main
-                )
-
-            async def rolescallback(interaction):
-                roles_count = 0
-                roles = ""
-
-                for n in guild.roles:
-                    if n.name != '@everyone':
-                        roles += f"{n.mention} | "
-                        roles_count += 1
-
-                        if len(roles) < 1014:
-                            roles_count2 = roles_count
-                            roles3 = f"{roles}"
-
-                if len(roles) > 1014:
-                    roles = f"{roles3}+{roles_count-roles_count2} Roles..."
-
-                await interaction.response.edit_message(
-                    embed=discord.Embed(
-                        title=f"身分組[{roles_count}]",
-                        description=f"{roles}"
-                    ),
-                    view=view
-                )
-            checkboosterbutton.callback = cbbcallback
-            backbutton.callback = backcallback
-            rolesbutton.callback = rolescallback
-
             await ctx.send(
                 embed=embed_main,
                 view=view_main
             )
 
-        else:
-            embed = discord.Embed(
-                title="此功能暫未開啟",
-                color=discord.Colour.random()
-            )
-
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+            print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def botinfo(self, ctx):

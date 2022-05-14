@@ -182,8 +182,6 @@ class Mange(Cog_ExtenSion):
                     description="使用方法: g!addrole `名稱/id`",
                     color=discord.Colour.random()
                 )
-            
-            await ctx.send(embed=embed)
 
         else:
             embed = discord.Embed(

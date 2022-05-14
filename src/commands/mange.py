@@ -186,8 +186,6 @@ class Mange(Cog_ExtenSion):
         else:
             embed = discord.Embed(
                     title="使用g!addrole來替成員新增身分組!",
-                    description=': \
-                    \n: ',
                     color=discord.Colour.random()
                 )
             

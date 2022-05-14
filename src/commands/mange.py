@@ -176,21 +176,23 @@ class Mange(Cog_ExtenSion):
                 )
 
             else:
+
                 embed = discord.Embed(
                     title="使用g!addrole來替成員新增身分組!",
                     description="使用方法: g!addrole `名稱/id`",
                     color=discord.Colour.random()
                 )
+            
+            await ctx.send(embed=embed)
 
         else:
             embed = discord.Embed(
                 title="你沒有權限!",
                 description=f"缺少權限 `mange_roles` `管理身分組`",
                 color=0xff2e2e,
-                timestamp=datetime.datetime.utcnow()
             )
 
-            await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Mange(bot))

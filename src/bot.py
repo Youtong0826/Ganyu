@@ -5,7 +5,7 @@ from discord.ext import commands , tasks
 from lib.function import translate
 import random
 
-bot = commands.Bot(
+bot = discord.Bot(
     command_prefix='g!',
     intents=discord.Intents.all()
 )

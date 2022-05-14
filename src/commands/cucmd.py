@@ -103,6 +103,7 @@ class Cucmd(Cog_ExtenSion):
         )
 
         await ctx.send(embed=embed)
+    
     @commands.command()
     async def pic(self, ctx):
         imgInfo = random.choice(imageIdList)

@@ -163,5 +163,34 @@ class Mange(Cog_ExtenSion):
     async def joinmsg(self, ctx, key = "on"):
         await ctx.send(ctx.author.guild.system_channel.name)
 
+    @commands.command()
+    async def addrole(self,ctx,role : discord.Role=None,member : discord.Member=None):
+        user : discord.Member = ctx.author
+        if user.guild_permissions.manage_roles:
+            if role and member != None:
+                await member.add_roles(role)
+
+                embed = discord.Embed(
+                    title="已成功新增身分組!",
+                    color=discord.Colour.random()
+                )
+
+            else:
+                embed = discord.Embed(
+                    title="使用g!addrole來替成員新增身分組!",
+                    description="使用方法: g!addrole `名稱/id`",
+                    color=discord.Colour.random()
+                )
+
+        else:
+            embed = discord.Embed(
+                title="你沒有權限!",
+                description=f"缺少權限 `mange_roles` `管理身分組`",
+                color=0xff2e2e,
+                timestamp=datetime.datetime.utcnow()
+            )
+
+            await ctx.send(embed=embed)
+
 def setup(bot):
     bot.add_cog(Mange(bot))

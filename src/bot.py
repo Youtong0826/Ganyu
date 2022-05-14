@@ -171,7 +171,7 @@ async def on_command_error(ctx, error):
 
     embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
 
-    embed.add_field(name="翻譯後",value=chiness,inline=False)
+    embed.add_field(name="翻譯後",value=f"```{chiness}```",inline=False)
 
     embed.add_field(
         name="應對措施",

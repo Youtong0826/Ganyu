@@ -105,7 +105,7 @@ def ServerDict(guild:discord.Guild):
 
     async def moreinfocallback(interaction:discord.Interaction):
         embed = discord.Embed(
-            title="更多資訊",
+            title="有關此伺服器的更多資訊",
             color=discord.Colour.random()
         )
 
@@ -184,15 +184,43 @@ def ServerDict(guild:discord.Guild):
 
 
 def BotDict(bot:commands.Bot):
-    bot = {
+    embed = discord.Embed(
+            title=f"{bot.user}",
+            color=0x9c8ff,
+            timestamp=datetime.datetime.utcnow()
+        )
+
+    botinfo = {
         "📆 創建時間":{"value":"`2022/1/21(GMT+8:00)`","inline":False},
         "📜 ID":{"value":"`921673886049910795`","inline":False},
         "🌐 伺服器" : {"value":f"`{len(bot.guilds)}`","inline":True},
         "📊 用戶" : {"value":f"`{len(bot.users)}`","inline":True},
         "💫 Ping" : {"value":f"`{round(bot.latency * 1000)} ms`","inline":True}
     }
-    
-    return bot
+
+    for n in botinfo:
+        embed.add_field(name=n,value=botinfo[n].get("value"),inline=botinfo[n].get("inline"))
+        
+    embed.set_footer(
+        text="made by Youtong._.0826",
+        icon_url="https://cdn.discordapp.com/avatars/856041155341975582/a5a57f0acdd5c5fb868c9ad50cf7c319.png?size=256"
+    )
+    mainbutton1 = discord.ui.Button(
+        style=discord.ButtonStyle.primary,
+        label="Invite Link",
+        emoji="🔗",
+        url="https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands"
+    )
+
+    mian_view = discord.ui.View(timeout=None)
+    mian_view.add_item(mainbutton1)
+
+    setting = {
+        "Embed" : embed,
+        "View" : mian_view
+    }
+
+    return setting
 
 class Info(Cog_ExtenSion):
     #@commands.command()
@@ -562,50 +590,20 @@ class Info(Cog_ExtenSion):
     @commands.command()
     async def serinfo(self, ctx):
 
-            Setting = ServerDict(guild=ctx.author.guild)
- 
-            
-            await ctx.send(
-                embed=Setting["Embed"],
-                view=Setting["View"]
-            )
+        Setting = ServerDict(guild=ctx.author.guild)
 
-            print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        await ctx.send(
+            embed=Setting["Embed"],
+            view=Setting["View"]
+        )
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def botinfo(self, ctx):
+        
+        Setting = BotDict(bot=self.bot)
 
-        can_see = True
-
-        if can_see == True:
-
-            embed = discord.Embed(
-                title=f"{self.bot.user}",
-                color=0x9c8ff,
-                timestamp=datetime.datetime.utcnow()
-            )
-
-            Botinfo = BotDict(self.bot)
-
-            for n in Botinfo:
-                embed.add_field(name=n,value=Botinfo[n].get("value"),inline=Botinfo[n].get("inline"))
-
-            embed.set_footer(
-                text="made by Youtong._.0826",
-                icon_url="https://cdn.discordapp.com/avatars/856041155341975582/a5a57f0acdd5c5fb868c9ad50cf7c319.png?size=256"
-            )
-
-            mainbutton1 = discord.ui.Button(
-                style=discord.ButtonStyle.primary,
-                label="Invite Link",
-                emoji="🔗",
-                url="https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands"
-            )
-
-            mian_view = discord.ui.View(timeout=None)
-            mian_view.add_item(mainbutton1)
-
-        await ctx.send(embed=embed, view=mian_view)
+        await ctx.send(embed=Setting["Embed"],view=Setting["View"])
 
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 

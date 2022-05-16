@@ -160,6 +160,7 @@ def ServerDict(guild:discord.Guild):
     checkboosterbutton.callback = cbbcallback
     backbutton.callback = backcallback
     rolesbutton.callback = rolescallback
+    moreinfobutton.callback = moreinfocallback
 
     normal ={
         "🚹 __服主__" : guild.owner.mention,
@@ -177,7 +178,7 @@ def ServerDict(guild:discord.Guild):
     }
 
     for n in normal:
-        embed_main.add_field(name=n,value=normal[n])
+        embed_main.add_field(name=n,value=normal[n],inline=True)
     
     return setting
 

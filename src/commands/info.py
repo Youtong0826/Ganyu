@@ -110,16 +110,16 @@ def ServerDict(guild:discord.Guild):
         )
 
         moreinfo = {
-            "__加成次數__": f"`{guild.premium_subscription_count}`",
-            "__加成等級__" : f"`{guild.premium_tier}`",
-            "__活人__" : f"`{person}`",
-            "__機器人__" : f"`{robot}`",
-            "__表情符號(靜態)__" : f"`{len(emojis)}`",
-            "__表情符號(動態)__" : f"`{len(animated_emojis)}`"
+            "⚜️ __加成次數__": f"{guild.premium_subscription_count}",
+            "🔱 __加成等級__" : f"{guild.premium_tier}",
+            "📈 __活人__" : f"{person}",
+            "📊 __機器人__" : f"{robot}",
+            "🐷 __表情符號(靜態)__" : f"{len(emojis)}",
+            "🐸 __表情符號(動態)__" : f"{len(animated_emojis)}"
         }
 
         for n in moreinfo:
-            embed.add_field(name=n,value=moreinfo[n])
+            embed.add_field(name=n,value=moreinfo[n],inline=False)
 
         await interaction.response.edit_message(embed=embed,view=view)
 

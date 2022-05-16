@@ -14,23 +14,16 @@ g!invite
 """
 
 def ServerDict(guild:discord.Guild):
-    #次數: 
-    #等級: {guild.premium_tier}
-    #進度條: ` {bar} `"             
-    #活人: {person}\
-    #機器人: {mbot}"     
-    #靜態貼圖: {len(emojis)} 
-    #動態貼圖: {len(animated_emojis)}"       
     #主要語言: {guild.preferred_locale}
     #規則頻道: {rules_channel}",
 
-    mbot = 0
+    robot = 0
     person = 0
     booster = ""
 
     for n in guild.members:
         if n.bot:
-            mbot += 1
+            robot += 1
         else:
             person += 1
 
@@ -105,9 +98,10 @@ def ServerDict(guild:discord.Guild):
     view_main = discord.ui.View(timeout=None)
     view = discord.ui.View(timeout=None)
     view.add_item(backbutton)
+    view_main.add_item(moreinfobutton)
     view_main.add_item(checkboosterbutton)
     view_main.add_item(rolesbutton)
-    view_main.add_item(moreinfobutton)
+    
 
     async def moreinfocallback(interaction:discord.Interaction):
         embed = discord.Embed(
@@ -116,8 +110,18 @@ def ServerDict(guild:discord.Guild):
         )
 
         moreinfo = {
-            "" : guild.premium_subscription_count
+            "__加成次數__": f"`{guild.premium_subscription_count}`",
+            "__加成等級__" : f"`{guild.premium_tier}`",
+            "__活人__" : f"`{person}`",
+            "__機器人__" : f"`{robot}`",
+            "__表情符號(靜態)__" : f"`{len(emojis)}`",
+            "__表情符號(動態)__" : f"`{len(animated_emojis)}`"
         }
+
+        for n in moreinfo:
+            embed.add_field(name=n,value=moreinfo[n])
+
+        await interaction.response.edit_message(embed=embed,view=view)
 
     async def cbbcallback(interaction):
         await interaction.response.edit_message(
@@ -173,7 +177,7 @@ def ServerDict(guild:discord.Guild):
     }
 
     for n in normal:
-        embed_main.add_field(name=n,value=normal[n],inline=False)
+        embed_main.add_field(name=n,value=normal[n])
     
     return setting
 

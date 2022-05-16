@@ -351,7 +351,7 @@ class Cucmd(Cog_ExtenSion):
         bot : commands.Bot = self.bot 
 
         for guild in bot.guilds:
-            if guild.member_count >= 30:
+            if guild.member_count >= 10:
                 guilds += f"[**{guild.name}** 擁有者:**{guild.owner.name}** **{len(guild.members)}**人]\n"
 
         embed = discord.Embed(

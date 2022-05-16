@@ -78,20 +78,28 @@ def ServerDict(guild:discord.Guild):
         icon_url=bot_icon_url
     )
 
+    moreinfobutton = discord.ui.Button(
+        style=discord.ButtonStyle.primary,
+        emoji="📘",
+        label="更多資訊"
+    )
+
     checkboosterbutton = discord.ui.Button(
         style=discord.ButtonStyle.success,
         emoji="📖",
-        label="Booster"
+        label="加成的大大"
     )
+
     backbutton = discord.ui.Button(
         style=discord.ButtonStyle.success,
         emoji="🔙",
         label="back"
     )
+    
     rolesbutton = discord.ui.Button(
         style=discord.ButtonStyle.primary,
         emoji="📋",
-        label="Roles"
+        label="身分組"
     )
 
     view_main = discord.ui.View(timeout=None)
@@ -99,6 +107,17 @@ def ServerDict(guild:discord.Guild):
     view.add_item(backbutton)
     view_main.add_item(checkboosterbutton)
     view_main.add_item(rolesbutton)
+    view_main.add_item(moreinfobutton)
+
+    async def moreinfocallback(interaction:discord.Interaction):
+        embed = discord.Embed(
+            title="更多資訊",
+            color=discord.Colour.random()
+        )
+
+        moreinfo = {
+            "" : guild.premium_subscription_count
+        }
 
     async def cbbcallback(interaction):
         await interaction.response.edit_message(
@@ -107,6 +126,7 @@ def ServerDict(guild:discord.Guild):
                 description=f"{booster}"),
                 view=view
         )
+
     async def backcallback(interaction):
         await interaction.response.edit_message(
             embed=embed_main,
@@ -132,6 +152,7 @@ def ServerDict(guild:discord.Guild):
             ),
             view=view
         )
+
     checkboosterbutton.callback = cbbcallback
     backbutton.callback = backcallback
     rolesbutton.callback = rolescallback

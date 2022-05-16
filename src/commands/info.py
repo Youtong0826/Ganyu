@@ -178,7 +178,7 @@ def ServerDict(guild:discord.Guild):
     }
 
     for n in normal:
-        embed_main.add_field(name=n,value=normal[n],inline=True)
+        embed_main.add_field(name=n,value=normal[n],inline=False)
     
     return setting
 

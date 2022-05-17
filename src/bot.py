@@ -219,7 +219,7 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
             user.add_roles(roles=960443431291871252)
 
 @tasks.loop(seconds=10)
-async def looping(bot):
+async def looping():
 
     bot_activitys = [
         discord.Activity(type = discord.ActivityType.listening,name = "g!help"),
@@ -232,7 +232,7 @@ async def looping(bot):
 
     await bot.change_presence(status = discord.Status.streaming, activity = activity)
 
-looping(bot).start()
+
 
 if __name__ == "__main__":
         bot.run("OTIxNjczODg2MDQ5OTEwNzk1.Yb2Vsg.qnZ86wXlT1dQdJzYoDrKUVQlhZU")

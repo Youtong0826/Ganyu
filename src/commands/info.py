@@ -105,9 +105,11 @@ def ServerDict(guild:discord.Guild):
 
     async def moreinfocallback(interaction:discord.Interaction):
         embed = discord.Embed(
-            title="有關此伺服器的更多資訊",
+            title=guild.name,
             color=discord.Colour.random()
         )
+
+        embed.set_thumbnail(url=guild.icon)
 
         moreinfo = {
             "⚜️ __加成次數__": f"{guild.premium_subscription_count}",

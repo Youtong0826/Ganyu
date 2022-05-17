@@ -218,8 +218,8 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
         if reaction.emoji == "👍":
             user.add_roles(roles=960443431291871252)
 
-@bot.loop(seconds=10)
-async def looping():
+@tasks.loop(seconds=10)
+async def looping(bot):
 
     bot_activitys = [
         discord.Activity(type = discord.ActivityType.listening,name = "g!help"),
@@ -232,7 +232,7 @@ async def looping():
 
     await bot.change_presence(status = discord.Status.streaming, activity = activity)
 
-looping().start()
+looping(bot).start()
 
 if __name__ == "__main__":
         bot.run("OTIxNjczODg2MDQ5OTEwNzk1.Yb2Vsg.qnZ86wXlT1dQdJzYoDrKUVQlhZU")

@@ -111,6 +111,8 @@ def ServerDict(guild:discord.Guild):
 
         embed.set_thumbnail(url=guild.icon)
 
+        embed.set_footer(text="What's more?",icon_url=bot_icon_url)
+
         moreinfo = {
             "⚜️ __加成次數__": f"{guild.premium_subscription_count}",
             "🔱 __加成等級__" : f"{guild.premium_tier}",

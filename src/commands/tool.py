@@ -48,9 +48,7 @@ class Tool(Cog_ExtenSion):
         article = wiki_search(text=text)
 
         if len(article) >= 6000:
-            article = article[0:2390]+"..."
-
-        print(article)
+            article = article[0:1200]+"..."
         
         if text != None:
             embed = discord.Embed(

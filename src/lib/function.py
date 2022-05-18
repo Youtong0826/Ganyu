@@ -34,6 +34,6 @@ def wiki_search(text):
     for n in articles:
         art+=n.text
 
-    art = art.split("\n")[0]
+    art = art[:200] + "...moreinfo in [wikipedia](https://zh.wikipedia.org)"
 
     return art

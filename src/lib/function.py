@@ -29,6 +29,11 @@ def wiki_search(text):
     soup = BeautifulSoup(web.text,"html.parser")
     articles = soup.select("div.mw-parser-output p")
     
-    art = articles[1].text
+    art = ""
+
+    for n in articles:
+        art+=n.text
+
+    art = art.split()[0]
 
     return art

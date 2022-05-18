@@ -336,7 +336,7 @@ def UserDict(member:discord.Member):
         embed.set_thumbnail(url=member.avatar)
 
         for n in moreinfo:
-            embed.add_field(name=n,value=moreinfo[n])
+            embed.add_field(name=n,value=moreinfo[n],inline=False)
 
         await interaction.response.edit_message(embed=embed,view=back_view)
 

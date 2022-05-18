@@ -41,7 +41,7 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["g!allinfo","一次查看所有資訊!"]
+            ["g!allinfo","一次查看所有資訊!"],
             ["g!userinfo `user`", "查看使用者在此伺服器的資訊"],
             ["g!serinfo", "查看伺服器的資訊"],
             ["g!botinfo `bot`", "查看機器人的資訊"],

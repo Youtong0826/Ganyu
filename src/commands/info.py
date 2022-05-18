@@ -326,7 +326,7 @@ def UserDict(member:discord.Member):
         moreinfo = {
             "🖥️ 驗證" : pending,
             "🔱 加成的時間" : psince,
-            "⚜️ 徽章數" : len(member.public_flags.all)
+            "⚜️ 徽章數" : len(member.public_flags.all())
         }
 
         embed = discord.Embed(
@@ -346,7 +346,7 @@ def UserDict(member:discord.Member):
     moreinfobutton.callback = moreinfobuttoncallback
     backbutton.callback = backbuttoncallback
     
-    Setting = {"Embed" : embed_main,"View" : main_view}
+    Setting = {"dEmbed" : embed_main,"View" : main_view}
 
     return Setting
 
@@ -403,6 +403,8 @@ class Info(Cog_ExtenSion):
                 info = ServerDict(ctx.author.guild)
                 embed = info["Embed"]
                 view = info["View"]
+
+            view.add_item(select_main)
 
             await interaction.response.edit_message(embed=embed,view=view)
 

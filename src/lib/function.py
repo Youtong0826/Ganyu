@@ -29,6 +29,6 @@ def wiki_search(text):
     soup = BeautifulSoup(web.text,"html.parser")
     articles = soup.select("div.mw-parser-output p")
     
-    art = articles[0].text
+    art = articles[1].text
 
     return art

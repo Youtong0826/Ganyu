@@ -49,8 +49,6 @@ ganyuCommands = {
             ["g!invite", "獲取邀請連結"],
             ["g!invites", "查看本服邀請榜"],
             ["g!roleinfo `role`","取得身分組資訊"],
-            ["g!getid `user`", "透過用戶取得id"],
-            ["g!getuser `id`", "透過id取得用戶"],
         ]
     ),
     "cmd": mustFieldEmbed(

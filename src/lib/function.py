@@ -3,6 +3,7 @@ import html
 from urllib import parse
 import requests
 import discord
+from bs4 import BeautifulSoup
 
 def translate(text, to_language="auto", text_language="auto"):
     GOOGLE_TRANSLATE_URL = 'http://translate.google.cn/m?q=%s&tl=%s&sl=%s'
@@ -22,6 +23,15 @@ def mustFieldEmbed(embed: discord.Embed, fields: list) -> discord.Embed:
     return embed
 
 def wiki_search(text):
-    
+    url = f"https://zh.wikipedia.org/wiki/{text}"
+    web = requests.get(url=url)
 
-    print("web_data")
+    soup = BeautifulSoup(web.text,"html.parser")
+    articles = soup.select("div.mw-parser-output p")
+
+    art = ""
+
+    for n in articles:
+        art += f"{n.text}\n"
+
+    return art

@@ -2,7 +2,7 @@ import html
 import  discord , datetime , requests , json 
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
-from lib.function import translate
+from lib.function import translate,wiki_search
 from commands.rpg import bot_icon_url
 
 google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
@@ -45,21 +45,12 @@ class Tool(Cog_ExtenSion):
 
     @commands.command()
     async def wiki(self,ctx,text=None):
-        wiki = "https://zh.wikipedia.org"
-
-        wiki_search_url = f"https://zh.wikipedia.org/w/index.php?search={text}"
-        wiki_url = f"https://zh.wikipedia.org/wiki/{text}"
-        web = requests.get(wiki_url)
-
-        web_data = web.text
-        web_data.index("")
-        web_header = web.headers
-        web_content = web.content
-        print(web_header)
+        article = wiki_search(text=text)
         
         if text != None:
             embed = discord.Embed(
-                description=f"[原文連結]()|[官網](",
+                title=text,
+                description=article,
                 color=discord.Colour.random())
         
 

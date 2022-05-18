@@ -189,9 +189,9 @@ class Mange(Cog_ExtenSion):
                     color=discord.Colour.random()
                 )
             
-            embed.add_field(name="使用方法",value="g!addrole `身分組名稱/id` `提及成員/成員名稱/id`",inline=False)
+            embed.add_field(name="使用方法",value="g!addrole `提及成員/成員名稱/id` `身分組名稱/id`",inline=False)
 
-            embed.add_field(name="特殊情況",value='如果是 `身分組名稱/id` 或 `提及成員/成員名稱/id` 含有空格的話 請在兩邊加上 `"` 範例: `g!addrole "管理 管理員" "You Tong0826"`')
+            embed.add_field(name="特殊情況",value='如果是 `身分組名稱/id` 或 `提及成員/成員名稱/id` 含有空格的話 請在兩邊加上 `"` 範例: `g!addrole "You Tong0826 "管理 管理員""`')
 
         await ctx.send(embed=embed)
 

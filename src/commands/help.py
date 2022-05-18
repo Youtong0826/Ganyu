@@ -41,9 +41,10 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
+            ["g!allinfo","一次查看所有資訊!"]
             ["g!userinfo `user`", "查看使用者在此伺服器的資訊"],
             ["g!serinfo", "查看伺服器的資訊"],
-            ["g!botinfo", "查看機器人的資訊"],
+            ["g!botinfo `bot`", "查看機器人的資訊"],
             ["g!time", "查看各國時間"],
             ["g!invite", "獲取邀請連結"],
             ["g!invites", "查看本服邀請榜"],
@@ -61,7 +62,7 @@ ganyuCommands = {
             ["g!about ", "關於甘雨"],
             ["g!ping", "查看機器人延遲"],
             ["g!say `text`", "讓這個機器人模仿你說話"],
-            ["g!dm `text`" , "讓 Ganyu 私訊某人"]
+            ["g!dm `user` `text`" , "讓 Ganyu 私訊某人"]
         ]
     ),
     "manage": mustFieldEmbed(
@@ -72,7 +73,7 @@ ganyuCommands = {
         [
             ["g!ban `user`", "停權其他用戶"],
             ["g!kick `user`", "踢出其他用戶"],
-            ["g!addrole `role` `user`", "新增身分組至一名用戶" ]
+            ["g!addrole `user` `role`", "新增身分組至一名用戶" ]
         ]
     ),
     "owner": mustFieldEmbed(

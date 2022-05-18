@@ -324,9 +324,9 @@ def UserDict(member:discord.Member):
             pending = "未驗證"
 
         moreinfo = {
-            "🖥️ 驗證" : pending,
-            "🔱 加成的時間" : psince,
-            "⚜️ 徽章數" : len(member.public_flags.all())
+            "🖥️ 驗證" : f"`{pending}`",
+            "🔱 加成的時間" : f"`{psince}`",
+            "⚜️ 徽章數" : f"`{len(member.public_flags.all())}`"
         }
 
         embed = discord.Embed(
@@ -356,10 +356,7 @@ class Info(Cog_ExtenSion):
         embed = discord.Embed(
             title="一次查看所有資訊!",
             color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
         )
-
-        embed.set_footer(text=ctx.author.name, icon_url=ctx.author.avatar)
 
         view_main = discord.ui.View(timeout=None)
 
@@ -399,7 +396,7 @@ class Info(Cog_ExtenSion):
                 embed = info["Embed"]
                 view = info["View"]
 
-            elif select_main.values[0] == "user":
+            elif select_main.values[0] == "ser":
                 info = ServerDict(ctx.author.guild)
                 embed = info["Embed"]
                 view = info["View"]

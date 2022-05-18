@@ -47,7 +47,7 @@ class Tool(Cog_ExtenSion):
     async def wiki(self,ctx,text=None):
         article = wiki_search(text=text)
 
-        if article >= 6000:
+        if len(article) >= 6000:
             article = article[:5997]+"..."
         
         if text != None:

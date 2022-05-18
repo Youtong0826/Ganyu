@@ -147,7 +147,7 @@ async def on_ready():
     await bot.change_presence(status = discord.Status.streaming, activity = activity)
 
 @bot.event
-async def on_command_error(ctx, error):
+async def on_command_error(ctx : discord.ApplicationContext, error):
     chiness = translate(str(error), "zh-TW")
     if chiness.endswith("。"):
         chiness = chiness[:-1]
@@ -163,7 +163,8 @@ async def on_command_error(ctx, error):
         value="如果Bot發生錯誤或是使用指令沒回應的話 極有可能是Bot本身的問題 如遇到此情況可使用 `g!report` 來回報給作者們 當然也可能是使用者的問題w",
         inline=False
     )
-    print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {error} in {ctx.author.guild}")
+
+    print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author.name} use {ctx.command} in {ctx.author.guild} return a error:{error}")
     
     await ctx.send(embed=embed)
 

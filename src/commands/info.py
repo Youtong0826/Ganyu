@@ -351,7 +351,7 @@ def UserDict(member:discord.Member):
     return Setting
 
 class Info(Cog_ExtenSion):
-    #@commands.command()
+    @commands.command()
     async def allinfo(self, ctx):
         embed = discord.Embed(
             title="一次查看所有資訊!",
@@ -387,327 +387,24 @@ class Info(Cog_ExtenSion):
             placeholder="選擇你要查看的資訊"
         )
 
-        async def mainselectcallback(interaction):
+        async def mainselectcallback(interaction : discord.Interaction):
 
             if select_main.values[0] == "bot":
-                embed = discord.Embed(
-                    title=f"{self.bot.user}",
-                    color=0x9c8ff,
-                    timestamp=datetime.datetime.utcnow()
-                )
-                embed.add_field(
-                    name="📆 創建時間",
-                    value="`2022/1/21(GMT+8:00)`",
-                    inline=False
-                )
-                embed.add_field(
-                    name="📜 ID",
-                    value=f"`921673886049910795`",
-                    inline=False
-                )
-                embed.add_field(
-                    name="🌐 伺服器",
-                    value=f'`{len(self.bot.guilds)}`'
-                )
-                embed.add_field(
-                    name="📊 用戶",
-                    value=f'`{len(self.bot.users)}`'
-                )
-                embed.add_field(
-                    name="💫 Ping",
-                    value=f"`{round(self.bot.latency*1000)} ms`"
-                )
-                embed.set_footer(
-                    text="created by Youtong._.0826",
-                    icon_url="https://cdn.discordapp.com/avatars/856041155341975582/a5a57f0acdd5c5fb868c9ad50cf7c319.png?size=256"
-                )
-                mainbutton1 = discord.ui.Button(
-                    style=discord.ButtonStyle.primary,
-                    label="Invite Link",
-                    emoji="🔗",
-                    url="https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=0&scope=bot"
-                )
-                view = discord.ui.View(timeout=None)
-                view.add_item(mainbutton1)
-                view.add_item(select_main)
-
-                await interaction.response.edit_message(
-                    embed=embed,
-                    view=view
-                )
+                info = BotDict(self.bot)
+                embed = info["Embed"]
+                view = info["View"]
 
             elif select_main.values[0] == "user":
-                roles = ""
-                roles3 = ""
-                roles_count = 0
-                member = ctx.author
+                info = UserDict(ctx.author)
+                embed = info["Embed"]
+                view = info["View"]
 
-                if member.nick == None:
-                    nick = "無"
+            elif select_main.values[0] == "user":
+                info = ServerDict(ctx.author.guild)
+                embed = info["Embed"]
+                view = info["View"]
 
-                else:
-                    nick = member.nick
-
-                if member.bot:
-                    dbot = "Yes"
-
-                else:
-                    dbot = "No"
-
-                for n in member.roles:
-
-                    if n.name != '@everyone':
-
-                        roles += f"{n.mention} | "
-                        roles_count += 1
-
-                        if len(roles) < 1014:
-
-                            roles_count2 = roles_count
-                            roles3 = f"{roles}"
-
-                if len(roles) > 1014:
-                    roles = f"{roles3}+{roles_count-roles_count2} Roles..."
-
-                embed = discord.Embed(
-                    title=f"{member.name} 的個人資訊 ",
-                    color=0x9c8fff,
-                    timestamp=datetime.datetime.utcnow()
-                )
-
-                embed.set_thumbnail(
-                    url=member.avatar
-                )
-
-                embed.add_field(
-                    name="🐬 暱稱",
-                    value=f"{nick}"
-                )
-
-                embed.add_field(
-                    name="🤖 Bot",
-                    value=f"{dbot}"
-                )
-
-                embed.add_field(
-                    name="💳 ID",
-                    value=f"`{member.id}`",
-                    inline=False
-                )
-
-                embed.add_field(
-                    name="📆 創建時間",
-                    value=f"{member.created_at.strftime('%Y/%m/%d')}"
-                )
-
-                embed.add_field(
-                    name="📆 加入時間",
-                    value=f"{member.joined_at.strftime('%Y/%m/%d')}"
-                )
-
-                embed.add_field(
-                    name=f"📰 身分組[{roles_count}]:",
-                    value=f"\n {roles}", inline=False
-                )
-
-                embed.set_footer(
-                    text=f"{ctx.author.name}",
-                    icon_url=ctx.author.avatar
-                )
-
-                view = discord.ui.View(timeout=None)
-                view.add_item(select_main)
-
-                await interaction.response.edit_message(embed=embed, view=view)
-
-            elif select_main.values[0] == "ser":
-                mbot = 0
-                person = 0
-                booster = ""
-                guild = ctx.author.guild
-
-                for n in guild.members:
-
-                    if n.bot:
-                        mbot += 1
-
-                    else:
-                        person += 1
-
-                if guild.premium_progress_bar_enabled:
-                    bar = "已開啟"
-
-                else:
-                    bar = "未開啟"
-
-                for n in guild.premium_subscribers:
-                    booster += f"{n}\n"
-
-                if booster == "":
-                    booster = "無"
-
-                if guild.rules_channel != None:
-                    rules_channel = f"\n{guild.rules_channel.mention}"
-                else:
-                    rules_channel = "無"
-
-                emojis = []
-                animated_emojis = []
-
-                for n in guild.emojis:
-                    if n.animated:
-                        animated_emojis.append(n)
-                    else:
-                        emojis.append(n)
-
-                embed = discord.Embed(
-                    title=f'{guild}',
-                    color=0x9c8fff,
-                    timestamp=datetime.datetime.utcnow()
-                )               
-
-                embed.add_field(
-                    name="📘 __一般__",
-                    value=f"創建時間: `{guild.created_at.strftime('%Y/%m/%d')}`\
-                        \n 擁有者: `{guild.owner.name}`\
-                        \n 個人id: `{guild.owner_id}`",
-                    inline=False
-                )
-
-                embed.add_field(
-                    name="☄️ __加成__",
-                    value=f"\
-                        次數: `{guild.premium_subscription_count}`\n\
-                        等級: `{guild.premium_tier}`\n\
-                        進度條: `{bar}`"
-                )
-
-                embed.add_field(
-                    name="📈 __人數__",
-                    value=f"\
-                        總人數: {guild.member_count}\n\
-                        活人: {person}\n\
-                        機器人: {mbot}"
-                )
-
-                embed.add_field(
-                    name="📊 __頻道數__",
-                    value=f"\
-                        頻道數: {len(guild.channels)}\n\
-                        文字頻道: {len(guild.text_channels)}\n\
-                        語音頻道: {len(guild.voice_channels)}"
-                )                
-
-                embed.add_field(
-                    name="👾 __貼圖__",
-                    value=f"\
-                        數量: {len(guild.emojis)}\n\
-                        靜態貼圖: {len(emojis)} \n\
-                        動態貼圖: {len(animated_emojis)}"
-                )
-
-                embed.add_field(
-                    name="📰 __其他__",
-                    value=f"\
-                        主要語言: {guild.preferred_locale}\n\
-                        規則頻道: {rules_channel}",
-                )
-
-                embed.set_thumbnail(url=guild.icon)
-
-                embed.set_footer(
-                    text=f"{ctx.author.name}",
-                    icon_url=ctx.author.avatar
-                )
-
-                if guild.rules_channel == None:
-                    rulebutton = discord.ui.Button(
-                        style=discord.ButtonStyle.danger,
-                        emoji="🔖",
-                        label="無法前往規則頻道!"
-                    )
-
-                else:
-                    rulebutton = discord.ui.Button(
-                        style=discord.ButtonStyle.success,
-                        emoji="🔖",
-                        label="Rules channel",
-                        url=f"https://discord.com/channels/{guild.id}/{guild.rules_channel.id}"
-                    )
-
-                    view_main.add_item(rulebutton)
-
-                chechboosterbutton = discord.ui.Button(
-                    style=discord.ButtonStyle.success,
-                    emoji="📖",
-                    label="Booster"
-                )
-                Rolesbutton = discord.ui.Button(
-                    style=discord.ButtonStyle.primary,
-                    emoji="📋",
-                    label="Roles"
-                )
-                backbutton = discord.ui.Button(
-                    style=discord.ButtonStyle.success,
-                    emoji="🔙",
-                    label="back"
-                )
-
-                view = discord.ui.View(timeout=None)
-                view_else = discord.ui.View(timeout=None)
-
-                view_else.add_item(backbutton)
-                view.add_item(chechboosterbutton)
-                view.add_item(Rolesbutton)
-                view.add_item(select_main)
-
-                async def checkboostercallback(interaction):
-                    await interaction.response.edit_message(
-                        embed=discord.Embed(
-                            title=f"加成此伺服器的人 ({len(guild.premium_subscribers)})",
-                            description=f"{booster}"
-                        ),
-                        view=view_else
-                    )
-
-                async def backcallback(interaction):
-                    await interaction.response.edit_message(
-                        embed=embed,
-                        view=view
-                    )
-
-                async def rolescallback(interaction):
-                    roles_count = 0
-                    roles = ""
-
-                    for n in guild.roles:
-                        if n.name != '@everyone':
-                            roles += f"{n.mention} | "
-                            roles_count += 1
-
-                            if len(roles) < 1014:
-                                roles_count2 = roles_count
-                                roles3 = f"{roles}"
-
-                    if len(roles) > 1014:
-                        roles = f"{roles3}+{roles_count-roles_count2} Roles..."
-
-                    await interaction.response.edit_message(
-                        embed=discord.Embed(
-                            title=f"身分組[{roles_count}]",
-                            description=f"{roles}"
-                        ),
-                        view=view_else
-                    )
-
-                chechboosterbutton.callback = checkboostercallback
-                backbutton.callback = backcallback
-                Rolesbutton.callback = rolescallback
-
-                await interaction.response.edit_message(
-                    embed=embed,
-                    view=view
-                )
+            await interaction.response.edit_message(embed=embed,view=view)
 
         view_main.add_item(select_main)
         select_main.callback = mainselectcallback
@@ -727,9 +424,12 @@ class Info(Cog_ExtenSion):
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
-    async def botinfo(self, ctx):
-        
-        Setting = BotDict(bot=self.bot)
+    async def botinfo(self, ctx , bot:commands.Bot=None):
+        if bot != None:
+            Setting = BotDict(bot)
+
+        else:
+            Setting = BotDict(bot=self.bot)
 
         await ctx.send(embed=Setting["Embed"],view=Setting["View"])
 
@@ -738,81 +438,12 @@ class Info(Cog_ExtenSion):
     @commands.command()
     async def userinfo(self, ctx, member: discord.Member = None):
         if member != None:
-            d = ""
+            info = UserDict(member)
+
         else:
-            user = ctx.author
-            roles = ""
-            roles2 = ""
-            roles_count = 0
+            info = UserDict(ctx.author)
 
-            if user.nick == None:
-                nick = "無"
-
-            else:
-                nick = user.nick
-
-            if user.bot:
-                dbot = "Yes"
-
-            else:
-                dbot = "No"
-
-            for n in user.roles:
-                if n.name != '@everyone':
-                    roles += f"{n.mention} | "
-                    roles_count += 1
-
-                    if len(roles) < 1014:
-                        roles_count2 = roles_count
-                        roles2 = f"{roles}"
-
-            if len(roles) > 1014:
-                roles = f"{roles2}+{roles_count - roles_count2} Roles"
-             
-            roles.strip("|")
-
-            embed_main = discord.Embed(
-                title=f"{user.name} 的個人資料",
-                color=0x9c8fff,
-                timestamp=datetime.datetime.utcnow()
-            )
-            embed_main.set_thumbnail(url=user.avatar)
-
-            embed_main.add_field(
-                name="🐬 暱稱",
-                value=f"{nick}"
-            )
-            embed_main.add_field(
-                name="🤖 Bot",
-                value=f"{dbot}"
-            )
-            embed_main.add_field(
-                name="💳 ID",
-                value=f"`{user.id}`",
-                inline=False
-            )
-            embed_main.add_field(
-                name=f"🗓️ 創建時間",
-                value=f"{user.created_at.strftime('%Y/%m/%d')}"
-            )
-            embed_main.add_field(
-                name="🗓️ 加入時間",
-                value=f"{user.joined_at.strftime('%Y/%m/%d')}"
-            )
-            embed_main.add_field(
-                name=f"📰 身分組:({roles_count})",
-                value=f" {roles}", inline=False
-            )
-            embed_main.set_footer(
-                text=f"userinfo | 用戶資訊",
-                icon_url=bot_icon_url
-            )
-            main_view = discord.ui.View(timeout=None)
-
-        await ctx.send(
-            embed=embed_main,
-            view=main_view
-        )
+        await ctx.send(embed=info["Embed"],view=info["View"])
 
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 

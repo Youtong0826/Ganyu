@@ -425,7 +425,7 @@ class Info(Cog_ExtenSion):
     @commands.command()
     async def botinfo(self, ctx , bot:commands.Bot=None):
         if bot != None:
-            Setting = BotDict(bot)
+            Setting = BotDict(bot=bot)
 
         else:
             Setting = BotDict(bot=self.bot)

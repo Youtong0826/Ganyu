@@ -48,7 +48,7 @@ class Tool(Cog_ExtenSion):
         article = wiki_search(text=text)
 
         if len(article) >= 6000:
-            article = article[:5990]+"..."
+            article = article[0:2390]+"..."
 
         print(article)
         

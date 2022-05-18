@@ -346,7 +346,7 @@ def UserDict(member:discord.Member):
     moreinfobutton.callback = moreinfobuttoncallback
     backbutton.callback = backbuttoncallback
     
-    Setting = {"dEmbed" : embed_main,"View" : main_view}
+    Setting = {"Embed" : embed_main,"View" : main_view}
 
     return Setting
 

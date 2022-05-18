@@ -28,10 +28,7 @@ def wiki_search(text):
 
     soup = BeautifulSoup(web.text,"html.parser")
     articles = soup.select("div.mw-parser-output p")
-    linkart = soup.select("div.mw-parser-output ul")
-    art = ""
-
-    for n in articles + linkart:
-        art += f"{n.text}\n"
+    
+    art = articles[0]
 
     return art

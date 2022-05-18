@@ -46,6 +46,9 @@ class Tool(Cog_ExtenSion):
     @commands.command()
     async def wiki(self,ctx,text=None):
         article = wiki_search(text=text)
+
+        if article >= 6000:
+            article = article[:5997]+"..."
         
         if text != None:
             embed = discord.Embed(
@@ -53,7 +56,6 @@ class Tool(Cog_ExtenSion):
                 description=article,
                 color=discord.Colour.random())
         
-
         else:
             embed = discord.Embed(
                 title="歡迎使用維基百科!",

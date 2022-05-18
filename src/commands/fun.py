@@ -186,7 +186,7 @@ class Fun(Cog_ExtenSion):
         await ctx.send(embed = MainEmbed, view = MainView)
 
     @commands.command()
-    async def luck(self,ctx):
+    async def luck(self,ctx , member:discord.Member = None):
         luckypoint = random.randint(0,100)
         luckybar = ""
 
@@ -199,8 +199,14 @@ class Fun(Cog_ExtenSion):
             "大大吉","大吉","吉",""
         ]
 
+        if member != None:
+            user = member
+            
+        else: 
+            user = ctx.author
+
         embed = discord.Embed(
-            title=f"{ctx.author.name} 感謝您使用此功能!",
+            title=f"{user.name} 感謝您使用此功能!",
             description="以下為您的測驗結果",
             color=discord.Colour.purple(),
             timestamp=datetime.datetime.utcnow()

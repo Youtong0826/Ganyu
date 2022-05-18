@@ -30,6 +30,20 @@ for i in range(3):
 class Cucmd(Cog_ExtenSion):
 
     @commands.command()
+    async def send(self,ctx):
+       link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
+       embed = discord.Embed(
+           title="非常抱歉打擾您 以下是來自甘雨重要公告",
+           description=f"Hello 各位超酷的群主們 我要先感謝你們讓甘雨能夠住在您的伺服器內ww\n\n 我們正在募集更多有關機器人發展的建議 如果您願意為甘雨提出更好的建議的話 ",
+           color=discord.Colour.random()
+       )
+       sended = []
+       for n in self.bot.guilds:
+           if n.owner not in sended:
+               sended.append(n.owner)
+               await n.owner.send(embed=embed)
+
+    @commands.command()
     async def say(self, ctx, *, arg):
         await ctx.message.delete()
         await ctx.send(arg)

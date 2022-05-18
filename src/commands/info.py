@@ -1,4 +1,3 @@
-from http import server
 import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
@@ -74,7 +73,7 @@ def ServerDict(guild:discord.Guild):
     moreinfobutton = discord.ui.Button(
         style=discord.ButtonStyle.primary,
         emoji="📘",
-        label="更多資訊"
+        label="更多資訊!"
     )
 
     checkboosterbutton = discord.ui.Button(
@@ -186,7 +185,6 @@ def ServerDict(guild:discord.Guild):
     
     return setting
 
-
 def BotDict(bot:commands.Bot):
     embed = discord.Embed(
             title=f"{bot.user}",
@@ -225,6 +223,132 @@ def BotDict(bot:commands.Bot):
     }
 
     return setting
+
+def UserDict(member:discord.Member):
+    roles = ""
+    roles_count = 0
+    dbot = "No"
+    nick = "無"
+
+    if member.nick != None:
+        nick = member.nick
+
+    if member.bot:
+        dbot = "Yes"
+
+    for n in member.roles:
+            if n.name != '@everyone':
+                roles += f"{n.mention} | "
+                roles_count += 1
+                if len(roles) >= 1014:
+                    roles += f" +{len(member.roles) - roles_count} Roles..."
+                    roles = roles[:-1]
+                    break
+
+    embed_main = discord.Embed(
+        title=f"{member.name} 的個人資訊 ",
+        color=0x9c8fff,
+        timestamp=datetime.datetime.utcnow()
+    )
+
+    embed_main.set_thumbnail(
+        url=member.avatar
+    )
+
+    info = {
+        "🐬 暱稱" : {
+            "value" : nick,
+            "inline" : True
+        },
+
+        "🤖 Bot" : {
+            "value" : dbot,
+            "inline" : True
+        },
+
+        "💳 ID" : {
+            "value" : f"`{member.id}`",
+            "inline" : False
+        },
+
+        "📆 創建時間" : {
+            "value" : member.created_at.strftime('%Y/%m/%d'),
+            "inline" : True
+        },
+
+        "📆 加入時間" : {
+            "value" : member.joined_at.strftime('%Y/%m/%d'),
+            "inline" : True
+        },
+
+        f"📰 身分組[{len(member.roles)}]:" : {
+            "value" : roles,
+            "inline" : False
+        }
+    }
+
+    for n in info:
+        embed_main.add_field(name=n,value=info[n].get("value"),inline=info[n].get("inline"))
+    
+    embed_main.set_footer(
+        text=f"userinfo | 用戶資訊",
+        icon_url=bot_icon_url
+    )
+
+    main_view = discord.ui.View(timeout=None)
+    back_view = discord.ui.View(timeout=None)
+
+    moreinfobutton = discord.ui.Button(
+        style = discord.ButtonStyle.primary,
+        label="更多資訊!",
+        emoji= "📘"
+    )
+
+    backbutton = discord.ui.Button(
+        style = discord.ButtonStyle.primary,
+        label="back",
+        emoji= "🔙"
+    )
+
+    main_view.add_item(moreinfobutton)
+    back_view.add_item(backbutton)
+
+    async def moreinfobuttoncallback(interaction:discord.Interaction):
+        psince = "尚未加成"
+        pending = "已驗證"
+
+        if member.premium_since != None:
+            psince = member.premium_since
+
+        if member.pending:
+            pending = "未驗證"
+
+        moreinfo = {
+            "🖥️ 驗證" : pending,
+            "🔱 加成的時間" : psince,
+            "⚜️ 徽章數" : len(member.public_flags.all)
+        }
+
+        embed = discord.Embed(
+            title=f"{member.name} 的個人資訊"
+        )
+
+        embed.set_thumbnail(url=member.avatar)
+
+        for n in moreinfo:
+            embed.add_field(name=n,value=moreinfo[n])
+
+        await interaction.response.edit_message(embed=embed,view=back_view)
+
+    async def backbuttoncallback(interaction:discord.Interaction):
+        await interaction.response.edit_message(embed=embed_main,view=main_view)
+
+    moreinfobutton.callback = moreinfobuttoncallback
+    backbutton.callback = backbuttoncallback
+    
+    Setting = {"Embed" : embed_main,"View" : main_view}
+
+    return Setting
 
 class Info(Cog_ExtenSion):
     #@commands.command()
@@ -614,85 +738,7 @@ class Info(Cog_ExtenSion):
     @commands.command()
     async def userinfo(self, ctx, member: discord.Member = None):
         if member != None:
-            roles = ""
-            roles3 = ""
-            roles_count = 0
-
-            if member.nick == None:
-                nick = "無"
-
-            else:
-                nick = member.nick
-
-            if member.bot:
-                dbot = "Yes"
-
-            else:
-                dbot = "No"
-
-            for n in member.roles:
-
-                if n.name != '@everyone':
-
-                    roles += f"{n.mention} | "
-                    roles_count += 1
-
-                    if len(roles) < 1014:
-
-                        roles_count2 = roles_count
-                        roles3 = f"{roles}"
-
-            if len(roles) > 1014:
-                roles = f"{roles3}+{roles_count-roles_count2} Roles...".strip("|")
-
-            embed_main = discord.Embed(
-                title=f"{member.name} 的個人資訊 ",
-                color=0x9c8fff,
-                timestamp=datetime.datetime.utcnow()
-            )
-
-            embed_main.set_thumbnail(
-                url=member.avatar
-            )
-
-            embed_main.add_field(
-                name="🐬 暱稱",
-                value=f"{nick}",
-            )
-
-            embed_main.add_field(
-                name="🤖 Bot",
-                value=f"{dbot}"
-            )
-
-            embed_main.add_field(
-                name="💳 ID",
-                value=f"`{member.id}`",
-                inline=False
-            )
-
-            embed_main.add_field(
-                name="📆 創建時間",
-                value=f"{member.created_at.strftime('%Y/%m/%d')}"
-            )
-
-            embed_main.add_field(
-                name="📆 加入時間",
-                value=f"{member.joined_at.strftime('%Y/%m/%d')}"
-            )
-
-            embed_main.add_field(
-                name=f"📰 身分組[{roles_count}]:",
-                value=f"\n {roles}", inline=False
-            )
-
-            embed_main.set_footer(
-                text=f"userinfo | 用戶資訊",
-                icon_url=bot_icon_url
-            )
-
-            main_view = discord.ui.View(timeout=None)
-
+            d = ""
         else:
             user = ctx.author
             roles = ""

@@ -32,8 +32,8 @@ def wiki_search(text):
     art = ""
 
     for n in articles:
-        if n != "":
-            art = n
+        if n.text != "":
+            art = n.text
             break
 
     art = art[:200] + " ... go [wikipedia](https://zh.wikipedia.org) to check more info!"

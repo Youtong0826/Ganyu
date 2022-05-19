@@ -207,15 +207,22 @@ def BotDict(bot:commands.Bot):
         text="made by Youtong._.0826",
         icon_url="https://cdn.discordapp.com/avatars/856041155341975582/a5a57f0acdd5c5fb868c9ad50cf7c319.png?size=256"
     )
-    mainbutton1 = discord.ui.Button(
+
+    linkbutton = discord.ui.Button(
         style=discord.ButtonStyle.primary,
         label="Invite Link",
         emoji="🔗",
         url="https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands"
     )
 
+    Moreinfobutton = discord.ui.Button(
+        style=discord.ButtonStyle.primary,
+        label="更多資訊!",
+        emoji="🔗",
+    )
+
     mian_view = discord.ui.View(timeout=None)
-    mian_view.add_item(mainbutton1)
+    mian_view.add_item(linkbutton)
 
     setting = {
         "Embed" : embed,
@@ -423,12 +430,8 @@ class Info(Cog_ExtenSion):
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
-    async def botinfo(self, ctx , bot:commands.Bot=None):
-        if bot != None:
-            Setting = BotDict(bot=bot)
-
-        else:
-            Setting = BotDict(bot=self.bot)
+    async def botinfo(self, ctx):
+        Setting = BotDict(bot=self.bot)
 
         await ctx.send(embed=Setting["Embed"],view=Setting["View"])
 

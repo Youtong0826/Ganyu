@@ -32,7 +32,7 @@ def wiki_search(text):
     art = ""
 
     for n in articles:
-        if n.text != "":
+        if n.text != " " or "":
             art = n.text
             break
 

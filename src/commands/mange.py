@@ -164,7 +164,7 @@ class Mange(Cog_ExtenSion):
         await ctx.send(ctx.author.guild.system_channel.name)
 
     @commands.command()
-    async def addrole(self,ctx,role : discord.Role=None,member : discord.Member=None):
+    async def addrole(self,ctx,member : discord.Member=None,role : discord.Role=None):
         user : discord.Member = ctx.author
         if role and member != None:
             if user.guild_permissions.manage_roles:

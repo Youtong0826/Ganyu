@@ -91,11 +91,11 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["g!translate","翻譯"]
+            ["g!translate","翻譯"],
+            ["g!embed `title` `des`","傳送Embed訊息"]
         ]
     )
 }
-
 
 class Help(Cog_ExtenSion):
 
@@ -188,7 +188,6 @@ class Help(Cog_ExtenSion):
     async def owner(self, ctx):
         await ctx.send(embed=ganyuCommands["owner"])
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
-
 
 def setup(bot):
     bot.remove_command("help")

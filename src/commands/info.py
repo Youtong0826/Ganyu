@@ -486,6 +486,7 @@ class Info(Cog_ExtenSion):
             ":nine:",
             ":keycap_ten:"
         ]
+        
         for n in invites:
             if str(n.inviter)[:-5] == "":
                 invites.remove(n)

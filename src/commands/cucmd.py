@@ -96,12 +96,6 @@ class Cucmd(Cog_ExtenSion):
         embed = discord.Embed(
             title=f"Ping: {round(self.bot.latency*1000)} ms 💫💫💫 ",
             color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
-        )
-
-        embed.set_footer(
-            text=f"Ping 延遲",
-            icon_url=bot_icon_url
         )
 
         await ctx.send(embed=embed)

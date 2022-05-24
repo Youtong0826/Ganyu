@@ -30,18 +30,20 @@ for i in range(3):
 class Cucmd(Cog_ExtenSion):
 
     @commands.command()
-    async def send(self,ctx):
-       link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
-       embed = discord.Embed(
-           title="非常抱歉打擾您 以下是來自甘雨重要公告",
-           description=f"Hello 各位超酷的群主們 我要先感謝你們讓甘雨能夠住在您的伺服器內ww\n\n 我們正在募集更多有關機器人發展的建議 如果您願意為甘雨提出更好的建議的話 ",
-           color=discord.Colour.random()
-       )
-       sended = []
-       for n in self.bot.guilds:
-           if n.owner not in sended:
-               sended.append(n.owner)
-               await n.owner.send(embed=embed)
+    async def send(self,ctx,member :discord.Member =None):
+        link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
+        embed = discord.Embed(
+            title="非常抱歉打擾您 以下是來自甘雨緊急公告",
+            description=f"目前運行機器人的網站(heroku)出了點問題 將造成機器人下線(具體原因不明) 深感棒抱歉 當然對這方面有經驗&修復方法的人歡迎也私訊作者(YouTong._.0826#9250)",
+            color=discord.Colour.random()
+        )
+        #sended = []
+        #for n in self.bot.guilds:
+        #    if n.owner not in sended:
+        #        sended.append(n.owner)
+        #        await n.owner.send(embed=embed)
+
+        await member.send(embed=embed)
 
     @commands.command()
     async def say(self, ctx, *, arg):

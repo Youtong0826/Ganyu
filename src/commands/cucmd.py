@@ -34,16 +34,18 @@ class Cucmd(Cog_ExtenSion):
         link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
         embed = discord.Embed(
             title="非常抱歉打擾您 以下是來自甘雨緊急公告",
-            description=f"目前運行機器人的網站(heroku)出了點問題 將造成機器人下線(具體原因不明) 深感棒抱歉 當然對這方面有經驗&修復方法的人歡迎也私訊作者(YouTong._.0826#9250)",
+            description=f"目前運行機器人的網站(heroku)出了點問題 將造成機器人下線(具體原因不明) 為此我們深感抱歉 我們也歡迎對這方面有經驗&修復方法的人來幫助作者(YouTong._.0826#9250)",
             color=discord.Colour.random()
         )
-        #sended = []
-        #for n in self.bot.guilds:
-        #    if n.owner not in sended:
-        #        sended.append(n.owner)
-        #        await n.owner.send(embed=embed)
-
-        await member.send(embed=embed)
+        if member != None:
+            await member.send(embed=embed)
+        
+        else:
+            sended = []
+            for n in self.bot.guilds:
+                if n.owner not in sended:
+                    sended.append(n.owner)
+                    await n.owner.send(embed=embed)
 
     @commands.command()
     async def say(self, ctx, *, arg):

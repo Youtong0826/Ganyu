@@ -142,7 +142,7 @@ async def on_ready():
         
         return guild_ids
 
-    activity = discord.Activity(type=discord.ActivityType.watching,name = f"{len(bot.guilds)} 個伺服器")
+    activity = discord.Activity(type=discord.ActivityType.watching,name = f"g!help | {len(bot.guilds)} 個伺服器")
 
     await bot.change_presence(status = discord.Status.streaming, activity = activity)
 

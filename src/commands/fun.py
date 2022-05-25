@@ -230,5 +230,21 @@ class Fun(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def spank(self, ctx, member:discord.Member = None):
+        if member != None:
+            embed = discord.Embed(
+                title=f"{member.name} 被 {ctx.author.name} 打了一下屁股",
+                color=discord.Colour.red()
+            )
+
+        else:
+            embed = discord.Embed(
+                title="使用g!spank來偷打別人的屁股ww",
+                description="用法: g!spnak `提及/名字/id`"
+            )
+
+        await ctx.send(embed=embed)
+
 def setup(bot):
     bot.add_cog(Fun(bot))

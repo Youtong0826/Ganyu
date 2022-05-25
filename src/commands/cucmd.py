@@ -30,7 +30,7 @@ for i in range(3):
 class Cucmd(Cog_ExtenSion):
 
     @commands.command()
-    async def send(self,ctx,member :discord.Member =None):
+    async def send(self,ctx,member :discord.Member = None):
         link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
         embed = discord.Embed(
             title="非常抱歉打擾您 以下是來自甘雨緊急公告",

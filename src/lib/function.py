@@ -27,14 +27,13 @@ def wiki_search(text):
     web = requests.get(url=url)
 
     soup = BeautifulSoup(web.text,"html.parser")
-    articles = soup.select("div.mw-parser-output p")
+    articles = soup.select("div.mw-parser-output")
     
     art = ""
 
     for n in articles:
-        if n.text != " " or "":
-            art = n.text
-            break
+        art += n.text
+
 
     art = art[:200] + " ... go [wikipedia](https://zh.wikipedia.org) to check more info!"
 

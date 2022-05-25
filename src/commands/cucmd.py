@@ -209,7 +209,7 @@ class Cucmd(Cog_ExtenSion):
                 )
 
                 report_embed.set_footer(
-                    text=f"{user.name} 提出回報",
+                    text=f"{user} 提出回報",
                     icon_url=user.avatar
                 )
 

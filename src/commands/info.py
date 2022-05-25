@@ -457,7 +457,7 @@ class Info(Cog_ExtenSion):
 
         embed = discord.Embed(
             title="邀請我至你的伺服器!",
-            description=f"{link}",
+            description=f"{link}\n目前伺服器已滿 無法邀請機器人屬正常現象\n目前正在等在驗證中(可能會長達多個月",
             color=discord.Colour.random(),
         )
 

@@ -33,7 +33,7 @@ ganyuCommands = {
             ["g!mora","猜拳"],
             ["g!rainbow","彩虹"],
             ["g!luck","幸運值"],
-            ["g!spank","拍屁股"]
+            ["g!spank","拍屁屁"]
         ]
     ),
     "info": mustFieldEmbed(

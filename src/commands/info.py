@@ -148,13 +148,13 @@ def ServerDict(guild:discord.Guild):
                 roles += f"{n.mention} | "
                 roles_count += 1
                 if len(roles) >= 1014:
-                    roles += f" +{len(guild.roles) - roles_count} Roles..."
+                    roles += f" +{len(guild.roles) -1  - roles_count} Roles..."
                     break
 
 
         await interaction.response.edit_message(
             embed=discord.Embed(
-                title=f"身分組[{len(guild.roles)}]",
+                title=f"身分組[{len(guild.roles)-1}]",
                 description=f"{roles}"
             ),
             view=view

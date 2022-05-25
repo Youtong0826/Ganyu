@@ -154,7 +154,7 @@ def ServerDict(guild:discord.Guild):
 
         await interaction.response.edit_message(
             embed=discord.Embed(
-                title=f"身分組[{roles_count}]",
+                title=f"身分組[{len(guild.roles)}]",
                 description=f"{roles}"
             ),
             view=view

@@ -54,6 +54,7 @@ class Fun(Cog_ExtenSion):
         embed.set_image(url="https://cdn.discordapp.com/attachments/616315208251605005/616319462349602816/Tw.gif")
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def mora(self,ctx):
@@ -184,6 +185,7 @@ class Fun(Cog_ExtenSion):
         MainView.add_item(ClothButton)
 
         await ctx.send(embed = MainEmbed, view = MainView)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def luck(self,ctx , member:discord.Member = None):
@@ -229,6 +231,7 @@ class Fun(Cog_ExtenSion):
         embed.set_footer(text="lucktest | 運氣測試",icon_url=bot_icon_url)
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def spank(self, ctx, member:discord.Member = None):
@@ -241,10 +244,11 @@ class Fun(Cog_ExtenSion):
         else:
             embed = discord.Embed(
                 title="使用g!spank來偷打別人的屁股ww",
-                description="用法: g!spnak `提及/名字/id`"
+                description="用法: g!spank `提及/名字/id`"
             )
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(Fun(bot))

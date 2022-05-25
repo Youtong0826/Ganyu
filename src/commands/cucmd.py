@@ -145,15 +145,22 @@ class Cucmd(Cog_ExtenSion):
 
     @commands.command()
     async def embed(self, ctx, title, *, description=None):
+        if title != None:
+            if description == None:
+                description = ""
 
-        if description == None:
-            description = ""
+            embed = discord.Embed(
+                title=title,
+                description=description,
+                color=discord.Colour.random()
+            )
+        
+        else:
+            embed = discord.Embed(
+                title="使用g!embed來傳送Embed訊息",
+                description="用法 g!embed `標題(空格須加上"")` `內文`"
+            )
 
-        embed = discord.Embed(
-            title=title,
-            description=description,
-            color=discord.Colour.random()
-        )
 
         await ctx.send(embed=embed)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
@@ -300,8 +307,7 @@ class Cucmd(Cog_ExtenSion):
                     async def OptionButtonCallback(interaction:discord.Interaction):
 
                         if interaction.custom_id == 0:
-                            print()
-
+                                print()
 
                     for n in range(0,quantity*2):
                         if n % 2 == 0:
@@ -379,6 +385,7 @@ class Cucmd(Cog_ExtenSion):
         embed = discord.Embed(title="已成功傳送私訊!")
 
         await ctx.send(embed=embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(Cucmd(bot))

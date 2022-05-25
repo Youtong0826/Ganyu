@@ -42,6 +42,7 @@ class Tool(Cog_ExtenSion):
         embed.set_footer(text="translate",icon_url=bot_icon_url)
 
         await ctx.send(embed = embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()
     async def wiki(self,ctx,text=None):
@@ -64,8 +65,9 @@ class Tool(Cog_ExtenSion):
             )
 
         embed.set_thumbnail(url=wikipedia_icon_url)
-        embed.set_footer(text="infomation from wikipedia.org",icon_url=bot_icon_url)        
+        embed.set_footer(text="wikipedia.org",icon_url=bot_icon_url)        
         await ctx.send(embed = embed)
+        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 def setup(bot):
     bot.add_cog(Tool(bot))

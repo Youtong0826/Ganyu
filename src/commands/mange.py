@@ -5,7 +5,6 @@ from discord.ext import commands
 from core.classes import Cog_ExtenSion
 
 async def mange_member(ctx,user:discord.Member, member:discord.Member, type, title, reason=None):
-
     pms = {}
 
     if type == "kick":
@@ -93,26 +92,41 @@ class Mange(Cog_ExtenSion):
 
     @commands.command()
     async def kick(self, ctx, member: discord.Member, *, reason=None):
-        await mange_member(
-            ctx=ctx,
-            user=ctx.author,
-            member=member,
-            type="kick",
-            title="從這個伺服器消失了!",
-            reason=reason
-        )
+        if member != None:
+            await mange_member(
+                ctx=ctx,
+                user=ctx.author,
+                member=member,
+                type="kick",
+                title="從這個伺服器消失了!",
+                reason=reason
+            )
+        else:
+            embed = discord.Embed(
+                title="g!kick 踢除成員",
+                description="用法 g!kick `提及/id/名字` `原因(可空)`"
+            )
+
+            await ctx.send(embed=embed)
 
     @commands.command()
     async def ban(self, ctx, member: discord.Member, *, reason=None):
+        if member != None:
+            await mange_member(
+                ctx=ctx,
+                user=ctx.author,
+                member=member,
+                type="ban",
+                title="從這個伺服器消失了!",
+                reason=reason
+            )
+        else:
+            embed = discord.Embed(
+                title="g!ban 停權成員",
+                description="用法 g!ban `提及/id/名字` `原因(可空)`"
+            )
 
-        await mange_member(
-            ctx=ctx,
-            user=ctx.author,
-            member=member,
-            type="ban",
-            title="從這個伺服器消失了!",
-            reason=reason
-        )
+            await ctx.send(embed=embed)
 
     @commands.command()
     async def unban(self, ctx, member: discord.Member, *, reason=None):

@@ -32,7 +32,8 @@ ganyuCommands = {
             ["g!rpg", "RPG系統(製作中 暫不開放)"],
             ["g!mora","猜拳"],
             ["g!rainbow","彩虹"],
-            ["g!luck","幸運值"]
+            ["g!luck","幸運值"],
+            ["g!h\spank","拍屁股"]
         ]
     ),
     "info": mustFieldEmbed(

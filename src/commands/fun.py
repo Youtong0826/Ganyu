@@ -234,7 +234,7 @@ class Fun(Cog_ExtenSion):
     async def spank(self, ctx, member:discord.Member = None):
         if member != None:
             embed = discord.Embed(
-                title=f"{member.name} 被 {ctx.author.name} 打了一下屁股",
+                title=f"{member.name} 被 {ctx.author.name} 拍了一下屁股",
                 color=discord.Colour.red()
             )
 

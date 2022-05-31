@@ -452,7 +452,7 @@ class Info(Cog_ExtenSion):
     @commands.command()
     async def invite(self, ctx):
 
-        link = "[邀請連結 | invite link](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
+        link = "[邀請連結 | invite link](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=294695021638&scope=bot%20applications.commands)"
         server_link = "[點擊這裡!](https://discord.gg/K3kxVAHHF8)"
 
         embed = discord.Embed(

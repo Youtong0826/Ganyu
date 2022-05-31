@@ -1,4 +1,3 @@
-from optparse import Option
 import random
 import discord
 import datetime
@@ -34,7 +33,7 @@ class Cucmd(Cog_ExtenSion):
         link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
         embed = discord.Embed(
             title="非常抱歉打擾您 以下是來自甘雨緊急公告",
-            description=f"目前運行機器人的網站(heroku)出了點問題 將造成機器人下線(具體原因不明) 為此我們深感抱歉 我們也歡迎對這方面有經驗&修復方法的人來幫助作者(YouTong._.0826#9250)",
+            description=f"簡單來說機器人又爆了 將造成機器人下線一陣子 為此我們深感抱歉 我們正在尋找能夠替代的營運商 希望能早點恢復吧Qwq",
             color=discord.Colour.random()
         )
         if member != None:

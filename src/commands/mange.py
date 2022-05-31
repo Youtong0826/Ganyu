@@ -50,28 +50,24 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
         if reason == None:
             reason = "無"
 
-            embed.add_field(
-                name="Reason", value=f"```{reason}```"
+        embed.add_field(
+            name="Reason", value=f"```{reason}```"
+        )
+        
+        if type == "kick":                
+            await member.kick(reason=reason)
+        elif type == "ban":
+            await member.ban(reason=reason)
+        elif type == "unban":
+            await member.unban(reason=reason)
+        elif type == "mute":
+            mute_role = await member.guild.create_role(
+                reason=reason,
+                name="Muted",
+                permissions=discord.Permissions.general,
+                color=discord.Colour.dark_gray,
             )
-            
-            if type == "kick":                
-                await member.kick(reason=reason)
-
-            elif type == "ban":
-                await member.ban(reason=reason)
-
-            elif type == "unban":
-                await member.unban(reason=reason)
-
-            elif type == "mute":
-                mute_role = await member.guild.create_role(
-                    reason=reason,
-                    name="Muted",
-                    permissions=discord.Permissions.general,
-                    color=discord.Colour.dark_gray,
-                )
-
-                await member.add_roles(roles=mute_role,reason=reason)
+            await member.add_roles(roles=mute_role,reason=reason)
 
     else:
         embed = discord.Embed(

@@ -9,7 +9,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
 
     if type == "kick":
         pms["per"] = "`kick_member`"
-        pms["ch_name"] = "` 踢出成員 `"
+        pms["ch_name"] = "`踢出成員`"
         pms["name"] = "kick"
         pms["ch_v"] = "踢出" 
 
@@ -17,7 +17,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
 
     elif type == "ban":
         pms["per"] = "`ban_member`"
-        pms["ch_name"] = "` 對成員停權 `"
+        pms["ch_name"] = "`對成員停權`"
         pms["name"] = "ban"
         pms["ch_v"] = "停權"
 
@@ -25,7 +25,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
 
     elif type == "unban":
         pms["per"] = "`ban_member`"
-        pms["ch_name"] = "` 解除停權 `"
+        pms["ch_name"] = "`解除停權`"
         pms["name"] = "unban"
         pms["ch_v"] = "解除停權"
 
@@ -53,13 +53,19 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
         embed.add_field(
             name="Reason", value=f"```{reason}```"
         )
+
+        await ctx.send(embed=embed)
         
-        if type == "kick":                
+        if type == "kick": 
+            print("y")     
             await member.kick(reason=reason)
+
         elif type == "ban":
             await member.ban(reason=reason)
+
         elif type == "unban":
             await member.unban(reason=reason)
+
         elif type == "mute":
             mute_role = await member.guild.create_role(
                 reason=reason,
@@ -76,11 +82,10 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
             color=0xff2e2e,
             timestamp=datetime.datetime.utcnow()
         )
-        
+        await ctx.send(embed = embed)
         
     embed.set_footer(text=f"{user.name}", icon_url=user.avatar)
-
-    await ctx.send(embed = embed)
+    
     print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
 

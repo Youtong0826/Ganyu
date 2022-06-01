@@ -221,4 +221,4 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
 
 
 if __name__ == "__main__":
-        bot.run("OTIxNjczODg2MDQ5OTEwNzk1.Yb2Vsg.qnZ86wXlT1dQdJzYoDrKUVQlhZU")
+        bot.run("OTIxNjczODg2MDQ5OTEwNzk1.Gm6uZ_.pB1VIGnHCvDYqx98-xAU8PRhsRg9nIv1FVK1Ao")

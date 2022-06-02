@@ -127,7 +127,6 @@ async def modal(ctx):
 
     ctx.send(embed=embed, view=view)
 
-
 @bot.event
 async def on_ready():
     print(">>Bot is online<<")
@@ -167,7 +166,6 @@ async def on_command_error(ctx : discord.ApplicationContext, error):
     
     await ctx.send(embed=embed)
 
-
 @bot.event
 async def on_member_join(member: discord.Member):
     def join_message():
@@ -195,7 +193,6 @@ async def on_member_join(member: discord.Member):
     elif member.guild.id == 956614306345123923:
         chnnel = bot.get_channel(957157665526673419)
         await chnnel.send(embed=join_message())
-
 
 @bot.event
 async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):

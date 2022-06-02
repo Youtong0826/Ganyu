@@ -3,14 +3,13 @@ import datetime
 import os
 from discord.ext import commands , tasks
 from lib.function import translate
-import random
 
 bot = commands.Bot(
     command_prefix='g!',
     intents=discord.Intents.all()
 )
 
-for Filename in os.listdir('src/commands'):
+for Filename in os.listdir('src\commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 

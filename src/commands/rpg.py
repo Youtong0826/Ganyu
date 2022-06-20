@@ -32,8 +32,8 @@ class rpg(Cog_ExtenSion):
 
     have_job = False
 
-    def addDB(db):
-        with open("res/db/kitDB.json", "w", encoding="utf-8") as f:
+    def addDB(db,file):
+        with open(f"res/db/{file}", "w", encoding="utf-8") as f:
             return f.write(
                 json.dumps(
                     db,
@@ -58,35 +58,28 @@ class rpg(Cog_ExtenSion):
                 )
             )
 
-    def addrpg(id, job, exp: int, level: int, coin: int, name, hp: int, atk: int, Def: int):
-        id = str(id)
+    def defaultrpg(id:str):
         rpgdb = rpg.getRPGDB()
 
-        if f'{id}' not in rpgdb:
-
-            rpgdb[id] = {
-                "name": "",
-                "job": "",
-                "exp": 0,
-                "level": 0,
-                "coin": 0,
-                "hp": 100,
-                "atk": 1,
-                "def" : 1
-            }
-
         rpgdb[id] = {
-            "name": f"{name}",
-            "job": job,
-            "exp": rpgdb[id].get('exp') + exp,
-            "level": rpgdb[id].get('level') + level,
-            "coin": rpgdb[id].get('coin') + coin,
-            "hp": rpgdb[id].get('hp') + hp,
-            "atk": rpgdb[id].get('atk') + atk,
-            "def": rpgdb[id].get('def') + Def
+            "name": "",
+            "job": "",
+            "exp": 0,
+            "level": 0,
+            "coin": 0,
+            "hp": 100,
+            "atk": 1,
+            "def" : 1
         }
 
         rpg.addRPGDB(rpgdb)  # {f'{id}':f'{job}'})
+
+    def addexp(id:str,exp):
+        rpgdb = rpg.getRPGDB()
+
+        assets = rpgdb[id]
+        assert['exp'] == exp
+        
 
     def getrpg_entity():
         with open("res/db/rpg_entity.json", "r", encoding="utf-8") as f:
@@ -108,8 +101,13 @@ class rpg(Cog_ExtenSion):
         rpgdb = rpg.getRPGDB()
 
         if f"{id}" in f"{rpgdb}":
-            job = {"job": "Knight", "job": "Shooter",
-                   "job": "Mage", "job": "Assassin", "job": "Tank"}
+            job = {
+                "job": "Knight",
+                "job": "Shooter",
+                "job": "Mage",
+                "job": "Assassin",
+                "job": "Tank"
+            }
 
             for n in job:
                 if n in rpgdb[id]:
@@ -146,7 +144,7 @@ class rpg(Cog_ExtenSion):
 
         return realtop
 
-    #@commands.command()
+    @commands.command()
     async def rpg(self, ctx, key=None):
 
         user = ctx.author
@@ -626,27 +624,27 @@ class rpg(Cog_ExtenSion):
                     color=discord.Colour.random()
                 )
                 embed.add_field(
-                    name="g!rpg  job",
+                    name="g!rpg job",
                     value="選擇你的職業"
                 )
                 embed.add_field(
-                    name="g!rpg  start",
+                    name="g!rpg start",
                     value="開始你的旅程!"
                 )
                 embed.add_field(
-                    name="g!rpg  info",
+                    name="g!rpg info",
                     value="查看你的RPG資訊"
                 )
                 embed.add_field(
-                    name="g!rpg  ann",
+                    name="g!rpg ann",
                     value="獲取最新公告"
                 )
                 embed.add_field(
-                    name="g!rpg  levtop",
+                    name="g!rpg levtop",
                     value="查看等級排名"
                 )
                 embed.add_field(
-                    name="g!rpg  cointop",
+                    name="g!rpg cointop",
                     value="查看冒險幣排名"
                 )
 

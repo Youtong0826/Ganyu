@@ -69,5 +69,30 @@ class Tool(Cog_ExtenSion):
         await ctx.send(embed = embed)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
+    @commands.command()
+    async def words(self,ctx,*,text=None):
+        if text != None:
+            space = 0
+            for n in text:
+                if n == " ":
+                    space += 1
+
+            embed = discord.Embed(
+                title="轉換成功!",
+                description=f"此段句子一共有**{len(text)}**個字(含有**{space}**個空格)"
+            )
+
+        else:
+            embed = discord.Embed(
+                title="使用 g!words 來轉換字數!",
+                description="使用方法: g!words `句子`"
+            )
+
+        embed.color = discord.Colour.random()
+        embed.timestamp = datetime.datetime.utcnow()
+        embed.set_footer(text="字數轉換器",icon_url=bot_icon_url)
+
+        await ctx.send(embed=embed)
+        
 def setup(bot):
     bot.add_cog(Tool(bot))

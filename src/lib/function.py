@@ -3,6 +3,7 @@ import html
 from urllib import parse
 import requests
 import discord
+import json
 from bs4 import BeautifulSoup
 
 def translate(text, to_language="auto", text_language="auto"):
@@ -54,3 +55,18 @@ def bluffshit(topic,minlen):
         .text   \
         .replace("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;","")\
         .replace("<br>","")
+
+def calculator(LatexExpression):
+    url = "https://mathsolver.microsoft.com/cameraexp/api/v1/solvesimplelatex"
+
+    data = {
+        "LatexExpression": str(LatexExpression).replace("÷","/").replace("×","*"), 
+        "clientInfo": {
+            "platform": 
+            "web"
+            }
+        }
+
+    response = requests.post(url=url,json=data)
+    return json.loads(response.text).get("solution")
+

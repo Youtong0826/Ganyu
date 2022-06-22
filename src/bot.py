@@ -5,7 +5,7 @@ from discord.ext import commands , tasks
 from lib.function import translate
 
 bot = commands.Bot(
-    command_prefix='g!',
+    command_prefix='g/',
     intents=discord.Intents.all()
 )
 
@@ -217,4 +217,4 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
 
 
 if __name__ == "__main__":
-        bot.run("OTIxNjczODg2MDQ5OTEwNzk1.Gm6uZ_.pB1VIGnHCvDYqx98-xAU8PRhsRg9nIv1FVK1Ao")
+        bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.G3fUvi.csW7ExjgLaXcc_0AKK59mUsA_DJdk5CgthNbR0")

@@ -93,7 +93,9 @@ ganyuCommands = {
         ),
         [
             ["g!translate","翻譯"],
-            ["g!embed `title` `des`","傳送Embed訊息"]
+            ["g!embed `title` `des`","傳送Embed訊息"],
+            ["g!words `句子`","字數轉換"],
+            ["g!bluff `主題` `字數`","唬爛產生器" ]
         ]
     )
 }

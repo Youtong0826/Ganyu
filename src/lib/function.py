@@ -38,3 +38,19 @@ def wiki_search(text):
     art = art[:200] + " ... go [wikipedia](https://zh.wikipedia.org) to check more info!"
 
     return art
+
+def bluffshit(topic,minlen):
+    url = "https://api.howtobullshit.me/bullshit"
+
+    data = {
+        "Topic":str(topic),
+        "MinLen":int(minlen)
+    }
+
+    response = requests.post(url=url,json=data)
+
+    return      \
+        response\
+        .text   \
+        .replace("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;","")\
+        .replace("<br>","")

@@ -61,18 +61,8 @@ class Fun(Cog_ExtenSion):
         moras = ["剪刀","石頭","布"]
         moraed = random.choice(moras)
 
-        talkings = [
-            "你不知道甘雨是猜拳高手嗎?",
-            "偷偷告訴你||我出石頭ㄛ||",
-            "偷偷告訴你||我出布ㄛ||",
-            "偷偷告訴你||我出剪刀ㄛ||",
-            "~~給我一瓶椰奶我就投降~~"
-        ]
-        talking = random.choice(talkings)
-
         MainEmbed = discord.Embed(
             title = "這次想出什麼呢?",
-            description = talking,
             color = discord.Colour.random(),
             timestamp = datetime.datetime.utcnow()
         )

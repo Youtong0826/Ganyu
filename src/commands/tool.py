@@ -2,7 +2,7 @@ import html
 import  discord , datetime , requests , json 
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
-from lib.function import translate,wiki_search
+from lib.function import translate,wiki_search,bluffshit
 from commands.rpg import bot_icon_url
 
 google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
@@ -93,6 +93,28 @@ class Tool(Cog_ExtenSion):
         embed.set_footer(text="字數轉換器",icon_url=bot_icon_url)
 
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def bluff(self,ctx,topic:str = None,minlen:int = None):
+        if topic and minlen != None:
+            artcle = bluffshit(topic,minlen)
+
+            embed = discord.Embed(
+                title=topic,
+                description=artcle
+            )
+
+        else:
+            embed = discord.Embed(
+                title="使用g!bluff唬爛產生器來生成文章!",
+                description="使用方法 g!bluff `主題(如有空格需要用\"包起來)` `字數(上限1000)`"
+            )
         
+        embed.color = discord.Colour.random()
+        embed.timestamp = datetime.datetime.utcnow()
+        embed.set_footer(text="唬爛產生器",icon_url = bot_icon_url)
+        
+        await ctx.send(embed=embed)
+
 def setup(bot):
     bot.add_cog(Tool(bot))

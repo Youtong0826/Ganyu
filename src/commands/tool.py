@@ -465,8 +465,7 @@ class Tool(Cog_ExtenSion):
                 
                 else:
                     calculate_value = ""
-                    
-                print(answer)
+
                 embed = discord.Embed(
                     title="**簡易計算機**",
                     description=f"```{answer}{default_value[len(answer):40]}```",

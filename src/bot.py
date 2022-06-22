@@ -5,7 +5,7 @@ from discord.ext import commands , tasks
 from lib.function import translate
 
 bot = commands.Bot(
-    command_prefix='g/',
+    command_prefix='g!',
     intents=discord.Intents.all()
 )
 

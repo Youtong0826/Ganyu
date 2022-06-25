@@ -460,7 +460,7 @@ class Tool(Cog_ExtenSion):
 
                 answer = calculator(calculate_value)
 
-                if answer == None or calculate_value:
+                if answer == None:
                     answer = calculate_value
                 
                 else:

@@ -208,4 +208,4 @@ async def on_member_join(member: discord.Member):
         await chnnel.send(embed=join_message())
 
 if __name__ == "__main__":
-        bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.G3fUvi.csW7ExjgLaXcc_0AKK59mUsA_DJdk5CgthNbR0")
+        bot.run("OTIxNjczODg2MDQ5OTEwNzk1.GtwCpw.upTTj4xeEresM6YYMeBYNveoekihwj7ehCW0hI")

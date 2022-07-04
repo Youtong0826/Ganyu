@@ -1,3 +1,4 @@
 git+https://github.com/Pycord-Development/pycord
 requests
 beautifulsoup4
+youtube-dl

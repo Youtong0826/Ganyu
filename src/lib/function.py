@@ -1,9 +1,10 @@
 import re
 import html
-from urllib import parse
 import requests
 import discord
 import json
+import youtube_dl
+from urllib import parse
 from bs4 import BeautifulSoup
 
 def translate(text, to_language="auto", text_language="auto"):
@@ -70,3 +71,27 @@ def calculator(LatexExpression):
     response = requests.post(url=url,json=data)
     return json.loads(response.text).get("solution")
 
+def GetVideoInfo(youtube_url):
+    
+    data = {}
+
+    with youtube_dl.YoutubeDL() as ydl:
+
+        original_data = ydl.extract_info(str(youtube_url), download=False)
+        
+        data["id"] = original_data.get("id")
+        data["title"] = original_data.get("title")
+        data["thumbnail"] = original_data.get("thumbnail")
+        data["uploader"] = original_data.get("uploader")
+        data["duration"] = original_data.get("duration") #時長(秒)
+        data["view_count"] = original_data.get("view_count") 
+        data["comment_count"] = original_data.get("comment_count")
+        data["like_count"] = original_data.get("like_count")
+        data["dislike_count"] = original_data.get("dislike_count")
+        data["average_rating"] = original_data.get("average_rating") #平均分數
+        data["description"] = original_data.get("description") #描述
+        data["tags"] = original_data.get("tags") #標籤
+        data["url"] = original_data.get("webpage_url") #連結
+        data["upload_date"] = original_data.get("upload_date") 
+        
+    return data

@@ -47,9 +47,13 @@ class Cucmd(Cog_ExtenSion):
                     await n.owner.send(embed=embed)
 
     @commands.command()
-    async def say(self, ctx, *, arg):
-        await ctx.message.delete()
-        await ctx.send(arg)
+    async def say(self, ctx : discord.ApplicationContext, *, arg):
+        if "@everyone" in arg:
+            await ctx.send(f"{ctx.author.mention} 請勿提及everyone!! :x:")
+        
+        else:
+            await ctx.message.delete()
+            await ctx.send(arg)
 
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 

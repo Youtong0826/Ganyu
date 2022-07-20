@@ -2,9 +2,7 @@ import discord
 import datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
-from lib.function import mustFieldEmbed
-
-
+from lib.function import mustFieldEmbed, SendBGM
 
 # 定義指令的help
 ganyuCommands = {
@@ -19,7 +17,7 @@ ganyuCommands = {
             ["g!info", "查看資訊的指令清單"],   
             ["g!cucmd", "查看常用的指令"],
             ["g!manage", "查看管理員指令"],
-            ["g!owner", "開發者專屬"],
+            ["g!tool", "查看小工具的指令"],
         ]
     ),
     "fun": mustFieldEmbed(
@@ -31,7 +29,6 @@ ganyuCommands = {
             ["g!dice `int` ", "讓這個機器人幫你骰骰子"],
             ["g!rpg", "RPG系統(製作中 暫不開放)"],
             ["g!mora","猜拳"],
-            ["g!rainbow","彩虹"],
             ["g!luck","幸運值"],
             ["g!spank","拍屁屁"]
         ]
@@ -46,7 +43,6 @@ ganyuCommands = {
             ["g!userinfo `user`", "查看使用者在此伺服器的資訊"],
             ["g!serinfo", "查看伺服器的資訊"],
             ["g!botinfo `bot`", "查看機器人的資訊"],
-            ["g!time", "查看各國時間"],
             ["g!invite", "獲取邀請連結"],
             ["g!invites", "查看本服邀請榜"],
             ["g!roleinfo `role`","取得身分組資訊"],
@@ -58,7 +54,6 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["g!about ", "關於甘雨"],
             ["g!ping", "查看機器人延遲"],
             ["g!say `text`", "讓這個機器人模仿你說話"],
             ["g!dm `user` `text`" , "讓 Ganyu 私訊某人"]
@@ -73,17 +68,6 @@ ganyuCommands = {
             ["g!ban `user`", "停權其他用戶"],
             ["g!kick `user`", "踢出其他用戶"],
             ["g!addrole `user` `role`", "新增身分組至一名用戶" ]
-        ]
-    ),
-    "owner": mustFieldEmbed(
-        discord.Embed(
-            title="Owner 開發者專屬指令",
-            color=discord.Colour.random()
-        ),
-        [
-            ["g!load `name`", "載入Cog"],
-            ["g!reload `name`", "重新載入Cog"],
-            ["g!unload `name`", "移除Cog"],
         ]
     ),
     "tool": mustFieldEmbed(
@@ -139,12 +123,6 @@ class Help(Cog_ExtenSion):
                     value="tool",
                     description="查看 Tool 指令清單",
                     emoji="🛠️"
-                ),
-                discord.SelectOption(
-                    label=" Owner ",
-                    value="owner",
-                    description="開發者專屬",
-                    emoji="🔒"
                 )
             ]
         )
@@ -166,32 +144,32 @@ class Help(Cog_ExtenSion):
             view=main_view
         )
 
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def fun(self, ctx):
         await ctx.send(embed=ganyuCommands["fun"])
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def info(self, ctx):
         await ctx.send(embed=ganyuCommands["info"])
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def cucmd(self, ctx):
         await ctx.send(embed=ganyuCommands["cmd"])
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def manage(self, ctx):
         await ctx.send(embed=ganyuCommands["manage"])
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
-    async def owner(self, ctx):
-        await ctx.send(embed=ganyuCommands["owner"])
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+    async def tool(self, ctx):
+        await ctx.send(embed=ganyuCommands["tool"])
+        SendBGM(ctx)
 
 def setup(bot):
     bot.remove_command("help")

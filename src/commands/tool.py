@@ -1,9 +1,9 @@
-import html
-import  discord , datetime , requests , json 
-from discord.ext import commands
+from lib.function import translate, wiki_search, bluffshit, calculator, GetVideoInfo ,SendBGM
 from core.classes import Cog_ExtenSion
-from lib.function import translate, wiki_search, bluffshit, calculator, GetVideoInfo
-from commands.rpg import bot_icon_url
+from lib.bot_config import bot_icon_url
+from discord.ext import commands
+import datetime
+import discord
 
 google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
 wikipedia_icon_url = "https://www.bing.com/images/search?view=detailV2&ccid=CLnSyWEa&id=E66C2DFADDB113B154BE0073382FBCEF88E51ACB&thid=OIP.CLnSyWEawnaZ8T3saUMfsgHaHa&mediaurl=https%3a%2f%2f3c1703fe8d.site.internapcdn.net%2fnewman%2fgfx%2fnews%2fhires%2f2017%2f58af0228b8aa8.jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.08b9d2c9611ac27699f13dec69431fb2%3frik%3dyxrliO%252b8LzhzAA%26pid%3dImgRaw%26r%3d0&exph=1500&expw=1500&q=wikipedia&simid=607995489110011574&FORM=IRPRST&ck=D48A403BD14BEB6F8CABA45AE032EAD4&selectedIndex=4"
@@ -42,7 +42,7 @@ class Tool(Cog_ExtenSion):
         embed.set_footer(text="translate",icon_url=bot_icon_url)
 
         await ctx.send(embed = embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def wiki(self,ctx,text=None):
@@ -67,7 +67,7 @@ class Tool(Cog_ExtenSion):
         embed.set_thumbnail(url=wikipedia_icon_url)
         embed.set_footer(text="wikipedia.org",icon_url=bot_icon_url)        
         await ctx.send(embed = embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def words(self,ctx,*,text=None):
@@ -93,7 +93,34 @@ class Tool(Cog_ExtenSion):
         embed.set_footer(text="字數轉換器",icon_url=bot_icon_url)
 
         await ctx.send(embed=embed)
+        SendBGM(ctx)
 
+    @discord.application_command(discription="字數轉換器")
+    async def words(self,ctx: discord.ApplicationContext,*,text : discord.Option(str,"輸入您要轉換的句子")):
+        if text != None:
+            space = 0
+            for n in text:
+                if n == " ":
+                    space += 1
+
+            embed = discord.Embed(
+                title="轉換成功!",
+                description=f"此段句子一共有**{len(text)}**個字(含有**{space}**個空格)"
+            )
+
+        else:
+            embed = discord.Embed(
+                title="使用 g!words 來轉換字數!",
+                description="使用方法: g!words `句子`"
+            )
+
+        embed.color = discord.Colour.random()
+        embed.timestamp = datetime.datetime.utcnow()
+        embed.set_footer(text="字數轉換器",icon_url=bot_icon_url)
+
+        await ctx.respond(embed=embed)
+        SendBGM(ctx)
+    
     @commands.command()
     async def bluff(self,ctx,topic:str = None,minlen:int = None):
         if topic and minlen != None:
@@ -115,6 +142,7 @@ class Tool(Cog_ExtenSion):
         embed.set_footer(text="唬爛產生器",icon_url = bot_icon_url)
         
         await ctx.send(embed=embed)
+        SendBGM(ctx)
 
     @commands.command()
     async def math(self,ctx):
@@ -605,31 +633,7 @@ class Tool(Cog_ExtenSion):
         C_button.callback = Cbuttoncallback
 
         await ctx.send(embed=embed,view=view)
-
-    @discord.application_command(discription="字數轉換器")
-    async def words(self,ctx: discord.ApplicationContext,*,text : discord.Option(str,"輸入您要轉換的句子")):
-        if text != None:
-            space = 0
-            for n in text:
-                if n == " ":
-                    space += 1
-
-            embed = discord.Embed(
-                title="轉換成功!",
-                description=f"此段句子一共有**{len(text)}**個字(含有**{space}**個空格)"
-            )
-
-        else:
-            embed = discord.Embed(
-                title="使用 g!words 來轉換字數!",
-                description="使用方法: g!words `句子`"
-            )
-
-        embed.color = discord.Colour.random()
-        embed.timestamp = datetime.datetime.utcnow()
-        embed.set_footer(text="字數轉換器",icon_url=bot_icon_url)
-
-        await ctx.respond(embed=embed)
+        SendBGM(ctx)
 
     @commands.command()
     async def ytinfo(self,ctx : discord.ApplicationContext,url = None):

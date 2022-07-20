@@ -7,6 +7,7 @@ from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from lib.bot_config import messages
 from lib.bot_config import bot_icon_url
+from lib.function import SendBGM
 
 imageIdList = []
 for i in range(3):
@@ -55,7 +56,7 @@ class Cucmd(Cog_ExtenSion):
             await ctx.message.delete()
             await ctx.send(arg)
 
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def avatar(self, ctx, *, member: discord.Member = None):
@@ -90,12 +91,12 @@ class Cucmd(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def about(self, ctx):
         await ctx.send(random.choice(messages))
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def ping(self, ctx):
@@ -107,7 +108,7 @@ class Cucmd(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def getroleid(self,ctx,role: discord.Role):
@@ -144,7 +145,7 @@ class Cucmd(Cog_ExtenSion):
         main_view.add_item(website_button)
 
         await ctx.send(embed=embed, view=main_view)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def embed(self, ctx, title, *, description=None):
@@ -166,7 +167,7 @@ class Cucmd(Cog_ExtenSion):
 
 
         await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def report(self, ctx):
@@ -388,11 +389,7 @@ class Cucmd(Cog_ExtenSion):
         embed = discord.Embed(title="已成功傳送私訊!")
 
         await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
-
-    @discord.application_command()
-    async def test(self,ctx : discord.ApplicationContext):
-        await ctx.respond("Ww")
+        SendBGM(ctx)
 
 def setup(bot):
     bot.add_cog(Cucmd(bot))

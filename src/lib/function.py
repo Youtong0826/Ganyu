@@ -1,11 +1,12 @@
-import re
-import html
-import requests
-import discord
-import json
-import youtube_dl
-from urllib import parse
 from bs4 import BeautifulSoup
+from urllib import parse
+import youtube_dl
+import requests
+import datetime
+import discord
+import html
+import json
+import re
 
 def translate(text, to_language="auto", text_language="auto"):
     GOOGLE_TRANSLATE_URL = 'http://translate.google.cn/m?q=%s&tl=%s&sl=%s'
@@ -95,3 +96,11 @@ def GetVideoInfo(youtube_url):
         data["upload_date"] = original_data.get("upload_date") 
         
     return data
+
+def SendBGM(ctx):
+    time = datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y/%m/%d %H:%M:%S")
+    print(f'[{time}] {ctx.author} use the "{ctx.command}" command in {ctx.author.guild}')
+
+def ErrorBGM(ctx,error):
+    time = datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y/%m/%d %H:%M:%S")
+    print(f'[{time}] {ctx.author.name} use the "{ctx.command}" command in {ctx.author.guild} return a error:{error}')

@@ -3,6 +3,7 @@ import discord
 import datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
+from lib.function import SendBGM
 
 async def mange_member(ctx,user:discord.Member, member:discord.Member, type, title, reason=None):
     pms = {}
@@ -86,7 +87,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
         
     embed.set_footer(text=f"{user.name}", icon_url=user.avatar)
     
-    print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+    SendBGM(ctx)
 
 
 class Mange(Cog_ExtenSion):

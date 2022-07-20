@@ -2,6 +2,7 @@ import discord , datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from lib.bot_config import bot_icon_url
+from lib.function import SendBGM
 
 """
 g!allinfo
@@ -416,7 +417,7 @@ class Info(Cog_ExtenSion):
         select_main.callback = mainselectcallback
 
         await ctx.send(embed=embed, view=view_main)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def serinfo(self, ctx):
@@ -428,7 +429,7 @@ class Info(Cog_ExtenSion):
             view=Setting["View"]
         )
         
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def botinfo(self, ctx):
@@ -436,7 +437,7 @@ class Info(Cog_ExtenSion):
 
         await ctx.send(embed=Setting["Embed"],view=Setting["View"])
 
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def userinfo(self, ctx, member: discord.Member = None):
@@ -448,7 +449,7 @@ class Info(Cog_ExtenSion):
 
         await ctx.send(embed=info["Embed"],view=info["View"])
 
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def invite(self, ctx):
@@ -464,7 +465,7 @@ class Info(Cog_ExtenSion):
 
         #embed = discord.Embed(title="🚫此功能暫未開啟",color=discord.Colour.random())
         await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def invites(self, ctx: discord.ApplicationContext):
@@ -500,7 +501,7 @@ class Info(Cog_ExtenSion):
         embed.description = context
 
         await ctx.channel.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def getuser(self, ctx, id: int):
@@ -517,7 +518,7 @@ class Info(Cog_ExtenSion):
         )
 
         await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def getid(self, ctx, name: discord.Member):
@@ -535,8 +536,7 @@ class Info(Cog_ExtenSion):
         )
 
         await ctx.send(embed=embed)
-
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def roleinfo(self,ctx : discord.ApplicationContext,*,role : discord.Role = None ):
@@ -615,7 +615,7 @@ class Info(Cog_ExtenSion):
             icon_url=bot_icon_url
         )
         await ctx.send(embed=embed,view=view)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
             
 def setup(bot):
     bot.add_cog(Info(bot))

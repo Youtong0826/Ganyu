@@ -4,6 +4,7 @@ import datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from lib.bot_config import bot_icon_url
+from lib.function import SendBGM
 
 class Fun(Cog_ExtenSion):
     """
@@ -45,16 +46,7 @@ class Fun(Cog_ExtenSion):
             )
 
         await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
-
-    @commands.command()
-    async def rainbow(self,ctx):
-        embed = discord.Embed(color=0x5c5c5c)
-
-        embed.set_image(url="https://cdn.discordapp.com/attachments/616315208251605005/616319462349602816/Tw.gif")
-
-        await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def mora(self,ctx):
@@ -87,7 +79,7 @@ class Fun(Cog_ExtenSion):
         ClothButton = discord.ui.Button(
             style = discord.ButtonStyle.success,
             label = "布",
-            emoji = "📄"
+            emoji = "🌫️"
         )
 
         async def ScissorsButtonCallback(interaction:discord.Interaction):
@@ -95,21 +87,21 @@ class Fun(Cog_ExtenSion):
             if moraed == "剪刀":
                 embed = discord.Embed(
                     title = "平手!",
-                    description = "你們兩人都出了剪刀XD",
+                    description = "看來是勢均力敵呢!",
                     color = discord.Colour.random()
                 )
 
             elif moraed == "石頭":
                 embed = discord.Embed(
                     title = "你輸了..",
-                    description = "甘雨出了石頭...沒關西，你還有下一次機會!",
+                    description = "你還有下一次機會!",
                     color = discord.Colour.random()
                 )
 
             else:
                 embed = discord.Embed(
                     title = "你贏了!!",
-                    description = "但是甘雨好像很難過(?",
+                    description = "痾..恭喜!",
                     color = discord.Colour.random()
                 )
 
@@ -120,21 +112,21 @@ class Fun(Cog_ExtenSion):
             if moraed == "剪刀":
                 embed = discord.Embed(
                     title = "你贏了!!",
-                    description = "但是甘雨好像很難過(?",
+                    description = "痾..恭喜!",
                     color = discord.Colour.random()
                 )
 
             elif moraed == "石頭":
                 embed = discord.Embed(
                     title = "平手!",
-                    description = "你們兩人都出了石頭XD",
+                    description = "看來是勢均力敵呢!",
                     color = discord.Colour.random()
                 )
 
             else:
                 embed = discord.Embed(
                     title = "你輸了..",
-                    description = "甘雨出了布...沒關西，你還有下一次機會!",
+                    description = "你還有下一次機會!",
                     color = discord.Colour.random()
                 )
 
@@ -145,21 +137,21 @@ class Fun(Cog_ExtenSion):
             if moraed == "剪刀":
                 embed = discord.Embed(
                     title = "你輸了..",
-                    description = "甘雨出了剪刀...沒關西，你還有下一次機會!",
+                    description = "你還有下一次機會!",
                     color = discord.Colour.random()
                 )
 
             elif moraed == "石頭":
                 embed = discord.Embed(
                     title = "你贏了!!",
-                    description = "但是甘雨好像很難過(?",
+                    description = "痾..恭喜!",
                     color = discord.Colour.random()
                 )
 
             else:
                 embed = discord.Embed(
                     title = "平手!",
-                    description = "你們兩人都出了布XD",
+                    description = "勢均力敵呢!",
                     color = discord.Colour.random()
                 )
 
@@ -175,7 +167,7 @@ class Fun(Cog_ExtenSion):
         MainView.add_item(ClothButton)
 
         await ctx.send(embed = MainEmbed, view = MainView)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def luck(self,ctx , member:discord.Member = None):
@@ -187,9 +179,6 @@ class Fun(Cog_ExtenSion):
             "紫色","奶油色","薰衣草色","蘭花色","粉紅色","灰色","白色","黑色"
         ]
         
-        luckystick = [
-            "大大吉","大吉","吉",""
-        ]
 
         if member != None:
             user = member
@@ -221,7 +210,7 @@ class Fun(Cog_ExtenSion):
         embed.set_footer(text="lucktest | 運氣測試",icon_url=bot_icon_url)
 
         await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
     @commands.command()
     async def spank(self, ctx, member:discord.Member = None):
@@ -238,7 +227,7 @@ class Fun(Cog_ExtenSion):
             )
 
         await ctx.send(embed=embed)
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+        SendBGM(ctx)
 
 def setup(bot):
     bot.add_cog(Fun(bot))

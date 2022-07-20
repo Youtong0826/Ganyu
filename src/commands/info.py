@@ -427,6 +427,7 @@ class Info(Cog_ExtenSion):
             embed=Setting["Embed"],
             view=Setting["View"]
         )
+        
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
 
     @commands.command()

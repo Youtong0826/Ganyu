@@ -135,7 +135,7 @@ class Cucmd(Cog_ExtenSion):
         embed.set_image(url=imgURL)
 
         pixiv_image_url = "https://www.bing.com/th?id=ODL.d9cafa2b269e74dcb05b3314a76d721f&w=100&h=100&c=12&pcl=faf9f7&o=6&dpr=1.25&pid=13.1"
-        embed.set_footer(text="from Pixiv.net", icon_url=pixiv_image_url)
+        embed.set_footer(text="Pixiv.net", icon_url=pixiv_image_url)
 
         main_view = discord.ui.View(timeout=None)
         website_button = discord.ui.Button(
@@ -389,6 +389,10 @@ class Cucmd(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
         print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
+
+    @discord.application_command()
+    async def test(self,ctx : discord.ApplicationContext):
+        await ctx.respond("Ww")
 
 def setup(bot):
     bot.add_cog(Cucmd(bot))

@@ -14,16 +14,8 @@ for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 
-#@bot.slash_command(
-#    name="test",
-#    description="Test",
-#    guild_ids=guild_ids())
-#async def test(ctx):
-#    embed = discord.Embed(
-#        title="This is a test command owo"
-#    )
-#    await ctx.respond("test")
-
+time = datetime.datetime.now
+tz = datetime.timezone(datetime.timedelta(hours=8))
 
 @bot.command()
 async def load(ctx, extension):
@@ -73,71 +65,12 @@ async def reload(ctx, extension):
             color=0x5cff8d
         )
     await ctx.send(embed=embed)
-    print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} reloaded {extension} Cog in {ctx.author.guild}")
-
-
-@bot.command()
-async def modal(ctx):
-
-    embed = discord.Embed( #嵌入訊息(如果需要的話)
-        title="標題(Embed)",
-        description="敘述(Embed)"
-    )
-
-    view = discord.ui.View() 
-
-    modal_button = discord.ui.Button( #開啟選單的按鈕(如果需要的話)
-        label="開啟選單"
-    )
-
-    async def modal_button_callback(interaction):
-
-        modal = discord.ui.Modal(title="測試表單")
-
-        input_text_title = discord.ui.InputText(
-            style=discord.InputTextStyle.short,
-            label="title",
-            placeholder="input your title"
-        )
-
-        input_text_description = discord.ui.InputText(
-            style=discord.InputTextStyle.long,
-            label="description",
-            placeholder="input your discription"
-        )
-
-        async def modal_callback(interaction):
-
-            modal_embed = discord.Embed(
-                title=f"{modal.children[0].value}",
-                description=f"{modal.children[1].value}"
-            )
-
-            await interaction.response.send_message(embed=modal_embed)
-
-        modal.add_item(input_text_title)
-        modal.add_item(input_text_description)
-
-        modal.callback = modal_callback
-
-        await interaction.response.send_modal(modal)
-
-    view.add_item(modal_button)
-
-    modal_button.callback = modal_button_callback
-
-    ctx.send(embed=embed, view=view)
+    print(f"[{time(tz=tz).strftime('%Y/%m/%d %H:%M:%S')}]:{ctx.author.name} reloaded {extension} Cog in {ctx.author.guild}")
 
 @bot.event
 async def on_ready():
     print(">>Bot is online<<")
     print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users ")
-
-    def guild_ids():
-        guild_ids = []
-        for n in bot.guilds:
-            guild_ids.append(n.id)
-        return guild_ids
 
     activity = discord.Activity(type=discord.ActivityType.watching,name = f"g!help | {len(bot.guilds)} 個伺服器")
     await bot.change_presence(status = discord.Status.streaming, activity = activity)
@@ -168,7 +101,7 @@ async def on_command_error(ctx : discord.ApplicationContext, error):
 
     embed.add_field(
         name="應對措施",
-        value="如果Bot發生錯誤或是使用指令沒回應的話 極有可能是Bot本身的問題 如遇到此情況可使用 `g!report` 來回報給作者們 當然也可能是使用者的問題w",
+        value="如果Bot或是指令發生錯誤的話可使用 `g!report` 來回報給作者們!\n或是給個建議也可以喔! 我們非常需要您的建議!",
         inline=False
     )
 
@@ -208,4 +141,4 @@ async def on_member_join(member: discord.Member):
         await chnnel.send(embed=join_message())
 
 if __name__ == "__main__":
-        bot.run("OTIxNjczODg2MDQ5OTEwNzk1.GtwCpw.upTTj4xeEresM6YYMeBYNveoekihwj7ehCW0hI")
+        bot.run("OTIxNjczODg2MDQ5OTEwNzk1.GK9jYd.csgia_s2BWgYMCEPNrHGxHzcRcWOI6Duph7WiE")

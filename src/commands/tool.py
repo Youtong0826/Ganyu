@@ -2,7 +2,7 @@ import html
 import  discord , datetime , requests , json 
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
-from lib.function import translate,wiki_search,bluffshit,calculator
+from lib.function import translate, wiki_search, bluffshit, calculator, GetVideoInfo
 from commands.rpg import bot_icon_url
 
 google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
@@ -605,6 +605,46 @@ class Tool(Cog_ExtenSion):
         C_button.callback = Cbuttoncallback
 
         await ctx.send(embed=embed,view=view)
+
+    @discord.application_command(discription="字數轉換器")
+    async def words(self,ctx: discord.ApplicationContext,*,text : discord.Option(str,"輸入您要轉換的句子")):
+        if text != None:
+            space = 0
+            for n in text:
+                if n == " ":
+                    space += 1
+
+            embed = discord.Embed(
+                title="轉換成功!",
+                description=f"此段句子一共有**{len(text)}**個字(含有**{space}**個空格)"
+            )
+
+        else:
+            embed = discord.Embed(
+                title="使用 g!words 來轉換字數!",
+                description="使用方法: g!words `句子`"
+            )
+
+        embed.color = discord.Colour.random()
+        embed.timestamp = datetime.datetime.utcnow()
+        embed.set_footer(text="字數轉換器",icon_url=bot_icon_url)
+
+        await ctx.respond(embed=embed)
+
+    @commands.command()
+    async def ytinfo(self,ctx : discord.ApplicationContext,url = None):
+        vdata = GetVideoInfo(url)
+
+        embed = discord.Embed(
+            title="TEST",
+        )
+
+        for n in vdata:
+            print(n)
+            embed.add_field(name=n ,value=vdata[n],inline=True)
+
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Tool(bot))

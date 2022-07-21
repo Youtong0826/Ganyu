@@ -53,7 +53,13 @@ class Cucmd(Cog_ExtenSion):
             await ctx.send(f"{ctx.author.mention} 請勿提及everyone!! :x:")
         
         else:
-            await ctx.message.delete()
+            
+            try:
+                await ctx.message.delete()
+
+            except:
+                pass
+
             await ctx.send(arg)
 
         SendBGM(ctx)

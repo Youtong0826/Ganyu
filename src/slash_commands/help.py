@@ -91,5 +91,4 @@ class SlashHelp(Cog_ExtenSion):
         SendBGM(ctx)
 
 def setup(bot):
-    bot.remove_command("help")
     bot.add_cog(SlashHelp(bot))

@@ -9,6 +9,8 @@ bot = commands.Bot(
     intents=discord.Intents.all()
 )
 
+bot.remove_command("help")
+
 for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
@@ -57,7 +59,7 @@ async def reload(ctx, extension):
             title=f"Reloaded - {extension} - Cog",
             color=0x5cff8d
         )
-        
+
     else:
         embed = discord.Embed(
             title="此為開發者專屬功能",

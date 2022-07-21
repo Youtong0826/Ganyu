@@ -1,3 +1,6 @@
+from lib.function import mustFieldEmbed
+import discord
+
 builder = "youtong._.0826#9250"
 update = "無"
 bot_icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"
@@ -31,3 +34,82 @@ messages = [
     "哪怕變得更為強大，也無需驅動'神之眼'之力，而是將'神之眼'作為保護璃月的終極手段。 作為仙獸與人類的混血，她選擇成為兩個種族的橋樑。'神之眼'，便是她的新責任與新見證",
 ]
 
+ganyuCommands = {
+    "ganyu": mustFieldEmbed(
+        discord.Embed(
+            title="Ganyu 指令清單",
+            description="可使用`g!report`來提出建議或回報錯誤ㄛ~",
+            color=0xec8fff
+        ),
+        [
+            ["fun", "查看娛樂的指令清單"],
+            ["info", "查看資訊的指令清單"],   
+            ["cucmd", "查看常用的指令"],
+            ["manage", "查看管理員指令"],
+            ["tool", "查看小工具的指令"],
+        ]
+    ),
+    "fun": mustFieldEmbed(
+        discord.Embed(
+            title="Fun 娛樂指令清單",
+            color=discord.Colour.random()
+        ),
+        [
+            ["dice `int` ", "讓這個機器人幫你骰骰子"],
+            ["rpg", "RPG系統(製作中 暫不開放)"],
+            ["mora","猜拳"],
+            ["luck","幸運值"],
+            ["spank","拍屁屁"]
+        ]
+    ),
+    "info": mustFieldEmbed(
+        discord.Embed(
+            title="Info 資訊指令清單",
+            color=discord.Colour.random()
+        ),
+        [
+            ["allinfo","一次查看所有資訊!"],
+            ["userinfo `user`", "查看使用者在此伺服器的資訊"],
+            ["serinfo", "查看伺服器的資訊"],
+            ["botinfo", "查看機器人的資訊"],
+            ["invite", "獲取邀請連結"],
+            ["invites", "查看本服邀請榜"],
+            ["roleinfo `role`","取得身分組資訊"],
+        ]
+    ),
+    "cmd": mustFieldEmbed(
+        discord.Embed(
+            title="Cucmd 常用指令清單",
+            color=discord.Colour.random()
+        ),
+        [
+            ["ping", "查看機器人延遲"],
+            ["say `text`", "讓這個機器人模仿你說話"],
+            ["dm `user` `text`" , "讓 Ganyu 私訊某人"]
+        ]
+    ),
+    "manage": mustFieldEmbed(
+        discord.Embed(
+            title="Mange 管理指令清單",
+            color=discord.Colour.random()
+        ),
+        [
+            ["ban `user`", "停權其他用戶"],
+            ["kick `user`", "踢出其他用戶"],
+            ["addrole `user` `role`", "新增身分組至一名用戶" ]
+        ]
+    ),
+    "tool": mustFieldEmbed(
+        discord.Embed(
+            title="Tool 實用小工具",
+            color=discord.Colour.random()
+        ),
+        [
+            ["translate","翻譯"],
+            ["embed `title` `des`","傳送Embed訊息"],
+            ["words `句子`","字數轉換"],
+            ["bullshit `主題` `字數`","唬爛產生器" ],
+            ["math","計算機"]
+        ]
+    )
+}

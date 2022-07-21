@@ -42,7 +42,7 @@ def wiki_search(text):
 
     return art
 
-def bluffshit(topic,minlen):
+def bullshit(topic,minlen):
     url = "https://api.howtobullshit.me/bullshit"
 
     data = {

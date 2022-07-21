@@ -3,10 +3,7 @@ import discord
 import datetime
 import json
 import requests
-from discord.ext import commands
 from core.classes import Cog_ExtenSion
-from lib.bot_config import messages
-from lib.bot_config import bot_icon_url
 from lib.function import SendBGM
 
 imageIdList = []
@@ -26,44 +23,24 @@ for i in range(3):
             imageInfo["url"] = f'{str(i["id"])}'
         imageIdList.append(imageInfo)
 
+class SlashCucmd(Cog_ExtenSion):
 
-class Cucmd(Cog_ExtenSion):
-
-    @commands.command()
-    async def send(self,ctx,member :discord.Member = None):
-        link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
-        embed = discord.Embed(
-            title="非常抱歉打擾您 以下是來自甘雨緊急公告",
-            description=f"簡單來說機器人又爆了 將造成機器人下線一陣子 為此我們深感抱歉 我們正在尋找能夠替代的營運商 希望能早點恢復吧Qwq",
-            color=discord.Colour.random()
-        )
-        if member != None:
-            await member.send(embed=embed)
+    @discord.application_command(description="讓機器人模仿你說的話!")
+    async def say(self, ctx : discord.ApplicationContext, *, msg : discord.Option(str,"訊息")):
+        if "@everyone" in msg:
+            await ctx.respond(f"{ctx.author.mention} 請勿提及everyone!! :x:")
         
         else:
-            sended = []
-            for n in self.bot.guilds:
-                if n.owner not in sended:
-                    sended.append(n.owner)
-                    await n.owner.send(embed=embed)
-
-    @commands.command()
-    async def say(self, ctx : discord.ApplicationContext, *, arg):
-        if "@everyone" in arg:
-            await ctx.send(f"{ctx.author.mention} 請勿提及everyone!! :x:")
-        
-        else:
-            await ctx.message.delete()
-            await ctx.send(arg)
+            await ctx.respond(msg)
 
         SendBGM(ctx)
 
-    @commands.command()
-    async def avatar(self, ctx, *, member: discord.Member = None):
+    @discord.application_command(description="查看頭像")
+    async def avatar(self, ctx, *, member: discord.Option(discord.Member,"選擇成員") = None):
         user = ctx.author
         if member != None:
             embed = discord.Embed(
-                title=f"這是 {member.name} 的頭貼",
+                title=f" ",
                 color=discord.Colour.random(),
                 timestamp=datetime.datetime.utcnow()
             )
@@ -89,16 +66,11 @@ class Cucmd(Cog_ExtenSion):
                 icon_url=user.avatar
             )
 
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
 
         SendBGM(ctx)
 
-    @commands.command()
-    async def about(self, ctx):
-        await ctx.send(random.choice(messages))
-        SendBGM(ctx)
-
-    @commands.command()
+    @discord.application_command(description="查看機器人延遲!")
     async def ping(self, ctx):
 
         embed = discord.Embed(
@@ -106,21 +78,11 @@ class Cucmd(Cog_ExtenSion):
             color=discord.Colour.random(),
         )
 
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
 
         SendBGM(ctx)
-
-    @commands.command()
-    async def getroleid(self,ctx,role: discord.Role):
-        embed = discord.Embed(
-            title=f"成功",
-            description=f"{role.mention} 的id為 {role.id}",
-            color=discord.discord.Colour.random()
-        )
-
-        await ctx.send(embed=embed)
     
-    @commands.command()
+    @discord.application_command(description="查看有關甘雨的圖片")
     async def pic(self, ctx):
         imgInfo = random.choice(imageIdList)
 
@@ -144,11 +106,11 @@ class Cucmd(Cog_ExtenSion):
 
         main_view.add_item(website_button)
 
-        await ctx.send(embed=embed, view=main_view)
+        await ctx.respond(embed=embed, view=main_view)
         SendBGM(ctx)
 
-    @commands.command()
-    async def embed(self, ctx, title, *, description=None):
+    @discord.application_command(descripton="創建一個嵌入訊息")
+    async def embed(self, ctx, title:discord.Option(str,"標題"), *, description: discord.Option(str,"敘述") =None):
         if title != None:
             if description == None:
                 description = ""
@@ -166,10 +128,10 @@ class Cucmd(Cog_ExtenSion):
             )
 
 
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
         SendBGM(ctx)
 
-    @commands.command()
+    @discord.application_command(descripton="給點小建議或是回報錯誤")
     async def report(self, ctx):
         view = discord.ui.View(timeout=None)
 
@@ -271,125 +233,15 @@ class Cucmd(Cog_ExtenSion):
             color=discord.Colour.random()
         )
 
-        await ctx.send(embed=embed, view=view)
+        await ctx.respond(embed=embed, view=view)
 
-    @commands.command()
-    async def vote(self,ctx,topic=None,quantity:int=None):
-
-        if topic and quantity != None:
-            MainEmbed = discord.Embed(
-                title="請點擊以下按鈕來設置選項內容!",
-                color=discord.Colour.random(),
-            )
-
-            MainView = discord.ui.View(timeout=None)
-
-            SettingButton = discord.ui.Button(
-                style=discord.ButtonStyle.success,
-                label="設置投票內容",
-                emoji="📊"
-            )
-
-            async def SettingButtonCallback(interaction:discord.Interaction):
-                SettingModal = discord.ui.Modal(title="投票設置")
-
-                async def SettingModalCallback(interaction:discord.Interaction):
-                    options = ""
-                    ModalView = discord.ui.View(timeout=None)
-
-                    for n in(0,quantity*2):
-                        if n % 2 == 0:
-                            options +=f"{n/2+1}.{SettingModal.children[n].value} ▬▬ 0%\n\n"
-
-                    ModalEmbed = discord.Embed(
-                        title=f"{interaction.user.name} 已發起投票",
-                        description=f"主題 ▬▬ **{topic}** 選項:\n{options}",
-                        color=discord.Colour.random(),
-                        timestamp=datetime.datetime.utcnow()
-                    )
-
-                    async def OptionButtonCallback(interaction:discord.Interaction):
-
-                        if interaction.custom_id == 0:
-                                print()
-
-                    for n in range(0,quantity*2):
-                        if n % 2 == 0:
-
-                            OptionButton = discord.ui.Button(
-                                    style=discord.ButtonStyle.gray,
-                                    label=SettingModal.children[n].value,
-                                    emoji=SettingModal.children[n+1].value,
-                                    custom_id=n
-                                )
-
-                            ModalView.add_item(OptionButton)
-
-                    await interaction.response.edit_message(embed=ModalEmbed,view=ModalView)
-
-                for n in range(1,quantity+1):
-                    option = discord.ui.InputText(
-                            style=discord.InputTextStyle.short,
-                            label=f"選項{n}",
-                            placeholder=f"填入選項{n}的名稱",
-                            max_length=18,
-                            custom_id=str(n+10)
-                        )
-
-                    SettingModal.add_item(option)
-
-                    emoji = discord.ui.InputText(
-                            style=discord.InputTextStyle.short,
-                            label=f"選項{n}的表情符號",
-                            placeholder=f"填入選項{n}的表情符號",
-                            max_length=1,
-                            custom_id=str(n+20)
-                        )
-
-                    SettingModal.add_item(emoji)
-                
-                SettingModal.callback = SettingModalCallback
-
-                await interaction.response.send_modal(SettingModal)
-                
-            SettingButton.callback = SettingButtonCallback
-            MainView.add_item(SettingButton)
-        
-        else:
-
-            MainEmbed = discord.Embed(
-                title="歡迎使用投票功能",
-                description="使用方法: g!vote `主題` `幾個選項`",
-                color=discord.Colour.random(),
-            )
-
-            MainView = discord.ui.View(timeout=None)
-        
-        await ctx.send(embed=MainEmbed,view=MainView)
-
-    @commands.command()
-    async def getguild(self,ctx):
-        guilds = ""
-        bot : commands.Bot = self.bot 
-
-        for guild in bot.guilds:
-            if guild.member_count >= 50:
-                guilds += f"[**{guild.name}** 擁有者:**{guild.owner.name}** **{len(guild.members)}**人]\n"
-
-        embed = discord.Embed(
-            title="所在的伺服器(多人)",
-            description=guilds
-        )
-
-        await ctx.send(embed=embed)
-
-    @commands.command()
-    async def dm(self,ctx,member:discord.Member=None ,*, message = None):
+    @discord.application_command(descripton="私訊他人")
+    async def dm(self,ctx,member:discord.Option(discord.Member,"成員")=None ,*, message :discord.Option(str,"要發送的訊息") = None):
         await member.send(content=message)
         embed = discord.Embed(title="已成功傳送私訊!")
 
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
         SendBGM(ctx)
 
 def setup(bot):
-    bot.add_cog(Cucmd(bot))
+    bot.add_cog(SlashCucmd(bot))

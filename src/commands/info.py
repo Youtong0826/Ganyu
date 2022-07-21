@@ -289,7 +289,7 @@ def UserDict(member:discord.Member):
             "inline" : True
         },
 
-        f"📰 身分組[{len(member.roles)}]:" : {
+        f"📰 身分組[{len(member.roles)-1}]:" : {
             "value" : roles,
             "inline" : False
         }

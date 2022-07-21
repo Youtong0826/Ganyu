@@ -13,6 +13,10 @@ for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
 
+for Filename in os.listdir('src/slash_commands'):
+    if Filename.endswith(".py"):
+        bot.load_extension(f"slash_commands.{Filename[:-3]}")
+
 @bot.command()
 async def load(ctx, extension):
     if ctx.author.id == 611118369474740244 or 856041155341975582:
@@ -28,7 +32,6 @@ async def load(ctx, extension):
         )
     await ctx.send(embed=embed)
     SendBGM(ctx)
-
 
 @bot.command()
 async def unload(ctx, extension):
@@ -46,7 +49,6 @@ async def unload(ctx, extension):
     await ctx.send(embed=embed)
     SendBGM(ctx)
 
-
 @bot.command()
 async def reload(ctx, extension):
     if ctx.author.id == 611118369474740244 or 856041155341975582:
@@ -55,6 +57,7 @@ async def reload(ctx, extension):
             title=f"Reloaded - {extension} - Cog",
             color=0x5cff8d
         )
+        
     else:
         embed = discord.Embed(
             title="此為開發者專屬功能",
@@ -104,27 +107,27 @@ async def on_command_error(ctx : discord.ApplicationContext, error):
     ErrorBGM(ctx,error)
     await ctx.send(embed=embed)
 
-@bot.event
-async def on_application_command_error(ctx : discord.ApplicationContext, error):
-    chiness = translate(str(error), "zh-TW")
-
-    if chiness.endswith("。"):
-        chiness = chiness[:-1]
-
-    embed = discord.Embed(title="錯誤",description="以下為回報內容",color=discord.Color.red())
-
-    embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
-
-    embed.add_field(name="翻譯後",value=f"```{chiness}```",inline=False)
-
-    embed.add_field(
-        name="應對措施",
-        value="如果Bot或是指令發生錯誤的話可使用 `g!report` 來回報給作者們!\n或是給個建議也可以喔! 我們非常需要您的建議!",
-        inline=False
-    )
-
-    ErrorBGM(ctx,error)
-    await ctx.send(embed=embed)
+#@bot.event
+#async def on_application_command_error(ctx : discord.ApplicationContext, error):
+#    chiness = translate(str(error), "zh-TW")
+#
+#    if chiness.endswith("。"):
+#        chiness = chiness[:-1]
+#
+#    embed = discord.Embed(title="錯誤",description="以下為回報內容",color=discord.Color.red())
+#
+#    embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
+#
+#    embed.add_field(name="翻譯後",value=f"```{chiness}```",inline=False)
+#
+#    embed.add_field(
+#        name="應對措施",
+#        value="如果Bot或是指令發生錯誤的話可使用 `g!report` 來回報給作者們!\n或是給個建議也可以喔! 我們非常需要您的建議!",
+#        inline=False
+#    )
+#
+#    ErrorBGM(ctx,error)
+#    await ctx.respond(embed=embed)
 
 @bot.event
 async def on_member_join(member: discord.Member):

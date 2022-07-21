@@ -54,7 +54,5 @@ class Math(Cog_ExtenSion):
 
         await ctx.send(embed=embed)
 
-        print(f"[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}] {ctx.author} use the {ctx.command} in {ctx.author.guild}")
-
 def setup(bot):
     bot.add_cog(Math(bot))

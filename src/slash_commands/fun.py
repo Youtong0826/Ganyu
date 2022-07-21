@@ -1,3 +1,4 @@
+from dis import disco
 import random
 import discord
 import datetime
@@ -6,15 +7,10 @@ from core.classes import Cog_ExtenSion
 from lib.bot_config import bot_icon_url
 from lib.function import SendBGM
 
-class Fun(Cog_ExtenSion):
-    """
-    fun command list\n
-    g!dice\n
-    g!rpg
-    """
+class SlashFun(Cog_ExtenSion):
 
-    @commands.command()
-    async def dice(self, ctx, number: int = None):
+    @discord.application_command(description="骰骰子")
+    async def dice(self, ctx, number: discord.Option(int,"選擇數字",kwargs=[1,2,3,4,5,6]) = None):
         if number != None:
             if int(number) > 6 or int(number) < 1:
                 embed = discord.Embed(
@@ -22,7 +18,8 @@ class Fun(Cog_ExtenSion):
                     description=f"叫你選1~6 你選{number}幹嘛啦!",
                     color=discord.Colour.random()
                 )
-                await ctx.send(embed=embed)
+                await ctx.respond(embed=embed)
+
             else:
                 dice = [1, 2, 3, 4, 5, 6]
                 end = random.choice(dice)
@@ -45,10 +42,10 @@ class Fun(Cog_ExtenSion):
                 color=discord.Colour.random()
             )
 
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
         SendBGM(ctx)
 
-    @commands.command()
+    @discord.application_command(description="猜拳")
     async def mora(self,ctx):
         moras = ["剪刀","石頭","布"]
         moraed = random.choice(moras)
@@ -166,11 +163,11 @@ class Fun(Cog_ExtenSion):
         MainView.add_item(RockButton)
         MainView.add_item(ClothButton)
 
-        await ctx.send(embed = MainEmbed, view = MainView)
+        await ctx.send_response(embed = MainEmbed, view = MainView)
         SendBGM(ctx)
 
-    @commands.command()
-    async def luck(self,ctx , member:discord.Member = None):
+    @discord.application_command(description="測試你的運氣")
+    async def luck(self,ctx , member: discord.Option(discord.Member,"選擇成員")= None):
         luckypoint = random.randint(0,100)
         luckybar = ""
 
@@ -209,11 +206,11 @@ class Fun(Cog_ExtenSion):
 
         embed.set_footer(text="lucktest | 運氣測試",icon_url=bot_icon_url)
 
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
         SendBGM(ctx)
 
-    @commands.command()
-    async def spank(self, ctx, member:discord.Member = None):
+    @discord.application_command(description="偷拍他人的屁股")
+    async def spank(self, ctx, member:discord.Option(discord.Member,"選擇成員") = None):
         if member != None:
             embed = discord.Embed(
                 title=f"{member.name} 被 {ctx.author.name} 拍了一下屁股",
@@ -226,8 +223,8 @@ class Fun(Cog_ExtenSion):
                 description="用法: g!spank `提及/名字/id`"
             )
 
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
         SendBGM(ctx)
 
 def setup(bot):
-    bot.add_cog(Fun(bot))
+    bot.add_cog(SlashFun(bot))

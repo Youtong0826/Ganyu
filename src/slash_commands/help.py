@@ -1,13 +1,12 @@
 import discord
-import datetime
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
-from lib.function import mustFieldEmbed, SendBGM
+from lib.function import SendBGM
 from lib.bot_config import ganyuCommands
 
-class Help(Cog_ExtenSion):
+class SlashHelp(Cog_ExtenSion):
 
-    @commands.command()
+    @discord.application_command(description="查看指令清單")
     async def help(self, ctx):
         main_select = discord.ui.Select(
             placeholder="選擇要查看的指令清單",
@@ -59,37 +58,38 @@ class Help(Cog_ExtenSion):
 
         main_select.callback = main_select_callback
 
-        await ctx.send(
+        await ctx.send_response(
             embed=ganyuCommands["ganyu"],
             view=main_view
         )
 
         SendBGM(ctx)
 
-    @commands.command()
+    @discord.application_command(description="娛樂指令清單")
     async def fun(self, ctx):
-        await ctx.send(embed=ganyuCommands["fun"])
+        await ctx.respond(embed=ganyuCommands["fun"])
         SendBGM(ctx)
 
-    @commands.command()
+    @discord.application_command(description="資訊指令清單")
     async def info(self, ctx):
-        await ctx.send(embed=ganyuCommands["info"])
+        await ctx.respond(embed=ganyuCommands["info"])
         SendBGM(ctx)
 
-    @commands.command()
+    @discord.application_command(description="常用指令清單")
     async def cucmd(self, ctx):
-        await ctx.send(embed=ganyuCommands["cmd"])
+        await ctx.respond(embed=ganyuCommands["cmd"])
         SendBGM(ctx)
 
-    @commands.command()
+    @discord.application_command(description="管理指令清單")
     async def manage(self, ctx):
-        await ctx.send(embed=ganyuCommands["manage"])
+        await ctx.respond(embed=ganyuCommands["manage"])
         SendBGM(ctx)
 
-    @commands.command()
+    @discord.application_command(description="工具指令清單")
     async def tool(self, ctx):
-        await ctx.send(embed=ganyuCommands["tool"])
+        await ctx.respond(embed=ganyuCommands["tool"])
         SendBGM(ctx)
 
 def setup(bot):
-    bot.add_cog(Help(bot))
+    bot.remove_command("help")
+    bot.add_cog(SlashHelp(bot))

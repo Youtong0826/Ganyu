@@ -1,47 +1,15 @@
 from lib.function import translate, SendBGM, bullshit, calculator
 from lib.bot_config import bot_icon_url 
 from core.classes import Cog_ExtenSion
+from command_lib import tool
 import datetime
 import discord
-
-google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
 
 class SlashTool(Cog_ExtenSion):
     
     @discord.application_command(description = "將任何語言翻譯成中文!")
     async def translate(self,ctx :discord.ApplicationContext,*,text:discord.Option(str,"需要被翻譯的文字")):
-
-        if text != None:
-            translate_text = translate(str(text),"zh-TW")
-            embed = discord.Embed(
-                title="成功! 以下為翻譯結果",
-                color=discord.Colour.random(),
-                timestamp=datetime.datetime.utcnow()
-            )
-
-            embed.add_field(
-                name="原文",
-                value=f"```{text}```"
-            )
-            embed.add_field(
-                name="翻譯",
-                value=f"```{translate_text}```",
-                inline=False
-            )
-
-        else:
-            embed = discord.Embed(
-                title="歡迎使用翻譯小工具!",
-                description="此指令可以將各種語言翻譯成中文\n使用方法 g!translate `文字`",
-                color=discord.Colour.random(),
-                timestamp=datetime.datetime.utcnow()
-            )
-
-        embed.set_thumbnail(url=google_translate_icon_url)
-        embed.set_footer(text="translate",icon_url=bot_icon_url)
-
-        await ctx.respond(embed = embed)
-        SendBGM(ctx)
+        await tool.Translate(ctx,text,"slash")
 
     @discord.application_command(description="字數轉換器")
     async def words(self,ctx: discord.ApplicationContext,*,text : discord.Option(str,"輸入您要轉換的句子")):
@@ -70,27 +38,8 @@ class SlashTool(Cog_ExtenSion):
         SendBGM(ctx)
 
     @discord.application_command(description="唬爛產生器")
-    async def bullshit(self,ctx:discord.ApplicationContext,topic:discord.Option(str,"主題"),minlen:discord.Option(int,"字數(上限1000)")):
-        if topic and minlen != None:
-            artcle = bullshit(topic,minlen)
-
-            embed = discord.Embed(
-                title=topic,
-                description=artcle
-            )
-
-        else:
-            embed = discord.Embed(
-                title="使用g!bluff唬爛產生器來生成文章!",
-                description="使用方法 g!bluff `主題(如有空格需要用\"包起來)` `字數(上限1000)`"
-            )
-        
-        embed.color = discord.Colour.random()
-        embed.timestamp = datetime.datetime.utcnow()
-        embed.set_footer(text="唬爛產生器",icon_url = bot_icon_url)
-        
-        await ctx.respond(embed=embed)
-        SendBGM(ctx)
+    async def bullshit(self,ctx:discord.ApplicationContext,topic:discord.Option(str,"主題")=None,minlen:discord.Option(int,"字數(上限1000)")=None):
+        await tool.Bullshit(ctx,topic,minlen,"slash")
 
     @discord.application_command(description="計算機")
     async def math(self,ctx:discord.ApplicationContext,formula:discord.Option(str,"算式")=None):

@@ -3,7 +3,7 @@ from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from lib.bot_config import bot_icon_url
 from lib.function import SendBGM
-from commands.info import ServerDict,BotDict,UserDict
+from command_lib.info import ServerDict,BotDict,UserDict
 
 class SlashInfo(Cog_ExtenSion):
 

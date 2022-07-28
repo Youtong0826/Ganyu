@@ -11,13 +11,17 @@ bot = commands.Bot(
 
 bot.remove_command("help")
 
+print('Start load commands file')
 for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
+        print(f'-- loaded "{Filename[:-3]}" file')
 
+print('Start load slash_commands file')
 for Filename in os.listdir('src/slash_commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"slash_commands.{Filename[:-3]}")
+        print(f'-- loaded "{Filename[:-3]}" file')
 
 @bot.command()
 async def load(ctx, extension):

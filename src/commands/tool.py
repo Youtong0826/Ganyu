@@ -66,8 +66,8 @@ class Tool(Cog_ExtenSion):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def genshin(self,ctx,uid=None):
-        await tool.GenshinInfo(ctx,uid,"command")
+    async def genshin(self,ctx,uid=None,server=None):
+        await tool.GenshinInfo(ctx,uid,server,"command")
 
 def setup(bot):
     bot.add_cog(Tool(bot))

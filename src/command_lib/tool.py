@@ -1,8 +1,6 @@
 import discord
-import genshin
 import datetime
-
-from lib.function import SendBGM,translate,bullshit,calculator
+from lib.function import SendBGM,translate,bullshit,calculator,getGenshininfo
 from lib.bot_config import bot_icon_url
 
 async def Translate(ctx,text,type=["command","slash"]):
@@ -652,33 +650,60 @@ async def Math(ctx,formula,type=["command","slash"]):
 
         SendBGM(ctx)
 
-async def GenshinInfo(ctx,uid,type=["command","slash"]):
+async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
+
+    backbutton = discord.ui.Button(
+        style=discord.ButtonStyle.primary,
+        label="back",
+        emoji="🔙"
+    )
+
+    backview = discord.ui.View(timeout=None)
+    backview.add_item(backbutton)
+
+    async def backbuttoncallback(interaction : discord.Interaction):
+        await interaction.response.edit_message(embed=embed,view=view)
+
+    backbutton.callback = backbuttoncallback
     if uid != None:
-        cookies = {"ltuid": 67987181, "ltoken": "gJvcl9aTHeUhZ3gmjN0or58WuawHgyl21a0fR6PY"}
-        client = genshin.Client(cookies)
 
-        user = await client.get_partial_genshin_user(uid)#811312758
+        server = "os_" + server
         
-        info = user.info
-        stats = user.stats.as_dict()
-        data = {}
+        print(server)
+    
+        data = getGenshininfo(uid,server)#811312758
 
-        data["🔹 等級"] = info.level
-        data["📜 成就"] = f'**{stats["Achievements"]}**'
-        data["📈 活躍天數"] = f'**{stats["Days Active"]}**'
-        data["🐬 角色"] = f'**{stats["Characters"]}**'
-        data["🪄 傳送錨點"] = f"**{stats['Waypoints Unlocked']}** 已解鎖"
-        data["⚖️ 七天神像"] = f"**{stats['Domains Unlocked']}** 已解鎖"
+        server =  {
+            'os_usa': '美服',
+            'os_euro': '歐服',
+            'os_asia': '亞服',
+            'os_cht': '台港澳服'
+        }
+
+        role = data["role"]
+        avatars = data["avatars"]
+        city_explorations = data["city_explorations"]
+        stats = data["stats"]
+        world_explorations = data["world_explorations"]
+
+        info = {}
+
+        info["🔹 等級"] = f'**{role["level"]}**'
+        info["📈 活躍天數"] = f'**{stats["active_day_number"]}**'
+        info["📜 成就"] = f'**{stats["achievement_number"]}**'
+        info["🐬 角色"] = f'**{stats["avatar_number"]}**'
+        info["🪄 傳送錨點"] = f"**{stats['way_point_number']}** 已解鎖"
+        info["⚖️ 深境螺旋"] = f"**{stats['spiral_abyss']}**"
 
         embed = discord.Embed(
-            title=f"暱稱: {info.nickname}",
-            description=f"伺服器:**{info.server[3:7]}**",
+            title=f"暱稱: {role['nickname']}",
+            description=f"伺服器:**{(role['region'][3:7]).upper()}**",#{role['level']}級
             color=discord.Colour.nitro_pink(),
             timestamp=datetime.datetime.utcnow()
         )
 
-        for n in data:
-            embed.add_field(name=n,value=data[n])
+        for n in info:
+            embed.add_field(name=n,value=info[n])
 
         view = discord.ui.View(timeout=None)
 
@@ -688,12 +713,15 @@ async def GenshinInfo(ctx,uid,type=["command","slash"]):
             emoji="🎁",
         )
 
+        view.add_item(chestbutton)
+
         async def chestbuttoncallback(interaction:discord.Interaction):
             chest_data = {
-                "普通的寶箱":stats["Common Chests Opened"],
-                "精緻的寶箱":stats["Common Chests Opened"],
-                "珍貴的寶箱":stats["Precious Chests Opened"],
-                "華麗的寶箱":stats["Luxurious Chests Opened"],
+                "普通的寶箱":stats["common_chest_number"],
+                "精緻的寶箱":stats["exquisite_chest_number"],
+                "珍貴的寶箱":stats["precious_chest_number"],
+                "華麗的寶箱":stats["luxurious_chest_number"],
+                "奇饋的寶箱":stats["magic_chest_number"]
             }
 
             chest_embed = discord.Embed(
@@ -703,19 +731,45 @@ async def GenshinInfo(ctx,uid,type=["command","slash"]):
             )
 
             for n in chest_data:
-                chest_embed.add_field(name=n,value=chest_data[n],inline=False)
+                chest_embed.add_field(name=n,value=chest_data[n])
 
-            await interaction.response.edit_message(embed=chest_embed)
-
-        view.add_item(chestbutton)
+            await interaction.response.edit_message(embed=chest_embed,view=backview)
+        
         chestbutton.callback = chestbuttoncallback
 
     else:
         embed = discord.Embed(
             title="使用`genshin`來查詢你的原神帳號!",
-            description="用法: `genshin` `uid`"
+            description="用法: `genshin` `uid` `伺服器(關鍵字)`"
         )
 
+        view = discord.ui.View(timeout=None)
+
+        serverkeywordsbutton = discord.ui.Button(
+            style=discord.ButtonStyle.success,
+            label="查看伺服器對照表",
+            emoji="🗄️"
+        )
+
+        view.add_item(serverkeywordsbutton)
+
+        async def skbtncallback(interaction:discord.Interaction):
+            
+            skembed = discord.Embed(
+                title="伺服器關鍵字對照表",
+                description="\
+                    cht : 台港澳服\n\
+                    asia : 亞服\n\
+                    euro : 歐服\n\
+                    usa : 美服\
+                "
+            )
+
+            await interaction.response.edit_message(embed=skembed,view=backview)
+
+        serverkeywordsbutton.callback = skbtncallback
+
+    
     embed.set_footer(text="Ganyu | 原神帳號查詢",icon_url=bot_icon_url)
 
     if type == "command":

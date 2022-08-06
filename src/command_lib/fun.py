@@ -231,3 +231,30 @@ async def Spank(ctx,member,type=["command","slash"]):
         await ctx.respond(embed=embed)
 
     SendBGM(ctx)
+
+async def Gay(ctx,member,type=["command","slash"]):
+    if member != None:
+        user = member
+
+    else:
+        user = ctx.author
+
+    GayPoint = random.randint(0,100)
+
+    Gaybar = ""
+
+    for n in range(round(GayPoint/10)):
+        Gaybar += "▮"
+
+    while (len(Gaybar) != 10):
+        Gaybar += "▯"
+
+    embed = discord.Embed(
+        title=f"{user.name}",
+        color=discord.Colour.random(),
+    )
+
+    embed.add_field(name="Gay",value=f"{Gaybar} **{GayPoint}%** Gay")
+
+
+    await ctx.respond(embed=embed)

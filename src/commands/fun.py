@@ -21,5 +21,9 @@ class Fun(Cog_ExtenSion):
     async def spank(self, ctx, member:discord.Member = None):
         await fun.Spank(ctx,member,"command")
 
+    @commands.command()
+    async def gay(self,ctx,member:discord.Member = None):
+        await fun.Gay(ctx,member,"command")
+
 def setup(bot):
     bot.add_cog(Fun(bot))

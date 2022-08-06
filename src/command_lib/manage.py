@@ -137,3 +137,39 @@ async def Addrole(ctx,member,role,type=["command","slash"]):
 
     elif type == "slash":
         await ctx.respond(embed=embed)
+
+async def Clean(ctx:discord.ApplicationContext,limit,type=["command","slash"]):
+    if limit != None:
+
+        if ctx.author.guild_permissions.manage_messages:
+
+            delete_msgs = await ctx.channel.purge(limit=limit)
+
+            embed = discord.Embed(
+                title="已刪除訊息!",
+                description=f"成功刪除了**{len(delete_msgs)}**則訊息",
+                color=discord.Colour.green(),
+                timestamp= datetime.datetime.utcnow()
+            )
+
+        else:
+
+            embed = discord.Embed(
+                title="你沒有權限!",
+                description="缺少權限 `manage_message` `管理訊息`",
+                color=discord.Colour.red(),
+                timestamp=datetime.datetime.utcnow()
+            )
+
+    else:
+        embed = discord.Embed(
+            title="使用clean來清理訊息",
+            description="用法: clean `數量`"
+        )
+
+    if type == "command":
+        await ctx.send(embed=embed)
+
+    elif type == "slash":
+        await ctx.respond(embed=embed)
+    

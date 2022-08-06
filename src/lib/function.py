@@ -1,4 +1,5 @@
 from hashlib import md5
+import string
 from bs4 import BeautifulSoup
 from urllib import parse
 import youtube_dl
@@ -40,7 +41,6 @@ def wiki_search(text):
     for n in articles:
         art += n.text
 
-
     art = art[:200] + " ... go [wikipedia](https://zh.wikipedia.org) to check more info!"
 
     return art
@@ -55,10 +55,10 @@ def bullshit(topic,minlen):
 
     response = requests.post(url=url,json=data)
 
-    return      \
-        response\
-        .text   \
-        .replace("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;","")\
+    return                                                              \
+        response                                                        \
+        .text                                                           \
+        .replace("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;","") \
         .replace("<br>","")
 
 def calculator(LatexExpression):
@@ -67,10 +67,9 @@ def calculator(LatexExpression):
     data = {
         "LatexExpression": str(LatexExpression).replace("÷","/").replace("×","*"), 
         "clientInfo": {
-            "platform": 
-            "web"
-            }
+            "platform": "web"
         }
+    }
 
     response = requests.post(url=url,json=data)
     return json.loads(response.text).get("solution")
@@ -120,10 +119,12 @@ def createRandomString(length):
 def createDS(url, body = ""):
     query = ""
     urlPart = url.split("?")
+
     if len(urlPart) == 2:
         parameters = urlPart[1].split("&")
         query = "&".join(parameters)
-    time = int((datetime.datetime.utcnow() - datetime.datetime(1970, 1, 1)).total_seconds())
+
+    time = round(int((datetime.datetime.utcnow() - datetime.datetime(1970, 1, 1)).total_seconds()))
     random = createRandomString(6)
     check = md5((f"salt={API_SALT}&t={time}&r={random}&b={body}&q={query}").encode()).hexdigest()
 
@@ -134,18 +135,29 @@ def getGenshininfo(uid,server):
 
     ds = createDS(url=api_url)
 
+    print(ds)
+    print(uid)
+    print(server)
+    print(api_url)
+
     headers = {
-        'Cookie':'mi18nLang=zh-tw; _MHYUUID=a232123c-a206-4e2e-8444-78daad7b6fa8; _ga=GA1.2.1589446192.1658999142; _gid=GA1.2.1101735951.1658999142; DEVICEFP_SEED_ID=22552ecb28f51ea7; DEVICEFP_SEED_TIME=1658999142283; G_ENABLED_IDPS=google; DEVICEFP=38d7ea61168fb; ltoken=gJvcl9aTHeUhZ3gmjN0or58WuawHgyl21a0fR6PY; ltuid=67987181; cookie_token=K8pGqVFq4j61DbYyMVkVDKEKpHkB0pFSVoNkDDy6; account_id=67987181; _gat=1',
+        'Accept' : 'application/json, text/plain, */*',
+        'Cookie':'mi18nLang=zh-tw; _MHYUUID=a232123c-a206-4e2e-8444-78daad7b6fa8; _ga=GA1.2.1589446192.1658999142; _gid=GA1.2.1101735951.1658999142; DEVICEFP_SEED_ID=22552ecb28f51ea7; DEVICEFP_SEED_TIME=1658999142283; DEVICEFP=38d7ea61168fb; ltoken=gJvcl9aTHeUhZ3gmjN0or58WuawHgyl21a0fR6PY; ltuid=67987181; cookie_token=K8pGqVFq4j61DbYyMVkVDKEKpHkB0pFSVoNkDDy6; account_id=67987181; _gat=1; _gat_gtag_UA_115635327_39=1',
         "DS" : ds,
         "Host": "bbs-api-os.hoyolab.com",
-        "x-rpc-app_version": "1.5.0",
+        "Origin": "https://act.hoyolab.com",
+        "x-rpc-app_version": "2.11.1",
         "x-rpc-client_type": "5",
         "x-rpc-language" : "zh-tw"
     }
 
+    cookies = {
+        "ltoken" : "gJvcl9aTHeUhZ3gmjN0or58WuawHgyl21a0fR6PY",
+        "ltuid" : "67987181"
+    }
+
     result = requests.get(api_url,headers=headers)
+
     data = json.loads(result.text)["data"]
 
     return data
-
-

@@ -8,7 +8,7 @@ class Help(Cog_ExtenSion):
 
     @commands.command()
     async def help(self, ctx):
-        help.Help(ctx,type="command")
+        await help.Help(ctx,type="command")
 
     @commands.command()
     async def fun(self, ctx):

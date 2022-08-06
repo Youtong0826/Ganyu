@@ -63,7 +63,7 @@ async def Help(ctx,type=["command","slash"]):
         )
 
     elif type == "slash":
-        await ctx.send(
+        await ctx.respond(
             embed=ganyuCommands["ganyu"],
             view=main_view
         )

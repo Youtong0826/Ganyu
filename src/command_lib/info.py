@@ -52,10 +52,10 @@ def ServerDict(guild:discord.Guild):
         color=0x9c8fff,
         timestamp=datetime.datetime.utcnow()
     )
-    
-    embed_main.set_thumbnail(
-                url=guild.icon
-            )
+    if guild.icon != None:
+        embed_main.set_thumbnail(
+            url=guild.icon
+        )
             
     embed_main.set_footer(
         text=f"serverinfo | 伺服器資訊",
@@ -200,11 +200,17 @@ def BotDict(bot:commands.Bot):
         icon_url="https://cdn.discordapp.com/avatars/856041155341975582/a5a57f0acdd5c5fb868c9ad50cf7c319.png?size=256"
     )
 
-    linkbutton = discord.ui.Button(
+    invitebutton = discord.ui.Button(
         style=discord.ButtonStyle.primary,
-        label="Invite Link",
+        label="Invite me!",
         emoji="🔗",
         url="https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands"
+    )
+
+    supportbutton = discord.ui.Button(
+        label="Support Server",
+        emoji="❓",
+        url="https://discord.gg/AVCWGuuUex"
     )
 
     Moreinfobutton = discord.ui.Button(
@@ -213,12 +219,13 @@ def BotDict(bot:commands.Bot):
         emoji="🔗",
     )
 
-    mian_view = discord.ui.View(timeout=None)
-    mian_view.add_item(linkbutton)
+    main_view = discord.ui.View(timeout=None)
+    main_view.add_item(invitebutton)
+    main_view.add_item(supportbutton)
 
     setting = {
         "Embed" : embed,
-        "View" : mian_view
+        "View" : main_view
     }
 
     return setting
@@ -243,6 +250,9 @@ def UserDict(member:discord.Member):
                     roles += f" +{len(member.roles) - roles_count} Roles..."
                     roles = roles[:-1]
                     break
+
+    if roles == "":
+        roles = "無"
 
     embed_main = discord.Embed(
         title=f"{member.name} 的個人資訊 ",
@@ -415,13 +425,15 @@ async def Allinfo(ctx,bot,type=["command","slash"]):
 
 async def Invite(ctx,type=["command","slash"]):
     link = "[邀請連結 | invite link](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=294695021638&scope=bot%20applications.commands)"
-    server_link = "[點擊這裡!](https://discord.gg/K3kxVAHHF8)"
+    server_link = "[支援伺服器 | Support Server](https://discord.gg/AVCWGuuUex)"
 
     embed = discord.Embed(
         title="邀請我至你的伺服器!",
-        description=f"{link}\n目前伺服器已滿 無法邀請機器人屬正常現象\n目前正在等在驗證中(可能會長達多個月",
+        description=f"{link}\n{server_link}",
         color=discord.Colour.random(),
     )
+
+    
 
     #embed = discord.Embed(title="🚫此功能暫未開啟",color=discord.Colour.random())
 
@@ -469,7 +481,7 @@ async def Invites(ctx,type=["command","slash"]):
     embed.description = context
     
     if type == "command":
-        await ctx.channel.send(embed=embed)
+        await ctx.send(embed=embed)
     
     elif type == "slash":
         await ctx.respond(embed=embed)

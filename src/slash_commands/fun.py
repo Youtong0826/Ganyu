@@ -1,4 +1,3 @@
-from dis import disco
 import random
 import discord
 import datetime
@@ -6,6 +5,7 @@ from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from lib.bot_config import bot_icon_url
 from lib.function import SendBGM
+from command_lib import fun
 
 class SlashFun(Cog_ExtenSion):
 
@@ -225,6 +225,10 @@ class SlashFun(Cog_ExtenSion):
 
         await ctx.respond(embed=embed)
         SendBGM(ctx)
+
+    @discord.application_command(description="gay指數")
+    async def gay(self,ctx,member:discord.Option(discord.Member,"選擇成員") = None):
+        await fun.Gay(ctx,member,"slash")
 
 def setup(bot):
     bot.add_cog(SlashFun(bot))

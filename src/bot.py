@@ -4,9 +4,14 @@ import discord , datetime
 import random
 import os
 
+intents = discord.Intents.all()
+
+intents.message_content = False
+intents.presences = False
+
 bot = commands.Bot(
     command_prefix='g!',
-    intents=discord.Intents.all()
+    intents= intents
 )
 
 bot.remove_command("help")

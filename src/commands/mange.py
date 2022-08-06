@@ -68,27 +68,8 @@ class Mange(Cog_ExtenSion):
         )
 
     @commands.command()
-    async def delete(self,ctx:discord.ApplicationContext,count : int = None):
-        channel : discord.TextChannel = ctx.channel
-
-        if count != None:
-            for n in range(count):
-                print("s")
-                await channel.delete_messages(channel.last_message)
-            
-            embed = discord.Embed(
-                title=f"已成功刪除 {count} 個訊息",
-                color=discord.Colour.random()
-            )
-
-        else:
-            embed = discord.Embed(
-                title="歡迎使用g!delete來刪除訊息!",
-                description="使用方法g!delete `數量`",
-                color=discord.Colour.random()
-            )
-
-        await ctx.send(embed=embed)
+    async def clear(self,ctx:discord.ApplicationContext,limit):
+        await manage.Clean(ctx,limit,"command")
 
     @commands.command()
     async def joinmsg(self, ctx, key = "on"):

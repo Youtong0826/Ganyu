@@ -95,8 +95,8 @@ async def Bullshit(ctx,topic,minlen,type=["command","slash"]):
 
     else:
         embed = discord.Embed(
-            title="使用g!bluff唬爛產生器來生成文章!",
-            description="使用方法 g!bluff `主題(如有空格需要用\"包起來)` `字數(上限1000)`"
+            title="使用g!bullshit唬爛產生器來生成文章!",
+            description="使用方法 g!bullshit `主題(如有空格需要用\"包起來)` `字數(上限1000)`"
         )
     
     embed.color = discord.Colour.random()
@@ -668,16 +668,66 @@ async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
     if uid != None:
 
         server = "os_" + server
-        
-        print(server)
     
         data = getGenshininfo(uid,server)#811312758
 
-        server =  {
+        serverkw =  {
             'os_usa': '美服',
             'os_euro': '歐服',
             'os_asia': '亞服',
             'os_cht': '台港澳服'
+        }
+
+        avatars_id = {
+            "10000002":"神里綾華",
+            "10000003":"琴",
+            "10000005":"空",
+            "10000006":"麗莎",
+            "10000007":"瑩",
+            "100000014":"芭芭拉",
+            "100000015":"凱亞",
+            "100000016":"迪盧克",
+            "100000020":"雷澤",
+            "100000021":"安柏",
+            "100000022":"溫迪",
+            "100000023":"香菱",
+            "100000024":"北斗",
+            "100000025":"魈",
+            "100000026":"行秋",
+            "100000027":"凝光",
+            "100000029":"可莉",
+            "100000030":"鍾離",
+            "100000031":"菲謝爾", 
+            "100000032":"班尼特",
+            "100000033":"達達利亞",
+            "100000034":"諾艾爾",
+            "100000035":"七七",
+            "100000036":"重雲",
+            "100000037":"甘雨",
+            "100000038":"阿貝多",
+            "100000039":"迪奧娜",
+            "100000041":"莫娜",
+            "100000042":"刻晴",
+            "100000043":"砂糖",
+            "100000044":"辛焱",
+            "100000045":"羅莎莉亞",
+            "100000046":"胡桃",
+            "100000047":"楓原萬葉",
+            "100000048":"煙緋",
+            "100000049":"宵宮",
+            "100000050":"托馬",
+            "100000051":"優菈",
+            "100000052":"雷電將軍",
+            "100000053":"早柚",
+            "100000054":"珊瑚宮心海",
+            "100000055":"五郎",
+            "100000056":"九條紗羅",
+            "100000057":"荒龍一斗",
+            "100000058":"八重神子",
+            "100000062":"亞羅伊",
+            "100000063":"申鶴",
+            "100000064":"雲堇",
+            "100000066":"神里綾人"
         }
 
         role = data["role"]
@@ -697,7 +747,7 @@ async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
 
         embed = discord.Embed(
             title=f"暱稱: {role['nickname']}",
-            description=f"伺服器:**{(role['region'][3:7]).upper()}**",#{role['level']}級
+            description=f"伺服器:**{(serverkw[role['region']]).upper()}**",#{role['level']}級
             color=discord.Colour.nitro_pink(),
             timestamp=datetime.datetime.utcnow()
         )
@@ -730,6 +780,8 @@ async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
                 timestamp=datetime.datetime.utcnow()
             )
 
+            chest_embed.set_footer(text="Ganyu | 原神帳號查詢",icon_url=bot_icon_url)
+
             for n in chest_data:
                 chest_embed.add_field(name=n,value=chest_data[n])
 
@@ -751,7 +803,14 @@ async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
             emoji="🗄️"
         )
 
+        recipebutton = discord.ui.Button(
+            style=discord.ButtonStyle.primary,
+            label="使用詳細說明 | 為什麼會出現錯誤?",
+            emoji="📕"
+        )
+
         view.add_item(serverkeywordsbutton)
+        view.add_item(recipebutton)
 
         async def skbtncallback(interaction:discord.Interaction):
             
@@ -766,9 +825,20 @@ async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
             )
 
             await interaction.response.edit_message(embed=skembed,view=backview)
+        
+        async def recipebuttoncallnack(interaction:discord.Interaction):
+            recembed = discord.Embed(
+                title="使用詳細說明 | 為什麼會出現錯誤?",
+                description="此指令是採用來自HoYoLab的API 如果看不到內容可能是因為您的戰績並沒有對外公布 前往HoYoLab設定後即可看到您的帳號資訊了 若使中出現錯誤的話請連絡我或是使用`report`功能",
+                color=discord.Colour.nitro_pink(),
+            )
+
+            recembed.set_footer(text="Ganyu | 疑難排解",icon_url=bot_icon_url)
+
+            await interaction.response.edit_message(embed=recembed,view=backview)
 
         serverkeywordsbutton.callback = skbtncallback
-
+        recipebutton.callback = recipebuttoncallnack
     
     embed.set_footer(text="Ganyu | 原神帳號查詢",icon_url=bot_icon_url)
 
@@ -779,5 +849,3 @@ async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
         await ctx.respond(embed = embed,view=view)
 
     SendBGM(ctx)
-
-

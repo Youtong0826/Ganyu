@@ -2,5 +2,3 @@
 # Scope is all repo folders.
 .vscode
 __pycache__
-Procfile
-token.txt

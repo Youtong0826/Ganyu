@@ -47,7 +47,7 @@ async def Help(ctx,type=["command","slash"]):
 
     InviteButton = discord.ui.Button(
         label="Invite me!",
-        emoji="🔗 ",
+        emoji="🔗",
         url="https://discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=12145977687&scope=bot%20applications.commands"
     )
 
@@ -58,7 +58,7 @@ async def Help(ctx,type=["command","slash"]):
     )
 
     main_view = discord.ui.View(timeout=None)
-    
+
     main_view.add_item(main_select)
     main_view.add_item(InviteButton)
     main_view.add_item(SupportButton)

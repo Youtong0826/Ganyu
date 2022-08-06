@@ -174,5 +174,4 @@ async def on_member_join(member: discord.Member):
         await chnnel.send(embed=join_message())
 
 if __name__ == "__main__":
-    with open("./token.txt") as f:
-        bot.run(f.read())
+    bot.run(os.environ.get("TOKEN"))

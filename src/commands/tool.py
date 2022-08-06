@@ -120,6 +120,11 @@ class Tool(Cog_ExtenSion):
         SendBGM(ctx)
 
     @commands.command()
+    async def genshin(self,ctx,name:str):
+       
+        await ctx.send(embed=embed)
+
+    @commands.command()
     async def math(self,ctx,formula=None):
         if formula != None:
             answer = calculator(formula)

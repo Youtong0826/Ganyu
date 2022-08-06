@@ -1,6 +1,6 @@
 .vscode/
 __pycache__/
 test.py
-token
+token.txt
 test/
-token
+token.txt

@@ -82,7 +82,7 @@ async def on_ready():
     print(">>Bot is online<<")
     print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users ")
 
-    activity = discord.Activity(type=discord.ActivityType.watching,name = f"g!help | {len(bot.guilds)} 個伺服器")
+    activity = discord.Activity(type=discord.ActivityType.watching,name = f"/help | {len(bot.guilds)} 個伺服器")
     await bot.change_presence(status = discord.Status.streaming, activity = activity)
 
 @bot.event

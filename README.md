@@ -6,5 +6,5 @@ just a discord bot.
 
 ### Command List
 ```py
--help #get bot information
+/help #get bot information
 ```

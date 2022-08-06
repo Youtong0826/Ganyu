@@ -145,8 +145,8 @@ async def on_member_join(member: discord.Member):
     def join_message():
 
         embed = discord.Embed(
-            title=f"{member.name} 來到了{member.guild.name}!",
-            description=f" {member.mention} 您是第本伺服器第 **{member.guild.member_count}** 個用戶，請先查看 {member.guild.rules_channel.mention} 再進行其他操作喔",
+            title=f"{member.name} 降落在了 {member.guild.name}!",
+            description=f"歡迎! {member.mention} 您是第本伺服器第 **{member.guild.member_count}** 個用戶，請先查看 {member.guild.rules_channel.mention} 再進行其他操作喔",
             color=discord.Colour.random(),
             timestamp=datetime.datetime.utcnow()
         )

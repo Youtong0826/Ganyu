@@ -1,6 +1,6 @@
-.vscode/
-__pycache__/
-test.py
-token.txt
-test/
+# Ignore all files with the specified name.
+# Scope is all repo folders.
+.vscode
+__pycache__
+Procfile
 token.txt

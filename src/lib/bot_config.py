@@ -38,7 +38,7 @@ ganyuCommands = {
     "ganyu": mustFieldEmbed(
         discord.Embed(
             title="Ganyu 指令清單",
-            description="可使用`g!report`來提出建議或回報錯誤ㄛ~",
+            description="可使用`/report`來提出建議或回報錯誤ㄛ~",
             color=0xec8fff
         ),
         [

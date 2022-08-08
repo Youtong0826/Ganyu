@@ -18,7 +18,6 @@ class SlashFun(Cog_ExtenSion):
                     description=f"叫你選1~6 你選{number}幹嘛啦!",
                     color=discord.Colour.random()
                 )
-                await ctx.respond(embed=embed)
 
             else:
                 dice = [1, 2, 3, 4, 5, 6]

@@ -225,62 +225,62 @@ class Cucmd(Cog_ExtenSion):
             async def SettingButtonCallback(interaction:discord.Interaction):
                 SettingModal = discord.ui.Modal(title="投票設置")
 
-                async def SettingModalCallback(interaction:discord.Interaction):
-                    options = ""
-                    ModalView = discord.ui.View(timeout=None)
+                #async def SettingModalCallback(interaction:discord.Interaction):
+                #    options = ""
+                #    ModalView = discord.ui.View(timeout=None)
+#
+                #    for n in range(0,quantity*2):
+                #        if n % 2 == 0:
+                #            options +=f"{n/2+1}.{SettingModal.children[n].value} ▬▬ 0%\n\n"
+#
+                #    ModalEmbed = discord.Embed(
+                #        title=f"{interaction.user.name} 已發起投票",
+                #        description=f"主題 ▬▬ **{topic}** 選項:\n{options}",
+                #        color=discord.Colour.random(),
+                #        timestamp=datetime.datetime.utcnow()
+                #    )
+#
+                #    async def OptionButtonCallback(interaction:discord.Interaction):
+#
+                #        if interaction.custom_id == 0:
+                #                print()
+#
+                #    for n in range(0,quantity*2):
+                #        if n % 2 == 0:
+#
+                #            OptionButton = discord.ui.Button(
+                #                    style=discord.ButtonStyle.gray,
+                #                    label=SettingModal.children[n].value,
+                #                    emoji=SettingModal.children[n+1].value,
+                #                    custom_id=n
+                #                )
+#
+                #            ModalView.add_item(OptionButton)
+#
+                #    await interaction.response.edit_message(embed=ModalEmbed,view=ModalView)
+#
+                #    for n in range(1,quantity+1):
+                #        option = discord.ui.InputText(
+                #                style=discord.InputTextStyle.short,
+                #                label=f"選項{n}",
+                #                placeholder=f"填入選項{n}的名稱",
+                #                max_length=18,
+                #                custom_id=str(n+10)
+                #            )
+#
+                #        SettingModal.add_item(option)
+#
+                #        emoji = discord.ui.InputText(
+                #                style=discord.InputTextStyle.short,
+                #                label=f"選項{n}的表情符號",
+                #                placeholder=f"填入選項{n}的表情符號",
+                #                max_length=1,
+                #                custom_id=str(n+20)
+                #            )
+#
+                #        SettingModal.add_item(emoji)
 
-                    for n in(0,quantity*2):
-                        if n % 2 == 0:
-                            options +=f"{n/2+1}.{SettingModal.children[n].value} ▬▬ 0%\n\n"
-
-                    ModalEmbed = discord.Embed(
-                        title=f"{interaction.user.name} 已發起投票",
-                        description=f"主題 ▬▬ **{topic}** 選項:\n{options}",
-                        color=discord.Colour.random(),
-                        timestamp=datetime.datetime.utcnow()
-                    )
-
-                    async def OptionButtonCallback(interaction:discord.Interaction):
-
-                        if interaction.custom_id == 0:
-                                print()
-
-                    for n in range(0,quantity*2):
-                        if n % 2 == 0:
-
-                            OptionButton = discord.ui.Button(
-                                    style=discord.ButtonStyle.gray,
-                                    label=SettingModal.children[n].value,
-                                    emoji=SettingModal.children[n+1].value,
-                                    custom_id=n
-                                )
-
-                            ModalView.add_item(OptionButton)
-
-                    await interaction.response.edit_message(embed=ModalEmbed,view=ModalView)
-
-                for n in range(1,quantity+1):
-                    option = discord.ui.InputText(
-                            style=discord.InputTextStyle.short,
-                            label=f"選項{n}",
-                            placeholder=f"填入選項{n}的名稱",
-                            max_length=18,
-                            custom_id=str(n+10)
-                        )
-
-                    SettingModal.add_item(option)
-
-                    emoji = discord.ui.InputText(
-                            style=discord.InputTextStyle.short,
-                            label=f"選項{n}的表情符號",
-                            placeholder=f"填入選項{n}的表情符號",
-                            max_length=1,
-                            custom_id=str(n+20)
-                        )
-
-                    SettingModal.add_item(emoji)
-                
-                SettingModal.callback = SettingModalCallback
+                #SettingModal.callback = SettingModalCallback
 
                 await interaction.response.send_modal(SettingModal)
                 

@@ -260,8 +260,14 @@ def UserDict(member:discord.Member):
         timestamp=datetime.datetime.utcnow()
     )
 
+    if member.avatar != None:
+        avatar = member.avatar
+
+    else:
+        avatar = member.default_avatar
+
     embed_main.set_thumbnail(
-        url=member.avatar
+        url=avatar
     )
 
     info = {

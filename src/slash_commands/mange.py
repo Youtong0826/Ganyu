@@ -50,5 +50,6 @@ class SlashMange(Cog_ExtenSion):
     @discord.application_command(description="清理訊息")
     async def clear(self,ctx,limit:discord.Option(int,"您想清除多少個訊息?")=None):
         await Clean(ctx,limit,"slash")
+        
 def setup(bot):
     bot.add_cog(SlashMange(bot))

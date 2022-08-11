@@ -6,7 +6,7 @@ import os
 
 intents = discord.Intents.all()
 
-intents.message_content = True#False
+intents.message_content = False
 intents.presences = False
 
 bot = commands.Bot(
@@ -174,5 +174,4 @@ async def on_member_join(member: discord.Member):
         await chnnel.send(embed=join_message())
 
 if __name__ == "__main__":
-    bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GtcnoH.EZ7ZrkFIQjcy4wk-w3gt7f3zpPIw6ksex7nRQ0")
-    #bot.run(os.environ.get("TOKEN"))
+    bot.run(os.environ.get("TOKEN"))

@@ -80,8 +80,6 @@ async def Dice(mode,number,ctx,type=["command","slash"]):
             inline=False
         )
 
-    embed.set_footer(text="Ganyu | 骰骰子",icon_url=bot_icon_url)
-
     if type == "command":
         await ctx.send(embed=embed)
 

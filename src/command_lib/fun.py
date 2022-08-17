@@ -251,10 +251,9 @@ async def Gay(ctx,member,type=["command","slash"]):
 
     embed = discord.Embed(
         title=f"{user.name}",
+        description=f"{Gaybar} **{GayPoint}%** Gay",
         color=discord.Colour.random(),
     )
-
-    embed.add_field(name="Gay",value=f"{Gaybar} **{GayPoint}%** Gay")
 
 
     await ctx.respond(embed=embed)

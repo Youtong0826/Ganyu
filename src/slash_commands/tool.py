@@ -8,8 +8,8 @@ import discord
 class SlashTool(Cog_ExtenSion):
     
     @discord.application_command(description = "將任何語言翻譯成中文!")
-    async def translate(self,ctx :discord.ApplicationContext,*,text:discord.Option(str,"需要被翻譯的文字")):
-        await tool.Translate(ctx,text,"slash")
+    async def translate(self,ctx,language : discord.Option(str,"選擇要翻譯成的語言",choices=["繁中","英語","日語","簡中","印尼語"]),*,text=None):
+        await tool.Translate(ctx,language,text,"slash")
 
     @discord.application_command(description="字數轉換器")
     async def words(self,ctx: discord.ApplicationContext,*,text : discord.Option(str,"輸入您要轉換的句子")):

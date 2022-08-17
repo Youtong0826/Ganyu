@@ -3,31 +3,50 @@ import datetime
 from lib.function import SendBGM,translate,bullshit,calculator,getGenshininfo
 from lib.bot_config import bot_icon_url
 
-async def Translate(ctx,text,type=["command","slash"]):
+async def Translate(ctx,language,text,type=["command","slash"]):
     google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
+    
+    translate_to_dict = {
+        "繁中":"zh-TW",
+        "簡中":"zh-CN",
+        "英語":"en",
+        "日語":"ja",
+        "印尼語":"id"
+    }
 
     if text != None:
-        translate_text = translate(str(text),"zh-TW")
+        translate_to = translate_to_dict[str(language)]
 
-        embed = discord.Embed(
-            title="成功! 以下為翻譯結果",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
-        )
-        embed.add_field(
-            name="原文",
-            value=f"```{text}```"
-        )
-        embed.add_field(
-            name="翻譯",
-            value=f"```{translate_text}```",
-            inline=False
-        )
+        if translate_to == None:
+
+            embed = discord.Embed(
+                title="發生錯誤!",
+                color=discord.Colour.red(),
+                description="**您所選的語言不在可辨識的語言當中!**"
+            )
+
+        else:    
+            translate_text = translate(str(text),translate_to)
+
+            embed = discord.Embed(
+                title="成功! 以下為翻譯結果",
+                color=discord.Colour.random(),
+                timestamp=datetime.datetime.utcnow()
+            )
+            embed.add_field(
+                name="原文",
+                value=f"```{text}```"
+            )
+            embed.add_field(
+                name=language,
+                value=f"```{translate_text}```",
+                inline=False
+            )
     
     else:
         embed = discord.Embed(
             title="歡迎使用翻譯小工具!",
-            description="此指令可以將各種語言翻譯成中文\n使用方法 g!translate `文字`",
+            description="此指令可以將各種語言翻譯成你想要的語言\n使用方法:translate `要翻譯成的語言` `文字`",
             color=discord.Colour.random(),
             timestamp=datetime.datetime.utcnow()
         )

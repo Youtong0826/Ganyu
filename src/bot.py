@@ -98,16 +98,16 @@ async def on_message(message : discord.Message):
 
 @bot.event
 async def on_command_error(ctx : discord.ApplicationContext, error):
-    chiness = translate(str(error), "zh-TW")
+    zhCN = translate(str(error), "zh-TW")
 
-    if chiness.endswith("。"):
-        chiness = chiness[:-1]
+    if zhCN.endswith("。"):
+        zhCN = zhCN[:-1]
 
     embed = discord.Embed(title="錯誤",description="以下為回報內容",color=discord.Color.red())
 
     embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
 
-    embed.add_field(name="翻譯後",value=f"```{chiness}```",inline=False)
+    embed.add_field(name="翻譯後",value=f"```{zhCN}```",inline=False)
 
     embed.add_field(
         name="應對措施",
@@ -117,28 +117,6 @@ async def on_command_error(ctx : discord.ApplicationContext, error):
 
     ErrorBGM(ctx,error)
     await ctx.send(embed=embed)
-
-#@bot.event
-#async def on_application_command_error(ctx : discord.ApplicationContext, error):
-#    chiness = translate(str(error), "zh-TW")
-#
-#    if chiness.endswith("。"):
-#        chiness = chiness[:-1]
-#
-#    embed = discord.Embed(title="錯誤",description="以下為回報內容",color=discord.Color.red())
-#
-#    embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
-#
-#    embed.add_field(name="翻譯後",value=f"```{chiness}```",inline=False)
-#
-#    embed.add_field(
-#        name="應對措施",
-#        value="如果Bot或是指令發生錯誤的話可使用 `g!report` 來回報給作者們!\n或是給個建議也可以喔! 我們非常需要您的建議!",
-#        inline=False
-#    )
-#
-#    ErrorBGM(ctx,error)
-#    await ctx.respond(embed=embed)
 
 @bot.event
 async def on_member_join(member: discord.Member):
@@ -152,12 +130,12 @@ async def on_member_join(member: discord.Member):
         )
 
         if member.avatar == None:
-            thunbnail = member.default_avatar
+            thumbnail = member.default_avatar
 
         else:
-            thunbnail = member.avatar
+            thumbnail = member.avatar
 
-        embed.set_thumbnail(url=thunbnail)
+        embed.set_thumbnail(url=thumbnail)
 
         embed.set_footer(
             text="成員加入", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"
@@ -166,12 +144,14 @@ async def on_member_join(member: discord.Member):
         return embed
 
     if member.guild.id == 719198103227465738:
-        chnnel = bot.get_channel(719521057286914129)
-        await chnnel.send(embed=join_message())
+        channel = bot.get_channel(719521057286914129)
+        await channel.send(embed=join_message())
 
     elif member.guild.id == 956614306345123923:
-        chnnel = bot.get_channel(957157665526673419)
-        await chnnel.send(embed=join_message())
+        channel = bot.get_channel(957157665526673419)
+        await channel.send(embed=join_message())
 
 if __name__ == "__main__":
+    #bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GeIQj7.FbR6ccExqhRy8PjZrUgGxelFfEVLc8zEAhj_C4")
     bot.run(os.environ.get("TOKEN"))
+    

@@ -4,45 +4,84 @@ import datetime
 from lib.function import SendBGM
 from lib.bot_config import bot_icon_url
 
-async def Dice(number,ctx,type=["command","slash"]):
-    if number != None:
+async def Dice(mode,number,ctx,type=["command","slash"]):
 
-        if int(number) > 6 or int(number) < 1:
+    mode_dict = {
+        "賭博模式" : "limit",
+        "自由模式" : "free"
+    }
 
-            embed = discord.Embed(
-                title="...... >:(",
-                description=f"叫你選1~6 你選{number}幹嘛啦!",
-                color=discord.Colour.random()
-            )
+    if mode != None:
+        if mode_dict[mode] == "limit":
 
-        else:
+            if number != None:
+                if int(number) > 6 or int(number) < 1:
+
+                    embed = discord.Embed(
+                        title="...... >:(",
+                        description=f"叫你選1~6 你選{number}幹嘛啦!",
+                        color=discord.Colour.random()
+                    )
+
+                else:
+
+                    dice = [1, 2, 3, 4, 5, 6]
+                    end = random.choice(dice)
+
+                    if end == number:
+
+                        embed = discord.Embed(
+                            title="成功!",
+                            description=f"恭喜你成功骰到了{number}!",
+                            color=discord.Colour.random()
+                        )
+
+                    else:
+
+                        embed = discord.Embed(
+                            title="很遺憾..",
+                            description=f"您骰到了{end}..",
+                            color=discord.Colour.random()
+                        )
+
+            else:
+                embed = discord.Embed(
+                    title="/dice 賭博模式",
+                    description="賭博模式 顧名思義如果你賭的數字跟選出來的數字不一樣那你就**輸了** 相反的如果一樣那你就**贏了**",
+                    color=discord.Colour.random()
+                )
+
+        elif mode_dict[mode] == "free":
 
             dice = [1, 2, 3, 4, 5, 6]
             end = random.choice(dice)
 
-            if end == number:
-
-                embed = discord.Embed(
-                    title="成功!",
-                    description=f"恭喜你成功骰到了{number}!",
-                    color=discord.Colour.random()
-                )
-
-            else:
-
-                embed = discord.Embed(
-                    title="很遺憾..",
-                    description=f"您骰到了{end}..",
-                    color=discord.Colour.random()
-                )
-
+            embed = discord.Embed(
+                title=f"您骰到了 {end}",
+                color=discord.Colour.random()
+            )
+        
     else:
         embed = discord.Embed(
-            title="選擇你要猜的號碼!",
-            description="輸入 g!dice 1~6",
+            title="/dice 遊戲介紹",
+            description="用法:dice `模式` `數字`",
             color=discord.Colour.random()
         )
     
+        embed.add_field(
+            name="/dice 賭博模式",
+            value="顧名思義 如果你賭的數字跟選出來的數字不一樣那你就**輸了** 相反的如果一樣那你就**贏了**",
+            inline=False
+        )
+
+        embed.add_field(
+            name="/dice 自由模式",
+            value="沒有任何限制 純粹地骰骰子 #此模式無須輸入數字",
+            inline=False
+        )
+
+    embed.set_footer(text="Ganyu | 骰骰子",icon_url=bot_icon_url)
+
     if type == "command":
         await ctx.send(embed=embed)
 
@@ -220,8 +259,8 @@ async def Spank(ctx,member,type=["command","slash"]):
 
     else:
         embed = discord.Embed(
-            title="使用g!spank來偷打別人的屁股ww",
-            description="用法: g!spank `提及/名字/id`"
+            title="使用/spank來偷打別人的屁股ww",
+            description="用法: /spank `提及/名字/id`"
         )
 
     if type == "command":

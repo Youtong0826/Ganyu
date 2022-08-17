@@ -10,39 +10,11 @@ from command_lib import fun
 class SlashFun(Cog_ExtenSion):
 
     @discord.application_command(description="骰骰子")
-    async def dice(self, ctx, number: discord.Option(int,"選擇數字",kwargs=[1,2,3,4,5,6]) = None):
-        if number != None:
-            if int(number) > 6 or int(number) < 1:
-                embed = discord.Embed(
-                    title="...... >:(",
-                    description=f"叫你選1~6 你選{number}幹嘛啦!",
-                    color=discord.Colour.random()
-                )
-
-            else:
-                dice = [1, 2, 3, 4, 5, 6]
-                end = random.choice(dice)
-                if end == number:
-                    embed = discord.Embed(
-                        title="成功!",
-                        description=f"恭喜你成功骰到了{number}!",
-                        color=discord.Colour.random()
-                    )
-                else:
-                    embed = discord.Embed(
-                        title="很遺憾..",
-                        description=f"您骰到了{end}..",
-                        color=discord.Colour.random()
-                    )
-        else:
-            embed = discord.Embed(
-                title="選擇你要猜的號碼!",
-                description="輸入 g!dice 1~6",
-                color=discord.Colour.random()
-            )
-
-        await ctx.respond(embed=embed)
-        SendBGM(ctx)
+    async def dice(self, ctx,
+        mode: discord.Option(str,"選擇遊玩模式",choices=["賭博模式","自由模式"])=None,
+        number: discord.Option(int,"選擇數字",choices=[1,2,3,4,5,6])=None
+    ):
+        await fun.Dice(mode,number,ctx,"slash")
 
     @discord.application_command(description="猜拳")
     async def mora(self,ctx):

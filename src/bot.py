@@ -152,6 +152,8 @@ async def on_member_join(member: discord.Member):
         await channel.send(embed=join_message())
 
 if __name__ == "__main__":
-    #bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GeIQj7.FbR6ccExqhRy8PjZrUgGxelFfEVLc8zEAhj_C4")
+    #bot.run()
     bot.run(os.environ.get("TOKEN"))
-    
+    #"OTg3NjY0MTUxNjI1MjAzNzcy.
+    #G9ks3g.qjp12d
+    #-B6KFSabmXJK8PgVn6Epm-CMstBe2Tt4"

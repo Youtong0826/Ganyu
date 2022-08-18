@@ -1,5 +1,4 @@
 from hashlib import md5
-import string
 from bs4 import BeautifulSoup
 from urllib import parse
 import youtube_dl
@@ -9,7 +8,6 @@ import discord
 import random
 import html
 import json
-import time
 import re
 
 def translate(text, to_language="auto", text_language="auto"):

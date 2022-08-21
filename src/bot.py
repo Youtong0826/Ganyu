@@ -153,6 +153,7 @@ async def on_member_join(member: discord.Member):
 
 if __name__ == "__main__":
     bot.run(os.environ.get("TOKEN"))
-    #"OTg3NjY0MTUxNjI1MjAzNzcy.
-    #G9ks3g.qjp12d-B6KFSabmXJK8PgVn6Epm-
-    #CMstBe2Tt4"
+    #bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.G9ks3g.qjp12d-B6KFSabmXJK8PgVn6Epm-CMstBe2Tt4")
+    #
+    #
+    #

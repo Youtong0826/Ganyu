@@ -82,6 +82,7 @@ async def reload(ctx, extension):
 async def on_ready():
     print(">>Bot is online<<")
     print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users ")
+    os.system('sudo chmod 777 "res/assets/ffmpeg/bin/ffmpeg.exe"')
 
     async def run_activity_loop():
 

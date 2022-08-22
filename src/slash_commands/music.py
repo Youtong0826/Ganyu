@@ -223,7 +223,6 @@ class Music(Cog_ExtenSion):
 
                 await vc_status["vc"].disconnect()
                 await ctx.respond("需要的時候再叫我吧~")
-
         
         view = discord.ui.View(timeout=None)
 
@@ -371,7 +370,7 @@ class Music(Cog_ExtenSion):
             vc_status["music_queue"] = []
             await ctx.respond(f"{ctx.author} 已清空播放清單內的所有歌曲")
 
-    @discord.application_command(description="清空播放清單")
+    @discord.application_command(description="中斷連接")
     async def dc(self, ctx:discord.ApplicationContext):
         self.setup_status(ctx.author.guild.id)
         vc_status = self.get_status(ctx.author.guild.id)

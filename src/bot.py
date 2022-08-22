@@ -1,3 +1,4 @@
+import asyncio
 from lib.function import translate, SendBGM, ErrorBGM
 from discord.ext import commands
 import discord , datetime
@@ -82,8 +83,66 @@ async def on_ready():
     print(">>Bot is online<<")
     print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users ")
 
-    activity = discord.Activity(type=discord.ActivityType.watching,name = f"/help | {len(bot.guilds)} 個伺服器")
-    await bot.change_presence(status = discord.Status.streaming, activity = activity)
+    async def run_activity_loop():
+
+        watching = discord.ActivityType.watching
+
+        names = [
+            f"/help | {len(bot.guilds)} 個伺服器",
+            f"/help | {len(bot.users)} 個用戶",
+            f"/help | ping {round(bot.latency * 1000)} ms"
+        ]
+
+        ACTIVITY_OPTION = {
+            "application_id": 921673886049910795,
+            "status" : discord.Status.streaming,
+            "url" : "https://discord.gg/AVCWGuuUex",
+            "type" : discord.ActivityType.watching,
+            "timestamp" : {
+                "start":1000,
+                "end":2000
+            },
+            "state":"正在觀看",
+            "detail":"**使用我的用戶們<3**",
+            "assets" :{
+                "large_image":"largetest",
+                "large_text":"largetest",
+                "small_image" :"smalltest",
+                "small_text" : "smalltest"
+            },
+            "button" :{
+                "label" : "Support",
+                "url" : "https://discord.gg/AVCWGuuUex "
+            }
+        }
+
+        STREANING_OPTION = {
+            "platfrom": "Discord",
+            "game" : "/help",
+            "url" : "https://discord.gg/AVCWGuuUex",
+            "detail":"**使用我的用戶們<3**",
+            "assets" :{
+                "large_image":"largetest",
+                "large_text":"largetest",
+                "small_image" :"smalltest",
+                "small_text" : "smalltest"
+            },
+        }
+
+        activity = discord.Activity(name=names[0],**ACTIVITY_OPTION)
+        await bot.change_presence(status = discord.Status.streaming, activity = activity)
+        await asyncio.sleep(5)
+
+        activity = discord.Activity(name=names[1],**ACTIVITY_OPTION)
+        await bot.change_presence(status = discord.Status.streaming, activity = activity)
+        await asyncio.sleep(5)
+
+        activity = discord.Activity(name=names[2],**ACTIVITY_OPTION)
+        await bot.change_presence(status = discord.Status.streaming, activity = activity)
+        await asyncio.sleep(5)
+
+    while True:
+        await run_activity_loop()
 
 @bot.event
 async def on_message(message : discord.Message):
@@ -153,7 +212,7 @@ async def on_member_join(member: discord.Member):
 
 if __name__ == "__main__":
     bot.run(os.environ.get("TOKEN"))
-    #bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.G9ks3g.qjp12d-B6KFSabmXJK8PgVn6Epm-CMstBe2Tt4")
-    #
-    #
-    #
+    #bot.run()
+    #"OTg3NjY0MTUxNjI1MjAzNzcy.
+    #GHOg5c.cwAcooZhrM3_
+    #8jtAgj11AM5-99RpF6vvkChTlU"

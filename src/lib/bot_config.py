@@ -113,20 +113,20 @@ ganyuCommands = {
             ["math","計算機"]
         ]
     ),
-    "music": mustFieldEmbed(
-        discord.Embed(
-            title="Music 音樂功能 v1.0",
-            color=discord.Colour.random()
-        ),
-        [
-            ["play `連結 or 關鍵字`", "播放音樂"],
-            ["pause","暫停音樂"],
-            ["resume","取消暫停音樂"],
-            ["skip","跳過音樂"],
-            ["queue","查看播放清單"],
-            ["clearqueue","清空播放清單"],
-            ["dc","中斷連線"],
-            ["np","查看正在播放的音樂資訊"]
-        ]
-    )
+    #"music": mustFieldEmbed(
+    #    discord.Embed(
+    #        title="Music 音樂功能 v1.0",
+    #        color=discord.Colour.random()
+    #    ),
+    #    [
+    #        ["play `連結 or 關鍵字`", "播放音樂"],
+    #        ["pause","暫停音樂"],
+    #        ["resume","取消暫停音樂"],
+    #        ["skip","跳過音樂"],
+    #        ["queue","查看播放清單"],
+    #        ["clearqueue","清空播放清單"],
+    #        ["dc","中斷連線"],
+    #        ["np","查看正在播放的音樂資訊"]
+    #    ]
+    #)
 }

@@ -1,3 +1,4 @@
+import asyncio
 import discord
 import datetime
 from lib.function import SendBGM
@@ -139,6 +140,7 @@ async def Addrole(ctx,member,role,type=["command","slash"]):
         await ctx.respond(embed=embed)
 
 async def Clean(ctx:discord.ApplicationContext,limit,type=["command","slash"]):
+    deleted = False
     if limit != None:
 
         if ctx.author.guild_permissions.manage_messages:
@@ -152,6 +154,8 @@ async def Clean(ctx:discord.ApplicationContext,limit,type=["command","slash"]):
                 timestamp= datetime.datetime.utcnow()
             )
 
+            deleted = True
+
         else:
 
             embed = discord.Embed(
@@ -161,6 +165,8 @@ async def Clean(ctx:discord.ApplicationContext,limit,type=["command","slash"]):
                 timestamp=datetime.datetime.utcnow()
             )
 
+        embed.set_footer(text=ctx.author, icon_url=ctx.author.avatar)
+
     else:
         embed = discord.Embed(
             title="使用clean來清理訊息",
@@ -168,7 +174,11 @@ async def Clean(ctx:discord.ApplicationContext,limit,type=["command","slash"]):
         )
 
     if type == "command":
-        await ctx.send(embed=embed)
+        msg = await ctx.send(embed=embed)
+        if deleted :
+            asyncio.sleep(5)
+            await msg.delete()
+
 
     elif type == "slash":
         await ctx.respond(embed=embed)

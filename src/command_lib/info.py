@@ -196,7 +196,7 @@ def BotDict(bot:commands.Bot):
         embed.add_field(name=n,value=botinfo[n].get("value"),inline=botinfo[n].get("inline"))
         
     embed.set_footer(
-        text="made by Youtong._.0826#9250 & 冰川#2886",
+        text="made by Ganyu-Bot-Devs",
         icon_url="https://cdn.discordapp.com/avatars/856041155341975582/a5a57f0acdd5c5fb868c9ad50cf7c319.png?size=256"
     )
 

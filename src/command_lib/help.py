@@ -36,12 +36,12 @@ async def Help(ctx,type=["command","slash"]):
                 description="查看 Tool 指令清單",
                 emoji="🛠️"
             ),
-            discord.SelectOption(
-                label=" 音樂 ",
-                value="music",
-                description="查看 Music 指令清單",
-                emoji="🎶"
-            ),
+            #discord.SelectOption(
+            #    label=" 音樂 ",
+            #    value="music",
+            #    description="查看 Music 指令清單",
+            #    emoji="🎶"
+            #),
             discord.SelectOption(
                 label=" Other ",
                 value="other",

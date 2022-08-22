@@ -133,11 +133,6 @@ def getGenshininfo(uid,server):
 
     ds = createDS(url=api_url)
 
-    print(ds)
-    print(uid)
-    print(server)
-    print(api_url)
-
     headers = {
         'Accept' : 'application/json, text/plain, */*',
         'Cookie':'mi18nLang=zh-tw; _MHYUUID=a232123c-a206-4e2e-8444-78daad7b6fa8; _ga=GA1.2.1589446192.1658999142; _gid=GA1.2.1101735951.1658999142; DEVICEFP_SEED_ID=22552ecb28f51ea7; DEVICEFP_SEED_TIME=1658999142283; DEVICEFP=38d7ea61168fb; ltoken=gJvcl9aTHeUhZ3gmjN0or58WuawHgyl21a0fR6PY; ltuid=67987181; cookie_token=K8pGqVFq4j61DbYyMVkVDKEKpHkB0pFSVoNkDDy6; account_id=67987181; _gat=1; _gat_gtag_UA_115635327_39=1',
@@ -149,10 +144,10 @@ def getGenshininfo(uid,server):
         "x-rpc-language" : "zh-tw"
     }
 
-    cookies = {
-        "ltoken" : "gJvcl9aTHeUhZ3gmjN0or58WuawHgyl21a0fR6PY",
-        "ltuid" : "67987181"
-    }
+    #cookies = {
+    #    "ltoken" : "gJvcl9aTHeUhZ3gmjN0or58WuawHgyl21a0fR6PY",
+    #    "ltuid" : "67987181"
+    #}
 
     result = requests.get(api_url,headers=headers)
 

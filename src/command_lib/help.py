@@ -25,9 +25,9 @@ async def Help(ctx,type=["command","slash"]):
                 emoji="📘"
             ),
             discord.SelectOption(
-                label=" Cucmd ",
-                value="cmd",
-                description="查看Cucmd 指令清單",
+                label=" Other ",
+                value="other",
+                description="查看 Other 指令清單",
                 emoji="📰"
             ),
             discord.SelectOption(
@@ -41,6 +41,12 @@ async def Help(ctx,type=["command","slash"]):
                 value="tool",
                 description="查看 Tool 指令清單",
                 emoji="🛠️"
+            ),
+            discord.SelectOption(
+                label=" 音樂 ",
+                value="music",
+                description="查看 Music 指令清單",
+                emoji="🎶"
             )
         ]
     )

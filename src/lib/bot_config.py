@@ -42,11 +42,12 @@ ganyuCommands = {
             color=0xec8fff
         ),
         [
-            ["fun", "查看娛樂的指令清單"],
-            ["info", "查看資訊的指令清單"],   
-            ["cucmd", "查看常用的指令"],
+            ["fun", "查看娛樂指令"],
+            ["info", "查看資訊指令"],   
             ["manage", "查看管理員指令"],
-            ["tool", "查看小工具的指令"],
+            ["tool", "查看小工具指令"],
+            ["music", "查看音樂功能的指令"],
+            ["other", "查看其他指令"],
         ]
     ),
     "fun": mustFieldEmbed(
@@ -74,18 +75,18 @@ ganyuCommands = {
             ["botinfo", "查看機器人的資訊"],
             ["invite", "獲取邀請連結"],
             ["invites", "查看本服邀請榜"],
-            ["roleinfo `role`","取得身分組資訊"],
+            ["roleinfo `身分組`","取得身分組資訊"],
         ]
     ),
-    "cmd": mustFieldEmbed(
+    "other": mustFieldEmbed(
         discord.Embed(
-            title="Cucmd 常用指令清單",
+            title="Other 其他指令清單",
             color=discord.Colour.random()
         ),
         [
             ["ping", "查看機器人延遲"],
-            ["say `text`", "讓這個機器人模仿你說話"],
-            ["dm `user` `text`" , "讓 Ganyu 私訊某人"]
+            ["say `文字`", "讓這個機器人模仿你說話"],
+            ["dm `成員` `文字`" , "讓 Ganyu 私訊某人"]
         ]
     ),
     "manage": mustFieldEmbed(
@@ -94,9 +95,9 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["ban `user`", "停權其他用戶"],
-            ["kick `user`", "踢出其他用戶"],
-            ["addrole `user` `role`", "新增身分組至一名用戶" ]
+            ["ban `成員`", "停權其他用戶"],
+            ["kick `成員`", "踢出其他用戶"],
+            ["addrole `成員` `身分組`", "新增身分組至一名用戶" ]
         ]
     ),
     "tool": mustFieldEmbed(
@@ -105,11 +106,27 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["translate","翻譯"],
-            ["embed `title` `des`","傳送Embed訊息"],
+            ["translate `要翻譯後的語言` `文字`","翻譯"],
+            ["embed `標題` `內容`","傳送Embed訊息"],
             ["words `句子`","字數轉換"],
             ["bullshit `主題` `字數`","唬爛產生器" ],
             ["math","計算機"]
+        ]
+    ),
+    "music": mustFieldEmbed(
+        discord.Embed(
+            title="Music 音樂功能 v1.0",
+            color=discord.Colour.random()
+        ),
+        [
+            ["play `連結 or 關鍵字`", "播放音樂"],
+            ["pause","暫停音樂"],
+            ["resume","取消暫停音樂"],
+            ["skip","跳過音樂"],
+            ["queue","查看播放清單"],
+            ["clearqueue","清空播放清單"],
+            ["dc","中斷連線"],
+            ["np","查看正在播放的音樂資訊"]
         ]
     )
 }

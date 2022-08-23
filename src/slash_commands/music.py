@@ -3,8 +3,11 @@ from core.classes import Cog_ExtenSion
 from lib.function import GetVideoInfo
 from youtube_dl import YoutubeDL
 from discord.ext import commands
+import dotenv
 import datetime
 import discord
+
+dotenv.load_dotenv()
 
 class Music(Cog_ExtenSion):
     def __init__(self, bot):
@@ -56,6 +59,7 @@ class Music(Cog_ExtenSion):
             vc_status["is_playing"] = True
 
             vc_status["music_queue"].pop(0)
+            print("already popt")
             if vc_status["music_queue"] != []:
                 m_url = vc_status["music_queue"][0][0]['source']
 
@@ -72,7 +76,6 @@ class Music(Cog_ExtenSion):
         vc_status = self.get_status(id)
 
         if check:
-            print("it check!")
             if len(vc_status["music_queue"]) <= 1:
                 vc_status["is_playing"] = False
                 return False
@@ -92,7 +95,6 @@ class Music(Cog_ExtenSion):
                 await vc_status["vc"].move_to(vc_status["music_queue"][0][1])
 
             
-            print(vc_status)
             vc_status["vc"].play(discord.FFmpegPCMAudio(m_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next(id))
             print(vc_status)
 

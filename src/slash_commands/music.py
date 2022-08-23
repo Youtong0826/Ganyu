@@ -4,7 +4,6 @@ from lib.function import GetVideoInfo
 from youtube_dl import YoutubeDL
 import datetime
 import discord
-import ffmpeg
 
 class Music(Cog_ExtenSion):
     def __init__(self, bot):
@@ -15,7 +14,7 @@ class Music(Cog_ExtenSion):
         self.YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
 
         self.FFMPEG_OPTIONS = {
-            'executable':ffmpeg,
+#            'executable':"ffmpeg",
             'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
             'options': '-vn'
         }

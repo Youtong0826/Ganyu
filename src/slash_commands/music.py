@@ -14,7 +14,7 @@ class Music(Cog_ExtenSion):
         self.YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
 
         self.FFMPEG_OPTIONS = {
-            'executable':"ffmpeg",
+            'executable':"app/vendor/ffmpeg/ffmpeg/",
             'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
             'options': '-vn'
         }

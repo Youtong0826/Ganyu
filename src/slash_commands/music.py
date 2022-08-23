@@ -72,6 +72,7 @@ class Music(Cog_ExtenSion):
         vc_status = self.get_status(id)
 
         if check:
+            print("it check!")
             if len(vc_status["music_queue"]) <= 1:
                 vc_status["is_playing"] = False
                 return False
@@ -90,7 +91,10 @@ class Music(Cog_ExtenSion):
             else:
                 await vc_status["vc"].move_to(vc_status["music_queue"][0][1])
 
+            
+            print(vc_status)
             vc_status["vc"].play(discord.FFmpegPCMAudio(m_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next(id))
+            print(vc_status)
 
         else:
             vc_status["is_playing"] = False
@@ -205,15 +209,15 @@ class Music(Cog_ExtenSion):
 
                     await interaction.response.send_message(f"`{interaction.user}` 已跳過歌曲!")
 
-                else: await ctx.send("沒有下一首歌曲了")
+                else: await ctx.response.send_message("沒有下一首歌曲了")
 
             elif interaction.custom_id == "queue":
                 embed = self.queue_embed(ctx.author.guild.id)
 
                 if isinstance(embed,bool):
-                    await ctx.respond("播放清單內沒有歌曲")
+                    await ctx.response.send_message("播放清單內沒有歌曲")
                 else:
-                    await ctx.respond(embed=embed)
+                    await ctx.response.send_message(embed=embed)
 
             elif interaction.custom_id == "dc":
                 self.setup_status(ctx.author.guild.id)
@@ -223,7 +227,7 @@ class Music(Cog_ExtenSion):
                 vc_status["is_paused"] = False
 
                 await vc_status["vc"].disconnect()
-                await ctx.respond("需要的時候再叫我吧~")
+                await ctx.response.send_message("需要的時候再叫我吧~")
         
         view = discord.ui.View(timeout=None)
 
@@ -285,6 +289,7 @@ class Music(Cog_ExtenSion):
             else:
                 await ctx.respond("已新增歌曲至播放清單!")
                 vc_status["music_queue"].append([song, voice_channel])
+                print(vc_status)
 
                 msg = self.music_embed(song['url'],ctx.author.guild.id,ctx)
 

@@ -2,6 +2,7 @@ from lib.bot_config import bot_icon_url
 from core.classes import Cog_ExtenSion
 from lib.function import GetVideoInfo
 from youtube_dl import YoutubeDL
+from discord.ext import commands
 import datetime
 import discord
 
@@ -398,6 +399,10 @@ class Music(Cog_ExtenSion):
             await ctx.respond(embed=embed, view=view)
 
         else: await ctx.respond("沒有正在播放的音樂")
+
+    @commands.command()
+    async def vc(self,ctx):
+        await ctx.send(self.voice_clients)
 
 def setup(bot):
     bot.add_cog(Music(bot))

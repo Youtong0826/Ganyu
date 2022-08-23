@@ -5,4 +5,4 @@ youtube-dl
 PyNaCl
 wheel
 ffmpeg
-dotenv
+python-dotenv

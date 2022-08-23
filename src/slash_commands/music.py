@@ -59,7 +59,7 @@ class Music(Cog_ExtenSion):
             vc_status["is_playing"] = True
 
             vc_status["music_queue"].pop(0)
-            print("already popt")
+
             if vc_status["music_queue"] != []:
                 m_url = vc_status["music_queue"][0][0]['source']
 
@@ -96,7 +96,6 @@ class Music(Cog_ExtenSion):
 
             
             vc_status["vc"].play(discord.FFmpegPCMAudio(m_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next(id))
-            print(vc_status)
 
         else:
             vc_status["is_playing"] = False
@@ -291,7 +290,7 @@ class Music(Cog_ExtenSion):
             else:
                 await ctx.respond("已新增歌曲至播放清單!")
                 vc_status["music_queue"].append([song, voice_channel])
-                print(vc_status)
+                print(self.voice_clients)
 
                 msg = self.music_embed(song['url'],ctx.author.guild.id,ctx)
 

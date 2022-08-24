@@ -215,15 +215,15 @@ class Music(Cog_ExtenSion):
 
                     await interaction.response.send_message(f"`{interaction.user}` 已跳過歌曲!")
 
-                else: await ctx.response.send_message("沒有下一首歌曲了")
+                else: await interaction.response.send_message("沒有下一首歌曲了")
 
             elif interaction.custom_id == "queue":
                 embed = self.queue_embed(ctx.author.guild.id)
 
                 if isinstance(embed,bool):
-                    await ctx.response.send_message("播放清單內沒有歌曲")
+                    await interaction.response.send_message("播放清單內沒有歌曲")
                 else:
-                    await ctx.response.send_message(embed=embed)
+                    await interaction.response.send_message(embed=embed)
 
             elif interaction.custom_id == "dc":
                 self.setup_status(ctx.author.guild.id)

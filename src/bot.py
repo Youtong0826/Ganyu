@@ -78,6 +78,33 @@ async def reload(ctx, extension):
     await ctx.send(embed=embed)
     SendBGM(ctx)
 
+@bot.command()
+async def sptrole(ctx : discord.ApplicationContext):
+    if ctx.author.id != 856041155341975582: return
+
+    embed = discord.Embed(
+        title="索取你要的身分組!",
+        color=discord.Colour.nitro_pink()
+    )
+
+    pa_button = discord.ui.Button(
+        style=discord.ButtonStyle.success,
+        label="公告Ping",
+        custom_id="PA_ping"
+    )
+
+    bu_button = discord.ui.Button(
+        style=discord.ButtonStyle.primary,
+        label="機器人更新ping",
+        custom_id="Bu_ping"
+    )
+
+    view = discord.ui.View(timeout=None)
+    view.add_item(pa_button)
+    view.add_item(bu_button)
+
+    await bot.get_channel(962264203324948500).send(embed=embed,view=view)
+
 @bot.event
 async def on_ready():
     print(">>Bot is online<<")
@@ -145,12 +172,25 @@ async def on_ready():
         await run_activity_loop()
 
 @bot.event
+async def on_interaction(interaction:discord.Interaction):
+    if interaction.custom_id[3:7] == "ping":
+        roles = interaction.user.guild.roles
+        if interaction.custom_id == "PA_ping":  
+            for role in roles :
+                if role.id == 962261741050413096:
+                    await interaction.user.add_roles(role)
+
+        if interaction.custom_id == "Bu_ping":  
+            for role in roles :
+                if role.id == 1009478887140511915:
+                    await interaction.user.add_roles(role)
+@bot.event
 async def on_message(message : discord.Message):
     if message.author == bot.user or message.author.bot : return
 
     else:
         if bot.user in message.mentions:
-            response = random.choice(["hi","早安","找我嗎?","幹嘛ping我@@"])
+            response = random.choice(["hi","早安","找我嗎?","幹嘛ping我@@",".w."])
             await message.channel.send(response)
 
     await bot.process_commands(message)

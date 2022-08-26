@@ -46,7 +46,7 @@ async def Translate(ctx,language,text,type=["command","slash"]):
     else:
         embed = discord.Embed(
             title="歡迎使用翻譯小工具!",
-            description="此指令可以將各種語言翻譯成你想要的語言\n使用方法:translate `要翻譯成的語言` `文字`",
+            description="此指令可以將各種語言翻譯成你想要的語言\n使用方法:/translate `要翻譯成的語言` `文字`",
             color=discord.Colour.random(),
             timestamp=datetime.datetime.utcnow()
         )
@@ -78,8 +78,8 @@ async def Words(ctx,text,type=["command","slash"]):
 
     else:
         embed = discord.Embed(
-            title="使用 g!words 來轉換字數!",
-            description="使用方法: g!words `句子`"
+            title="使用 /words 來轉換字數!",
+            description="使用方法: /words `句子`"
         )
 
     embed.color = discord.Colour.random()
@@ -114,8 +114,8 @@ async def Bullshit(ctx,topic,minlen,type=["command","slash"]):
 
     else:
         embed = discord.Embed(
-            title="使用g!bullshit唬爛產生器來生成文章!",
-            description="使用方法 g!bullshit `主題(如有空格需要用\"包起來)` `字數(上限1000)`"
+            title="使用 /bullshit唬爛產生器來生成文章!",
+            description="使用方法 /bullshit `主題(如有空格需要用\"包起來)` `字數(上限1000)`"
         )
     
     embed.color = discord.Colour.random()

@@ -911,7 +911,7 @@ async def WikiInfo(ctx,keywords:str,bot=None):
 
             wikipedia_icon = "https://th.bing.com/th/id/R.d451e7b1661d71fc68ca02b19137497b?rik=MjNkZivLBibrOQ&pid=ImgRaw&r=0"
 
-            embed.set_thumbnail(wikipedia_icon)
+            embed.set_thumbnail(url=wikipedia_icon)
 
             embed.set_footer(text="Wikipedia.org",icon_url=bot_icon_url)
 

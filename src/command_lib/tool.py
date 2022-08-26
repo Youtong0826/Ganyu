@@ -898,7 +898,7 @@ async def WikiInfo(ctx,keywords:str,bot=None):
             info = {}
             for result in results:
                 if select.values[0] == "wiki_" + result:
-                    info["description"] = wiki_info(result,5)
+                    info["description"] = wiki_info(result,3)
                     info["title"] = result
                     break
 

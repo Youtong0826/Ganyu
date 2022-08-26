@@ -879,7 +879,6 @@ async def WikiInfo(ctx,keywords:str,bot=None):
     for index in range(len(results)):
         options.append(discord.SelectOption(
             label=results[index],
-            description=wiki_info(results[index])+"...",
             value=f"wiki_{results[index]}",
             emoji=emojis[index]
         ))

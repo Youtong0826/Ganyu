@@ -38,7 +38,8 @@ def wiki_info(title:str=None,sentences:int=1,lang:str="zh"):
     if title == None : return None
     wikipedia.set_lang(lang)
     
-    return wikipedia.summary(title,sentences)
+    try: return wikipedia.summary(title,sentences)
+    except: return None
 
 def bullshit(topic,minlen):
     url = "https://api.howtobullshit.me/bullshit"

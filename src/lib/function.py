@@ -28,8 +28,9 @@ def mustFieldEmbed(embed: discord.Embed, fields: list) -> discord.Embed:
         embed.add_field(name=i[0], value=i[1])
     return embed
 
-def wiki_search(*keywords:str):
+def wiki_search(*keywords:str,lang:str = "zh"):
     if keywords == None: return None
+    wikipedia.set_lang(lang)
     
     return wikipedia.search(keywords)
 

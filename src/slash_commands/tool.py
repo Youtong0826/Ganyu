@@ -558,5 +558,9 @@ class SlashTool(Cog_ExtenSion):
             await ctx.send_response(embed=embed,view=view)
             SendBGM(ctx)
 
+    @discord.application_command(desription="搜索維基百科")
+    async def wiki(self,ctx,keywords:discord.Option(str,"搜索關鍵字")):
+        await tool.WikiInfo(ctx,keywords,self.bot)
+
 def setup(bot):
     bot.add_cog(SlashTool(bot))

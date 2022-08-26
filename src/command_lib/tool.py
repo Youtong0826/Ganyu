@@ -870,14 +870,13 @@ async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
     SendBGM(ctx)
 
 async def WikiInfo(ctx,keywords:str,bot=None):
-    keywords = keywords.split()
-    results = wiki_search(tuple(keywords))
+    keywords_split = keywords.split()
+    results = wiki_search(tuple(keywords_split))
     if results == None: await ctx.respond(f"{bot.mention}徹徹底底地搜索了一遍 但還是找不到結果..")
 
-    emojis = "1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣🔟"
-
+    emojis = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"]
     options = []
-    for index in len(results):
+    for index in range(len(results)):
         options.append(discord.SelectOption(
             label=results[index],
             value=f"wiki_{results[index]}",
@@ -886,31 +885,39 @@ async def WikiInfo(ctx,keywords:str,bot=None):
 
     select = discord.ui.Select(
         placeholder="選擇相關的搜索結果",
-        options=options
+        options=options,
+        custom_id="Wiki_Select"
     )
-    view = discord.ui.View(select,timeout=None)
+
+    view = discord.ui.View(timeout=None)
+    view.add_item(select)
 
     async def select_response(interaction:discord.Interaction):
-        info = {}
-        for result in results:
-            if select.values[0] == "wiki_" + result:
-                info["description"] = wiki_info(result,2)
-                info["title"] = result
-                break
+        if interaction.custom_id == "Wiki_Select":
+            info = {}
+            for result in results:
+                if select.values[0] == "wiki_" + result:
+                    print(select.values)
+                    info["description"] = wiki_info(result,5)
+                    info["title"] = result
+                    break
+                
+            print(info["title"],info["description"])
+    
+            embed= discord.Embed(
+                title=info["title"],
+                description=info["description"],
+                color=discord.Colour.nitro_pink(),
+                timestamp=datetime.datetime.utcnow()
+            )
+    
+            await interaction.response.edit_message(embed=embed,view=view)
 
-        embed= discord.Embed(
-            title=info["title"],
-            description=info["description"],
-            color=discord.Colour.nitro_pink(),
-            timestamp=datetime.datetime.utcnow()
-        )
-
-        await interaction.response.edit_message(embed=embed)
     select.callback = select_response
-
+    
     embed = discord.Embed(
         title=f"以下為有關\"{keywords}\"的搜索結果",
         color=discord.Colour.nitro_pink()
     )
 
-    await ctx.respond(embed=embed,vieq=view)
+    await ctx.respond(embed=embed,view=view)

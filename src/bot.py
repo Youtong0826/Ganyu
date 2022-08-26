@@ -173,7 +173,7 @@ async def on_ready():
 
 @bot.event
 async def on_interaction(interaction:discord.Interaction):
-    if interaction.custom_id == None: return
+    if interaction.custom_id == None: pass
     if interaction.custom_id[3:7] == "ping":
         roles = interaction.user.guild.roles
         if interaction.custom_id == "PA_ping":

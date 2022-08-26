@@ -558,7 +558,7 @@ class SlashTool(Cog_ExtenSion):
             await ctx.send_response(embed=embed,view=view)
             SendBGM(ctx)
 
-    @discord.application_command(desription="搜索維基百科")
+    @discord.application_command(description="搜索維基百科")
     async def wiki(self,ctx,keywords:discord.Option(str,"搜索關鍵字")):
         await tool.WikiInfo(ctx,keywords,self.bot)
 

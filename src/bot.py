@@ -173,34 +173,34 @@ async def on_ready():
 
 @bot.event
 async def on_interaction(interaction:discord.Interaction):
-    if interaction.custom_id == None: pass
-    elif interaction.custom_id[3:7] == "ping":
-        roles = interaction.user.guild.roles
-        if interaction.custom_id == "PA_ping":
+    if interaction.custom_id != None: 
+        if interaction.custom_id[3:7] == "ping":
+            roles = interaction.user.guild.roles
+            if interaction.custom_id == "PA_ping":
+
+                for role in roles :
+                    if role.id == 962261741050413096:
+
+                        if role in interaction.user.roles:
+                            await interaction.user.remove_roles(role)
+                            await interaction.response.send_message(content=f"已成功移除身分組✅",ephemeral=True)
+
+                        else:
+                            await interaction.user.add_roles(role)
+                            await interaction.response.send_message(content=f"已成功領取身分組✅",ephemeral=True)
+
+            if interaction.custom_id == "Bu_ping":  
             
-            for role in roles :
-                if role.id == 962261741050413096:
+                for role in roles :
+                    if role.id == 1009478887140511915:
 
-                    if role in interaction.user.roles:
-                        await interaction.user.remove_roles(role)
-                        await interaction.response.send_message(content=f"已成功移除身分組✅",ephemeral=True)
+                        if role in interaction.user.roles:
+                            await interaction.user.remove_roles(role)
+                            await interaction.response.send_message(content=f"已成功移除身分組✅",ephemeral=True)
 
-                    else:
-                        await interaction.user.add_roles(role)
-                        await interaction.response.send_message(content=f"已成功領取身分組✅",ephemeral=True)
-
-        if interaction.custom_id == "Bu_ping":  
-    
-            for role in roles :
-                if role.id == 1009478887140511915:
-
-                    if role in interaction.user.roles:
-                        await interaction.user.remove_roles(role)
-                        await interaction.response.send_message(content=f"已成功移除身分組✅",ephemeral=True)
-                        
-                    else:
-                        await interaction.user.add_roles(role)
-                        await interaction.response.send_message(content=f"已成功領取身分組✅",ephemeral=True)
+                        else:
+                            await interaction.user.add_roles(role)
+                            await interaction.response.send_message(content=f"已成功領取身分組✅",ephemeral=True)
 
 @bot.event
 async def on_message(message : discord.Message):

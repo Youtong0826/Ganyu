@@ -1,6 +1,6 @@
 import discord
 import datetime
-from lib.function import SendBGM,translate,bullshit,calculator,getGenshininfo
+from lib.function import SendBGM,translate,bullshit,calculator,getGenshininfo,wiki_info,wiki_search
 from lib.bot_config import bot_icon_url
 
 async def Translate(ctx,language,text,type=["command","slash"]):
@@ -868,3 +868,49 @@ async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
         await ctx.respond(embed = embed,view=view)
 
     SendBGM(ctx)
+
+async def WikiInfo(ctx,keywords:str,bot=None):
+    keywords = keywords.split()
+    results = wiki_search(tuple(keywords))
+    if results == None: await ctx.respond(f"{bot.mention}徹徹底底地搜索了一遍 但還是找不到結果..")
+
+    emojis = "1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣🔟"
+
+    options = []
+    for index in len(results):
+        options.append(discord.SelectOption(
+            label=results[index],
+            value=f"wiki_{results[index]}",
+            emoji=emojis[index]
+        ))
+
+    select = discord.ui.Select(
+        placeholder="選擇相關的搜索結果",
+        options=options
+    )
+    view = discord.ui.View(select,timeout=None)
+
+    async def select_response(interaction:discord.Interaction):
+        info = {}
+        for result in results:
+            if select.values[0] == "wiki_" + result:
+                info["description"] = wiki_info(result,2)
+                info["title"] = result
+                break
+
+        embed= discord.Embed(
+            title=info["title"],
+            description=info["description"],
+            color=discord.Colour.nitro_pink(),
+            timestamp=datetime.datetime.utcnow()
+        )
+
+        await interaction.response.edit_message(embed=embed)
+    select.callback = select_response
+
+    embed = discord.Embed(
+        title=f"以下為有關\"{keywords}\"的搜索結果",
+        color=discord.Colour.nitro_pink()
+    )
+
+    await ctx.respond(embed=embed,vieq=view)

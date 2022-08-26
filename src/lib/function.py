@@ -2,6 +2,7 @@ from hashlib import md5
 from bs4 import BeautifulSoup
 from urllib import parse
 import youtube_dl
+import wikipedia
 import requests
 import datetime
 import discord
@@ -27,21 +28,16 @@ def mustFieldEmbed(embed: discord.Embed, fields: list) -> discord.Embed:
         embed.add_field(name=i[0], value=i[1])
     return embed
 
-def wiki_search(text):
-    url = f"https://zh.wikipedia.org/wiki/{text}"
-    web = requests.get(url=url)
-
-    soup = BeautifulSoup(web.text,"html.parser")
-    articles = soup.select("div.mw-parser-output")
+def wiki_search(*keywords:str):
+    if keywords == None: return None
     
-    art = ""
+    return wikipedia.search(keywords)
 
-    for n in articles:
-        art += n.text
-
-    art = art[:200] + " ... go [wikipedia](https://zh.wikipedia.org) to check more info!"
-
-    return art
+def wiki_info(title:str=None,sentences:int=1,lang:str="zh"):
+    if title == None : return None
+    wikipedia.set_lang(lang)
+    
+    return wikipedia.summary(title,sentences)
 
 def bullshit(topic,minlen):
     url = "https://api.howtobullshit.me/bullshit"

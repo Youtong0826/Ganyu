@@ -46,7 +46,7 @@ ganyuCommands = {
             ["info", "查看資訊指令"],   
             ["manage", "查看管理員指令"],
             ["tool", "查看小工具指令"],
-            ["music", "查看音樂功能的指令"],
+            #["music", "查看音樂功能的指令"],
             ["other", "查看其他指令"],
         ]
     ),
@@ -110,7 +110,8 @@ ganyuCommands = {
             ["embed `標題` `內容`","傳送Embed訊息"],
             ["words `句子`","字數轉換"],
             ["bullshit `主題` `字數`","唬爛產生器" ],
-            ["math","計算機"]
+            ["math","計算機"],
+            ["wiki `關鍵字`","搜索維基百科"]
         ]
     ),
     #"music": mustFieldEmbed(

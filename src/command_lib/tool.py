@@ -879,6 +879,7 @@ async def WikiInfo(ctx,keywords:str,bot=None):
     for index in range(len(results)):
         options.append(discord.SelectOption(
             label=results[index],
+            description=wiki_info(results[index])+"...",
             value=f"wiki_{results[index]}",
             emoji=emojis[index]
         ))
@@ -897,20 +898,21 @@ async def WikiInfo(ctx,keywords:str,bot=None):
             info = {}
             for result in results:
                 if select.values[0] == "wiki_" + result:
-                    print(select.values)
                     info["description"] = wiki_info(result,5)
                     info["title"] = result
                     break
-                
-            print(info["title"],info["description"])
-    
+
             embed= discord.Embed(
+                url=f"https://zh.wikipedia.org/wiki/{info['title']}",
                 title=info["title"],
                 description=info["description"],
                 color=discord.Colour.nitro_pink(),
                 timestamp=datetime.datetime.utcnow()
             )
-    
+            wikipedia_icon = "https://th.bing.com/th/id/R.d451e7b1661d71fc68ca02b19137497b?rik=MjNkZivLBibrOQ&pid=ImgRaw&r=0"
+
+            embed.set_footer(text="Wikipedia.org",icon_url=wikipedia_icon)
+
             await interaction.response.edit_message(embed=embed,view=view)
 
     select.callback = select_response

@@ -221,4 +221,3 @@ async def Clean(ctx:discord.ApplicationContext,limit:int,type="slash"):
         except:await msg.delete()
 
         await ctx.respond(embed=embed)
-    

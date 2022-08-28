@@ -21,18 +21,18 @@ print('Start load commands file')
 for Filename in os.listdir('src/commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"commands.{Filename[:-3]}")
-        print(f'-- loaded "{Filename[:-3]}" file')
+        print(f'-- loaded "{Filename}"')
 
 print('Start load slash_commands file')
 for Filename in os.listdir('src/slash_commands'):
     if Filename.endswith(".py"):
         bot.load_extension(f"slash_commands.{Filename[:-3]}")
-        print(f'-- loaded "{Filename[:-3]}" file')
+        print(f'-- loaded "{Filename}"')
 
 @bot.command()
 async def load(ctx, extension):
     if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.load_extension(f"commands.{extension}")
+        bot.load_extension(f"command_lib.{extension}")
         embed = discord.Embed(
             title=f"Loaded - {extension} - Cog",
             color=0x5cff8d
@@ -48,7 +48,7 @@ async def load(ctx, extension):
 @bot.command()
 async def unload(ctx, extension):
     if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.unload_extension(f"commands.{extension}")
+        bot.unload_extension(f"command.{extension}")
         embed = discord.Embed(
             title=f"Unloaded - {extension} - Cog",
             color=0x5cff8d
@@ -64,7 +64,7 @@ async def unload(ctx, extension):
 @bot.command()
 async def reload(ctx, extension):
     if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.reload_extension(f"commands.{extension}")
+        bot.reload_extension(f"command_lib.{extension}")
         embed = discord.Embed(
             title=f"Reloaded - {extension} - Cog",
             color=0x5cff8d
@@ -267,7 +267,7 @@ async def on_member_join(member: discord.Member):
 
 if __name__ == "__main__":
     bot.run(os.environ.get("TOKEN"))
-    
-    #
-    #
-    #
+    #bot.run("")
+    #OTg3NjY0MTUxNjI1MjAzNzcy.
+    #GgqcF2.TB4P215qCpVP6Pr043
+    #qe7HMmIqLE0FqyvYLRuM

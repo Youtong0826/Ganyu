@@ -5,7 +5,7 @@ import requests
 import json
 from lib.function import SendBGM
 
-async def Avatar(ctx,member,type=["command","slash"]):
+async def Avatar(ctx,member,type="slash"):
     user = ctx.author
 
     if member != None:
@@ -63,7 +63,7 @@ for i in range(3):
             imageInfo["url"] = f'{str(i["id"])}'
         imageIdList.append(imageInfo)
 
-async def Pic(ctx,type=["command","slash"]):
+async def Pic(ctx,type="slash"):
     imgInfo = random.choice(imageIdList)
 
     imgURL = 'https://pixiv.cat/'+imgInfo["url"]+'.jpg'

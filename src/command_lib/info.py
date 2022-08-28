@@ -365,7 +365,7 @@ def UserDict(member:discord.Member):
 
     return Setting
 
-async def Allinfo(ctx,bot,type=["command","slash"]):
+async def Allinfo(ctx,bot,type="slash"):
     embed = discord.Embed(
         title="一次查看所有資訊!",
         color=discord.Colour.random(),
@@ -429,7 +429,7 @@ async def Allinfo(ctx,bot,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Invite(ctx,type=["command","slash"]):
+async def Invite(ctx,type="slash"):
     link = "[邀請連結 | invite link](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=294695021638&scope=bot%20applications.commands)"
     server_link = "[支援伺服器 | Support Server](https://discord.gg/AVCWGuuUex)"
 
@@ -451,7 +451,7 @@ async def Invite(ctx,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Invites(ctx,type=["command","slash"]):
+async def Invites(ctx:discord.ApplicationContext,type="slash"):
     embed = discord.Embed(
         title=f"{ctx.guild.name} 的邀請榜", 
         color=discord.Color.blue()
@@ -474,10 +474,13 @@ async def Invites(ctx,type=["command","slash"]):
         ":nine:",
         ":keycap_ten:"
     ]
+
+    inviters = []
         
     for n in invites:
-        if str(n.inviter)[:-5] == "":
-            invites.remove(n)
+        invites.remove(n) if n.inviter in inviters else inviters.append(n.inviter)
+
+    print(invites)
 
     for index, invite in enumerate(invites):
         if index == 10:
@@ -494,7 +497,7 @@ async def Invites(ctx,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Roleinfo(ctx,role,type=["command","slash"]):
+async def Roleinfo(ctx,role,type="slash"):
     if role != None:
         role_data = {
             "🗒️ 名字" : role.mention,

@@ -1,4 +1,4 @@
-import discord , datetime
+import discord , datetime ,command_lib.info as info
 from discord.ext import commands
 from core.classes import Cog_ExtenSion
 from lib.bot_config import bot_icon_url
@@ -117,40 +117,7 @@ class SlashInfo(Cog_ExtenSion):
 
     @discord.application_command(description="查看邀請排行榜!")
     async def invites(self, ctx: discord.ApplicationContext):
-        embed = discord.Embed(
-            title=f"{ctx.guild.name} 的邀請榜", color=discord.Color.blue())
-
-        context = ""
-        invites = await ctx.guild.invites()
-
-        invites.sort(key=lambda k: k.uses, reverse=True)
-
-        numbers = [
-            ":one:",
-            ":two:",
-            ":three:",
-            ":four:",
-            ":five:",
-            ":six:",
-            ":seven:",
-            ":eight:",
-            ":nine:",
-            ":keycap_ten:"
-        ]
-        
-        for n in invites:
-            if str(n.inviter)[:-5] == "":
-                invites.remove(n)
-
-        for index, invite in enumerate(invites):
-            if index == 10:
-                break      
-            context += f"{numbers[index]} {str(invite.inviter)[:-5]} 邀請 {invite.uses} 人\n\n"
-
-        embed.description = context
-
-        await ctx.respond(embed=embed)
-        SendBGM(ctx)
+        await info.Invites(ctx)
 
     @discord.application_command(description="查看身分組資訊!")
     async def roleinfo(self,ctx : discord.ApplicationContext,*,role : discord.Option(discord.Role,"選擇身分組") = None ):

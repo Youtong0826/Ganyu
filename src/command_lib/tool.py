@@ -3,7 +3,7 @@ import datetime
 from lib.function import SendBGM,translate,bullshit,calculator,getGenshininfo,wiki_info,wiki_search
 from lib.bot_config import bot_icon_url
 
-async def Translate(ctx,language,text,type=["command","slash"]):
+async def Translate(ctx,language,text,type="slash"):
     google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
     
     translate_to_dict = {
@@ -62,7 +62,7 @@ async def Translate(ctx,language,text,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Words(ctx,text,type=["command","slash"]):
+async def Words(ctx,text,type="slash"):
     if text != None:
 
         space = 0
@@ -94,7 +94,7 @@ async def Words(ctx,text,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Bullshit(ctx,topic,minlen,type=["command","slash"]):
+async def Bullshit(ctx,topic,minlen,type="slash"):
     if topic and minlen != None:
 
         try:
@@ -130,7 +130,7 @@ async def Bullshit(ctx,topic,minlen,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Math(ctx,formula,type=["command","slash"]):
+async def Math(ctx,formula,type="slash"):
     if formula != None:
         answer = calculator(formula)
         embed = discord.Embed(
@@ -669,7 +669,7 @@ async def Math(ctx,formula,type=["command","slash"]):
 
         SendBGM(ctx)
 
-async def GenshinInfo(ctx,uid,server,type=["command","slash"]):
+async def GenshinInfo(ctx,uid,server,type="slash"):
 
     backbutton = discord.ui.Button(
         style=discord.ButtonStyle.primary,

@@ -3,7 +3,7 @@ import discord
 import datetime
 from lib.function import SendBGM
 
-async def mange_member(ctx,user:discord.Member, member:discord.Member, type, title, reason=None,CmdType=["command","slash"]):
+async def mange_member(ctx,user:discord.Member, member:discord.Member, type, title, reason=None,CmdType="slash"):
 
     pms = {}
 
@@ -97,7 +97,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
     
     SendBGM(ctx)
 
-async def Addrole(ctx,member,role,type=["command","slash"]):
+async def Addrole(ctx,member,role,type="slash"):
     user : discord.Member = ctx.author
 
     if role and member != None:
@@ -139,22 +139,57 @@ async def Addrole(ctx,member,role,type=["command","slash"]):
     elif type == "slash":
         await ctx.respond(embed=embed)
 
-async def Clean(ctx:discord.ApplicationContext,limit,type=["command","slash"]):
-    deleted = False
+async def Clean(ctx:discord.ApplicationContext,limit:int,type="slash"):
+    
     if limit != None:
 
         if ctx.author.guild_permissions.manage_messages:
+            def is_excessive(msg):
+                return limit < 30
 
-            delete_msgs = await ctx.channel.purge(limit=limit)
+            deleted = await ctx.channel.purge(limit=limit,check=is_excessive)
 
             embed = discord.Embed(
                 title="已刪除訊息!",
-                description=f"成功刪除了**{len(delete_msgs)}**則訊息",
+                description=f"成功刪除了**{len(deleted)}**則訊息",
                 color=discord.Colour.green(),
                 timestamp= datetime.datetime.utcnow()
             )
 
-            deleted = True
+            if limit >= 30:
+
+                yes_button = discord.ui.Button(
+                    style=discord.ButtonStyle.success,
+                    label="確定",
+                    custom_id="yes"
+                )
+
+                no_button = discord.ui.Button(
+                    style=discord.ButtonStyle.danger,
+                    label="取消",
+                    custom_id="no"
+                )
+
+                async def button_response(interaction:discord.Interaction):
+                    if interaction.user == ctx.author:
+                        if interaction.custom_id == "yes":
+                            await interaction.channel.purge(limit=limit)
+                            await interaction.response.send_message(embed=embed)
+                            await interaction.delete_original_message(delay=5.0)
+
+                        elif interaction.custom_id == "no":
+                            await interaction.message.delete()
+                            await interaction.response.send_message("已取消刪除")
+                            await interaction.delete_original_message(delay=5.0)
+
+                    else:await interaction.response.send_message("只有指令使用者才能進行操作",ephemeral=True)
+
+                yes_button.callback = button_response
+                no_button.callback = button_response
+                view = discord.ui.View(yes_button,no_button)
+
+                await ctx.respond(f"為避免有誤刪的情形發生 請問您確定要刪除**{limit}**則訊息嗎?",view=view)
+                return
 
         else:
 
@@ -169,17 +204,17 @@ async def Clean(ctx:discord.ApplicationContext,limit,type=["command","slash"]):
 
     else:
         embed = discord.Embed(
-            title="使用clean來清理訊息",
-            description="用法: clean `數量`"
+            title="使用clear來清理訊息",
+            description="用法: clear `數量`"
         )
 
     if type == "command":
         msg = await ctx.send(embed=embed)
-        if deleted :
-            asyncio.sleep(5)
-            await msg.delete()
-
 
     elif type == "slash":
-        await ctx.respond(embed=embed)
-    
+        irt = await ctx.respond(embed=embed)
+
+    if deleted :
+        await asyncio.sleep(5)
+        try:await irt.delete_original_message()
+        except:await msg.delete()

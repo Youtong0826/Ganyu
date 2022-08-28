@@ -68,7 +68,7 @@ class Mange(Cog_ExtenSion):
         )
 
     @commands.command()
-    async def clear(self,ctx:discord.ApplicationContext,limit):
+    async def clear(self,ctx:discord.ApplicationContext,limit:int):
         await manage.Clean(ctx,limit,"command")
 
     @commands.command()

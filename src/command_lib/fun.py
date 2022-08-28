@@ -4,7 +4,7 @@ import datetime
 from lib.function import SendBGM
 from lib.bot_config import bot_icon_url
 
-async def Dice(mode,number,ctx,type=["command","slash"]):
+async def Dice(mode,number,ctx,type="slash"):
 
     mode_dict = {
         "賭博模式" : "limit",
@@ -88,7 +88,7 @@ async def Dice(mode,number,ctx,type=["command","slash"]):
 
     SendBGM(ctx)
     
-async def Mora(ctx,type=["command","slash"]):
+async def Mora(ctx,type="slash"):
     moras = ["剪刀","石頭","布"]
     moraed = random.choice(moras)
 
@@ -202,7 +202,7 @@ async def Mora(ctx,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Luck(ctx,member,type=["command","slash"]):
+async def Luck(ctx,member,type="slash"):
     luckypoint = random.randint(0,100)
     luckybar = ""
     luckycolor = [
@@ -247,7 +247,7 @@ async def Luck(ctx,member,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Spank(ctx,member,type=["command","slash"]):
+async def Spank(ctx,member,type="slash"):
     if member != None:
         
         embed = discord.Embed(
@@ -269,7 +269,7 @@ async def Spank(ctx,member,type=["command","slash"]):
 
     SendBGM(ctx)
 
-async def Gay(ctx,member,type=["command","slash"]):
+async def Gay(ctx,member,type="slash"):
     if member != None:
         user = member
 

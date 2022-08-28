@@ -2,7 +2,7 @@ import discord
 from lib.bot_config import ganyuCommands
 from lib.function import SendBGM
 
-async def Help(ctx,type=["command","slash"]): 
+async def Help(ctx,type="slash"): 
     main_select = discord.ui.Select(
         placeholder="選擇要查看的指令清單",
         options=[

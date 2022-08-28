@@ -212,7 +212,6 @@ async def Clean(ctx:discord.ApplicationContext,limit:int,type="slash"):
         msg = await ctx.send(embed=embed)
 
     elif type == "slash":
-
         irt = await ctx.respond(embed=embed)
 
     if deleted :

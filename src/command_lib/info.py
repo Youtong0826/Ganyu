@@ -475,17 +475,14 @@ async def Invites(ctx:discord.ApplicationContext,type="slash"):
         ":keycap_ten:"
     ]
 
+    
+
     inviters = []
         
-    for n in invites:
-        invites.remove(n) if n.inviter in inviters else inviters.append(n.inviter)
-
-    print(invites)
+    [invites.remove(n) if n.inviter in inviters else inviters.append(n.inviter) for n in invites]
 
     for index, invite in enumerate(invites):
-        if index == 10:
-            break      
-        context += f"{numbers[index]} {str(invite.inviter)[:-5]} 邀請 {invite.uses} 人\n\n"
+        context += f"{numbers[index]} {str(invite.inviter)[:-5]} 邀請 {invite.uses} 人\n\n" if index < 10 else ...
 
     embed.description = context
     
@@ -583,3 +580,4 @@ async def Roleinfo(ctx,role,type="slash"):
         await ctx.respond(embed=embed,view=view)
 
     SendBGM(ctx)
+

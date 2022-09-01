@@ -130,7 +130,7 @@ async def on_ready():
                 "end":2000
             },
             "state":"正在觀看",
-            "detail":"**使用我的用戶們<3**",
+            "detail":"**thinking**",
             "assets" :{
                 "large_image":"largetest",
                 "large_text":"largetest",
@@ -263,11 +263,12 @@ async def on_member_join(member: discord.Member):
 
     elif member.guild.id == 956614306345123923:
         channel = bot.get_channel(957157665526673419)
+        [await member.add_roles() if role.id == 962261737602703391 else ... for role in member.guild.roles]
         await channel.send(embed=join_message())
 
 if __name__ == "__main__":
     bot.run(os.environ.get("TOKEN"))
-    #bot.run("")
-    #OTg3NjY0MTUxNjI1MjAzNzcy.
-    #GgqcF2.TB4P215qCpVP6Pr043
-    #qe7HMmIqLE0FqyvYLRuM
+    #bot.run()
+    #"OTg3NjY0MTUxNjI1MjAzNzcy.
+    #GgqcF2.TB4P215qCpVP6Pr043q
+    #e7HMmIqLE0FqyvYLRuM"

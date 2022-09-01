@@ -3,6 +3,7 @@ from core.classes import Cog_ExtenSion
 from lib.function import mustFieldEmbed, SendBGM
 from lib.bot_config import ganyuCommands
 from command_lib import help
+import discord
 
 class Help(Cog_ExtenSion):
 

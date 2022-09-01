@@ -206,98 +206,36 @@ class Cucmd(Cog_ExtenSion):
         await ctx.send(embed=embed, view=view)
 
     @commands.command()
-    async def vote(self,ctx,topic=None,quantity:int=None):
+    async def vote(self,ctx,topic:discord.Option(str,"投票的主題",name="主題"),options:discord.Option(str,"要投票的選項",name="選項")):
+        view = discord.ui.View()
+        description = ""
 
-        if topic and quantity != None:
-            MainEmbed = discord.Embed(
-                title="請點擊以下按鈕來設置選項內容!",
-                color=discord.Colour.random(),
-            )
+        for option in options.split():
+            view.add_item(discord.ui.Button(
+                style=discord.ButtonStyle.primary,
+                label=option,
+                custom_id=f"{ctx.author.guild.id}_vote_{option}_0"
+            ))
 
-            MainView = discord.ui.View(timeout=None)
+            description += f"**{option}** - 0 (0%)\n"
 
-            SettingButton = discord.ui.Button(
-                style=discord.ButtonStyle.success,
-                label="設置投票內容",
-                emoji="📊"
-            )
+        embed = discord.Embed(
+            title=topic,
+            description=description,
+            color=discord.Colour.random(),
+            timestamp=datetime.datetime.utcnow()
+        )
 
-            async def SettingButtonCallback(interaction:discord.Interaction):
-                SettingModal = discord.ui.Modal(title="投票設置")
+        async def vote_button_response(interaction:discord.Interaction):
+            id = interaction.custom_id
+            votes = int(id[id.index("_",3):]) + 1
 
-                #async def SettingModalCallback(interaction:discord.Interaction):
-                #    options = ""
-                #    ModalView = discord.ui.View(timeout=None)
-#
-                #    for n in range(0,quantity*2):
-                #        if n % 2 == 0:
-                #            options +=f"{n/2+1}.{SettingModal.children[n].value} ▬▬ 0%\n\n"
-#
-                #    ModalEmbed = discord.Embed(
-                #        title=f"{interaction.user.name} 已發起投票",
-                #        description=f"主題 ▬▬ **{topic}** 選項:\n{options}",
-                #        color=discord.Colour.random(),
-                #        timestamp=datetime.datetime.utcnow()
-                #    )
-#
-                #    async def OptionButtonCallback(interaction:discord.Interaction):
-#
-                #        if interaction.custom_id == 0:
-                #                print()
-#
-                #    for n in range(0,quantity*2):
-                #        if n % 2 == 0:
-#
-                #            OptionButton = discord.ui.Button(
-                #                    style=discord.ButtonStyle.gray,
-                #                    label=SettingModal.children[n].value,
-                #                    emoji=SettingModal.children[n+1].value,
-                #                    custom_id=n
-                #                )
-#
-                #            ModalView.add_item(OptionButton)
-#
-                #    await interaction.response.edit_message(embed=ModalEmbed,view=ModalView)
-#
-                #    for n in range(1,quantity+1):
-                #        option = discord.ui.InputText(
-                #                style=discord.InputTextStyle.short,
-                #                label=f"選項{n}",
-                #                placeholder=f"填入選項{n}的名稱",
-                #                max_length=18,
-                #                custom_id=str(n+10)
-                #            )
-#
-                #        SettingModal.add_item(option)
-#
-                #        emoji = discord.ui.InputText(
-                #                style=discord.InputTextStyle.short,
-                #                label=f"選項{n}的表情符號",
-                #                placeholder=f"填入選項{n}的表情符號",
-                #                max_length=1,
-                #                custom_id=str(n+20)
-                #            )
-#
-                #        SettingModal.add_item(emoji)
+            interaction.custom_id = id.replace(id[id.index("_",3):],votes)
 
-                #SettingModal.callback = SettingModalCallback
+            embed:discord.Embed = interaction.message.embeds[0]
+            embed.description = embed.description.replace()
 
-                await interaction.response.send_modal(SettingModal)
-                
-            SettingButton.callback = SettingButtonCallback
-            MainView.add_item(SettingButton)
-        
-        else:
-
-            MainEmbed = discord.Embed(
-                title="歡迎使用投票功能",
-                description="使用方法: g!vote `主題` `幾個選項`",
-                color=discord.Colour.random(),
-            )
-
-            MainView = discord.ui.View(timeout=None)
-        
-        await ctx.send(embed=MainEmbed,view=MainView)
+            interaction.response.edit_message()
 
     @commands.command()
     async def getguild(self,ctx):

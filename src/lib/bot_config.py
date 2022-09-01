@@ -56,8 +56,7 @@ ganyuCommands = {
             color=discord.Colour.random()
         ),
         [
-            ["dice `int` ", "讓這個機器人幫你骰骰子"],
-            ["rpg", "RPG系統(製作中 暫不開放)"],
+            ["dice `數字` ", "讓這個機器人幫你骰骰子"],
             ["mora","猜拳"],
             ["luck","幸運值"],
             ["spank","拍屁屁"]
@@ -97,6 +96,7 @@ ganyuCommands = {
         [
             ["ban `成員`", "停權其他用戶"],
             ["kick `成員`", "踢出其他用戶"],
+            ["clear `數量`", "清理訊息"],
             ["addrole `成員` `身分組`", "新增身分組至一名用戶" ]
         ]
     ),

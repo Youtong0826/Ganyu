@@ -144,7 +144,7 @@ async def Clean(ctx:discord.ApplicationContext,limit:int,type="slash"):
     if limit != None:
 
         if ctx.author.guild_permissions.manage_messages:
-            if limit <= 0:ctx.response.send_message("無法清理小於或等於0則訊息",ephemeral=True)
+            if limit <= 0:await ctx.response.send_message("無法清理小於或等於0則訊息",ephemeral=True)
 
             def is_excessive(msg):
                 return limit < 30

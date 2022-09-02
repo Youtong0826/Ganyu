@@ -40,10 +40,12 @@ class ErrorEvent(CogExtension):
 
         embed = discord.Embed(
             title="Error",
-            description=f"user:{user.name}(id:{user.id}) \nserver:{guild.name}(id:**{guild.id}**) \nchannel:{channel.name}(id:{channel.id})"
+            description=f"**User:** `{user.name}` ,**id:** `{user.id}`\
+                \n**Guild:** `{guild.name}` ,**id**: `{guild.id}`\
+                \n**Channel:** `{channel.name}` ,**id:** `{channel.id}`"
         )
 
-        embed.add_field(name="Exception",value=exception)
+        embed.add_field(name="Exception",value=f"```{exception}```")
 
         await self.bot.get_channel(993540019484622848).send(embed=embed)
         ErrorBGM(ctx,exception)

@@ -5,11 +5,11 @@ from lib.bot_config import ganyuCommands
 from command_lib import help
 import discord
 
-class Help(CogExtension):
 
+class Help(CogExtension):
     @commands.command()
     async def help(self, ctx):
-        await help.Help(ctx,type="command")
+        await help.Help(ctx)
 
     @commands.command()
     async def fun(self, ctx):
@@ -35,6 +35,7 @@ class Help(CogExtension):
     async def tool(self, ctx):
         await ctx.send(embed=ganyuCommands["tool"])
         SendBGM(ctx)
+
 
 def setup(bot):
     bot.add_cog(Help(bot))

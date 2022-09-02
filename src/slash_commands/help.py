@@ -4,11 +4,11 @@ from core.classes import CogExtension
 from lib.function import SendBGM
 from lib.bot_config import ganyuCommands
 
-class SlashHelp(CogExtension):
 
+class SlashHelp(CogExtension):
     @discord.application_command(description="查看指令清單")
     async def help(self, ctx):
-        await help.Help(ctx,"slash")
+        await help.Help(ctx)
 
     @discord.application_command(description="娛樂指令清單")
     async def fun(self, ctx):
@@ -34,6 +34,7 @@ class SlashHelp(CogExtension):
     async def tool(self, ctx):
         await ctx.respond(embed=ganyuCommands["tool"])
         SendBGM(ctx)
+
 
 def setup(bot):
     bot.add_cog(SlashHelp(bot))

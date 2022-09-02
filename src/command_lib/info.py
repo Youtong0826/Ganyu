@@ -475,14 +475,13 @@ async def Invites(ctx:discord.ApplicationContext,type="slash"):
         ":keycap_ten:"
     ]
 
-    
 
     inviters = []
         
-    [invites.remove(n) if n.inviter in inviters else inviters.append(n.inviter) for n in invites]
+    for n in invites: invites.remove(n) if n.inviter in inviters else inviters.append(n.inviter) 
 
     for index, invite in enumerate(invites):
-        context += f"{numbers[index]} {str(invite.inviter)[:-5]} 邀請 {invite.uses} 人\n\n" if index < 10 else ...
+        if index < 10:context += f"{numbers[index]} {str(invite.inviter)[:-5]} 邀請 {invite.uses} 人\n\n" 
 
     embed.description = context
     

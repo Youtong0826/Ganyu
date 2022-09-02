@@ -294,3 +294,8 @@ async def Gay(ctx,member,type="slash"):
 
 
     await ctx.respond(embed=embed)
+
+async def GuessNum(ctx,number):
+    answer = random.randint(0,100)
+
+    

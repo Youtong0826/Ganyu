@@ -190,9 +190,8 @@ async def Clean(ctx:discord.ApplicationContext,limit:int,type="slash"):
                 no_button.callback = button_response
                 view = discord.ui.View(yes_button,no_button)
 
-                await ctx.respond(f"請問您確定要刪除**{limit}**則訊息嗎?",view=view)
-                return
-
+                await ctx.respond(f"請問您確定要刪除**{limit}**則訊息嗎?",view=view);return
+                
         else:
 
             embed = discord.Embed(
@@ -217,8 +216,7 @@ async def Clean(ctx:discord.ApplicationContext,limit:int,type="slash"):
         irt = await ctx.respond(embed=embed)
 
     if deleted :
-        await asyncio.sleep(5)
-        try:await irt.delete_original_message()
-        except:await msg.delete()
+        try:await irt.delete_original_message(delay=5.0)
+        except:await msg.delete(delay=5.0)
 
         await ctx.respond(embed=embed)

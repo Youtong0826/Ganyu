@@ -6,8 +6,7 @@ class InteractionEvent(CogExtension):
 
     @commands.Cog.listener()
     async def on_interaction(self,interaction:discord.Interaction):
-        if interaction.is_command():
-            await self.bot.process_application_commands(interaction);return
+        if interaction.is_command():return
 
         if interaction.custom_id.endswith("ping"):
             roles = interaction.user.guild.roles

@@ -39,7 +39,7 @@ class ErrorEvent(CogExtension):
         channel = ctx.channel
 
         embed = discord.Embed(
-            title="Error",
+            title="Error Message",
             description=f"**User:** `{user.name}` ,**id:** `{user.id}`\
                 \n**Guild:** `{guild.name}` ,**id**: `{guild.id}`\
                 \n**Channel:** `{channel.name}` ,**id:** `{channel.id}`",

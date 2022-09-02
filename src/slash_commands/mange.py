@@ -1,9 +1,9 @@
 import discord
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from command_lib.manage import mange_member,Clean ,Addrole
 
 
-class SlashMange(Cog_ExtenSion):
+class SlashMange(CogExtension):
 
     @discord.application_command(description="踢出成員")
     async def kick(self, ctx, member: discord.Option(discord.Member,"選擇成員"), *, reason=None):

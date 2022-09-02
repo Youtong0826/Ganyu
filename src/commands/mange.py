@@ -1,9 +1,9 @@
 import discord
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from command_lib import manage
 
-class Mange(Cog_ExtenSion):
+class Mange(CogExtension):
 
     @commands.command()
     async def kick(self, ctx, member: discord.Member, *, reason=None):

@@ -1,9 +1,9 @@
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from discord.ext import commands
 from command_lib import fun
 import discord
 
-class Fun(Cog_ExtenSion):
+class Fun(CogExtension):
 
     @commands.command()
     async def dice(self, ctx, number: int = None):

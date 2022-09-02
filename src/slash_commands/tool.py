@@ -1,11 +1,11 @@
 from lib.function import translate, SendBGM, bullshit, calculator
 from lib.bot_config import bot_icon_url 
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from command_lib import tool
 import datetime
 import discord
 
-class SlashTool(Cog_ExtenSion):
+class SlashTool(CogExtension):
     
     @discord.application_command(description = "將任何語言翻譯成中文!")
     async def translate(self,ctx,language : discord.Option(str,"選擇要翻譯成的語言",choices=["繁中","簡中","英語","日語","印尼語"]),*,text=None):

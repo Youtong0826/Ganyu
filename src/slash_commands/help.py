@@ -1,10 +1,10 @@
 import discord
 from command_lib import help
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from lib.function import SendBGM
 from lib.bot_config import ganyuCommands
 
-class SlashHelp(Cog_ExtenSion):
+class SlashHelp(CogExtension):
 
     @discord.application_command(description="查看指令清單")
     async def help(self, ctx):

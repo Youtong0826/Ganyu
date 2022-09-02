@@ -1,11 +1,11 @@
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from lib.function import mustFieldEmbed, SendBGM
 from lib.bot_config import ganyuCommands
 from command_lib import help
 import discord
 
-class Help(Cog_ExtenSion):
+class Help(CogExtension):
 
     @commands.command()
     async def help(self, ctx):

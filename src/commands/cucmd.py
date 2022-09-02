@@ -3,11 +3,11 @@ import discord
 import datetime
 from command_lib import other
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from lib.bot_config import messages
 from lib.function import SendBGM
 
-class Cucmd(Cog_ExtenSion):
+class Cucmd(CogExtension):
 
     @commands.command()
     async def send(self,ctx,member :discord.Member = None):

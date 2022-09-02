@@ -1,5 +1,5 @@
 from discord.ext import commands
 
-class Cog_ExtenSion(commands.Cog):
+class CogExtension(commands.Cog):
     def __init__(self, bot):
         self.bot : commands.Bot = bot

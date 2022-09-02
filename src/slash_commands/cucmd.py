@@ -3,7 +3,7 @@ import discord
 import datetime
 import json
 import requests
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from lib.function import SendBGM
 
 imageIdList = []
@@ -23,7 +23,7 @@ for i in range(3):
             imageInfo["url"] = f'{str(i["id"])}'
         imageIdList.append(imageInfo)
 
-class SlashCucmd(Cog_ExtenSion):
+class SlashCucmd(CogExtension):
 
     @discord.application_command(description="讓機器人模仿你說的話!")
     async def say(self, ctx : discord.ApplicationContext, *, msg : discord.Option(str,"訊息")):

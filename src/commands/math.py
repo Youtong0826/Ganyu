@@ -1,8 +1,8 @@
 import  discord , datetime , ast
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 
-class Math(Cog_ExtenSion):
+class Math(CogExtension):
 
     @commands.command()
     async def fac(

@@ -2,12 +2,12 @@ import random
 import discord
 import datetime
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from lib.bot_config import bot_icon_url
 from lib.function import SendBGM
 from command_lib import fun
 
-class SlashFun(Cog_ExtenSion):
+class SlashFun(CogExtension):
 
     @discord.application_command(description="骰骰子")
     async def dice(self, ctx,
@@ -200,6 +200,42 @@ class SlashFun(Cog_ExtenSion):
     @discord.application_command(description="gay指數")
     async def gay(self,ctx,member:discord.Option(discord.Member,"選擇成員") = None):
         await fun.Gay(ctx,member,"slash")
+
+    @discord.application_command()
+    async def guess(self,ctx:discord.ApplicationContext,number:discord.Option(int,"輸入一個數字")):
+        times = 0
+        leave = False
+        answer = random.randint(0,100)
+        
+        async def run_game():
+            nonlocal times
+            print(answer)
+            await ctx.respond(f"您輸入了{number}遊戲已開始 閒置超過30秒或是輸入leave即可終止")
+
+            while True:
+                times += 1
+                if number == answer: await ctx.respond(f"你贏了!!答案是{answer} 你總共猜了{times}次");break
+
+                else: await ctx.send("提示:再大一點") if number < answer else await ctx.send("提示:再小一點")
+
+                def check(msg:discord.Message):
+                    nonlocal number, leave
+
+                    if msg.author == ctx.author:
+                        if msg.content == "leave": leave = True
+
+                        try:number = int(msg.content)
+                        except:pass
+
+                        return True
+        
+                await self.bot.wait_for("message",check=check,timeout=30)
+                if leave:break
+            
+            await ctx.send("遊戲結束")
+
+        await run_game()
+        
 
 def setup(bot):
     bot.add_cog(SlashFun(bot))

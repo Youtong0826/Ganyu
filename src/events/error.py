@@ -25,9 +25,27 @@ class ErrorEvent(CogExtension):
             inline=False
         )
 
-        ErrorBGM(ctx,error)
+        await self.bot.get_channel(993540019484622848).send(embed=embed)
+
         error_msg = await ctx.send(embed=embed)
         await error_msg.delete(delay=5.0)
+
+        ErrorBGM(ctx,error)
+
+    @commands.Cog.listener()
+    async def on_application_command_error(self,ctx:discord.ApplicationContext, exception):
+        guild = ctx.author.guild
+        user = ctx.author
+        channel = ctx.channel
+
+        embed = discord.Embed(
+            title="Error",
+            description=f"user:{user.name}(id:{user.id}) \nserver:{guild.name}(id:**{guild.id}**) \nchannel:{channel.name}(id:{channel.id})"
+        )
+
+        embed.add_field(name="Exception",value=exception)
+
+        await self.bot.get_channel(993540019484622848).send(embed=embed)
 
 def setup(bot):
     bot.add_cog(ErrorEvent(bot))

@@ -46,6 +46,7 @@ class ErrorEvent(CogExtension):
         embed.add_field(name="Exception",value=exception)
 
         await self.bot.get_channel(993540019484622848).send(embed=embed)
+        ErrorBGM(ctx,exception)
 
 def setup(bot):
     bot.add_cog(ErrorEvent(bot))

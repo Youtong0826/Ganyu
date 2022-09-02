@@ -7,74 +7,61 @@ import os
 
 intents = discord.Intents.all()
 
-intents.message_content = False
+intents.message_content = True
 intents.presences = False
 
 bot = commands.Bot(
     command_prefix='g!',
-    intents= intents
+    intents=intents
 )
 
 bot.remove_command("help")
 
-print('Start load commands file')
-for Filename in os.listdir('src/commands'):
-    if Filename.endswith(".py"):
-        bot.load_extension(f"commands.{Filename[:-3]}")
-        print(f'-- loaded "{Filename}"')
+def load_extension(folder:str,is_notice:bool=True):
+    if is_notice:print(f"Start load {folder}")
 
-print('Start load slash_commands file')
-for Filename in os.listdir('src/slash_commands'):
-    if Filename.endswith(".py"):
-        bot.load_extension(f"slash_commands.{Filename[:-3]}")
-        print(f'-- loaded "{Filename}"')
+    for Filename in os.listdir(f'src/{folder}'):
+        if Filename.endswith(".py"):
+            bot.load_extension(f"{folder}.{Filename[:-3]}")
+            if is_notice:print(f'-- loaded "{Filename}"')
+
+for folder in ["commands","slash_commands","events"]: load_extension(folder) 
 
 @bot.command()
-async def load(ctx, extension):
-    if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.load_extension(f"command_lib.{extension}")
-        embed = discord.Embed(
-            title=f"Loaded - {extension} - Cog",
-            color=0x5cff8d
-        )
-    else:
-        embed = discord.Embed(
-            title="此為開發者專屬功能",
-            color=0x5cff8d
-        )
+async def load(ctx:discord.ApplicationContext, folder, extension):
+    if ctx.author.id != 611118369474740244 or 856041155341975582: return
+
+    bot.load_extension(f"{folder}.{extension}")
+    embed = discord.Embed(
+        title=f"Loaded - {folder}.{extension} - Cog",
+        color=0x5cff8d
+    )
+
     await ctx.send(embed=embed)
     SendBGM(ctx)
 
 @bot.command()
-async def unload(ctx, extension):
-    if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.unload_extension(f"command.{extension}")
-        embed = discord.Embed(
-            title=f"Unloaded - {extension} - Cog",
-            color=0x5cff8d
-        )
-    else:
-        embed = discord.Embed(
-            title="此為開發者專屬功能",
-            color=0x5cff8d
-        )
+async def unload(ctx, folder, extension):
+    if ctx.author.id != 611118369474740244 or 856041155341975582: return
+    
+    bot.load_extension(f"{folder}.{extension}")
+    embed = discord.Embed(
+        title=f"Unloaded - {folder}.{extension} - Cog",
+        color=0x5cff8d
+    )
     await ctx.send(embed=embed)
     SendBGM(ctx)
 
 @bot.command()
-async def reload(ctx, extension):
-    if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.reload_extension(f"command_lib.{extension}")
-        embed = discord.Embed(
-            title=f"Reloaded - {extension} - Cog",
-            color=0x5cff8d
-        )
+async def reload(ctx, folder, extension):
+    if ctx.author.id != 611118369474740244 or 856041155341975582: return
+    
+    bot.load_extension(f"{folder}.{extension}")
+    embed = discord.Embed(
+        title=f"Reloaded - {folder}.{extension} - Cog",
+        color=0x5cff8d
+    )
 
-    else:
-        embed = discord.Embed(
-            title="此為開發者專屬功能",
-            color=0x5cff8d
-        )
     await ctx.send(embed=embed)
     SendBGM(ctx)
 
@@ -171,104 +158,9 @@ async def on_ready():
     while True:
         await run_activity_loop()
 
-@bot.event
-async def on_interaction(interaction:discord.Interaction):
-    if interaction.is_command():
-        await bot.process_application_commands(interaction) 
-        return
-
-    if interaction.custom_id[3:7] == "ping":
-        roles = interaction.user.guild.roles
-        if interaction.custom_id == "PA_ping":
-            for role in roles :
-                if role.id == 962261741050413096:
-                    if role in interaction.user.roles:
-                        await interaction.user.remove_roles(role)
-                        await interaction.response.send_message(content=f"已成功移除身分組✅",ephemeral=True)
-                    else:
-                        await interaction.user.add_roles(role)
-                        await interaction.response.send_message(content=f"已成功領取身分組✅",ephemeral=True)
-        if interaction.custom_id == "Bu_ping":  
-        
-            for role in roles :
-                if role.id == 1009478887140511915:
-                    if role in interaction.user.roles:
-                        await interaction.user.remove_roles(role)
-                        await interaction.response.send_message(content=f"已成功移除身分組✅",ephemeral=True)
-                    else:
-                        await interaction.user.add_roles(role)
-                        await interaction.response.send_message(content=f"已成功領取身分組✅",ephemeral=True)
-
-@bot.event
-async def on_message(message : discord.Message):
-    if message.author == bot.user or message.author.bot : return
-
-    else:
-        if bot.user in message.mentions:
-            response = random.choice(["hi","早安","找我嗎?","幹嘛ping我@@",".w."])
-            await message.channel.send(response)
-
-    await bot.process_commands(message)
-
-@bot.event
-async def on_command_error(ctx : discord.ApplicationContext, error):
-    zhCN = translate(str(error), "zh-TW")
-
-    if zhCN.endswith("。"):
-        zhCN = zhCN[:-1]
-
-    embed = discord.Embed(title="錯誤",description="以下為回報內容",color=discord.Color.red())
-
-    embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
-
-    embed.add_field(name="翻譯後",value=f"```{zhCN}```",inline=False)
-
-    embed.add_field(
-        name="應對措施",
-        value="如果Bot或是指令發生錯誤的話可使用 `g!report` 來回報給作者們!\n或是給個建議也可以喔! 我們非常需要您的建議!",
-        inline=False
-    )
-
-    ErrorBGM(ctx,error)
-    await ctx.send(embed=embed)
-
-@bot.event
-async def on_member_join(member: discord.Member):
-    def join_message():
-
-        embed = discord.Embed(
-            title=f"{member.name} 降落在了 {member.guild.name}!",
-            description=f"歡迎! {member.mention} 您是第本伺服器第 **{member.guild.member_count}** 個用戶，請先查看 {member.guild.rules_channel.mention} 再進行其他操作喔",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
-        )
-
-        if member.avatar == None:
-            thumbnail = member.default_avatar
-
-        else:
-            thumbnail = member.avatar
-
-        embed.set_thumbnail(url=thumbnail)
-
-        embed.set_footer(
-            text="成員加入", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"
-        )
-
-        return embed
-
-    if member.guild.id == 719198103227465738:
-        channel = bot.get_channel(719521057286914129)
-        await channel.send(embed=join_message())
-
-    elif member.guild.id == 956614306345123923:
-        channel = bot.get_channel(957157665526673419)
-        [await member.add_roles() if role.id == 962261737602703391 else ... for role in member.guild.roles]
-        await channel.send(embed=join_message())
-
 if __name__ == "__main__":
-    bot.run(os.environ.get("TOKEN"))
-    #bot.run()
-    #"OTg3NjY0MTUxNjI1MjAzNzcy.
-    #GgqcF2.TB4P215qCpVP6Pr043q
-    #e7HMmIqLE0FqyvYLRuM"
+    #bot.run(os.environ.get("TOKEN"))
+    bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GgqcF2.TB4P215qCpVP6Pr043qe7HMmIqLE0FqyvYLRuM")
+    #
+    #
+    #

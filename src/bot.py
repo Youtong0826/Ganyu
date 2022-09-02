@@ -1,13 +1,12 @@
 import asyncio
-from lib.function import translate, SendBGM, ErrorBGM
+from lib.function import SendBGM
 from discord.ext import commands
-import discord , datetime
-import random
+import discord
 import os
 
 intents = discord.Intents.all()
 
-intents.message_content = True
+intents.message_content = False
 intents.presences = False
 
 bot = commands.Bot(
@@ -159,8 +158,8 @@ async def on_ready():
         await run_activity_loop()
 
 if __name__ == "__main__":
-    #bot.run(os.environ.get("TOKEN"))
-    bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GgqcF2.TB4P215qCpVP6Pr043qe7HMmIqLE0FqyvYLRuM")
+    bot.run(os.environ.get("TOKEN"))
+    #bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GgqcF2.TB4P215qCpVP6Pr043qe7HMmIqLE0FqyvYLRuM")
     #
     #
     #

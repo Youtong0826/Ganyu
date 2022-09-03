@@ -1,10 +1,11 @@
+from os import name
 import random
 import discord
 import datetime
 from discord.ext import commands
 from core.classes import CogExtension
 from lib.bot_config import bot_icon_url
-from lib.function import SendBGM
+from lib.function import SendBGM,get_time
 from command_lib import fun
 
 class SlashFun(CogExtension):
@@ -201,38 +202,77 @@ class SlashFun(CogExtension):
     async def gay(self,ctx,member:discord.Option(discord.Member,"選擇成員") = None):
         await fun.Gay(ctx,member,"slash")
 
-    #@discord.application_command()
-    async def guess(self,ctx:discord.ApplicationContext,number:discord.Option(int,"輸入一個數字")):
-        times = 0
-        leave = False
-        answer = random.randint(0,100)
+    @discord.application_command()
+    async def guess(self,
+        ctx:discord.ApplicationContext,
+        range:discord.Option(str,"輸入數字的範圍(起始必須小於結束 以XX~XX表示)",name="範圍",max_length=12),
+        number:discord.Option(int,"輸入一個數字",name="數字")
+    ):
+        range = range.split("~") if "~" in range else range.split("-")
+        range_start = int(range[0])
+        range_end = int(range[1])
+
+        if not range or len(range) < 2 or range_start > range_end: await ctx.respond("**發生錯誤:**範圍的輸入格式不對!");return
+
+        data = {}
+        default_data = {
+            "answer":random.randint(range_start,range_end),
+            "start_time":get_time(),
+            "input_number":number,
+            "show_data":False,
+            "is_leave":False,
+            "end_time":None,
+            "times":1
+        }
+
+        if ctx.author.id not in data.keys() or data[ctx.author.id] is {}:data[ctx.author.id] = default_data
+        else: ctx.respond("您尚未退出當前的遊戲 請先退出您正在進行得遊戲在開始新的遊戲")
         
         async def run_game():
-            nonlocal times
-            print(answer)
-            await ctx.respond(f"您輸入了{number}遊戲已開始 閒置超過30秒或是輸入leave即可終止")
+            user_data = data[ctx.author.id]
+
+            await ctx.respond(f"**遊戲已開始** 玩家 `{ctx.author}` 輸入了 `{number}` 範圍為 `{range_start}~{range_end}`\
+                \n**遊戲說明:** 閒置超過 `30秒` 或是輸入 `leave` 即可終止")
 
             while True:
-                times += 1
-                if number == answer: await ctx.respond(f"你贏了!!答案是{answer} 你總共猜了{times}次");break
+                
+                if user_data["input_number"] == user_data["answer"]:
+                    await ctx.respond(f"**你猜中了!!** 答案是 `{user_data['answer']}` ")
+                    user_data["end_time"] = get_time();break
 
-                else: await ctx.send("提示:再大一點") if number < answer else await ctx.send("提示:再小一點")
+                else:await ctx.send(f"**提示:** `{ctx.author}` 再大一點") if user_data["input_number"] < user_data["answer"] \
+                    else await ctx.send(f"**提示:** `{ctx.author}` 再小一點")
 
                 def check(msg:discord.Message):
-                    nonlocal number, leave
+                    user_data["times"] += 1
 
-                    if msg.author == ctx.author:
-                        if msg.content == "leave": leave = True
+                    if msg.author == ctx.author and msg.channel == ctx.channel:
+                        if "/show_data" in msg.content and msg.author.id == 856041155341975582:
+                            user_data["show_data"] = True if "true" in msg.content else False; return False
 
-                        try:number = int(msg.content)
-                        except:pass
+                        elif msg.content == "leave": user_data["is_leave"] = True; return True
 
-                        return True
+                        try:user_data["input_number"] = int(msg.content);return True
+                        except:return False
         
                 await self.bot.wait_for("message",check=check,timeout=30)
-                if leave:break
+                if user_data["is_leave"]:await ctx.send(f"玩家 `{ctx.author}` **已退出遊戲**");del data[ctx.author.id];break
+                if user_data["show_data"]:await ctx.send(f"**警告:**此為密技 僅限特殊人物使用\n```{user_data}```")
+
+            if not user_data["end_time"]:return
+
+            start_time = int(user_data["start_time"].strftime("%M"))*60 + int(user_data["start_time"].strftime("%S"))
+            end_time = int(user_data["end_time"].strftime("%M"))*60 + int(user_data["end_time"].strftime("%S"))
+
+            time = end_time - start_time
+            min = str(time//60)
+            sec = str(time%60)
+
+
+            if len(sec) != 2: sec = "0" + sec
+            time = f"{min}:{sec}"
             
-            await ctx.send("遊戲結束")
+            await ctx.send(f"**遊戲結束** 玩家 `{ctx.author}` 總共猜了 `{user_data['times']}` 次 耗時 `{time}` ")
 
         await run_game()
         

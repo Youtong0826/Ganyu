@@ -152,3 +152,9 @@ def getGenshininfo(uid,server):
     data = json.loads(result.text)["data"]
 
     return data
+
+def get_time():
+    return datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
+
+def operate_time(datetime_a:datetime.datetime,datetime_b:datetime.datetime):
+    ...

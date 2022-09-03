@@ -162,7 +162,7 @@ async def Math(ctx,formula,type="slash"):
             await ctx.respond(embed=embed) 
 
     else:
-        default_value = "                                        "#don't edit!
+        default_value = "                                        " #don't edit it!
 
         calculate_value = ""
 

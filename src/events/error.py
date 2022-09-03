@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 from lib.function import translate,ErrorBGM
 from core.classes import CogExtension
@@ -5,6 +6,22 @@ from discord.ext import commands
 import discord
 
 class ErrorEvent(CogExtension):
+    async def send_background_message(self,ctx,exception):
+        guild = ctx.author.guild
+        user = ctx.author
+        channel = ctx.channel
+
+        embed = discord.Embed(
+            title="Error Message",
+            description=f"**User:** `{user.name}` **id:** `{user.id}`\
+                \n**Guild:** `{guild.name}` **id**: `{guild.id}`\
+                \n**Channel:** `{channel.name}` **id:** `{channel.id}`",
+            color=discord.Colour.nitro_pink(),
+        )
+
+        embed.add_field(name="Exception",value=f"```{exception}```")
+    
+        await self.bot.get_channel(993540019484622848).send(embed=embed)
 
     @commands.Cog.listener()
     async def on_command_error(self,ctx : discord.ApplicationContext, error):
@@ -25,31 +42,18 @@ class ErrorEvent(CogExtension):
             inline=False
         )
 
-        await self.bot.get_channel(993540019484622848).send(embed=embed)
-
         error_msg = await ctx.send(embed=embed)
         await error_msg.delete(delay=5.0)
 
+        await self.send_background_message(ctx,error)
         ErrorBGM(ctx,error)
 
     @commands.Cog.listener()
-    async def on_application_command_error(self,ctx:discord.ApplicationContext, exception):
-        guild = ctx.author.guild
-        user = ctx.author
-        channel = ctx.channel
+    async def on_application_command_error(self,ctx:discord.ApplicationContext, exception:discord.errors.ApplicationCommandInvokeError):
+        if isinstance(exception.original,asyncio.TimeoutError):
+            if ctx.command == "guess": await ctx.respond(f"`{ctx.author}` **遊戲已逾時**");return
 
-        embed = discord.Embed(
-            title="Error Message",
-            description=f"**User:** `{user.name}` **id:** `{user.id}`\
-                \n**Guild:** `{guild.name}` **id**: `{guild.id}`\
-                \n**Channel:** `{channel.name}` **id:** `{channel.id}`",
-            color=discord.Colour.nitro_pink(),
-        )
-
-        embed.add_field(name="Exception",value=f"```{exception}```")
-    
-
-        await self.bot.get_channel(993540019484622848).send(embed=embed)
+        await self.send_background_message(ctx,exception)
         ErrorBGM(ctx,exception)
 
 def setup(bot):

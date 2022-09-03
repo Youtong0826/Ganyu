@@ -43,7 +43,7 @@ async def load(ctx:discord.ApplicationContext, folder, extension):
 async def unload(ctx, folder, extension):
     if ctx.author.id != 611118369474740244 or 856041155341975582: return
     
-    bot.load_extension(f"{folder}.{extension}")
+    bot.unload_extension(f"{folder}.{extension}")
     embed = discord.Embed(
         title=f"Unloaded - {folder}.{extension} - Cog",
         color=0x5cff8d
@@ -53,9 +53,9 @@ async def unload(ctx, folder, extension):
 
 @bot.command()
 async def reload(ctx, folder, extension):
-    if ctx.author.id != 611118369474740244 or 856041155341975582: return
+    if ctx.author.id not in [611118369474740244, 856041155341975582]: return
     
-    bot.load_extension(f"{folder}.{extension}")
+    bot.reload_extension(f"{folder}.{extension}")
     embed = discord.Embed(
         title=f"Reloaded - {folder}.{extension} - Cog",
         color=0x5cff8d
@@ -159,7 +159,7 @@ async def on_ready():
 
 if __name__ == "__main__":
     bot.run(os.environ.get("TOKEN"))
-    #bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GgqcF2.TB4P215qCpVP6Pr043qe7HMmIqLE0FqyvYLRuM")
-    #
-    #
-    #
+    #bot.run()
+    #"OTg3NjY0MTUxNjI1MjAzNzcy.
+    #GdU9gy.fIR-CifMuDJ_
+    #ifTO4GTLU-ZBopm5-Nc02sc18k"

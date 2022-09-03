@@ -1,10 +1,11 @@
 import discord
 import random
 import datetime
+from discord.ext import commands
 from lib.function import SendBGM
 from lib.bot_config import bot_icon_url
 
-async def Dice(mode,number,ctx,type="slash"):
+async def Dice(mode,number,ctx):
 
     mode_dict = {
         "賭博模式" : "limit",
@@ -88,9 +89,8 @@ async def Dice(mode,number,ctx,type="slash"):
 
     SendBGM(ctx)
     
-async def Mora(ctx,type="slash"):
-    moras = ["剪刀","石頭","布"]
-    moraed = random.choice(moras)
+async def Mora(ctx):
+    moraed = random.choice(moras = ["剪刀","石頭","布"])
 
     MainEmbed = discord.Embed(
         title = "這次想出什麼呢?",
@@ -194,10 +194,10 @@ async def Mora(ctx,type="slash"):
     MainView.add_item(RockButton)
     MainView.add_item(ClothButton)
 
-    if type == "command":
+    if isinstance(ctx, commands.Context):
         await ctx.send(embed=MainEmbed)
 
-    elif type == "slash":
+    elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=MainEmbed)
 
     SendBGM(ctx)

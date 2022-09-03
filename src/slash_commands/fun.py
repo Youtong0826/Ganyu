@@ -201,7 +201,7 @@ class SlashFun(CogExtension):
     async def gay(self,ctx,member:discord.Option(discord.Member,"選擇成員") = None):
         await fun.Gay(ctx,member,"slash")
 
-    @discord.application_command()
+    #@discord.application_command()
     async def guess(self,ctx:discord.ApplicationContext,number:discord.Option(int,"輸入一個數字")):
         times = 0
         leave = False

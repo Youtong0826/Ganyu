@@ -1,4 +1,4 @@
-import asyncio
+from datetime import datetime
 from lib.function import translate,ErrorBGM
 from core.classes import CogExtension
 from discord.ext import commands
@@ -40,13 +40,14 @@ class ErrorEvent(CogExtension):
 
         embed = discord.Embed(
             title="Error Message",
-            description=f"**User:** `{user.name}` ,**id:** `{user.id}`\
-                \n**Guild:** `{guild.name}` ,**id**: `{guild.id}`\
-                \n**Channel:** `{channel.name}` ,**id:** `{channel.id}`",
-            color=discord.Colour.nitro_pink()
+            description=f"**User:** `{user.name}` **id:** `{user.id}`\
+                \n**Guild:** `{guild.name}` **id**: `{guild.id}`\
+                \n**Channel:** `{channel.name}` **id:** `{channel.id}`",
+            color=discord.Colour.nitro_pink(),
         )
 
         embed.add_field(name="Exception",value=f"```{exception}```")
+    
 
         await self.bot.get_channel(993540019484622848).send(embed=embed)
         ErrorBGM(ctx,exception)

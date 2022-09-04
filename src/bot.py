@@ -10,7 +10,6 @@ intents.message_content = False
 intents.presences = False
 
 bot = commands.Bot(
-    command_prefix='g!',
     intents=intents
 )
 
@@ -28,7 +27,7 @@ for folder in ["commands","slash_commands","events"]: load_extension(folder)
 
 @bot.command()
 async def load(ctx:discord.ApplicationContext, folder, extension):
-    if ctx.author.id != 611118369474740244 or 856041155341975582: return
+    if ctx.author.id not in [611118369474740244, 856041155341975582]: return
 
     bot.load_extension(f"{folder}.{extension}")
     embed = discord.Embed(
@@ -41,7 +40,7 @@ async def load(ctx:discord.ApplicationContext, folder, extension):
 
 @bot.command()
 async def unload(ctx, folder, extension):
-    if ctx.author.id != 611118369474740244 or 856041155341975582: return
+    if ctx.author.id not in [611118369474740244, 856041155341975582]: return
     
     bot.unload_extension(f"{folder}.{extension}")
     embed = discord.Embed(
@@ -103,7 +102,8 @@ async def on_ready():
         names = [
             f"/help | {len(bot.guilds)} 個伺服器",
             f"/help | {len(bot.users)} 個用戶",
-            f"/help | ping {round(bot.latency * 1000)} ms"
+            f"/help | ping {round(bot.latency * 1000)} ms",
+            f"/help | no message intent sad :("
         ]
 
         ACTIVITY_OPTION = {

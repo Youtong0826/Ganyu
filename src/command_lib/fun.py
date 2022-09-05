@@ -81,10 +81,10 @@ async def Dice(mode,number,ctx):
             inline=False
         )
 
-    if type == "command":
+    if isinstance(ctx,commands.Context):
         await ctx.send(embed=embed)
 
-    elif type == "slash":
+    elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
     SendBGM(ctx)

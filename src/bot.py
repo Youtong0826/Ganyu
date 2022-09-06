@@ -172,8 +172,8 @@ async def on_ready():
         await run_activity_loop()
 
 if __name__ == "__main__":
-    #bot.run(os.environ.get("TOKEN"))
-    bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GdU9gy.fIR-CifMuDJ_ifTO4GTLU-ZBopm5-Nc02sc18k")
+    bot.run(os.environ.get("TOKEN"))
+    #bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GdU9gy.fIR-CifMuDJ_ifTO4GTLU-ZBopm5-Nc02sc18k")
     #
     #
     #

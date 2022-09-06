@@ -1,6 +1,6 @@
 import discord
 from core.classes import CogExtension
-from command_lib.manage import mange_member,Clean ,Addrole
+from command_lib.manage import mange_member,clean ,addrole
 
 
 class SlashMange(CogExtension):
@@ -15,8 +15,8 @@ class SlashMange(CogExtension):
                 type="kick",
                 title="從這個伺服器消失了!",
                 reason=reason,
-                CmdType="slash"
             )
+
         else:
             embed = discord.Embed(
                 title="/kick 踢除成員",
@@ -35,8 +35,8 @@ class SlashMange(CogExtension):
                 type="ban",
                 title="從這個伺服器消失了!",
                 reason=reason,
-                CmdType="slash"
             )
+
         else:
             embed = discord.Embed(
                 title="/ban 停權成員",
@@ -47,11 +47,11 @@ class SlashMange(CogExtension):
 
     @discord.application_command(description="新增身分組至另一名成員!")
     async def addrole(self,ctx,member : discord.Option(discord.Member,"選擇成員")=None,role : discord.Option(discord.Role,"選擇身分組")=None):
-        await Addrole(ctx,member,role,"slash")
+        await addrole(ctx,member,role)
 
     @discord.application_command(description="清理訊息")
     async def clear(self,ctx,limit:discord.Option(int,"您想清除多少個訊息?")=None):
-        await Clean(ctx,limit,"slash")
+        await clean(ctx,limit)
         
 def setup(bot):
     bot.add_cog(SlashMange(bot))

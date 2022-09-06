@@ -7,23 +7,23 @@ class Fun(CogExtension):
 
     @commands.command()
     async def dice(self, ctx, number: int = None):
-        await fun.Dice(number,ctx,"command")
+        await fun.dice(number,ctx)
 
     @commands.command()
     async def mora(self,ctx):
-        await fun.Mora(ctx,"command")
+        await fun.mora(ctx)
 
     @commands.command()
     async def luck(self,ctx , member:discord.Member = None):
-        await fun.Luck(ctx,member,"command")
+        await fun.luck(ctx,member)
 
     @commands.command()
     async def spank(self, ctx, member:discord.Member = None):
-        await fun.Spank(ctx,member,"command")
+        await fun.spank(ctx,member,)
 
     @commands.command()
     async def gay(self,ctx,member:discord.Member = None):
-        await fun.Gay(ctx,member,"command")
+        await fun.gay(ctx,member)
 
 def setup(bot):
     bot.add_cog(Fun(bot))

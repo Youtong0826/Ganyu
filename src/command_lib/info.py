@@ -4,7 +4,7 @@ from lib.bot_config import bot_icon_url
 from discord.ext import commands
 from lib.function import SendBGM
 
-def ServerDict(guild:discord.Guild):
+def server_data(guild:discord.Guild):
     #主要語言: {guild.preferred_locale}
     #規則頻道: {rules_channel}",
 
@@ -177,7 +177,7 @@ def ServerDict(guild:discord.Guild):
     
     return setting
 
-def BotDict(bot:commands.Bot):
+def bot_data(bot:commands.Bot):
     embed = discord.Embed(
             title=f"{bot.user}",
             color=0x9c8ff,
@@ -230,7 +230,7 @@ def BotDict(bot:commands.Bot):
 
     return setting
 
-def UserDict(member:discord.Member):
+def user_data(member:discord.Member):
     roles = ""
     roles_count = 0
     dbot = "No"
@@ -365,7 +365,7 @@ def UserDict(member:discord.Member):
 
     return Setting
 
-async def Allinfo(ctx,bot,type="slash"):
+async def allinfo(ctx,bot):
     embed = discord.Embed(
         title="一次查看所有資訊!",
         color=discord.Colour.random(),
@@ -400,17 +400,17 @@ async def Allinfo(ctx,bot,type="slash"):
     async def mainselectcallback(interaction : discord.Interaction):
 
         if select_main.values[0] == "bot":
-            info = BotDict(bot)
+            info = bot_data(bot)
             embed = info["Embed"]
             view = info["View"]
 
         elif select_main.values[0] == "user":
-            info = UserDict(ctx.author)
+            info = user_data(ctx.author)
             embed = info["Embed"]
             view = info["View"]
 
         elif select_main.values[0] == "ser":
-            info = ServerDict(ctx.author.guild)
+            info = server_data(ctx.author.guild)
             embed = info["Embed"]
             view = info["View"]
 
@@ -421,15 +421,15 @@ async def Allinfo(ctx,bot,type="slash"):
     view_main.add_item(select_main)
     select_main.callback = mainselectcallback
     
-    if type == "command":
-        await ctx.send(embed=embed, view=view_main)
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed,view=view_main)
 
-    elif type == "slash":
-        await ctx.respond(embed=embed,viwe=view_main)
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed,view=view_main)
 
     SendBGM(ctx)
 
-async def Invite(ctx,type="slash"):
+async def invite(ctx):
     link = "[邀請連結 | invite link](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=294695021638&scope=bot%20applications.commands)"
     server_link = "[支援伺服器 | Support Server](https://discord.gg/AVCWGuuUex)"
 
@@ -438,20 +438,17 @@ async def Invite(ctx,type="slash"):
         description=f"{link}\n{server_link}",
         color=discord.Colour.random(),
     )
-
-    
-
     #embed = discord.Embed(title="🚫此功能暫未開啟",color=discord.Colour.random())
 
-    if type == "command":
+    if isinstance(ctx,commands.Context):
         await ctx.send(embed=embed)
 
-    elif type == "command":
+    elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
     SendBGM(ctx)
 
-async def Invites(ctx:discord.ApplicationContext,type="slash"):
+async def invites(ctx:discord.ApplicationContext):
     embed = discord.Embed(
         title=f"{ctx.guild.name} 的邀請榜", 
         color=discord.Color.blue()
@@ -475,7 +472,6 @@ async def Invites(ctx:discord.ApplicationContext,type="slash"):
         ":keycap_ten:"
     ]
 
-
     inviters = []
         
     for n in invites: invites.remove(n) if n.inviter in inviters else inviters.append(n.inviter) 
@@ -485,15 +481,15 @@ async def Invites(ctx:discord.ApplicationContext,type="slash"):
 
     embed.description = context
     
-    if type == "command":
+    if isinstance(ctx,commands.Context):
         await ctx.send(embed=embed)
-    
-    elif type == "slash":
+
+    elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
     SendBGM(ctx)
 
-async def Roleinfo(ctx,role,type="slash"):
+async def roleinfo(ctx,role):
     if role != None:
         role_data = {
             "🗒️ 名字" : role.mention,
@@ -572,11 +568,10 @@ async def Roleinfo(ctx,role,type="slash"):
         icon_url=bot_icon_url
     )
     
-    if type == "command":
-        await ctx.send(embed=embed,view=view)
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed)
 
-    elif type == "slash":
-        await ctx.respond(embed=embed,view=view)
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed)
 
     SendBGM(ctx)
-

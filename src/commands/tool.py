@@ -12,44 +12,23 @@ class Tool(CogExtension):
 
     @commands.command()
     async def translate(self,ctx,language : discord.Option(str,"選擇要翻譯成的語言",choices=["繁中","英語","日語","簡中","印尼語"]),*,text=None):
-        await tool.Translate(ctx,language,text,"command")
+        await tool.translate(ctx,language,text)
 
     @commands.command()
-    async def wiki(self,ctx,text=None):
-        article = wiki_search(text=text)
-
-        if len(article) >= 6000:
-            article = article[0:1200]+"..."
-        
-        if text != None:
-            embed = discord.Embed(
-                title=text,
-                description=article,
-                color=discord.Colour.random())
-        
-        else:
-            embed = discord.Embed(
-                title="歡迎使用維基百科!",
-                description="使用方法 g!wiki `text`",
-                color=discord.Colour.random()
-            )
-
-        embed.set_thumbnail(url=wikipedia_icon_url)
-        embed.set_footer(text="wikipedia.org",icon_url=bot_icon_url)        
-        await ctx.send(embed = embed)
-        SendBGM(ctx)
+    async def wiki(self,ctx,keywords=None):
+        await tool.wikiInfo(ctx,keywords,self.bot)
 
     @commands.command()
     async def words(self,ctx,*,text=None):
-        await tool.Words(ctx,text,"command")
+        await tool.words(ctx,text)
     
     @commands.command()
     async def bullshit(self,ctx,topic:str = None,minlen:int = None):
-        await tool.Bullshit(ctx,topic,minlen,"command")
+        await tool.bullshit(ctx,topic,minlen)
 
     @commands.command()
     async def math(self,ctx,formula=None):
-        await tool.Math(ctx,formula,"commnad")
+        await tool.math(ctx,formula)
 
     @commands.command()
     async def ytinfo(self,ctx : discord.ApplicationContext,url = None):
@@ -67,7 +46,7 @@ class Tool(CogExtension):
 
     @commands.command()
     async def genshin(self,ctx,uid=None,server=None):
-        await tool.GenshinInfo(ctx,uid,server,"command")
+        await tool.genshininfo(ctx,uid,server)
 
 def setup(bot):
     bot.add_cog(Tool(bot))

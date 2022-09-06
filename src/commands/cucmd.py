@@ -45,7 +45,7 @@ class Cucmd(CogExtension):
 
     @commands.command()
     async def avatar(self, ctx, *, member: discord.Member = None):
-        await other.Avatar(ctx,member,type="command")
+        await other.avatar(ctx,member)
 
     @commands.command()
     async def about(self, ctx):

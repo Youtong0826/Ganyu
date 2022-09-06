@@ -15,19 +15,29 @@ bot = commands.Bot(
 
 bot.remove_command("help")
 
-def load_extension(folder:str,is_notice:bool=True):
-    if is_notice:print(f"Start load {folder}")
+def load_extension(folder:str,mode:str="load",is_notice:bool=True):
+
+    loading_method = {
+        "load":bot.load_extension,
+        "reload":bot.reload_extension,
+        "unload":bot.unload_extension
+    }
+
+    if is_notice:print(f"Start {mode} {folder}")
 
     for Filename in os.listdir(f'src/{folder}'):
+
         if Filename.endswith(".py"):
-            bot.load_extension(f"{folder}.{Filename[:-3]}")
-            if is_notice:print(f'-- loaded "{Filename}"')
+            loading_method[mode](f"{folder}.{Filename[:-3]}")
+            if is_notice:print(f'-- {mode}ed "{Filename}"')
 
 for folder in ["commands","slash_commands","events"]: load_extension(folder) 
 
 @bot.command()
-async def load(ctx:discord.ApplicationContext, folder, extension):
+async def load(ctx:discord.ApplicationContext, folder, extension=None):
     if ctx.author.id not in [611118369474740244, 856041155341975582]: return
+
+    if not extension:load_extension(folder)
 
     bot.load_extension(f"{folder}.{extension}")
     embed = discord.Embed(
@@ -39,8 +49,10 @@ async def load(ctx:discord.ApplicationContext, folder, extension):
     SendBGM(ctx)
 
 @bot.command()
-async def unload(ctx, folder, extension):
+async def unload(ctx, folder, extension=None):
     if ctx.author.id not in [611118369474740244, 856041155341975582]: return
+
+    if not extension:load_extension(folder,"unload")
     
     bot.unload_extension(f"{folder}.{extension}")
     embed = discord.Embed(
@@ -51,8 +63,10 @@ async def unload(ctx, folder, extension):
     SendBGM(ctx)
 
 @bot.command()
-async def reload(ctx, folder, extension):
+async def reload(ctx, folder, extension=None):
     if ctx.author.id not in [611118369474740244, 856041155341975582]: return
+
+    if not extension:load_extension(folder,"reload")
     
     bot.reload_extension(f"{folder}.{extension}")
     embed = discord.Embed(
@@ -158,8 +172,8 @@ async def on_ready():
         await run_activity_loop()
 
 if __name__ == "__main__":
-    bot.run(os.environ.get("TOKEN"))
-    #bot.run()
-    #"OTg3NjY0MTUxNjI1MjAzNzcy.
-    #GdU9gy.fIR-CifMuDJ_
-    #ifTO4GTLU-ZBopm5-Nc02sc18k"
+    #bot.run(os.environ.get("TOKEN"))
+    bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GdU9gy.fIR-CifMuDJ_ifTO4GTLU-ZBopm5-Nc02sc18k")
+    #
+    #
+    #

@@ -1,9 +1,9 @@
-import asyncio
+from discord.ext import commands
+from lib.function import SendBGM
 import discord
 import datetime
-from lib.function import SendBGM
 
-async def mange_member(ctx,user:discord.Member, member:discord.Member, type, title, reason=None,CmdType="slash"):
+async def mange_member(ctx,user:discord.Member, member:discord.Member, type, title, reason=None):
 
     pms = {}
 
@@ -54,11 +54,11 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
             name="Reason", value=f"```{reason}```"
         )
 
-        if CmdType == "command":
-            await ctx.send(embed = embed)
+        if isinstance(ctx,commands.Context):
+            await ctx.send(embed=embed)
 
-        elif CmdType == "slash":
-            await ctx.respond(embed = embed)
+        elif isinstance(ctx,discord.ApplicationContext):
+            await ctx.respond(embed=embed)
         
         if type == "kick": 
             print("y")     
@@ -87,17 +87,17 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
             timestamp=datetime.datetime.utcnow()
         )
         
-        if CmdType == "command":
-            await ctx.send(embed = embed)
+        if isinstance(ctx,commands.Context):
+            await ctx.send(embed=embed)
 
-        elif CmdType == "slash":
-            await ctx.respond(embed = embed)
+        elif isinstance(ctx,discord.ApplicationContext):
+            await ctx.respond(embed=embed)
         
     embed.set_footer(text=f"{user.name}", icon_url=user.avatar)
     
     SendBGM(ctx)
 
-async def Addrole(ctx,member,role,type="slash"):
+async def addrole(ctx,member,role):
     user : discord.Member = ctx.author
 
     if role and member != None:
@@ -133,13 +133,13 @@ async def Addrole(ctx,member,role,type="slash"):
             value='如果是 `身分組名稱/id` 或 `提及成員/成員名稱/id` 含有空格的話 請在兩邊加上 `"` 範例: `/addrole "You Tong0826 "管理 管理員""`'
         )
 
-    if type == "command":
+    if isinstance(ctx,commands.Context):
         await ctx.send(embed=embed)
 
-    elif type == "slash":
+    elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-async def Clean(ctx:discord.ApplicationContext,limit:int,type="slash"):
+async def clean(ctx:discord.ApplicationContext,limit:int):
     
     if limit != None:
 
@@ -209,10 +209,10 @@ async def Clean(ctx:discord.ApplicationContext,limit:int,type="slash"):
             description="用法: clear `數量`"
         )
 
-    if type == "command":
+    if isinstance(ctx,commands.Context):
         msg = await ctx.send(embed=embed)
 
-    elif type == "slash":
+    elif isinstance(ctx,discord.ApplicationContext):
         irt = await ctx.respond(embed=embed)
 
     if deleted :

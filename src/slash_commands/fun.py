@@ -84,7 +84,7 @@ class SlashFun(CogExtension):
     async def gay(self,ctx,member:discord.Option(discord.Member,"選擇成員") = None):
         await fun.Gay(ctx,member,"slash")
 
-    @discord.application_command(description="")
+    #@discord.application_command(description="")
     async def guess(self,
         ctx:discord.ApplicationContext,
         range:discord.Option(str,"輸入數字的範圍(起始必須小於結束 以XX~XX表示)",name="範圍",max_length=12),

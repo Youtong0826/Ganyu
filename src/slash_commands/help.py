@@ -8,7 +8,7 @@ from lib.bot_config import ganyuCommands
 class SlashHelp(CogExtension):
     @discord.application_command(description="查看指令清單")
     async def help(self, ctx):
-        await help.Help(ctx)
+        await help.help(ctx)
 
     @discord.application_command(description="娛樂指令清單")
     async def fun(self, ctx):

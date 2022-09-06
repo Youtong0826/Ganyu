@@ -9,7 +9,7 @@ import discord
 class Help(CogExtension):
     @commands.command()
     async def help(self, ctx):
-        await help.Help(ctx)
+        await help.help(ctx)
 
     @commands.command()
     async def fun(self, ctx):

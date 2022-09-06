@@ -1,5 +1,4 @@
 import asyncio
-from datetime import datetime
 from lib.function import translate,ErrorBGM
 from core.classes import CogExtension
 from discord.ext import commands
@@ -10,12 +9,14 @@ class ErrorEvent(CogExtension):
         guild = ctx.author.guild
         user = ctx.author
         channel = ctx.channel
+        command = ctx.command
 
         embed = discord.Embed(
             title="Error Message",
             description=f"**User:** `{user.name}` **id:** `{user.id}`\
                 \n**Guild:** `{guild.name}` **id**: `{guild.id}`\
-                \n**Channel:** `{channel.name}` **id:** `{channel.id}`",
+                \n**Channel:** `{channel.name}` **id:** `{channel.id}`\
+                \n**Command:** `{command}`",
             color=discord.Colour.nitro_pink(),
         )
 

@@ -4,7 +4,7 @@ from lib.function import SendBGM
 from discord.ext import commands
 
 
-async def Help(ctx):
+async def help(ctx):
     main_select = discord.ui.Select(
         placeholder="選擇要查看的指令清單",
         options=[

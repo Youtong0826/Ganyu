@@ -1,9 +1,10 @@
 import discord
 import datetime
+from discord.ext import commands
 from lib.function import SendBGM,translate,bullshit,calculator,getGenshininfo,wiki_info,wiki_search
 from lib.bot_config import bot_icon_url
 
-async def Translate(ctx,language,text,type="slash"):
+async def translate(ctx,language,text):
     google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
     
     translate_to_dict = {
@@ -54,15 +55,15 @@ async def Translate(ctx,language,text,type="slash"):
     embed.set_thumbnail(url=google_translate_icon_url)
     embed.set_footer(text="translate",icon_url=bot_icon_url)
 
-    if type == "command":
-        await ctx.send(embed = embed)
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed)
 
-    if type == "slash":
-        await ctx.respond(embed = embed)
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed)
 
     SendBGM(ctx)
 
-async def Words(ctx,text,type="slash"):
+async def words(ctx,text):
     if text != None:
 
         space = 0
@@ -86,15 +87,15 @@ async def Words(ctx,text,type="slash"):
     embed.timestamp = datetime.datetime.utcnow()
     embed.set_footer(text="字數轉換器",icon_url=bot_icon_url)
 
-    if type == "command":
-        await ctx.send(embed = embed)
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed)
 
-    if type == "slash":
-        await ctx.respond(embed = embed)
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed)
 
     SendBGM(ctx)
 
-async def Bullshit(ctx,topic,minlen,type="slash"):
+async def bullshit(ctx,topic,minlen):
     if topic and minlen != None:
 
         try:
@@ -122,15 +123,15 @@ async def Bullshit(ctx,topic,minlen,type="slash"):
     embed.timestamp = datetime.datetime.utcnow()
     embed.set_footer(text="唬爛產生器",icon_url = bot_icon_url)
     
-    if type == "command":
-        await ctx.send(embed = embed)
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed)
 
-    if type == "slash":
-        await ctx.respond(embed = embed)
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed)
 
     SendBGM(ctx)
 
-async def Math(ctx,formula,type="slash"):
+async def math(ctx,formula):
     if formula != None:
         answer = calculator(formula)
         embed = discord.Embed(
@@ -155,11 +156,11 @@ async def Math(ctx,formula,type="slash"):
             inline=False
         )
 
-        if type == "command":
+        if isinstance(ctx,commands.Context):
             await ctx.send(embed=embed)
 
-        elif type == "slash":
-            await ctx.respond(embed=embed) 
+        elif isinstance(ctx,discord.ApplicationContext):
+            await ctx.respond(embed=embed)
 
     else:
         default_value = "                                        " #don't edit it!
@@ -322,7 +323,7 @@ async def Math(ctx,formula,type="slash"):
 
                 elif interaction.custom_id == "math_AC":calculate_value = " "
 
-                elif interaction.custom_id == "math_C":calculate_value = interaction[:-1]
+                elif interaction.custom_id == "math_C":calculate_value = calculate_value[:-1]
 
                 else:calculate_value += interaction.custom_id[5:]
     
@@ -340,15 +341,15 @@ async def Math(ctx,formula,type="slash"):
             view.add_item(button)
             button.callback = callback
 
-        if type == "command":
-            await ctx.send(embed=embed)
+        if isinstance(ctx,commands.Context):
+            await ctx.send(embed=embed,view=view)
 
-        elif type == "slash":
-            await ctx.respond(embed=embed) 
+        elif isinstance(ctx,discord.ApplicationContext):
+            await ctx.respond(embed=embed,view=view)
 
         SendBGM(ctx)
 
-async def GenshinInfo(ctx,uid,server,type="slash"):
+async def genshininfo(ctx,uid,server):
 
     backbutton = discord.ui.Button(
         style=discord.ButtonStyle.primary,
@@ -540,15 +541,15 @@ async def GenshinInfo(ctx,uid,server,type="slash"):
     
     embed.set_footer(text="Ganyu | 原神帳號查詢",icon_url=bot_icon_url)
 
-    if type == "command":
-        await ctx.send(embed = embed,view=view)
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed,view=view)
 
-    if type == "slash":
-        await ctx.respond(embed = embed,view=view)
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed,view=view)
 
     SendBGM(ctx)
 
-async def WikiInfo(ctx,keywords:str,bot=None):
+async def wikiInfo(ctx,keywords:str,bot=None):
     keywords_split = keywords.split()
     results = wiki_search(tuple(keywords_split))
     if results == None: await ctx.respond(f"{bot.mention}徹徹底底地搜索了一遍 但還是找不到結果..")
@@ -603,4 +604,8 @@ async def WikiInfo(ctx,keywords:str,bot=None):
         color=discord.Colour.nitro_pink()
     )
 
-    await ctx.respond(embed=embed,view=view)
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed,view=view)
+
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed,view=view)

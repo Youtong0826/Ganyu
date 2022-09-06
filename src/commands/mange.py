@@ -69,7 +69,7 @@ class Mange(CogExtension):
 
     @commands.command()
     async def clear(self,ctx:discord.ApplicationContext,limit:int):
-        await manage.Clean(ctx,limit,"command")
+        await manage.clean(ctx,limit)
 
     @commands.command()
     async def joinmsg(self, ctx, key = "on"):
@@ -77,7 +77,7 @@ class Mange(CogExtension):
 
     @commands.command()
     async def addrole(self,ctx,member : discord.Member=None,role : discord.Role=None):
-        await manage.Addrole(ctx,member,role)
+        await manage.addrole(ctx,member,role)
 
 def setup(bot):
     bot.add_cog(Mange(bot))

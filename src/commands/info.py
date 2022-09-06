@@ -16,12 +16,12 @@ g!invite
 class Info(CogExtension):
     @commands.command()
     async def allinfo(self, ctx):
-        await info.Allinfo(ctx,self.bot,"command")
+        await info.allinfo(ctx,self.bot)
 
     @commands.command()
     async def serinfo(self, ctx):
 
-        Setting = info.ServerDict(guild=ctx.author.guild)
+        Setting = info.serverDict(guild=ctx.author.guild)
 
         await ctx.send(
             embed=Setting["Embed"],
@@ -32,7 +32,7 @@ class Info(CogExtension):
 
     @commands.command()
     async def botinfo(self, ctx):
-        Setting = info.BotDict(bot=self.bot)
+        Setting = info.botDict(bot=self.bot)
 
         await ctx.send(embed=Setting["Embed"],view=Setting["View"])
 
@@ -41,10 +41,10 @@ class Info(CogExtension):
     @commands.command()
     async def userinfo(self, ctx, member: discord.Member = None):
         if member != None:
-            setting = info.UserDict(member)
+            setting = info.userDict(member)
 
         else:
-            setting = info.UserDict(ctx.author)
+            setting = info.userDict(ctx.author)
 
         await ctx.send(embed=setting["Embed"],view=setting["View"])
 
@@ -52,11 +52,11 @@ class Info(CogExtension):
 
     @commands.command()
     async def invite(self, ctx):
-        await info.Invite(ctx,"command")
+        await info.invite(ctx)
 
     @commands.command()
     async def invites(self, ctx: discord.ApplicationContext):
-        await info.Invites(ctx,"command")
+        await info.invites(ctx)
 
     @commands.command()
     async def getuser(self, ctx, id: int):
@@ -95,7 +95,7 @@ class Info(CogExtension):
 
     @commands.command()
     async def roleinfo(self,ctx : discord.ApplicationContext,*,role : discord.Role = None ):
-        await info.Roleinfo(ctx,role,type="command")
+        await info.roleinfo(ctx,role)
         
             
 def setup(bot):

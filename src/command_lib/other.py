@@ -4,8 +4,9 @@ import random
 import requests
 import json
 from lib.function import SendBGM
+from discord.ext import commands
 
-async def Avatar(ctx,member,type="slash"):
+async def avatar(ctx,member):
     user = ctx.author
 
     if member != None:
@@ -38,10 +39,10 @@ async def Avatar(ctx,member,type="slash"):
             icon_url=user.avatar
         )
 
-    if type == "command":
+    if isinstance(ctx,commands.Context):
         await ctx.send(embed=embed)
 
-    elif type == "slash":
+    elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
     SendBGM(ctx)
@@ -63,7 +64,7 @@ for i in range(3):
             imageInfo["url"] = f'{str(i["id"])}'
         imageIdList.append(imageInfo)
 
-async def Pic(ctx,type="slash"):
+async def pic(ctx):
     imgInfo = random.choice(imageIdList)
 
     imgURL = 'https://pixiv.cat/'+imgInfo["url"]+'.jpg'
@@ -81,18 +82,18 @@ async def Pic(ctx,type="slash"):
 
     embed.set_footer(text="Pixiv.net", icon_url=pixiv_image_url)
 
-    main_view = discord.ui.View(timeout=None)
+    view = discord.ui.View(timeout=None)
 
     website_button = discord.ui.Button(
         label="在Pixiv上查看這張圖片!", 
         url=f"https://pixiv.net/artworks/{imgInfo['url']}", emoji="🖼️"
     )
 
-    main_view.add_item(website_button)
-    if type == "command":
-        await ctx.send(embed=embed, view=main_view)
+    view.add_item(website_button)
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed,view=view)
 
-    elif type == "slash":
-        await ctx.respond(embed=embed,view=main_view)
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed,view=view)
     
     SendBGM(ctx)

@@ -5,7 +5,7 @@ from discord.ext import commands
 from lib.function import SendBGM
 from lib.bot_config import bot_icon_url
 
-async def Dice(mode,number,ctx):
+async def dice(mode,number,ctx):
 
     mode_dict = {
         "賭博模式" : "limit",
@@ -89,7 +89,7 @@ async def Dice(mode,number,ctx):
 
     SendBGM(ctx)
     
-async def Mora(ctx):
+async def mora(ctx):
     moraed = random.choice(moras = ["剪刀","石頭","布"])
 
     MainEmbed = discord.Embed(
@@ -202,7 +202,7 @@ async def Mora(ctx):
 
     SendBGM(ctx)
 
-async def Luck(ctx,member,type="slash"):
+async def luck(ctx,member):
     luckypoint = random.randint(0,100)
     luckybar = ""
     luckycolor = [
@@ -239,15 +239,15 @@ async def Luck(ctx,member,type="slash"):
 
     embed.set_footer(text="lucktest | 運氣測試",icon_url=bot_icon_url)
 
-    if type == "command":
+    if isinstance(ctx,commands.Context):
         await ctx.send(embed=embed)
 
-    elif type == "slash":
+    elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
     SendBGM(ctx)
 
-async def Spank(ctx,member,type="slash"):
+async def spank(ctx,member):
     if member != None:
         
         embed = discord.Embed(
@@ -261,15 +261,15 @@ async def Spank(ctx,member,type="slash"):
             description="用法: /spank `提及/名字/id`"
         )
 
-    if type == "command":
+    if isinstance(ctx,commands.Context):
         await ctx.send(embed=embed)
 
-    elif type == "slash":
+    elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
     SendBGM(ctx)
 
-async def Gay(ctx,member,type="slash"):
+async def gay(ctx,member):
     if member != None:
         user = member
 
@@ -292,10 +292,13 @@ async def Gay(ctx,member,type="slash"):
         color=discord.Colour.random(),
     )
 
+    if isinstance(ctx,commands.Context):
+        await ctx.send(embed=embed)
 
-    await ctx.respond(embed=embed)
+    elif isinstance(ctx,discord.ApplicationContext):
+        await ctx.respond(embed=embed)
 
-async def GuessNum(ctx,number):
+async def gessNum(ctx,number):
     answer = random.randint(0,100)
 
     

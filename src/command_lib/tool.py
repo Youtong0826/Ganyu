@@ -1,7 +1,7 @@
 import discord
 import datetime
 from discord.ext import commands
-from lib.function import SendBGM,translate,bullshit,calculator,getGenshininfo,wiki_info,wiki_search
+from lib.function import SendBGM,translate,bullshit as bullshit_function,calculator,getGenshininfo,wiki_info,wiki_search
 from lib.bot_config import bot_icon_url
 
 async def translate(ctx,language,text):
@@ -99,7 +99,7 @@ async def bullshit(ctx,topic,minlen):
     if topic and minlen != None:
 
         try:
-            artcle = bullshit(topic,minlen)
+            artcle = bullshit_function(topic,minlen)
 
         except:
             if type == "command":

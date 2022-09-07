@@ -1,33 +1,12 @@
 import random
 import discord
 import datetime
-import json
-import requests
+from command_lib import other
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
-from lib.bot_config import messages
-from lib.bot_config import bot_icon_url
+from core.classes import CogExtension
 from lib.function import SendBGM
 
-imageIdList = []
-for i in range(3):
-    url = f"https://www.pixiv.net/ajax/search/artworks/%E7%94%98%E9%9B%A8?word=%E7%94%98%E9%9B%A8&order=date_d&mode=all&p={str(i+1)}&s_mode=s_tag_full&type=all&lang=zh_tw"
-    root = requests.get(url)
-    rootData = json.loads(root.text)
-    imageData = rootData["body"]["illustManga"]["data"]
-    for i in imageData:
-        imageInfo = {
-            "title": i["title"],
-            "user": i["userName"]  # 指作者
-        }
-        if i["pageCount"] > 1:
-            imageInfo["url"] = f'{str(i["id"])}-1'
-        else:
-            imageInfo["url"] = f'{str(i["id"])}'
-        imageIdList.append(imageInfo)
-
-
-class Cucmd(Cog_ExtenSion):
+class Cucmd(CogExtension):
 
     @commands.command()
     async def send(self,ctx,member :discord.Member = None):
@@ -66,42 +45,10 @@ class Cucmd(Cog_ExtenSion):
 
     @commands.command()
     async def avatar(self, ctx, *, member: discord.Member = None):
-        user = ctx.author
-        if member != None:
-            embed = discord.Embed(
-                title=f"這是 {member.name} 的頭貼",
-                color=discord.Colour.random(),
-                timestamp=datetime.datetime.utcnow()
-            )
-
-            embed.set_image(url=member.avatar)
-
-            embed.set_footer(
-                text=f"{ctx.author.name}",
-                icon_url=ctx.author.avatar
-            )
-
-        else:
-            embed = discord.Embed(
-                title=f"這是 {user.name} 的頭貼",
-                color=discord.Colour.random(),
-                timestamp=datetime.datetime.utcnow()
-            )
-
-            embed.set_image(url=user.avatar)
-
-            embed.set_footer(
-                text=f"{user.name}",
-                icon_url=user.avatar
-            )
-
-        await ctx.send(embed=embed)
-
-        SendBGM(ctx)
+        await other.avatar(ctx,member)
 
     @commands.command()
     async def about(self, ctx):
-        await ctx.send(random.choice(messages))
         SendBGM(ctx)
 
     @commands.command()
@@ -128,30 +75,7 @@ class Cucmd(Cog_ExtenSion):
     
     @commands.command()
     async def pic(self, ctx):
-        imgInfo = random.choice(imageIdList)
-
-        imgURL = 'https://pixiv.cat/'+imgInfo["url"]+'.jpg'
-
-        embed = discord.Embed(
-            title=imgInfo["title"],
-            description=f'繪師：{imgInfo["user"]}',
-            color=discord.Colour.nitro_pink(),
-            timestamp=datetime.datetime.utcnow()
-        )
-
-        embed.set_image(url=imgURL)
-
-        pixiv_image_url = "https://www.bing.com/th?id=ODL.d9cafa2b269e74dcb05b3314a76d721f&w=100&h=100&c=12&pcl=faf9f7&o=6&dpr=1.25&pid=13.1"
-        embed.set_footer(text="Pixiv.net", icon_url=pixiv_image_url)
-
-        main_view = discord.ui.View(timeout=None)
-        website_button = discord.ui.Button(
-            label="在Pixiv上查看這張圖片!", url=f"https://pixiv.net/artworks/{imgInfo['url']}", emoji="🖼️")
-
-        main_view.add_item(website_button)
-
-        await ctx.send(embed=embed, view=main_view)
-        SendBGM(ctx)
+        await other.Pic(ctx,"command")
 
     @commands.command()
     async def embed(self, ctx, title, *, description=None):
@@ -226,7 +150,7 @@ class Cucmd(Cog_ExtenSion):
                 )
 
                 report_embed.set_footer(
-                    text=f"{user} 提出回報",
+                    text=f"來自 {user} 的回報",
                     icon_url=user.avatar
                 )
 
@@ -280,98 +204,36 @@ class Cucmd(Cog_ExtenSion):
         await ctx.send(embed=embed, view=view)
 
     @commands.command()
-    async def vote(self,ctx,topic=None,quantity:int=None):
+    async def vote(self,ctx,topic:discord.Option(str,"投票的主題",name="主題"),options:discord.Option(str,"要投票的選項",name="選項")):
+        view = discord.ui.View()
+        description = ""
 
-        if topic and quantity != None:
-            MainEmbed = discord.Embed(
-                title="請點擊以下按鈕來設置選項內容!",
-                color=discord.Colour.random(),
-            )
+        for option in options.split():
+            view.add_item(discord.ui.Button(
+                style=discord.ButtonStyle.primary,
+                label=option,
+                custom_id=f"{ctx.author.guild.id}_vote_{option}_0"
+            ))
 
-            MainView = discord.ui.View(timeout=None)
+            description += f"**{option}** - 0 (0%)\n"
 
-            SettingButton = discord.ui.Button(
-                style=discord.ButtonStyle.success,
-                label="設置投票內容",
-                emoji="📊"
-            )
+        embed = discord.Embed(
+            title=topic,
+            description=description,
+            color=discord.Colour.random(),
+            timestamp=datetime.datetime.utcnow()
+        )
 
-            async def SettingButtonCallback(interaction:discord.Interaction):
-                SettingModal = discord.ui.Modal(title="投票設置")
+        async def vote_button_response(interaction:discord.Interaction):
+            id = interaction.custom_id
+            votes = int(id[id.index("_",3):]) + 1
 
-                async def SettingModalCallback(interaction:discord.Interaction):
-                    options = ""
-                    ModalView = discord.ui.View(timeout=None)
+            interaction.custom_id = id.replace(id[id.index("_",3):],votes)
 
-                    for n in(0,quantity*2):
-                        if n % 2 == 0:
-                            options +=f"{n/2+1}.{SettingModal.children[n].value} ▬▬ 0%\n\n"
+            embed:discord.Embed = interaction.message.embeds[0]
+            embed.description = embed.description.replace()
 
-                    ModalEmbed = discord.Embed(
-                        title=f"{interaction.user.name} 已發起投票",
-                        description=f"主題 ▬▬ **{topic}** 選項:\n{options}",
-                        color=discord.Colour.random(),
-                        timestamp=datetime.datetime.utcnow()
-                    )
-
-                    async def OptionButtonCallback(interaction:discord.Interaction):
-
-                        if interaction.custom_id == 0:
-                                print()
-
-                    for n in range(0,quantity*2):
-                        if n % 2 == 0:
-
-                            OptionButton = discord.ui.Button(
-                                    style=discord.ButtonStyle.gray,
-                                    label=SettingModal.children[n].value,
-                                    emoji=SettingModal.children[n+1].value,
-                                    custom_id=n
-                                )
-
-                            ModalView.add_item(OptionButton)
-
-                    await interaction.response.edit_message(embed=ModalEmbed,view=ModalView)
-
-                for n in range(1,quantity+1):
-                    option = discord.ui.InputText(
-                            style=discord.InputTextStyle.short,
-                            label=f"選項{n}",
-                            placeholder=f"填入選項{n}的名稱",
-                            max_length=18,
-                            custom_id=str(n+10)
-                        )
-
-                    SettingModal.add_item(option)
-
-                    emoji = discord.ui.InputText(
-                            style=discord.InputTextStyle.short,
-                            label=f"選項{n}的表情符號",
-                            placeholder=f"填入選項{n}的表情符號",
-                            max_length=1,
-                            custom_id=str(n+20)
-                        )
-
-                    SettingModal.add_item(emoji)
-                
-                SettingModal.callback = SettingModalCallback
-
-                await interaction.response.send_modal(SettingModal)
-                
-            SettingButton.callback = SettingButtonCallback
-            MainView.add_item(SettingButton)
-        
-        else:
-
-            MainEmbed = discord.Embed(
-                title="歡迎使用投票功能",
-                description="使用方法: g!vote `主題` `幾個選項`",
-                color=discord.Colour.random(),
-            )
-
-            MainView = discord.ui.View(timeout=None)
-        
-        await ctx.send(embed=MainEmbed,view=MainView)
+            interaction.response.edit_message()
 
     @commands.command()
     async def getguild(self,ctx):

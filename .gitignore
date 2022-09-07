@@ -1,6 +1,5 @@
-.vscode/
-__pycache__/
-test.py
-token
-test/
-token
+# Ignore all files with the specified name.
+config.json
+# Scope is all repo folders.
+.vscode
+__pycache__

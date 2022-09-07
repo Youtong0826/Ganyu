@@ -1,167 +1,179 @@
-from lib.function import translate, SendBGM, ErrorBGM
+import asyncio
+from lib.function import SendBGM
 from discord.ext import commands
-import discord , datetime
-import random
+import discord
 import os
 
+intents = discord.Intents.all()
+
+intents.message_content = False
+intents.presences = False
+
 bot = commands.Bot(
-    command_prefix='g!',
-    intents=discord.Intents.all()
+    intents=intents
 )
 
 bot.remove_command("help")
 
-for Filename in os.listdir('src/commands'):
-    if Filename.endswith(".py"):
-        bot.load_extension(f"commands.{Filename[:-3]}")
+def load_extension(folder:str,mode:str="load",is_notice:bool=True):
 
-for Filename in os.listdir('src/slash_commands'):
-    if Filename.endswith(".py"):
-        bot.load_extension(f"slash_commands.{Filename[:-3]}")
+    loading_method = {
+        "load":bot.load_extension,
+        "reload":bot.reload_extension,
+        "unload":bot.unload_extension
+    }
+
+    if is_notice:print(f"Start {mode} {folder}")
+
+    for Filename in os.listdir(f'src/{folder}'):
+
+        if Filename.endswith(".py"):
+            loading_method[mode](f"{folder}.{Filename[:-3]}")
+            if is_notice:print(f'-- {mode}ed "{Filename}"')
+
+for folder in ["commands","slash_commands","events"]: load_extension(folder) 
 
 @bot.command()
-async def load(ctx, extension):
-    if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.load_extension(f"commands.{extension}")
-        embed = discord.Embed(
-            title=f"Loaded - {extension} - Cog",
-            color=0x5cff8d
-        )
-    else:
-        embed = discord.Embed(
-            title="此為開發者專屬功能",
-            color=0x5cff8d
-        )
+async def load(ctx:discord.ApplicationContext, folder, extension=None):
+    if ctx.author.id not in [611118369474740244, 856041155341975582]: return
+
+    if not extension:load_extension(folder)
+
+    bot.load_extension(f"{folder}.{extension}")
+    embed = discord.Embed(
+        title=f"Loaded - {folder}.{extension} - Cog",
+        color=0x5cff8d
+    )
+
     await ctx.send(embed=embed)
     SendBGM(ctx)
 
 @bot.command()
-async def unload(ctx, extension):
-    if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.unload_extension(f"commands.{extension}")
-        embed = discord.Embed(
-            title=f"Unloaded - {extension} - Cog",
-            color=0x5cff8d
-        )
-    else:
-        embed = discord.Embed(
-            title="此為開發者專屬功能",
-            color=0x5cff8d
-        )
+async def unload(ctx, folder, extension=None):
+    if ctx.author.id not in [611118369474740244, 856041155341975582]: return
+
+    if not extension:load_extension(folder,"unload")
+    
+    bot.unload_extension(f"{folder}.{extension}")
+    embed = discord.Embed(
+        title=f"Unloaded - {folder}.{extension} - Cog",
+        color=0x5cff8d
+    )
     await ctx.send(embed=embed)
     SendBGM(ctx)
 
 @bot.command()
-async def reload(ctx, extension):
-    if ctx.author.id == 611118369474740244 or 856041155341975582:
-        bot.reload_extension(f"commands.{extension}")
-        embed = discord.Embed(
-            title=f"Reloaded - {extension} - Cog",
-            color=0x5cff8d
-        )
+async def reload(ctx, folder, extension=None):
+    if ctx.author.id not in [611118369474740244, 856041155341975582]: return
 
-    else:
-        embed = discord.Embed(
-            title="此為開發者專屬功能",
-            color=0x5cff8d
-        )
+    if not extension:load_extension(folder,"reload")
+    
+    bot.reload_extension(f"{folder}.{extension}")
+    embed = discord.Embed(
+        title=f"Reloaded - {folder}.{extension} - Cog",
+        color=0x5cff8d
+    )
+
     await ctx.send(embed=embed)
     SendBGM(ctx)
+
+@bot.command()
+async def sptrole(ctx : discord.ApplicationContext):
+    if ctx.author.id != 856041155341975582: return
+
+    embed = discord.Embed(
+        title="索取你要的身分組!",
+        color=discord.Colour.nitro_pink()
+    )
+
+    pa_button = discord.ui.Button(
+        style=discord.ButtonStyle.success,
+        label="公告Ping",
+        custom_id="PA_ping"
+    )
+
+    bu_button = discord.ui.Button(
+        style=discord.ButtonStyle.primary,
+        label="機器人更新ping",
+        custom_id="Bu_ping"
+    )
+
+    view = discord.ui.View(timeout=None)
+    view.add_item(pa_button)
+    view.add_item(bu_button)
+
+    await bot.get_channel(962264203324948500).send(embed=embed,view=view)
 
 @bot.event
 async def on_ready():
     print(">>Bot is online<<")
     print(f"-- Watching {len(bot.guilds)} guilds & {len(bot.users)} users ")
 
-    activity = discord.Activity(type=discord.ActivityType.watching,name = f"g!help | {len(bot.guilds)} 個伺服器")
-    await bot.change_presence(status = discord.Status.streaming, activity = activity)
+    async def run_activity_loop():
 
-@bot.event
-async def on_message(message : discord.Message):
-    if message.author == bot.user or message.author.bot : return
+        watching = discord.ActivityType.watching
 
-    else:
-        if bot.user in message.mentions:
-            response = random.choice(["hi","早安","找我嗎?","幹嘛ping我@@"])
-            await message.channel.send(response)
+        names = [
+            f"/help | {len(bot.guilds)} 個伺服器",
+            f"/help | {len(bot.users)} 個用戶",
+            f"/help | ping {round(bot.latency * 1000)} ms",
+            f"/help | no message intent sad :("
+        ]
 
-    await bot.process_commands(message)
+        ACTIVITY_OPTION = {
+            "application_id": 921673886049910795,
+            "status" : discord.Status.streaming,
+            "url" : "https://discord.gg/AVCWGuuUex",
+            "type" : discord.ActivityType.watching,
+            "timestamp" : {
+                "start":1000,
+                "end":2000
+            },
+            "state":"正在觀看",
+            "detail":"**thinking**",
+            "assets" :{
+                "large_image":"largetest",
+                "large_text":"largetest",
+                "small_image" :"smalltest",
+                "small_text" : "smalltest"
+            },
+            "button" :{
+                "label" : "Support",
+                "url" : "https://discord.gg/AVCWGuuUex "
+            }
+        }
 
-@bot.event
-async def on_command_error(ctx : discord.ApplicationContext, error):
-    chiness = translate(str(error), "zh-TW")
+        STREANING_OPTION = {
+            "platfrom": "Discord",
+            "game" : "/help",
+            "url" : "https://discord.gg/AVCWGuuUex",
+            "detail":"**使用我的用戶們<3**",
+            "assets" :{
+                "large_image":"largetest",
+                "large_text":"largetest",
+                "small_image" :"smalltest",
+                "small_text" : "smalltest"
+            },
+        }
 
-    if chiness.endswith("。"):
-        chiness = chiness[:-1]
+        activity = discord.Activity(name=names[0],**ACTIVITY_OPTION)
+        await bot.change_presence(status = discord.Status.streaming, activity = activity)
+        await asyncio.sleep(5)
 
-    embed = discord.Embed(title="錯誤",description="以下為回報內容",color=discord.Color.red())
+        activity = discord.Activity(name=names[1],**ACTIVITY_OPTION)
+        await bot.change_presence(status = discord.Status.streaming, activity = activity)
+        await asyncio.sleep(5)
 
-    embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
+        activity = discord.Activity(name=names[2],**ACTIVITY_OPTION)
+        await bot.change_presence(status = discord.Status.streaming, activity = activity)
+        await asyncio.sleep(5)
 
-    embed.add_field(name="翻譯後",value=f"```{chiness}```",inline=False)
-
-    embed.add_field(
-        name="應對措施",
-        value="如果Bot或是指令發生錯誤的話可使用 `g!report` 來回報給作者們!\n或是給個建議也可以喔! 我們非常需要您的建議!",
-        inline=False
-    )
-
-    ErrorBGM(ctx,error)
-    await ctx.send(embed=embed)
-
-#@bot.event
-#async def on_application_command_error(ctx : discord.ApplicationContext, error):
-#    chiness = translate(str(error), "zh-TW")
-#
-#    if chiness.endswith("。"):
-#        chiness = chiness[:-1]
-#
-#    embed = discord.Embed(title="錯誤",description="以下為回報內容",color=discord.Color.red())
-#
-#    embed.add_field(name="原始內容",value=f"```{error}```",inline=False)
-#
-#    embed.add_field(name="翻譯後",value=f"```{chiness}```",inline=False)
-#
-#    embed.add_field(
-#        name="應對措施",
-#        value="如果Bot或是指令發生錯誤的話可使用 `g!report` 來回報給作者們!\n或是給個建議也可以喔! 我們非常需要您的建議!",
-#        inline=False
-#    )
-#
-#    ErrorBGM(ctx,error)
-#    await ctx.respond(embed=embed)
-
-@bot.event
-async def on_member_join(member: discord.Member):
-    def join_message():
-
-        embed = discord.Embed(
-            title=f"{member.name} 來到了{member.guild.name}!",
-            description=f" {member.mention} 您是第本伺服器第 **{member.guild.member_count}** 個用戶，請先查看 {member.guild.rules_channel.mention} 再進行其他操作喔",
-            color=discord.Colour.random(),
-            timestamp=datetime.datetime.utcnow()
-        )
-
-        if member.avatar == None:
-            thunbnail = member.default_avatar
-
-        else:
-            thunbnail = member.avatar
-
-        embed.set_thumbnail(url=thunbnail)
-
-        embed.set_footer(
-            text="成員加入", icon_url="https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024")
-
-        return embed
-
-    if member.guild.id == 719198103227465738:
-        chnnel = bot.get_channel(719521057286914129)
-        await chnnel.send(embed=join_message())
-
-    elif member.guild.id == 956614306345123923:
-        chnnel = bot.get_channel(957157665526673419)
-        await chnnel.send(embed=join_message())
+    while True:
+        await run_activity_loop()
 
 if __name__ == "__main__":
-        bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GJA1c7.KqTc1qS0DKQP_5UATwkRMzHZ-vZfg-Njn57nwE")
+    bot.run(os.environ.get("TOKEN"))
+    #bot.run("OTg3NjY0MTUxNjI1MjAzNzcy.GdU9gy.fIR-CifMuDJ_ifTO4GTLU-ZBopm5-Nc02sc18k")
+    #
+    #
+    #

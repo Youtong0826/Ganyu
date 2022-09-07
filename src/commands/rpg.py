@@ -3,7 +3,7 @@ import discord
 import datetime
 import json
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 from lib.bot_config import bot_icon_url
 
 numbers = [
@@ -171,7 +171,7 @@ def TopEmbed(embed: discord.Embed, namefields: list,valuefields: list ,type) -> 
 
     return embed
 
-class rpg(Cog_ExtenSion):
+class rpg(CogExtension):
 
     have_job = False
 

@@ -1,7 +1,7 @@
 import random
 import discord
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 
 """
 game commands list
@@ -49,7 +49,7 @@ class numberGame():
         )
 
 
-class Games(Cog_ExtenSion):
+class Games(CogExtension):
     @commands.command()
     async def game(self, ctx):
         check = checkUserGame(ctx.author)

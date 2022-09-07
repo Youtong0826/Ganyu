@@ -1,8 +1,8 @@
 import discord , datetime 
 from discord.ext import commands
-from core.classes import Cog_ExtenSion
+from core.classes import CogExtension
 
-class Time(Cog_ExtenSion):
+class Time(CogExtension):
 
     @commands.command()
     async def time(self, ctx, key=None):

@@ -44,7 +44,7 @@ class SlashInfo(CogExtension):
 
     @discord.application_command(description="查看邀請排行榜!")
     async def invites(self, ctx: discord.ApplicationContext):
-        await info.Invites(ctx)
+        await info.invites(ctx)
 
     @discord.application_command(description="查看身分組資訊!")
     async def roleinfo(self,ctx : discord.ApplicationContext,*,role : discord.Option(discord.Role,"選擇身分組") = None ):

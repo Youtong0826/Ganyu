@@ -14,11 +14,11 @@ class SlashFun(CogExtension):
         mode: discord.Option(str,"選擇遊玩模式",choices=["賭博模式","自由模式"])=None,
         number: discord.Option(int,"選擇數字",choices=[1,2,3,4,5,6])=None
     ):
-        await fun.Dice(mode,number,ctx)
+        await fun.dice(mode,number,ctx)
 
     @discord.application_command(description="猜拳")
     async def mora(self,ctx):
-        await fun.Mora(ctx)
+        await fun.mora(ctx)
 
     @discord.application_command(description="測試你的運氣")
     async def luck(self,ctx , member: discord.Option(discord.Member,"選擇成員")= None):

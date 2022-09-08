@@ -2,6 +2,7 @@ import discord
 import datetime
 from discord.ext import commands
 import lib.function as tool
+
 from lib.bot_config import bot_icon_url
 
 async def translate(ctx,language,text):
@@ -99,7 +100,7 @@ async def bullshit(ctx,topic,minlen):
     if topic and minlen != None:
 
         try:
-            artcle = bullshit(topic,minlen)
+            artcle = tool.bullshit(topic,minlen)
 
         except:
             if type == "command":

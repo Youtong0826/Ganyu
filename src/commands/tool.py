@@ -27,6 +27,11 @@ class Tool(CogExtension):
         await tool.bullshit(ctx,topic,minlen)
 
     @commands.command()
+    async def genshin(self,ctx,name:str):
+       
+        await ctx.send(embed=embed)
+
+    @commands.command()
     async def math(self,ctx,formula=None):
         await tool.math(ctx,formula)
 

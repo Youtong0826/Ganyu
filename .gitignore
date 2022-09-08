@@ -1,5 +1,6 @@
 # Ignore all files with the specified name.
-config.json
 # Scope is all repo folders.
 .vscode
 __pycache__
+config.json
+.env

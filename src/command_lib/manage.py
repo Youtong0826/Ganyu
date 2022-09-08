@@ -220,3 +220,32 @@ async def clean(ctx:discord.ApplicationContext,limit:int):
         except:await msg.delete(delay=5.0)
 
         await ctx.respond(embed=embed)
+
+async def autorole(ctx:discord.ApplicationContext,channel:discord.TextChannel,*roles:discord.Role):
+    if ctx.author.guild_permissions.administrator or ctx.author.guild_permissions.manage_roles:
+        if not channel: await ctx.respond("請指定一個頻道")
+        
+        view = discord.ui.View(timeout=None)
+
+        def id_generator(role:discord.Role):
+            return f"autorole:{ctx.guild_id}.{role.id}"
+
+        for role in roles:
+            view.add_item(discord.ui.Button(
+                style=discord.ButtonStyle.gray,
+                label=role.name,
+                custom_id=id_generator(role),
+            ))
+
+        await channel.send("選取你需要的身分組!",view=view)
+        await ctx.respond("已成功發送訊息!",delete_after=5.0)
+
+    else:
+        embed = discord.Embed(
+            title="你沒有權限!",
+            description="缺少權限 `manage_role` `管理身分組`",
+            color=discord.Colour.red(),
+            timestamp=datetime.datetime.utcnow()
+        )
+
+        ctx.respond(embed=embed)

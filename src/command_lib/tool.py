@@ -1,7 +1,7 @@
 import discord
 import datetime
 from discord.ext import commands
-from lib.function import SendBGM,translate,bullshit,calculator,getGenshininfo,wiki_info,wiki_search
+import lib.function as tool
 from lib.bot_config import bot_icon_url
 
 async def translate(ctx,language,text):
@@ -27,7 +27,7 @@ async def translate(ctx,language,text):
             )
 
         else:    
-            translate_text = translate(str(text),translate_to)
+            translate_text = tool.translate(str(text),translate_to)
 
             embed = discord.Embed(
                 title="成功! 以下為翻譯結果",
@@ -61,7 +61,7 @@ async def translate(ctx,language,text):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    tool.SendBGM(ctx)
 
 async def words(ctx,text):
     if text != None:
@@ -93,7 +93,7 @@ async def words(ctx,text):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    tool.SendBGM(ctx)
 
 async def bullshit(ctx,topic,minlen):
     if topic and minlen != None:
@@ -129,11 +129,11 @@ async def bullshit(ctx,topic,minlen):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    tool.SendBGM(ctx)
 
 async def math(ctx,formula):
     if formula != None:
-        answer = calculator(formula)
+        answer = tool.calculator(formula)
         embed = discord.Embed(
             title="計算機",
             description="結果如下",
@@ -318,7 +318,7 @@ async def math(ctx,formula):
             else:
                 nonlocal calculate_value
                 if interaction.custom_id[5:] == "=":
-                    result = calculator(calculate_value)
+                    result = tool.calculator(calculate_value)
                     calculate_value = result if result is not None else ...
 
                 elif interaction.custom_id == "math_AC":calculate_value = " "
@@ -347,7 +347,7 @@ async def math(ctx,formula):
         elif isinstance(ctx,discord.ApplicationContext):
             await ctx.respond(embed=embed,view=view)
 
-        SendBGM(ctx)
+        tool.SendBGM(ctx)
 
 async def genshininfo(ctx,uid,server):
 
@@ -368,7 +368,7 @@ async def genshininfo(ctx,uid,server):
 
         server = "os_" + server
     
-        data = getGenshininfo(uid,server)#811312758
+        data = tool.getGenshininfo(uid,server)#811312758
 
         serverkw =  {
             'os_usa': '美服',
@@ -547,12 +547,12 @@ async def genshininfo(ctx,uid,server):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed,view=view)
 
-    SendBGM(ctx)
+    tool.SendBGM(ctx)
 
 async def wikiInfo(ctx,keywords:str,bot=None):
     keywords_split = keywords.split()
-    results = wiki_search(tuple(keywords_split))
-    if results == None: await ctx.respond(f"{bot.mention}徹徹底底地搜索了一遍 但還是找不到結果..")
+    results = tool.wiki_search(tuple(keywords_split))
+    if results == None: await ctx.respond(f"{bot.mention} 徹徹底底地搜索了一遍 但還是找不到結果..")
 
     emojis = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"]
     options = []
@@ -577,7 +577,7 @@ async def wikiInfo(ctx,keywords:str,bot=None):
             info = {}
             for result in results:
                 if select.values[0] == "wiki_" + result:
-                    info["description"] = wiki_info(result,3)
+                    info["description"] = tool.wiki_info(result,3)
                     info["title"] = result
                     break
 

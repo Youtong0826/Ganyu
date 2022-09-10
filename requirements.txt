@@ -1,6 +1,7 @@
 git+https://github.com/Pycord-Development/pycord
 beautifulsoup4
 python-dotenv
+pymongo[srv]
 youtube-dl
 wikipedia
 requests

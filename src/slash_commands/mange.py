@@ -53,13 +53,12 @@ class SlashMange(CogExtension):
     async def clear(self,ctx,limit:discord.Option(int,"您想清除多少個訊息?")=None):
         await clean(ctx,limit)
     
-    @discord.application_command(description="自動給予成員身分組")
+    #@discord.application_command(description="自動給予成員身分組")
     async def autorole(self,ctx,
         channel:discord.Option(discord.TextChannel,description="選擇要發送訊息頻道",name="頻道"),
-        roles:str
     ):
         
-        await autorole(ctx,channel,tuple(roles.split()))
+        await autorole(ctx,channel)
 
 def setup(bot):
     bot.add_cog(SlashMange(bot))

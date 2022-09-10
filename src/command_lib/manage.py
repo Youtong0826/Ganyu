@@ -1,5 +1,7 @@
-from discord.ext import commands
+from select import select
+from lib.database import MongoDB
 from lib.function import SendBGM
+from discord.ext import commands
 import discord
 import datetime
 
@@ -216,29 +218,46 @@ async def clean(ctx:discord.ApplicationContext,limit:int):
         irt = await ctx.respond(embed=embed)
 
     if deleted :
-        try:await irt.delete_original_message(delay=5.0)
-        except:await msg.delete(delay=5.0)
+        try: await irt.delete_original_message(delay=5.0)
+        except: await msg.delete(delay=5.0)
 
-        await ctx.respond(embed=embed)
+async def autorole(ctx:discord.ApplicationContext,channel:discord.TextChannel,bot:commands.Bot):
+    DB = MongoDB("guilds",ctx.guild_id)
+    guild = ctx.author.guild
+    print("Setup")
 
-async def autorole(ctx:discord.ApplicationContext,channel:discord.TextChannel,*roles:discord.Role):
     if ctx.author.guild_permissions.administrator or ctx.author.guild_permissions.manage_roles:
         if not channel: await ctx.respond("請指定一個頻道")
-        
-        view = discord.ui.View(timeout=None)
 
         def id_generator(role:discord.Role):
             return f"autorole:{ctx.guild_id}.{role.id}"
 
-        for role in roles:
-            view.add_item(discord.ui.Button(
-                style=discord.ButtonStyle.gray,
-                label=role.name,
-                custom_id=id_generator(role),
-            ))
+        options = []
+        for role in guild.roles:
+            if role.name != "@everyone":
+                options.append(discord.SelectOption(
+                    label=role.name,
+                    value=str(role.id),
+                ))
+    
 
-        await channel.send("選取你需要的身分組!",view=view)
-        await ctx.respond("已成功發送訊息!",delete_after=5.0)
+        select_menu = discord.ui.Select(
+            placeholder="身份組!",
+            min_values=25,
+            options=options
+        )
+
+        async def callback(interaction:discord.Interaction):
+            embed = discord.Embed(
+                title="索取你要的身份組!",
+                color=discord.Colour.random()
+            )
+
+            for role_id in select_menu.values:
+                bot.get
+
+        view = discord.ui.View(select_menu,timeout=None)
+        await ctx.respond("選擇要被領取的身份組",view=view)
 
     else:
         embed = discord.Embed(

@@ -20,9 +20,9 @@ class SlashHelp(CogExtension):
         await ctx.respond(embed=ganyuCommands["info"])
         SendBGM(ctx)
 
-    @discord.application_command(description="常用指令清單")
-    async def cucmd(self, ctx):
-        await ctx.respond(embed=ganyuCommands["cmd"])
+    @discord.application_command(description="其他指令清單")
+    async def other(self, ctx):
+        await ctx.respond(embed=ganyuCommands["other"])
         SendBGM(ctx)
 
     @discord.application_command(description="管理指令清單")

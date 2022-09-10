@@ -10,6 +10,7 @@ intents.message_content = False
 intents.presences = False
 
 bot = commands.Bot(
+    command_prefix="g!",
     intents=intents
 )
 

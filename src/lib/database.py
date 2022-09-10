@@ -1,9 +1,7 @@
 from pymongo import MongoClient
-from dotenv import load_dotenv
 import os
 
-load_dotenv()
-password = os.getenv("MongoDBPassword")
+password = os.environ.get("MongoDBPassword")
 client = MongoClient(f"mongodb+srv://Ganyu-bot-cloud-db:{password}@ganyu-bot.7pvjkku.mongodb.net/?retryWrites=true&w=majority")
 
 class MongoDB:

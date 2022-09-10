@@ -1,9 +1,10 @@
 git+https://github.com/Pycord-Development/pycord
-requests
 beautifulsoup4
+python-dotenv
 youtube-dl
+wikipedia
+requests
+pymongo
+ffmpeg
 PyNaCl
 wheel
-ffmpeg
-python-dotenv
-wikipedia

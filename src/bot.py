@@ -24,7 +24,7 @@ def load_extension(folder:str,mode:str="load",is_notice:bool=True):
         "unload":bot.unload_extension
     }
 
-    if is_notice:print(f"Start {mode} {folder}")
+    if is_notice:print(f"Start {mode}ing {folder}")
 
     for Filename in os.listdir(f'src/{folder}'):
 
@@ -158,6 +158,7 @@ async def on_ready():
         for i in range(len(names)):
             activity = discord.Activity(name=names[i] ,**ACTIVITY_OPTION)
             await bot.change_presence(activity=activity,status=discord.Status.idle)
+            await asyncio.sleep(5.0)
 
     while True:
         await run_activity_loop()

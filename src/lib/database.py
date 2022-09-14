@@ -34,7 +34,7 @@ class MongoDB:
     def read_first(self, query:dict={}, id:int=0):
         return self.col.find_one( query,{"_id":id})
 
-    def read_all(self, query:dict={}, is_read:dict={}, id:bool=False):
+    def read(self, query:dict={}, is_read:dict={}, id:bool=False):
         """
             Parameters
             ==========

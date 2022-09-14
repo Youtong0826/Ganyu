@@ -112,8 +112,6 @@ async def on_ready():
 
     async def run_activity_loop():
 
-        watching = discord.ActivityType.watching
-
         names = [
             f"/help | {len(bot.guilds)} 個伺服器",
             f"/help | {len(bot.users)} 個用戶",
@@ -157,17 +155,9 @@ async def on_ready():
             },
         }
 
-        activity = discord.Activity(name=names[0],**ACTIVITY_OPTION)
-        await bot.change_presence(status = discord.Status.streaming, activity = activity)
-        await asyncio.sleep(5)
-
-        activity = discord.Activity(name=names[1],**ACTIVITY_OPTION)
-        await bot.change_presence(status = discord.Status.streaming, activity = activity)
-        await asyncio.sleep(5)
-
-        activity = discord.Activity(name=names[2],**ACTIVITY_OPTION)
-        await bot.change_presence(status = discord.Status.streaming, activity = activity)
-        await asyncio.sleep(5)
+        for i in range(len(names)):
+            activity = discord.Activity(name=names[i] ,**ACTIVITY_OPTION)
+            await bot.change_presence(activity=activity,status=discord.Status.idle)
 
     while True:
         await run_activity_loop()

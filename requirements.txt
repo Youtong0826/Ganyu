@@ -5,7 +5,6 @@ pymongo[srv]
 youtube-dl
 wikipedia
 requests
-pymongo
 ffmpeg
 PyNaCl
 wheel

@@ -198,7 +198,7 @@ async def mora(ctx):
         await ctx.send(embed=MainEmbed)
 
     elif isinstance(ctx,discord.ApplicationContext):
-        await ctx.respond(embed=MainEmbed)
+        await ctx.respond(embed=MainEmbed,view=MainView)
 
     SendBGM(ctx)
 

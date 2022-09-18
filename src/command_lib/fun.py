@@ -90,7 +90,7 @@ async def dice(mode,number,ctx):
     SendBGM(ctx)
     
 async def mora(ctx):
-    moraed = random.choice(moras = ["剪刀","石頭","布"])
+    moraed = random.choice(["剪刀","石頭","布"])
 
     MainEmbed = discord.Embed(
         title = "這次想出什麼呢?",

@@ -146,7 +146,7 @@ async def on_ready():
             "platfrom": "Discord",
             "game" : "/help",
             "url" : "https://discord.gg/AVCWGuuUex",
-            "detail":"**使用我的用戶們<3**",
+            "detail":"**thinking**",
             "assets" :{
                 "large_image":"largetest",
                 "large_text":"largetest",

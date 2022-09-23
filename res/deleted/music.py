@@ -6,7 +6,6 @@ from discord.ext import commands
 import dotenv
 import datetime
 import discord
-import ctypes
 import ctypes.util
 
 find_opus = ctypes.util.find_library('opus')

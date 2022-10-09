@@ -1,14 +1,13 @@
+from discord.ext import commands
+from lib.bot_config import bot_icon_url
+import lib.function as tool
 import discord
 import datetime
-from discord.ext import commands
-import lib.function as tool
 
-from lib.bot_config import bot_icon_url
-
-async def translate(ctx,language,text):
+async def translate(ctx,**kwargs):
     google_translate_icon_url = "https://th.bing.com/th/id/R.93d2c8f15964faae1e75331caf7d8fe0?rik=vl9rlcN9fh1oEw&pid=ImgRaw&r=0"
     
-    translate_to_dict = {
+    translate_to = {
         "繁中":"zh-TW",
         "簡中":"zh-CN",
         "英語":"en",
@@ -16,34 +15,25 @@ async def translate(ctx,language,text):
         "印尼語":"id"
     }
 
+    language:str = kwargs.get("language","繁中")
+    text:str = kwargs.get("text")
+    print(tool.translate("haha",translate_to[language]))
     if text != None:
-        translate_to = translate_to_dict[str(language)]
-
-        if translate_to == None:
-
-            embed = discord.Embed(
-                title="發生錯誤!",
-                color=discord.Colour.red(),
-                description="**您所選的語言不在可辨識的語言當中!**"
-            )
-
-        else:    
-            translate_text = tool.translate(str(text),translate_to)
-
-            embed = discord.Embed(
-                title="成功! 以下為翻譯結果",
-                color=discord.Colour.random(),
-                timestamp=datetime.datetime.utcnow()
-            )
-            embed.add_field(
-                name="原文",
-                value=f"```{text}```"
-            )
-            embed.add_field(
-                name=language,
-                value=f"```{translate_text}```",
-                inline=False
-            )
+        translated_text = tool.translate(text,translate_to[language])
+        embed = discord.Embed(
+            title="成功! 以下為翻譯結果",
+            color=discord.Colour.random(),
+            timestamp=datetime.datetime.utcnow()
+        )
+        embed.add_field(
+            name="原文",
+            value=f"```{text}```"
+        )
+        embed.add_field(
+            name=language,
+            value=f"```{translated_text}```",
+            inline=False
+        )
     
     else:
         embed = discord.Embed(
@@ -610,3 +600,5 @@ async def wikiInfo(ctx,keywords:str,bot=None):
 
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed,view=view)
+
+

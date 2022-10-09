@@ -10,7 +10,7 @@ class Math(CogExtension):
         ctx,
         a: ast.literal_eval
     ):
-        if len(f"{a}") > 6:
+        if len(a) > 6:
 
             embed = discord.Embed(
                 title=" 錯誤",

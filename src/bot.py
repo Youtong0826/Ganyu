@@ -1,8 +1,11 @@
-import asyncio
 from lib.function import SendBGM
 from discord.ext import commands
+from dotenv import load_dotenv
 import discord
+import asyncio
 import os
+
+load_dotenv()
 
 intents = discord.Intents.all()
 

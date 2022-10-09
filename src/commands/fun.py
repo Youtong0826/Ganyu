@@ -5,23 +5,23 @@ import discord
 
 class Fun(CogExtension):
 
-    @commands.command()
+    @commands.command(name="dice")
     async def dice(self, ctx, number: int = None):
         await fun.dice(number,ctx)
 
-    @commands.command()
+    @commands.command(name="mora")
     async def mora(self,ctx):
         await fun.mora(ctx)
 
-    @commands.command()
+    @commands.command(name="luck")
     async def luck(self,ctx , member:discord.Member = None):
         await fun.luck(ctx,member)
 
-    @commands.command()
+    @commands.command(name="spank")
     async def spank(self, ctx, member:discord.Member = None):
         await fun.spank(ctx,member,)
 
-    @commands.command()
+    @commands.command(name="gay")
     async def gay(self,ctx,member:discord.Member = None):
         await fun.gay(ctx,member)
 

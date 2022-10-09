@@ -12,7 +12,7 @@ import json
 import re
 
 def translate(text, to_language="auto", text_language="auto"):
-    GOOGLE_TRANSLATE_URL = 'http://translate.google.cn/m?q=%s&tl=%s&sl=%s'
+    GOOGLE_TRANSLATE_URL = 'http://translate.google.com/m?q=%s&tl=%s&sl=%s'
     text = parse.quote(text)
     url = GOOGLE_TRANSLATE_URL % (text,to_language,text_language)
     response = requests.get(url)

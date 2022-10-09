@@ -27,8 +27,8 @@ class SlashCucmd(CogExtension):
 
     @discord.application_command(description="讓機器人模仿你說的話!")
     async def say(self, ctx : discord.ApplicationContext, *, msg : discord.Option(str,"訊息")):
-        await ctx.send(msg,allowed_mentions=discord.AllowedMentions.none())
         await ctx.response.send_message("已成功發送訊息!",ephemeral=True)
+        await ctx.send(msg,allowed_mentions=discord.AllowedMentions.none())
         SendBGM(ctx)
 
     @discord.application_command(description="查看頭像")

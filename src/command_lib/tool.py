@@ -17,7 +17,7 @@ async def translate(ctx,**kwargs):
 
     language:str = kwargs.get("language","繁中")
     text:str = kwargs.get("text")
-    print(tool.translate("haha",translate_to[language]))
+
     if text != None:
         translated_text = tool.translate(text,translate_to[language])
         embed = discord.Embed(
@@ -50,7 +50,10 @@ async def translate(ctx,**kwargs):
         await ctx.send(embed=embed)
 
     elif isinstance(ctx,discord.ApplicationContext):
-        await ctx.respond(embed=embed)
+        if len(kwargs.keys()) <= 1:
+            await ctx.response.send_message(embed=embed,ephemeral=True)
+        else:
+            await ctx.respond(embed=embed)
 
     tool.SendBGM(ctx)
 

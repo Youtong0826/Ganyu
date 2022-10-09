@@ -9,13 +9,9 @@ class SlashTool(CogExtension):
     async def tr(self,ctx,text:discord.Message):
         await tool.translate(ctx,text=text.content)
 
-    @discord.application_command(description="字數轉換器")
+    @discord.application_command(description="翻譯功能")
     async def translate(self,ctx,language : discord.Option(str,"選擇要翻譯成的語言",choices=["繁中","簡中","英語","日語","印尼語"]),*,text=None):
         await tool.translate(ctx,language=language,text=text)
-
-    @discord.application_command(description="字數轉換器")
-    async def translate(self,ctx,language : discord.Option(str,"選擇要翻譯成的語言",choices=["繁中","簡中","英語","日語","印尼語"]),*,text=None):
-        await tool.translate(ctx,language,text)
 
     @discord.application_command(description="字數轉換器")
     async def words(self,ctx: discord.ApplicationContext,*,text : discord.Option(str,"輸入您要轉換的句子")):

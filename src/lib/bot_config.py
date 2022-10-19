@@ -1,8 +1,6 @@
 from lib.function import mustFieldEmbed
 import discord
 
-builder = "youtong._.0826#9250"
-update = "無"
 bot_icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"
 ganyuCommands = {
     "ganyu": mustFieldEmbed(

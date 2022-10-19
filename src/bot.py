@@ -14,7 +14,7 @@ intents.presences = False
 
 bot = commands.Bot(
     command_prefix="g!",
-    intents=intents
+    intents=intents,
 )
 
 bot.remove_command("help")
@@ -35,7 +35,7 @@ def load_extension(folder:str,mode:str="load",is_notice:bool=True):
             loading_method[mode](f"{folder}.{Filename[:-3]}")
             if is_notice:print(f'-- {mode}ed "{Filename}"')
 
-for folder in ["commands","slash_commands","events"]: load_extension(folder) 
+for folder in ["slash_commands","events"]: load_extension(folder) 
 
 @bot.command()
 async def load(ctx:discord.ApplicationContext, folder, extension=None):

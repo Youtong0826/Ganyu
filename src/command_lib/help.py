@@ -38,21 +38,21 @@ async def help(ctx):
         ],
     )
 
-    InviteButton = discord.ui.Button(
+    inviteButton = discord.ui.Button(
         label="Invite me!",
         emoji="🔗",
         url="https://discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=12145977687&scope=bot%20applications.commands",
     )
 
-    SupportButton = discord.ui.Button(
+    supportButton = discord.ui.Button(
         label="Support", emoji="❓", url="https://discord.gg/AVCWGuuUex"
     )
 
     main_view = discord.ui.View(timeout=None)
 
     main_view.add_item(main_select)
-    main_view.add_item(InviteButton)
-    main_view.add_item(SupportButton)
+    main_view.add_item(inviteButton)
+    main_view.add_item(supportButton)
 
     async def main_select_callback(interaction):
         await interaction.response.edit_message(

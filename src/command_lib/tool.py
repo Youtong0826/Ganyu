@@ -253,7 +253,7 @@ async def math(ctx,formula):
             style=discord.ButtonStyle.success,
             custom_id="math_=",
             label="=",
-            row=4
+            row=3
         )
 
         plus_button = discord.ui.Button(
@@ -284,25 +284,39 @@ async def math(ctx,formula):
             row=4
         )
 
-        AC_button = discord.ui.Button(
+        ac_button = discord.ui.Button(
             style=discord.ButtonStyle.danger,
-            custom_id="math_AC",
+            custom_id="math_ac",
             label="AC",
             row=1
         )
 
-        C_button = discord.ui.Button(
+        c_button = discord.ui.Button(
             style=discord.ButtonStyle.danger,
-            custom_id="math_C",
+            custom_id="math_c",
             label="C",
             row=2
         )
 
+        left_parenthesis = discord.ui.Button(
+            style=discord.ButtonStyle.grey,
+            custom_id="math_(",
+            label="(",
+            row=4
+        )
+
+        right_parenthesis = discord.ui.Button(
+            style=discord.ButtonStyle.grey,
+            custom_id="math_)",
+            label=")",
+            row=4
+        )
+
         buttons = [
-            button1, button2, button3, plus_button, AC_button,
-            button4, button5, button6, minus_button, C_button,
-            button7, button8, button9, multiply_button,
-            dot_button, button0, equal_button, division_button,
+            button1, button2, button3, plus_button, ac_button,
+            button4, button5, button6, minus_button, c_button,
+            button7, button8, button9, multiply_button, equal_button,
+            left_parenthesis,button0, right_parenthesis, division_button, dot_button,
         ]
 
         async def callback(interaction:discord.Interaction):
@@ -313,13 +327,18 @@ async def math(ctx,formula):
                 nonlocal calculate_value
                 if interaction.custom_id[5:] == "=":
                     result = tool.calculator(calculate_value)
-                    calculate_value = result if result is not None else ...
 
-                elif interaction.custom_id == "math_AC":calculate_value = " "
+                    if result is not None: 
+                        calculate_value = result  
 
-                elif interaction.custom_id == "math_C":calculate_value = calculate_value[:-1]
+                elif interaction.custom_id == "math_ac":
+                    calculate_value = " "
 
-                else:calculate_value += interaction.custom_id[5:]
+                elif interaction.custom_id == "math_c":
+                    calculate_value = calculate_value[:-1]
+
+                else:
+                    calculate_value += interaction.custom_id[5:]
     
                 embed = discord.Embed(
                     title="簡易計算機",

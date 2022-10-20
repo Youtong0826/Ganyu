@@ -77,21 +77,12 @@ def GetVideoInfo(youtube_url):
     with youtube_dl.YoutubeDL() as ydl:
 
         original_data = ydl.extract_info(str(youtube_url), download=False)
-        
-        data["id"] = original_data.get("id")
-        data["title"] = original_data.get("title")
-        data["thumbnail"] = original_data.get("thumbnail")
-        data["uploader"] = original_data.get("uploader")
-        data["duration"] = original_data.get("duration") #時長(秒)
-        data["view_count"] = original_data.get("view_count") 
-        data["comment_count"] = original_data.get("comment_count")
-        data["like_count"] = original_data.get("like_count")
-        data["dislike_count"] = original_data.get("dislike_count")
-        data["average_rating"] = original_data.get("average_rating") #平均分數
-        data["description"] = original_data.get("description") #描述
-        data["tags"] = original_data.get("tags") #標籤
-        data["url"] = original_data.get("webpage_url") #連結
-        data["upload_date"] = original_data.get("upload_date") 
+
+        keys = ["id","title","thumbnail","uploader","duration","view_count","comment_count","like_count",
+            "dislike_count","average_rating","description","tags","webpage_url","upload_date"]
+
+        for k in keys:
+            data[k] = original_data.get(k)
         
     return data
 
@@ -156,5 +147,3 @@ def getGenshininfo(uid,server):
 def get_time():
     return datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
 
-def operate_time(datetime_a:datetime.datetime,datetime_b:datetime.datetime):
-    ...

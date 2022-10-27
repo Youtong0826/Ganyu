@@ -2,7 +2,7 @@ import discord
 import datetime
 from lib.bot_config import bot_icon_url
 from discord.ext import commands
-from lib.function import SendBGM
+from lib.functions import SendBGM
 
 def server_data(guild:discord.Guild):
     #主要語言: {guild.preferred_locale}

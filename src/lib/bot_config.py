@@ -1,4 +1,4 @@
-from lib.function import mustFieldEmbed
+from lib.functions import mustFieldEmbed
 import discord
 
 bot_icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"

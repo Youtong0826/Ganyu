@@ -2,7 +2,7 @@ import discord
 import random
 import datetime
 from discord.ext import commands
-from lib.function import SendBGM
+from lib.functions import SendBGM
 from lib.bot_config import bot_icon_url
 
 async def dice(mode,number,ctx):

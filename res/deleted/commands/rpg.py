@@ -3,7 +3,7 @@ import discord
 import datetime
 import json
 from discord.ext import commands
-from core.classes import CogExtension
+from lib.classes import CogExtension
 from lib.bot_config import bot_icon_url
 
 numbers = [

@@ -1,6 +1,6 @@
 import discord
 from lib.bot_config import ganyuCommands
-from lib.function import SendBGM
+from lib.functions import SendBGM
 from discord.ext import commands
 
 

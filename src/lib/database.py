@@ -19,6 +19,8 @@ class MongoDB:
             ">=":"$gte",
         }
 
+        self.col.aggregate()
+
     def set(self, data:dict):
         self.col.insert_one(data)
 
@@ -37,9 +39,8 @@ class MongoDB:
     def read(self, query:dict={}, is_read:dict={}, id:bool=False):
         """
             Parameters
-            ==========
+            ----------
             query: :class:`dict`
-            -------------------
                 conditions to filter
                 ### Support Operation
 
@@ -55,9 +56,9 @@ class MongoDB:
 
                     <= : `{query:{"$lte:`int`}}`
 
-                    ">": `{"query":{"$gt":`int`}}`
+                    ">": `{query:{"$gt":`int`}}`
 
-                    ">=": `{"query"{"$gte":`int`}}`
+                    ">=": `{query{"$gte":`int`}}`
         """
         
         is_read["_id"] = 0 if id == False else 1
@@ -74,6 +75,7 @@ class MongoDB:
     def drop(self):
         self.col.drop()
 
+    
     @property
     def data(self):
         return self.read_all()

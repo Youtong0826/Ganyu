@@ -1,6 +1,6 @@
-from lib.function import translate, SendBGM, bullshit, calculator
+from lib.functions import translate, SendBGM, bullshit, calculator
 from lib.bot_config import bot_icon_url 
-from core.classes import CogExtension
+from lib.classes import CogExtension
 from command_lib import tool
 import discord
 

@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from core.classes import CogExtension
+from lib.classes import CogExtension
 from command_lib import manage
 
 class Mange(CogExtension):

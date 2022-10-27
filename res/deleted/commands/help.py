@@ -1,6 +1,6 @@
 from discord.ext import commands
-from core.classes import CogExtension
-from lib.function import mustFieldEmbed, SendBGM
+from lib.classes import CogExtension
+from lib.functions import mustFieldEmbed, SendBGM
 from lib.bot_config import ganyuCommands
 from command_lib import help
 import discord

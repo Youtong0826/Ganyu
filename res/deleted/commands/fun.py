@@ -1,4 +1,4 @@
-from core.classes import CogExtension
+from lib.classes import CogExtension
 from discord.ext import commands
 from command_lib import fun
 import discord

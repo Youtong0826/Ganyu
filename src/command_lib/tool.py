@@ -1,6 +1,6 @@
 from discord.ext import commands
 from lib.bot_config import bot_icon_url
-import lib.function as tool
+import lib.functions as tool
 import discord
 import datetime
 

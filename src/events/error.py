@@ -1,6 +1,6 @@
 import asyncio
-from lib.function import translate,ErrorBGM
-from core.classes import CogExtension
+from lib.functions import translate,ErrorBGM
+from lib.classes import CogExtension
 from discord.ext import commands
 import discord
 

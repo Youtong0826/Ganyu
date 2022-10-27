@@ -1,6 +1,6 @@
 from select import select
 from lib.database import MongoDB
-from lib.function import SendBGM
+from lib.functions import SendBGM
 from discord.ext import commands
 import discord
 import datetime

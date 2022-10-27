@@ -3,7 +3,7 @@ import datetime
 import random
 import requests
 import json
-from lib.function import SendBGM
+from lib.functions import SendBGM
 from discord.ext import commands
 
 async def avatar(ctx,member):

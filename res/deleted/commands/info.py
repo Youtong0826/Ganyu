@@ -1,8 +1,8 @@
 import discord , datetime
 from discord.ext import commands
-from core.classes import CogExtension
+from lib.classes import CogExtension
 from lib.bot_config import bot_icon_url
-from lib.function import SendBGM
+from lib.functions import SendBGM
 from command_lib import info
 """
 g!allinfo

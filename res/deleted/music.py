@@ -1,6 +1,6 @@
 from lib.bot_config import bot_icon_url
-from core.classes import Cog_ExtenSion
-from lib.function import GetVideoInfo
+from lib.classes import Cog_ExtenSion
+from lib.functions import GetVideoInfo
 from youtube_dl import YoutubeDL
 from discord.ext import commands
 import dotenv

@@ -1,5 +1,5 @@
 import discord
-from core.classes import CogExtension
+from lib.classes import CogExtension
 from command_lib.manage import mange_member, clean, addrole, autorole
 
 

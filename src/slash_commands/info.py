@@ -1,6 +1,6 @@
 import discord 
-from core.classes import CogExtension
-from lib.function import SendBGM
+from lib.classes import CogExtension
+from lib.functions import SendBGM
 from command_lib import info
 
 class SlashInfo(CogExtension):

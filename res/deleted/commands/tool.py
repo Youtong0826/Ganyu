@@ -1,5 +1,5 @@
-from lib.function import bullshit, translate, wiki_search, calculator, GetVideoInfo ,SendBGM
-from core.classes import CogExtension
+from lib.functions import bullshit, translate, wiki_search, calculator, GetVideoInfo ,SendBGM
+from lib.classes import CogExtension
 from lib.bot_config import bot_icon_url
 from discord.ext import commands
 from command_lib import tool

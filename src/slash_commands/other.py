@@ -3,8 +3,8 @@ import discord
 import datetime
 import json
 import requests
-from core.classes import CogExtension
-from lib.function import SendBGM
+from lib.classes import CogExtension
+from lib.functions import SendBGM
 
 imageIdList = []
 for i in range(3):

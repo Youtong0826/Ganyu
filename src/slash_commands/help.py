@@ -1,7 +1,7 @@
 import discord
 from command_lib import help
-from core.classes import CogExtension
-from lib.function import SendBGM
+from lib.classes import CogExtension
+from lib.functions import SendBGM
 from lib.bot_config import ganyuCommands
 
 

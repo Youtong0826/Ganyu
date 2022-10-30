@@ -1,8 +1,8 @@
 # Ganyu Bot
 
-### Overview
+## Overview
 
-just a discord bot.
+just a discord bot
 
 ### Command List
 ```py

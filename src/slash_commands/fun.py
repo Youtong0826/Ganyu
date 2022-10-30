@@ -16,9 +16,70 @@ class SlashFun(CogExtension):
     ):
         await fun.dice(mode,number,ctx)
 
-    @discord.application_command(description="猜拳")
-    async def mora(self,ctx):
-        await fun.mora(ctx)
+    @discord.application_command(name="finger-guessing",description="猜拳")
+    async def rock_paper_scissors(self,ctx):
+        main = discord.Embed(
+            title = "這次想出什麼呢?",
+            color = discord.Colour.random(),
+            timestamp = datetime.datetime.utcnow()
+        )
+
+        main.set_footer(text="猜拳",icon_url=bot_icon_url)
+
+        default_view = discord.ui.View()
+
+        scissors = discord.ui.Button(
+            style = discord.ButtonStyle.success,
+            label = "剪刀",
+            emoji = "✂️",
+            custom_id="scissors"
+        )
+
+        rock = discord.ui.Button(
+            style = discord.ButtonStyle.success,
+            label = "石頭",
+            emoji = "🪨",
+            custom_id="rock"
+        )
+
+        paper = discord.ui.Button(
+            style = discord.ButtonStyle.success,
+            label = "布",
+            emoji = "🌫️",
+            custom_id="paper"
+        )
+
+        async def callback(interaction:discord.Interaction):
+            details = {
+                "win" : ["你輸了..","但你還有下一次機會!"],
+                "tie" : ["平手!","看來是勢均力敵呢!"],
+                "lose" : ["你贏了!!","你贏了!!"]    
+            }
+
+            result = random.choice(["win","tie","lose"])
+
+            embed = discord.Embed(
+                title = details[result],
+                description = details[result],
+                color = discord.Colour.random()
+            )
+
+            await interaction.response.edit_message(embed=embed,view=default_view)
+
+        for n in [scissors,paper,rock]:
+            n.callback = callback
+
+        #map(lambda x:x.callback==callback,[scissors,paper,rock])
+        view = discord.ui.View(scissors,rock,paper,timeout=None)
+
+        if isinstance(ctx, commands.Context):
+            await ctx.send(embed=main)
+
+        elif isinstance(ctx,discord.ApplicationContext):
+            await ctx.respond(embed=main,view=view)
+
+        SendBGM(ctx)
+
 
     @discord.application_command(description="測試你的運氣")
     async def luck(self,ctx , member: discord.Option(discord.Member,"選擇成員")= None):

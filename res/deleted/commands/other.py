@@ -1,4 +1,3 @@
-import random
 import discord
 import datetime
 from command_lib import other
@@ -7,41 +6,6 @@ from lib.classes import CogExtension
 from lib.functions import SendBGM
 
 class Cucmd(CogExtension):
-
-    @commands.command()
-    async def send(self,ctx,member :discord.Member = None):
-        link = "[點擊這裡!](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands)"
-        embed = discord.Embed(
-            title="非常抱歉打擾您 以下是來自甘雨緊急公告",
-            description=f"簡單來說機器人又爆了 將造成機器人下線一陣子 為此我們深感抱歉 我們正在尋找能夠替代的營運商 希望能早點恢復吧Qwq",
-            color=discord.Colour.random()
-        )
-        if member != None:
-            await member.send(embed=embed)
-        
-        else:
-            sended = []
-            for n in self.bot.guilds:
-                if n.owner not in sended:
-                    sended.append(n.owner)
-                    await n.owner.send(embed=embed)
-
-    @commands.command()
-    async def say(self, ctx : discord.ApplicationContext, *, arg):
-        if "@everyone" in arg:
-            await ctx.send(f"{ctx.author.mention} 請勿提及everyone!! :x:")
-        
-        else:
-            
-            try:
-                await ctx.message.delete()
-
-            except:
-                pass
-
-            await ctx.send(arg)
-
-        SendBGM(ctx)
 
     @commands.command()
     async def avatar(self, ctx, *, member: discord.Member = None):

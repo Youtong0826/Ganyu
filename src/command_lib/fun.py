@@ -89,116 +89,59 @@ async def dice(mode,number,ctx):
 
     SendBGM(ctx)
     
-async def mora(ctx):
-    moraed = random.choice(["剪刀","石頭","布"])
-
-    MainEmbed = discord.Embed(
+async def rock_paper_scissors(ctx):
+    main = discord.Embed(
         title = "這次想出什麼呢?",
         color = discord.Colour.random(),
         timestamp = datetime.datetime.utcnow()
     )
 
-    MainEmbed.set_footer(text="猜拳",icon_url=bot_icon_url)
+    main.set_footer(text="猜拳",icon_url=bot_icon_url)
 
-    MainView = discord.ui.View(timeout=None)
-    DefaultView = discord.ui.View()
+    default_view = discord.ui.View()
 
-    ScissorsButton = discord.ui.Button(
+    scissors = discord.ui.Button(
         style = discord.ButtonStyle.success,
         label = "剪刀",
-        emoji = "✂️"
+        emoji = "✂️",
+        custom_id="scissors"
     )
 
-    RockButton = discord.ui.Button(
+    rock = discord.ui.Button(
         style = discord.ButtonStyle.success,
         label = "石頭",
-        emoji = "🪨"
+        emoji = "🪨",
+        custom_id="rock"
     )
 
-    ClothButton = discord.ui.Button(
+    paper = discord.ui.Button(
         style = discord.ButtonStyle.success,
         label = "布",
-        emoji = "🌫️"
+        emoji = "🌫️",
+        custom_id="paper"
     )
-    async def ScissorsButtonCallback(interaction:discord.Interaction):
-        if moraed == "剪刀":
-            embed = discord.Embed(
-                title = "平手!",
-                description = "看來是勢均力敵呢!",
-                color = discord.Colour.random()
-            )
-        elif moraed == "石頭":
-            embed = discord.Embed(
-                title = "你輸了..",
-                description = "你還有下一次機會!",
-                color = discord.Colour.random()
-            )
-        else:
-            embed = discord.Embed(
-                title = "你贏了!!",
-                description = "痾..恭喜!",
-                color = discord.Colour.random()
-            )
-        await interaction.response.edit_message(embed=embed,view=DefaultView)
+
+    async def callback(interaction:discord.Interaction):
+        details = {
+            "win" : ["你輸了..","但你還有下一次機會!"],
+            "tie" : ["平手!","看來是勢均力敵呢!"],
+            "lose" : ["你贏了!!","你贏了!!"]    
+        }
+        
+        result = random.choice(["win","tie","lose"])
+
+        embed = discord.Embed(
+            title = details[result],
+            description = details[result],
+            color = discord.Colour.random()
+        )
+
+        await interaction.response.edit_message(embed=embed,view=default_view)
     
-    async def  RockButtonCallback(interaction:discord.Interaction):
-        if moraed == "剪刀":
-            embed = discord.Embed(
-                title = "你贏了!!",
-                description = "痾..恭喜!",
-                color = discord.Colour.random()
-            )
-        elif moraed == "石頭":
-            embed = discord.Embed(
-                title = "平手!",
-                description = "看來是勢均力敵呢!",
-                color = discord.Colour.random()
-            )
-        else:
-            embed = discord.Embed(
-                title = "你輸了..",
-                description = "你還有下一次機會!",
-                color = discord.Colour.random()
-            )
-        await interaction.response.edit_message(embed=embed,view=DefaultView)
+    #map(lambda x:x.callback==callback,[scissors,paper,rock])
+    view = discord.ui.View(scissors,rock,paper,timeout=None)
 
-    async def  ClothButtonCallback(interaction:discord.Interaction):
-
-        if moraed == "剪刀":
-            embed = discord.Embed(
-                title = "你輸了..",
-                description = "你還有下一次機會!",
-                color = discord.Colour.random()
-            )
-
-        elif moraed == "石頭":
-            embed = discord.Embed(
-                title = "你贏了!!",
-                description = "痾..恭喜!",
-                color = discord.Colour.random()
-            )
-
-        else:
-            embed = discord.Embed(
-                title = "平手!",
-                description = "勢均力敵呢!",
-                color = discord.Colour.random()
-            )
-
-        await interaction.response.edit_message(embed=embed,view=DefaultView)
-    
-    ScissorsButton.callback = ScissorsButtonCallback
-    RockButton.callback = RockButtonCallback
-    ClothButton.callback = ClothButtonCallback
-    MainView.add_item(ScissorsButton)
-    MainView.add_item(RockButton)
-    MainView.add_item(ClothButton)
-
-    if isinstance(ctx, commands.Context):
-        await ctx.send(embed=MainEmbed)
-
-    elif isinstance(ctx,discord.ApplicationContext):
-        await ctx.respond(embed=MainEmbed,view=MainView)
+    ctx.respond(embed=main,view=view)
 
     SendBGM(ctx)
 
@@ -210,11 +153,7 @@ async def luck(ctx,member):
         "紫色","奶油色","薰衣草色","蘭花色","粉紅色","灰色","白色","黑色"
     ]
     
-    if member != None:
-        user = member
-        
-    else: 
-        user = ctx.author
+    user = member if member != None else ctx.author
 
     embed = discord.Embed(
         title=f"{user.name} 感謝您使用此功能!",

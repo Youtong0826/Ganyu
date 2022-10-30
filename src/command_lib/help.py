@@ -3,7 +3,6 @@ from lib.bot_config import ganyuCommands
 from lib.functions import SendBGM
 from discord.ext import commands
 
-
 async def help(ctx):
     main_select = discord.ui.Select(
         placeholder="選擇要查看的指令清單",

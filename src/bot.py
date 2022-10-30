@@ -30,7 +30,6 @@ def load_extension(folder:str,mode:str="load",is_notice:bool=True):
     if is_notice:print(f"Start {mode}ing {folder}")
 
     for Filename in os.listdir(f'src/{folder}'):
-
         if Filename.endswith(".py"):
             loading_method[mode](f"{folder}.{Filename[:-3]}")
             if is_notice:print(f'-- {mode}ed "{Filename}"')

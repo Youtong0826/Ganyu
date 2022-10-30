@@ -4,7 +4,6 @@ from lib.classes import CogExtension
 from lib.functions import SendBGM
 from lib.bot_config import ganyuCommands
 
-
 class SlashHelp(CogExtension):
     @discord.application_command(description="查看指令清單")
     async def help(self, ctx):

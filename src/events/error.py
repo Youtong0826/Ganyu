@@ -57,5 +57,7 @@ class ErrorEvent(CogExtension):
         await self.send_background_message(ctx,exception)
         ErrorBGM(ctx,exception)
 
+
+
 def setup(bot):
     bot.add_cog(ErrorEvent(bot))

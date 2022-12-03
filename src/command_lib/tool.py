@@ -34,6 +34,8 @@ async def translate(ctx,**kwargs):
             value=f"```{translated_text}```",
             inline=False
         )
+
+
     
     else:
         embed = discord.Embed(

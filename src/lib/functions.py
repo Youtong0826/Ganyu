@@ -14,14 +14,15 @@ import re
 def translate(text, to_language="auto", text_language="auto"):
     GOOGLE_TRANSLATE_URL = 'http://translate.google.com/m?q=%s&tl=%s&sl=%s'
     text = parse.quote(text)
-    url = GOOGLE_TRANSLATE_URL % (text,to_language,text_language)
+    url = GOOGLE_TRANSLATE_URL % (text,to_language, text_language)
+
     response = requests.get(url)
-    data = response.text
+    
     expr = r'(?s)class="(?:t0|result-container)">(.*?)<'
-    result = re.findall(expr, data)
-    if (len(result) == 0):
-        return ""
-    return html.unescape(result[0])
+    result = re.findall(expr, response.text)
+
+    return "" if (len(result) == 0) else html.unescape(result[0])
+
 
 def mustFieldEmbed(embed: discord.Embed, fields: list) -> discord.Embed:
     for i in fields:

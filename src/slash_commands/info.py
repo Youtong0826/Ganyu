@@ -1,6 +1,6 @@
 import discord 
 from lib.classes import CogExtension
-from lib.functions import SendBGM
+from lib.classes import Log
 from command_lib import info
 
 class SlashInfo(CogExtension):
@@ -19,7 +19,7 @@ class SlashInfo(CogExtension):
             view=setting["View"]
         )
         
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(description="查看機器人資訊!")
     async def botinfo(self, ctx):
@@ -27,7 +27,7 @@ class SlashInfo(CogExtension):
 
         await ctx.send_response(embed=setting["Embed"],view=setting["View"])
 
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(description="查看用戶資訊!")
     async def userinfo(self, ctx, member: discord.Member = None):
@@ -36,7 +36,7 @@ class SlashInfo(CogExtension):
 
         await ctx.send_response(embed=setting["Embed"],view=setting["View"])
 
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(description="邀請機器人")
     async def invite(self, ctx):

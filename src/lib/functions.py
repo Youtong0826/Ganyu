@@ -1,5 +1,4 @@
 from hashlib import md5
-from bs4 import BeautifulSoup
 from urllib import parse
 import youtube_dl
 import wikipedia

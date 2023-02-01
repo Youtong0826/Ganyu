@@ -1,9 +1,9 @@
-from lib.functions import mustFieldEmbed
+from lib.functions import must_field_embed
 import discord
 
 bot_icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=1024"
 ganyuCommands = {
-    "ganyu": mustFieldEmbed(
+    "ganyu": must_field_embed(
         discord.Embed(
             title="Ganyu 指令清單",
             description="可使用`/report`來提出建議或回報錯誤ㄛ~",
@@ -18,7 +18,7 @@ ganyuCommands = {
             ["other", "查看其他指令"],
         ]
     ),
-    "fun": mustFieldEmbed(
+    "fun": must_field_embed(
         discord.Embed(
             title="Fun 娛樂指令清單",
             color=discord.Colour.random()
@@ -30,7 +30,7 @@ ganyuCommands = {
             ["spank","拍屁屁"]
         ]
     ),
-    "info": mustFieldEmbed(
+    "info": must_field_embed(
         discord.Embed(
             title="Info 資訊指令清單",
             color=discord.Colour.random()
@@ -45,7 +45,7 @@ ganyuCommands = {
             ["roleinfo `身分組`","取得身分組資訊"],
         ]
     ),
-    "other": mustFieldEmbed(
+    "other": must_field_embed(
         discord.Embed(
             title="Other 其他指令清單",
             color=discord.Colour.random()
@@ -56,7 +56,7 @@ ganyuCommands = {
             ["dm `成員` `文字`" , "讓 Ganyu 私訊某人"]
         ]
     ),
-    "manage": mustFieldEmbed(
+    "manage": must_field_embed(
         discord.Embed(
             title="Mange 管理指令清單",
             color=discord.Colour.random()
@@ -68,7 +68,7 @@ ganyuCommands = {
             ["addrole `成員` `身分組`", "新增身分組至一名用戶" ]
         ]
     ),
-    "tool": mustFieldEmbed(
+    "tool": must_field_embed(
         discord.Embed(
             title="Tool 實用小工具",
             color=discord.Colour.random()

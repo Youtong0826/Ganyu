@@ -4,7 +4,7 @@ import datetime
 import json
 import requests
 from lib.classes import CogExtension
-from lib.functions import SendBGM
+from lib.classes import Log
 
 imageIdList = []
 for i in range(3):
@@ -29,7 +29,7 @@ class SlashCucmd(CogExtension):
     async def say(self, ctx : discord.ApplicationContext, *, msg : discord.Option(str,"訊息")):
         await ctx.response.send_message("已成功發送訊息!",ephemeral=True)
         await ctx.send(msg,allowed_mentions=discord.AllowedMentions.none())
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(description="查看頭像")
     async def avatar(self, ctx, *, member: discord.Option(discord.Member,"選擇成員") = None):
@@ -64,7 +64,7 @@ class SlashCucmd(CogExtension):
 
         await ctx.respond(embed=embed)
 
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(description="查看機器人延遲!")
     async def ping(self, ctx):
@@ -76,7 +76,7 @@ class SlashCucmd(CogExtension):
 
         await ctx.respond(embed=embed)
 
-        SendBGM(ctx)
+        Log(ctx).output()
     
     @discord.application_command(description="查看有關甘雨的圖片")
     async def pic(self, ctx):
@@ -103,7 +103,7 @@ class SlashCucmd(CogExtension):
         main_view.add_item(website_button)
 
         await ctx.respond(embed=embed, view=main_view)
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(descripton="創建一個嵌入訊息")
     async def embed(self, ctx, title:discord.Option(str,"標題"), *, description: discord.Option(str,"敘述") =None):
@@ -125,7 +125,7 @@ class SlashCucmd(CogExtension):
 
 
         await ctx.respond(embed=embed)
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(descripton="給點小建議或是回報錯誤")
     async def report(self, ctx):
@@ -237,7 +237,7 @@ class SlashCucmd(CogExtension):
         embed = discord.Embed(title="已成功傳送私訊!")
 
         await ctx.respond(embed=embed)
-        SendBGM(ctx)
+        Log(ctx).output()
 
 def setup(bot):
     bot.add_cog(SlashCucmd(bot))

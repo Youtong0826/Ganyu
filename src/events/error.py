@@ -1,6 +1,6 @@
 import asyncio
-from lib.functions import translate,ErrorBGM
-from lib.classes import CogExtension
+from lib.functions import translate
+from lib.classes import CogExtension, Log
 from discord.ext import commands
 import discord
 
@@ -47,7 +47,7 @@ class ErrorEvent(CogExtension):
         await error_msg.delete(delay=5.0)
 
         await self.send_background_message(ctx,error)
-        ErrorBGM(ctx,error)
+        Log(ctx).error_output(error)
 
     @commands.Cog.listener()
     async def on_application_command_error(self,ctx:discord.ApplicationContext, exception:discord.errors.ApplicationCommandInvokeError):
@@ -55,7 +55,7 @@ class ErrorEvent(CogExtension):
             if ctx.command == "guess": await ctx.respond(f"`{ctx.author}` **遊戲已逾時**");return
 
         await self.send_background_message(ctx,exception)
-        ErrorBGM(ctx,exception)
+        Log(ctx).error_output(exception)
 
 
 

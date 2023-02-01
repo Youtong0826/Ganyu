@@ -2,9 +2,9 @@ import random
 import discord
 import datetime
 from discord.ext import commands
-from lib.classes import CogExtension
+from lib.classes import CogExtension, Log
 from lib.bot_config import bot_icon_url
-from lib.functions import SendBGM,get_time
+from lib.functions import get_time
 from command_lib import fun
 
 class SlashFun(CogExtension):
@@ -78,7 +78,7 @@ class SlashFun(CogExtension):
         elif isinstance(ctx,discord.ApplicationContext):
             await ctx.respond(embed=main,view=view)
 
-        SendBGM(ctx)
+        Log(ctx).output()
 
 
     @discord.application_command(description="測試你的運氣")
@@ -122,7 +122,7 @@ class SlashFun(CogExtension):
         embed.set_footer(text="lucktest | 運氣測試",icon_url=bot_icon_url)
 
         await ctx.respond(embed=embed)
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(description="偷拍他人的屁股")
     async def spank(self, ctx, member:discord.Option(discord.Member,"選擇成員") = None):
@@ -139,7 +139,7 @@ class SlashFun(CogExtension):
             )
 
         await ctx.respond(embed=embed)
-        SendBGM(ctx)
+        Log(ctx).output()
 
     @discord.application_command(description="猜猜看你有多少Gay(?")
     async def gay(self,ctx,member:discord.Option(discord.Member,"選擇成員") = None):

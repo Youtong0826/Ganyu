@@ -121,6 +121,8 @@ async def rock_paper_scissors(ctx):
         custom_id="paper"
     )
 
+    again = discord.ui.Button
+
     async def callback(interaction:discord.Interaction):
         details = {
             "win" : ["你輸了..","但你還有下一次機會!"],
@@ -131,8 +133,8 @@ async def rock_paper_scissors(ctx):
         result = random.choice(["win","tie","lose"])
 
         embed = discord.Embed(
-            title = details[result],
-            description = details[result],
+            title = details[result][0],
+            description = details[result][1],
             color = discord.Colour.random()
         )
 

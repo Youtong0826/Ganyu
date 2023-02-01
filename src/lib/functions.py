@@ -24,7 +24,7 @@ def translate(text, to_language="auto", text_language="auto"):
     return "" if (len(result) == 0) else html.unescape(result[0])
 
 
-def mustFieldEmbed(embed: discord.Embed, fields: list) -> discord.Embed:
+def must_field_embed(embed: discord.Embed, fields: list) -> discord.Embed:
     for i in fields:
         embed.add_field(name=i[0], value=i[1])
     return embed
@@ -71,13 +71,13 @@ def calculator(LatexExpression):
     response = requests.post(url=url,json=data)
     return json.loads(response.text).get("solution")
 
-def GetVideoInfo(youtube_url):
+def get_youtube_video(url:str):
     
     data = {}
 
     with youtube_dl.YoutubeDL() as ydl:
 
-        original_data = ydl.extract_info(str(youtube_url), download=False)
+        original_data = ydl.extract_info(str(url), download=False)
 
         keys = ["id","title","thumbnail","uploader","duration","view_count","comment_count","like_count",
             "dislike_count","average_rating","description","tags","webpage_url","upload_date"]
@@ -86,14 +86,6 @@ def GetVideoInfo(youtube_url):
             data[k] = original_data.get(k)
         
     return data
-
-def SendBGM(ctx):
-    time = datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y/%m/%d %H:%M:%S")
-    print(f'[{time}] {ctx.author} use the "{ctx.command}" command in {ctx.author.guild}')
-
-def ErrorBGM(ctx,error):
-    time = datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y/%m/%d %H:%M:%S")
-    print(f'[{time}] {ctx.author.name} use the "{ctx.command}" command in {ctx.author.guild} return a error:{error}')
 
 API_SALT = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs"
 

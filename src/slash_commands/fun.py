@@ -82,7 +82,7 @@ class SlashFun(CogExtension):
 
 
     @discord.application_command(description="測試你的運氣")
-    async def luck(self,ctx , member: discord.Option(discord.Member,"選擇成員")= None):
+    async def luck(self,ctx , member: discord.Option(discord.Member,"選擇成員") = None):
         luckypoint = random.randint(0,100)
         luckybar = ""
 

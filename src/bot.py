@@ -1,4 +1,4 @@
-from lib.functions import SendBGM
+from lib.classes import Log
 from discord.ext import commands
 from dotenv import load_dotenv
 import discord
@@ -49,7 +49,7 @@ async def load(ctx:discord.ApplicationContext, folder, extension=None):
     )
 
     await ctx.send(embed=embed)
-    SendBGM(ctx)
+    Log(ctx).output()
 
 @bot.command()
 async def unload(ctx, folder, extension=None):
@@ -63,7 +63,7 @@ async def unload(ctx, folder, extension=None):
         color=0x5cff8d
     )
     await ctx.send(embed=embed)
-    SendBGM(ctx)
+    Log(ctx).output()
 
 @bot.command()
 async def reload(ctx, folder, extension=None):
@@ -78,7 +78,7 @@ async def reload(ctx, folder, extension=None):
     )
 
     await ctx.send(embed=embed)
-    SendBGM(ctx)
+    Log(ctx).output()
 
 @bot.command()
 async def sptrole(ctx : discord.ApplicationContext):

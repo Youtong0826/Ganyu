@@ -1,6 +1,6 @@
 from select import select
 from lib.database import MongoDB
-from lib.functions import SendBGM
+from lib.classes import Log
 from discord.ext import commands
 import discord
 import datetime
@@ -97,7 +97,7 @@ async def mange_member(ctx,user:discord.Member, member:discord.Member, type, tit
         
     embed.set_footer(text=f"{user.name}", icon_url=user.avatar)
     
-    SendBGM(ctx)
+    Log(ctx).output()
 
 async def addrole(ctx,member,role):
     user : discord.Member = ctx.author

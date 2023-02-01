@@ -3,7 +3,7 @@ import datetime
 import random
 import requests
 import json
-from lib.functions import SendBGM
+from lib.classes import Log
 from discord.ext import commands
 
 async def avatar(ctx,member):
@@ -45,7 +45,7 @@ async def avatar(ctx,member):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    Log(ctx).output()
 
 imageIdList = []
 for i in range(3):
@@ -96,4 +96,4 @@ async def pic(ctx):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed,view=view)
     
-    SendBGM(ctx)
+    Log(ctx).output()

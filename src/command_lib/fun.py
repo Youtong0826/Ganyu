@@ -2,7 +2,7 @@ import discord
 import random
 import datetime
 from discord.ext import commands
-from lib.functions import SendBGM
+from lib.classes import Log
 from lib.bot_config import bot_icon_url
 
 async def dice(mode,number,ctx):
@@ -87,7 +87,7 @@ async def dice(mode,number,ctx):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    Log(ctx).output()
     
 async def rock_paper_scissors(ctx):
     main = discord.Embed(
@@ -145,7 +145,7 @@ async def rock_paper_scissors(ctx):
 
     ctx.respond(embed=main,view=view)
 
-    SendBGM(ctx)
+    Log(ctx).output()
 
 async def luck(ctx,member):
     luckypoint = random.randint(0,100)
@@ -186,7 +186,7 @@ async def luck(ctx,member):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    Log(ctx).output()
 
 async def spank(ctx,member):
     if member != None:
@@ -208,7 +208,7 @@ async def spank(ctx,member):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    Log(ctx).output()
 
 async def gay(ctx,member):
     if member != None:

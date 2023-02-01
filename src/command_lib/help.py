@@ -1,6 +1,6 @@
 import discord
 from lib.bot_config import ganyuCommands
-from lib.functions import SendBGM
+from lib.classes import Log
 from discord.ext import commands
 
 async def help(ctx):
@@ -66,4 +66,4 @@ async def help(ctx):
     elif isinstance(ctx, discord.ApplicationContext):
         await ctx.respond(embed=ganyuCommands["ganyu"], view=main_view)
 
-    SendBGM(ctx)
+    Log(ctx).output()

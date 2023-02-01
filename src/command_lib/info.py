@@ -2,7 +2,7 @@ import discord
 import datetime
 from lib.bot_config import bot_icon_url
 from discord.ext import commands
-from lib.functions import SendBGM
+from lib.classes import Log
 
 def server_data(guild:discord.Guild):
     #主要語言: {guild.preferred_locale}
@@ -427,7 +427,7 @@ async def allinfo(ctx,bot):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed,view=view_main)
 
-    SendBGM(ctx)
+    Log(ctx).output()
 
 async def invite(ctx):
     link = "[邀請連結 | invite link](https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=294695021638&scope=bot%20applications.commands)"
@@ -446,7 +446,7 @@ async def invite(ctx):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    Log(ctx).output()
 
 async def invites(ctx:discord.ApplicationContext):
     embed = discord.Embed(
@@ -487,7 +487,7 @@ async def invites(ctx:discord.ApplicationContext):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    Log(ctx).output()
 
 async def roleinfo(ctx,role):
     if role != None:
@@ -574,4 +574,4 @@ async def roleinfo(ctx,role):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    SendBGM(ctx)
+    Log(ctx).output()

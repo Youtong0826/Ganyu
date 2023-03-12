@@ -19,7 +19,7 @@ bot = commands.Bot(
 
 bot.remove_command("help")
 
-def load_extension(folder:str,mode:str="load",is_notice:bool=True):
+def load_extension(folder: str, mode: str = "load", is_notice: bool = True):
 
     loading_method = {
         "load":bot.load_extension,

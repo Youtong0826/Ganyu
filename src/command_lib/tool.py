@@ -1,5 +1,6 @@
 from discord.ext import commands
 from lib.bot_config import bot_icon_url
+from lib.classes import Log
 import lib.functions as tool
 import discord
 import datetime
@@ -57,7 +58,7 @@ async def translate(ctx,**kwargs):
         else:
             await ctx.respond(embed=embed)
 
-    tool.Log(ctx).output()
+    Log(ctx).output()
 
 async def words(ctx,text):
     if text != None:
@@ -89,7 +90,7 @@ async def words(ctx,text):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    tool.Log(ctx).output()
+    Log(ctx).output()
 
 async def bullshit(ctx,topic,minlen):
     if topic and minlen != None:
@@ -125,7 +126,7 @@ async def bullshit(ctx,topic,minlen):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed)
 
-    tool.Log(ctx).output()
+    Log(ctx).output()
 
 async def math(ctx,formula):
     if formula != None:
@@ -362,7 +363,7 @@ async def math(ctx,formula):
         elif isinstance(ctx,discord.ApplicationContext):
             await ctx.respond(embed=embed,view=view)
 
-        tool.Log(ctx).output()
+        Log(ctx).output()
 
 async def genshininfo(ctx,uid,server):
 
@@ -562,7 +563,7 @@ async def genshininfo(ctx,uid,server):
     elif isinstance(ctx,discord.ApplicationContext):
         await ctx.respond(embed=embed,view=view)
 
-    tool.Log(ctx).output()
+    Log(ctx).output()
 
 async def wikiInfo(ctx,keywords:str,bot=None):
     keywords_split = keywords.split()

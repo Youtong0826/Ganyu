@@ -1,10 +1,1 @@
-# Ganyu Bot
-
-## Overview
-
-just a discord bot
-
-### Command List
-```py
-/help #get bot information
-```
+寫得很爛 停更中

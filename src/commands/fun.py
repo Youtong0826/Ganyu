@@ -16,7 +16,7 @@ from discord.ui import (
     View,
     Button,
 )
-from lib.classes import CogExtension, Log
+from lib.cog import CogExtension, Log
 from lib.bot_config import bot_icon_url
 from lib.functions import get_time
 from command_lib import fun
@@ -85,60 +85,34 @@ class SlashFun(CogExtension):
 
     @discord.application_command(name="finger-guessing",description="猜拳")
     async def rock_paper_scissors(self, ctx):
-        main = discord.Embed(
-            title = "這次想出什麼呢?",
-            color = discord.Colour.random(),
-            timestamp = datetime.now(UTC),
-            footer=EmbedFooter("猜拳", bot_icon_url)
-        )
-
-        default_view = View(
-            Button(
-                style = discord.ButtonStyle.success,
-                label = "剪刀",
-                emoji = "✂️",
-                custom_id="rpc_punch"
+        await ctx.respond(
+            embed=Embed(
+                title = "這次想出什麼呢?",
+                color = Colour.random(),
+                timestamp = datetime.now(UTC),
+                footer=EmbedFooter("猜拳", bot_icon_url)
             ),
-            Button(
-                style = discord.ButtonStyle.success,
-                label = "石頭",
-                emoji = "🪨",
-                custom_id="rpc_punch"
-            ),
-            Button(
-                style = discord.ButtonStyle.success,
-                label = "布",
-                emoji = "🌫️",
-                custom_id="rpc_punch"
+            view=View(
+                Button(
+                    style = discord.ButtonStyle.success,
+                    label = "剪刀",
+                    emoji = "✂️",
+                    custom_id="rpc_punch"
+                ),
+                Button(
+                    style = discord.ButtonStyle.success,
+                    label = "石頭",
+                    emoji = "🪨",
+                    custom_id="rpc_punch"
+                ),
+                Button(
+                    style = discord.ButtonStyle.success,
+                    label = "布",
+                    emoji = "🌫️",
+                    custom_id="rpc_punch"
+                )
             )
         )
-
-        async def callback(interaction:discord.Interaction):
-            details = {
-                "win" : ["你輸了..", "下次再來吧!"],
-                "tie" : ["平手!", "勢均力敵呢!"],
-                "lose" : ["你贏了!!", "幹得不錯嘛!"]    
-            }
-
-            result = random.choice(["win","tie","lose"])
-
-            await interaction.response.edit_message(embed=Embed(
-                title = details[result][0],
-                description = details[result][1],
-                color = Colour.random()
-            ), view=default_view)
-
-
-        #map(lambda x:x.callback==callback,[scissors,paper,rock])
-        view = discord.ui.View(scissors,rock,paper,timeout=None)
-
-        if isinstance(ctx, commands.Context):
-            await ctx.send(embed=main)
-
-        elif isinstance(ctx,discord.ApplicationContext):
-            await ctx.respond(embed=main,view=view)
-
-        Log(ctx).output()
 
 
     @discord.application_command(description="測試你的運氣")

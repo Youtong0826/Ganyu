@@ -1,7 +1,14 @@
-import random
 import discord
-from datetime import datetime, UTC
-from discord.ext import commands
+
+from random import (
+    choice,
+    randint
+)
+
+from datetime import (
+    datetime, 
+    UTC
+)
 
 from discord import (
     ApplicationContext as Context,
@@ -9,7 +16,9 @@ from discord import (
     Embed,
     EmbedField,
     EmbedFooter,
+    Member,
     option,
+    slash_command
 )
 
 from discord.ui import (
@@ -18,16 +27,16 @@ from discord.ui import (
 )
 from lib.cog import CogExtension, Log
 from lib.bot_config import bot_icon_url
-from lib.functions import get_time
+from lib.functions import get_now_time
 from command_lib import fun
 
 class SlashFun(CogExtension):
 
-    @discord.slash_command(description="骰骰子")
-    @option("mode", str,"選擇遊玩模式", choices=["競猜模式", "自由模式"], required=False)
-    @option("number", int,"選擇數字",choices=[1, 2, 3, 4, 5, 6], required=False)
+    @slash_command(description="骰骰子")
+    @option("mode", str, description="選擇遊玩模式", choices=["競猜模式", "自由模式"], required=False)
+    @option("number", int, description="選擇數字",choices=[1, 2, 3, 4, 5, 6], required=False)
     async def dice(self, ctx: Context, mode: str = None, number: int = None):
-        
+        self.bot.log()
         
         if not mode:
             return await ctx.respond(embed=Embed(
@@ -47,10 +56,8 @@ class SlashFun(CogExtension):
                     ),
                 ]
             ))
-        
             
-        dice = [1, 2, 3, 4, 5, 6]
-        result = random.choice(dice)
+        result = choice([1, 2, 3, 4, 5, 6])
         
         if mode == "競猜模式":
             if not number:
@@ -77,14 +84,15 @@ class SlashFun(CogExtension):
             ))
                     
         else:
-            return await ctx.respond(embede=Embed(
+            return await ctx.respond(embed=Embed(
                 title=f"您骰到了 {result}",
                 color=Colour.random()
             ))
 
 
-    @discord.application_command(name="finger-guessing",description="猜拳")
-    async def rock_paper_scissors(self, ctx):
+    @slash_command(name="rock-paper-scissors", description="猜拳")
+    async def rock_paper_scissors(self, ctx: Context):
+        self.bot.log()
         await ctx.respond(
             embed=Embed(
                 title = "這次想出什麼呢?",
@@ -114,49 +122,32 @@ class SlashFun(CogExtension):
             )
         )
 
+    @slash_command(description="測試你的運氣")
+    @option("member", Member, description="選擇成員")
+    async def luck(self, ctx: Context, member: Member = None):
+        self.bot.log()
+        user = member if member else ctx.author
 
-    @discord.application_command(description="測試你的運氣")
-    async def luck(self, ctx , member: discord.Option(discord.Member, "選擇成員") = None):
-        luckypoint = random.randint(0,100)
-        luckybar = ""
-
-        luckycolor = [
-            "紅色","橘色","金色","琥珀色","黃色","檸檬綠色","蔚藍色","綠色","淺藍色","藍綠色","綠松色","道奇藍","洋紅色","鴨綠色","靛色",
-            "紫色","奶油色","薰衣草色","蘭花色","粉紅色","灰色","白色","黑色"
+        color = [
+            "紅色", "橘色", "金色","琥珀色","黃色","檸檬綠色","蔚藍色","綠色","淺藍色",
+            "藍綠色", "綠松色","道奇藍","洋紅色","鴨綠色","靛色","紫色","奶油色",
+            "薰衣草色", "蘭花色","粉紅色","灰色","白色","黑色"
         ]
         
-
-        if member != None:
-            user = member
-            
-        else: 
-            user = ctx.author
-
-        embed = discord.Embed(
+        point = randint(0, 100)
+    
+        await ctx.respond(embed=Embed(
             title=f"{user.name} 感謝您使用此功能!",
             description="以下為您的測驗結果",
-            color=discord.Colour.purple(),
-            timestamp=datetime.datetime.utcnow()
-        )
-
-        for n in range(round(luckypoint/10)):
-            luckybar += "▮"
-
-        while (len(luckybar) != 10):
-            luckybar += "▯"
-
-        luckform = {
-            "🔯 幸運指數":f"{luckybar} {luckypoint}%",
-            "🔷 幸運色" : random.choice(luckycolor),
-        }
-
-        for n in luckform:
-            embed.add_field(name=n,value=luckform[n],inline=False)
-
-        embed.set_footer(text="lucktest | 運氣測試",icon_url=bot_icon_url)
-
-        await ctx.respond(embed=embed)
-        Log(ctx).output()
+            color=Colour.purple(),
+            timestamp=datetime.now(UTC),
+            fields=[EmbedField(k, v, False) for k, v in {
+                "🔯 幸運指數": f"{"▮"*round(point/10) + "▯"*10-round(point/10)} {point}%",
+                "🔷 幸運色" : choice(color),
+            }.items()],
+            footer=EmbedField("lucktest | 運氣測試", bot_icon_url)
+        ))
+        
 
     @discord.application_command(description="偷拍他人的屁股")
     async def spank(self, ctx, member:discord.Option(discord.Member,"選擇成員") = None):

@@ -89,7 +89,7 @@ class SlashFun(CogExtension):
             ))
 
 
-    @slash_command(name="rock paper scissors", description="猜拳")
+    @slash_command(name="rps", description="猜拳")
     async def rock_paper_scissors(self, ctx: Context):
         self.bot.log(ctx)
         await ctx.respond(
@@ -172,8 +172,8 @@ class SlashFun(CogExtension):
         ))
 
     #@slash_command(description="")
-    @option("range", str, desciption="輸入數字的範圍(起始必須小於結束 以XX~XX表示)", name="範圍", max_length=12)
-    @option("number", int, desciption="輸入一個數字", name="數字")
+    @option("range", str, desciption="輸入數字的範圍(起始必須小於結束 以XX~XX表示)", max_length=12)
+    @option("number", int, desciption="輸入一個數字")
     async def guess(self, ctx: Context, range: str, number: int):
         range = range.split("~") if "~" in range else range.split("-")
         range_start = int(range[0])

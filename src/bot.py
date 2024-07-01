@@ -1,4 +1,4 @@
-from lib.classes import Log
+from lib.cog import Log
 from discord.ext import commands
 from dotenv import load_dotenv
 import discord

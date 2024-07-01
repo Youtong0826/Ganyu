@@ -3,13 +3,17 @@ from urllib import parse
 import youtube_dl
 import wikipedia
 import requests
-import datetime
 import discord
 import random
 import html
 import json
 import re
 
+from datetime import (
+    datetime, 
+    timedelta, 
+    timezone
+)
 def translate(text, to_language="auto", text_language="auto"):
     GOOGLE_TRANSLATE_URL = 'http://translate.google.com/m?q=%s&tl=%s&sl=%s'
     text = parse.quote(text)
@@ -136,6 +140,7 @@ def getGenshininfo(uid,server):
 
     return data
 
-def get_time():
-    return datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
+def get_now_time(time: datetime = None, hours = 8) -> datetime:
+    ori = datetime.now(timezone(timedelta(hours=hours))) if not time else time
+    return datetime(ori.year, ori.month, ori.day, ori.hour, ori.minute, ori.second)
 

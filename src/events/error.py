@@ -5,8 +5,8 @@ from discord.ext import commands
 import discord
 
 class ErrorEvent(CogExtension):
-    async def send_background_message(self,ctx,exception):
-        guild = ctx.author.guild
+    async def send_background_message(self, ctx, exception):
+        guild = ctx.guild
         user = ctx.author
         channel = ctx.channel
         command = ctx.command

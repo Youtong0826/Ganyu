@@ -1,5 +1,4 @@
 from select import select
-from lib.database import MongoDB
 from lib.classes import Log
 from discord.ext import commands
 import discord
@@ -222,7 +221,6 @@ async def clean(ctx:discord.ApplicationContext,limit:int):
         except: await msg.delete(delay=5.0)
 
 async def autorole(ctx:discord.ApplicationContext,channel:discord.TextChannel,bot:commands.Bot):
-    DB = MongoDB("guilds",ctx.guild_id)
     guild = ctx.author.guild
     print("Setup")
 

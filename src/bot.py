@@ -34,7 +34,7 @@ def load_extension(folder: str, mode: str = "load", is_notice: bool = True):
             loading_method[mode](f"{folder}.{Filename[:-3]}")
             if is_notice:print(f'-- {mode}ed "{Filename}"')
 
-for folder in ["slash_commands","events"]: load_extension(folder) 
+for folder in ["commands","events"]: load_extension(folder) 
 
 @bot.command()
 async def load(ctx:discord.ApplicationContext, folder, extension=None):
@@ -160,7 +160,7 @@ async def on_ready():
         for i in range(len(names)):
             activity = discord.Activity(name=names[i] ,**ACTIVITY_OPTION)
             await bot.change_presence(activity=activity,status=discord.Status.idle)
-            await asyncio.sleep(5.0)
+            await asyncio.sleep(10.0)
 
     while True:
         await run_activity_loop()

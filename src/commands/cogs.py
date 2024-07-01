@@ -1,4 +1,5 @@
 from lib.cog import CogExtension
+
 from discord import (
     ApplicationContext as Context,
     Embed,
@@ -8,8 +9,9 @@ from discord import (
 class SlashCogs(CogExtension):
     @slash_command()
     async def load(self, ctx: Context, folder: str, extension=None):
+        self.bot.log(ctx)
         if ctx.author.id not in [611118369474740244, 856041155341975582]: 
-            return await ctx.response.send_message('❌ 此為開發者功能!', ephemeral=True)
+            return await self.bot.dev_warn()
 
         if not extension:
             self.bot.load_extension(folder)
@@ -25,8 +27,9 @@ class SlashCogs(CogExtension):
         
     @slash_command()
     async def unload(self, ctx: Context, folder: str, extension=None):
+        self.bot.log(ctx)
         if ctx.author.id not in [611118369474740244, 856041155341975582]: 
-            return await ctx.response.send_message('❌ 此為開發者功能!', ephemeral=True)
+            return await self.bot.dev_warn()
 
         if not extension:
            self.bot.load_extension(folder, "unload")
@@ -42,8 +45,9 @@ class SlashCogs(CogExtension):
 
     @slash_command()
     async def reload(self, ctx: Context, folder: str, extension=None):
+        self.bot.log(ctx)
         if ctx.author.id not in [611118369474740244, 856041155341975582]: 
-            return await ctx.response.send_message('❌ 此為開發者功能!', ephemeral=True)
+            return await self.bot.dev_warn()
 
         if not extension:
             self.bot.load_extension(folder, "reload")
@@ -54,5 +58,6 @@ class SlashCogs(CogExtension):
             title=f"Reloaded - {folder}.{extension} - Cog",
             color=0x5cff8d
         ))
-        
-        self.bot.log()
+
+def setup(bot):
+    bot.add_cog(SlashCogs(bot))

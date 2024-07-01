@@ -25,10 +25,10 @@ from discord.ui import (
     View,
     Button,
 )
-from lib.cog import CogExtension, Log
+
+from lib.cog import CogExtension
 from lib.bot_config import bot_icon_url
 from lib.functions import get_now_time
-from command_lib import fun
 
 class SlashFun(CogExtension):
 
@@ -126,13 +126,11 @@ class SlashFun(CogExtension):
     async def luck(self, ctx: Context, member: Member = None):
         self.bot.log(ctx)
         user = member if member else ctx.author
-
         color = [
             "紅色", "橘色", "金色","琥珀色","黃色","檸檬綠色","蔚藍色","綠色","淺藍色",
             "藍綠色", "綠松色","道奇藍","洋紅色","鴨綠色","靛色","紫色","奶油色",
             "薰衣草色", "蘭花色","粉紅色","灰色","白色","黑色"
         ]
-        
         point = randint(0, 100)
     
         await ctx.respond(embed=Embed(
@@ -160,35 +158,46 @@ class SlashFun(CogExtension):
             description="用法: g!spank `提及/名字/id`"
         ))
 
-    @discord.application_command(description="猜猜看你有多少Gay(?")
-    async def gay(self,ctx,member:discord.Option(discord.Member,"選擇成員") = None):
-        await fun.gay(ctx,member)
+    @slash_command(description="猜猜看你有多少Gay(?")
+    @option("member", Member, desciption="選擇成員")
+    async def gay(self, ctx: Context, member: discord.Member = None):
+        self.bot.log(ctx)
+        user = member if member else ctx.author
+        point = randint(0, 100)
+        
+        await ctx.respond(embed=Embed(
+            title=f"{user.name}",
+            description=f"{"▮"*round(point/10) + "▯"*10-round(point/10)} **{point}%** Gay",
+            color=discord.Colour.random(),
+        ))
 
-    #@discord.application_command(description="")
-    async def guess(self,
-        ctx: discord.ApplicationContext,
-        range: discord.Option(str,"輸入數字的範圍(起始必須小於結束 以XX~XX表示)",name="範圍",max_length=12),
-        number: discord.Option(int,"輸入一個數字",name="數字")
-    ):
+    #@slash_command(description="")
+    @option("range", str, desciption="輸入數字的範圍(起始必須小於結束 以XX~XX表示)", name="範圍", max_length=12)
+    @option("number", int, desciption="輸入一個數字", name="數字")
+    async def guess(self, ctx: Context, range: str, number: int):
         range = range.split("~") if "~" in range else range.split("-")
         range_start = int(range[0])
         range_end = int(range[1])
 
-        if not range or len(range) < 2 or range_start > range_end: await ctx.respond("**發生錯誤:**範圍的輸入格式不對!");return
+        if not range or len(range) < 2 or range_start > range_end: 
+            return await ctx.respond("**發生錯誤:** 範圍的輸入格式不對!");
 
         data = {}
         default_data = {
-            "answer":random.randint(range_start,range_end),
-            "start_time":get_time(),
-            "input_number":number,
-            "show_data":False,
-            "is_leave":False,
+            "answer": randint(range_start,range_end),
+            "start_time": get_now_time(),
+            "input_number": number,
+            "show_data": False,
+            "is_leave": False,
             "end_time":None,
-            "times":1
+            "times": 1
         }
 
-        if ctx.author.id not in data.keys() or data[ctx.author.id] is {}:data[ctx.author.id] = default_data
-        else: ctx.respond("您尚未退出當前的遊戲 請先退出您正在進行得遊戲在開始新的遊戲")
+        if ctx.author.id not in data.keys() or data[ctx.author.id] is {}:
+            data[ctx.author.id] = default_data
+            
+        else: 
+            ctx.respond("您尚未退出當前的遊戲 請先退出您正在進行得遊戲在開始新的遊戲")
         
         async def run_game():
             user_data = data[ctx.author.id]
@@ -200,7 +209,8 @@ class SlashFun(CogExtension):
                 
                 if user_data["input_number"] == user_data["answer"]:
                     await ctx.respond(f"**你猜中了!!** 答案是 `{user_data['answer']}` ")
-                    user_data["end_time"] = get_time();break
+                    user_data["end_time"] = get_now_time() 
+                    break
 
                 else:await ctx.send(f"**提示:** `{ctx.author}` 再大一點") if user_data["input_number"] < user_data["answer"] \
                     else await ctx.send(f"**提示:** `{ctx.author}` 再小一點")

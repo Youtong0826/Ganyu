@@ -36,8 +36,7 @@ class SlashFun(CogExtension):
     @option("mode", str, description="選擇遊玩模式", choices=["競猜模式", "自由模式"], required=False)
     @option("number", int, description="選擇數字",choices=[1, 2, 3, 4, 5, 6], required=False)
     async def dice(self, ctx: Context, mode: str = None, number: int = None):
-        self.bot.log()
-        
+        self.bot.log(ctx)
         if not mode:
             return await ctx.respond(embed=Embed(
                 title="/dice 遊戲介紹",
@@ -90,9 +89,9 @@ class SlashFun(CogExtension):
             ))
 
 
-    @slash_command(name="rock-paper-scissors", description="猜拳")
+    @slash_command(name="rock paper scissors", description="猜拳")
     async def rock_paper_scissors(self, ctx: Context):
-        self.bot.log()
+        self.bot.log(ctx)
         await ctx.respond(
             embed=Embed(
                 title = "這次想出什麼呢?",
@@ -125,7 +124,7 @@ class SlashFun(CogExtension):
     @slash_command(description="測試你的運氣")
     @option("member", Member, description="選擇成員")
     async def luck(self, ctx: Context, member: Member = None):
-        self.bot.log()
+        self.bot.log(ctx)
         user = member if member else ctx.author
 
         color = [
@@ -149,22 +148,17 @@ class SlashFun(CogExtension):
         ))
         
 
-    @discord.application_command(description="偷拍他人的屁股")
-    async def spank(self, ctx, member:discord.Option(discord.Member,"選擇成員") = None):
-        if member != None:
-            embed = discord.Embed(
-                title=f"{member.name} 被 {ctx.author.name} 拍了一下屁股",
-                color=discord.Colour.red()
-            )
-
-        else:
-            embed = discord.Embed(
-                title="使用g!spank來偷打別人的屁股ww",
-                description="用法: g!spank `提及/名字/id`"
-            )
-
-        await ctx.respond(embed=embed)
-        Log(ctx).output()
+    @slash_command(description="偷拍他人的屁股")
+    @option("member", Member, desciption="選擇成員")
+    async def spank(self, ctx: Context, member: discord.Member = None):
+        self.bot.log(ctx)
+        await ctx.respond(embed=Embed(
+            title=f"{member.name} 被 {ctx.author.name} 拍了一下屁股",
+            color=discord.Colour.red()
+        ) if member else Embed(
+            title="使用 g!spank 來偷打別人的屁股ww",
+            description="用法: g!spank `提及/名字/id`"
+        ))
 
     @discord.application_command(description="猜猜看你有多少Gay(?")
     async def gay(self,ctx,member:discord.Option(discord.Member,"選擇成員") = None):

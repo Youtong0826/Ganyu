@@ -6,7 +6,7 @@ from discord import (
     slash_command
 )
 
-class SlashCogs(CogExtension):
+class SlashCog(CogExtension):
     @slash_command()
     async def load(self, ctx: Context, folder: str, extension=None):
         self.bot.log(ctx)
@@ -60,4 +60,4 @@ class SlashCogs(CogExtension):
         ))
 
 def setup(bot):
-    bot.add_cog(SlashCogs(bot))
+    bot.add_cog(SlashCog(bot))

@@ -6,15 +6,21 @@ from typing import (
 )
 
 from discord import (
-    Bot, 
     ApplicationContext as Context,
     ActionRow,
-    Embed,
-    Colour,
-    SelectMenu,
-    Interaction, 
-    ComponentType,
+    Bot,
+    ButtonStyle,
     Button as DiscordButton,
+    Colour,
+    ComponentType,
+    Embed,
+    EmbedField,
+    EmbedFooter,
+    Guild,
+    Interaction,
+    Member,
+    User, 
+    SelectMenu,
 )
 
 from discord.ui import (
@@ -27,6 +33,7 @@ from lib.functions import (
     get_now_time,
     must_field_embed
 )
+
 from database import Database
 
 class Bot(Bot):
@@ -131,19 +138,149 @@ class Bot(Bot):
             #    ]
             #)
         }
+        
+        self.icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=256"
+    
     @property
     def database(self):
         return Database(self.__database_path)
-    
-    
+      
+    def get_bot_data(self, original: View = View()) -> dict[str, Embed | View]:            
+        return {
+            "embed": Embed(
+                title=f"{self.user}",
+                color=0x9c8ff,
+                timestamp=get_now_time(),
+                fields=[
+                    EmbedField(**i) for i in [
+                        {"name": "📆 創建時間", "value": "`2022/1/21(GMT+8:00)`", "inline": False},
+                        {"name": "📜 ID", "value": "`921673886049910795`", "inline": False},
+                        {"name": "🌐 伺服器", "value": f"`{len(self.guilds)}`", "inline": True},
+                        {"name": "📊 用戶", "value": f"`{len(self.users)}`","inline": True},
+                        {"name": "💫 Ping", "value": f"`{round(self.latency * 1000)} ms`", "inline": True}
+                    ]       
+                ],
+                footer=EmbedFooter("made by Ganyu-Bot-Devs", self.icon_url)
+            ), 
+            "view": self.merge_view(View(
+                Button(
+                    style=ButtonStyle.primary,
+                    label="Invite me!",
+                    emoji="🔗",
+                    url="https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands"
+                ),
+                Button(
+                    label="Support Server",
+                    emoji="❓",
+                    url="https://discord.gg/AVCWGuuUex"
+                ),
+                timeout=None
+            ), original) 
+        }
         
+    def get_user_data(self, user: Union[Member, User], original: View = View()) -> dict[str, Embed | View]:
+        count = 0
+        roles = list(filter(lambda x: x.name != "@everyone", user.roles))
+        while sum(map(lambda x: len(x.mention)+3, roles)) >= 1014:
+            count += 1
+            roles.pop()
+            
+        roles = "無" if not roles else ' | '.join(map(lambda x: x.mention, roles))
+        
+        if count: roles += f" +{count} Roles..."
+        
+        view = View(
+            Button(
+                style=ButtonStyle.primary,
+                label="更多資訊!",
+                emoji= "📘",
+                custom_id="userinfo_moreinfo"
+            ),
+            timeout=None
+        )
+        
+        return {
+            "embed": Embed(
+                title=f"{user.name} 的個人資訊 ",
+                color=0x9c8ff,
+                timestamp=get_now_time(),
+                fields=[
+                    EmbedField(**i) for i in [
+                        {"name": "🐬 暱稱", "value": f"{user.nick if user.nick else "無"}", "inline": True},
+                        {"name": "🤖 Bot", "value": f"{"yes" if user.bot else "no"}", "inline": True},
+                        {"name": "💳 ID", "value": f"`{user.id}`", "inline": False},
+                        {"name": "📆 創建時間", "value": user.created_at.strftime('%Y/%m/%d'),"inline": True},
+                        {"name": "📆 加入時間", "value": user.joined_at.strftime('%Y/%m/%d'), "inline": True},
+                        {"name": f"📰 身分組[{len(user.roles)-1}]:", "value": roles, "inline": False}
+                    ]       
+                ],
+                footer=EmbedFooter("userinfo | 用戶資訊", self.icon_url)
+            ), 
+            "view": self.merge_view(View(
+                Button(
+                    style=ButtonStyle.primary,
+                    label="Invite me!",
+                    emoji="🔗",
+                    url="https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands"
+                ),
+                Button(
+                    label="Support Server",
+                    emoji="❓",
+                    url="https://discord.gg/AVCWGuuUex"
+                ),
+                timeout=None
+            ), original) 
+        }
+    
+    def get_guild_data(self, guild: Guild, original: View = View()): 
+        return {
+            "embed": Embed(
+                title=guild,
+                color=0x9c8fff,
+                timestamp=get_now_time(),
+                thumbnail=guild.icon,
+                footer=EmbedFooter("serverinfo | 伺服器資訊", self.icon_url),
+                fields=[
+                    EmbedField(**i) for i in {
+                        {"name": "🚹 __服主__", "value": guild.owner.mention},
+                        {"name": "💳 __ID__", "value": guild.id},
+                        {"name": "🗓️ __創建時間__", "value": guild.created_at.strftime('%Y/%m/%d')},
+                        {"name": "📈 __人數__", "value": guild.member_count},
+                        {"name": "📊 __頻道數__" , "value": len(guild.channels)},
+                        {"name": "👾 __表情符號__", "value": len(guild.emojis)},
+                        {"name": "📌 __身分組__", "value": len(guild.roles)},
+                    }
+                ]
+            ),
+            "view": self.merge_view(View(
+                Button(
+                    style=ButtonStyle.primary,
+                    emoji="📘",
+                    label="更多資訊!",
+                    custom_id="serverinfo_moreinfo"
+                ),      
+                Button(
+                    style=ButtonStyle.success,
+                    emoji="📖",
+                    label="加成者",
+                    custom_id="serverinfo_booster"
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    emoji="📋",
+                    label="身分組",
+                    custom_id="serverinfo_roles"
+                )
+            ), original)
+        }
+    
     def get_interaction_value(self, interaction: Interaction):
         return [data.get("components",{})[0].get("value") for data in interaction.data.get("components",{})]
     
     def get_select_value(self, interaction: Interaction, index: int = -1) -> Union[Any, list[Any]]:
         return interaction.data.get("values")[index] if index != -1 else interaction.data.get("values")
     
-    def from_component(self, view: View, component: Union[ActionRow, DiscordButton, SelectMenu]):
+    def from_component(self, view: View, component: Union[ActionRow, DiscordButton, SelectMenu]) -> View:
         kwargs = component.to_dict()
         kwargs.pop('type')
         
@@ -167,6 +304,15 @@ class Bot(Bot):
                 for c in component.children:
                     self.from_component(view, c)
                     
+        return view
+             
+    def merge_view(self, *views: View) -> View:
+        childrens = []
+        for i in views:
+            childrens += i.children
+            
+        return View(*childrens)        
+           
     def load_extension(self, folder: str, mode: str = "load", is_notice: bool = True) -> None:
 
         loading_method = {

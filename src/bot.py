@@ -23,7 +23,7 @@ bot = Bot(
     intents=intents,
 )
 
-for folder in ["cogs", "events"]: 
+for folder in ["commands", "cogs", "events"]: 
     bot.load_extension(folder) 
 
 @bot.event

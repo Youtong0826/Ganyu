@@ -1,14 +1,12 @@
-import discord 
-from lib.cog import CogExtension
-from lib.cog import Log
-from command_lib import info
-
 from discord import (
     ApplicationContext as Context,
+    ButtonStyle,
     Colour,
     Embed,
-    Invite,
+    EmbedField,
+    EmbedFooter,
     Member,
+    Role,
     SelectOption,
     option,
     slash_command
@@ -20,15 +18,17 @@ from discord.ui import (
     Select,
 )
 
-class SlashInfo(CogExtension):
+from lib.cog import CogExtension
+from lib.functions import get_now_time
 
+class SlashInfo(CogExtension):
     @slash_command(description="查看所有的資訊!")
     async def allinfo(self, ctx: Context):
         self.bot.log(ctx)
         await ctx.respond(
             embed=Embed(
                 title="一次查看所有資訊!",
-                color=discord.Colour.random(),
+                color=Colour.random(),
             ), 
             view=View(
                 Select(
@@ -82,11 +82,11 @@ class SlashInfo(CogExtension):
             description=f"                                                                                                                              \
                 [邀請連結 | invite link](https://discord.com/oauth2/authorize?client_id=921673886049910795&permissions=8&integration_type=0&scope=bot)\n \
                 [支援伺服器 | Support Server](https://discord.gg/AVCWGuuUex)",
-            color=discord.Colour.random(),
+            color=Colour.random(),
         ))
 
     @slash_command(description="查看邀請排行榜!")
-    async def invites(self, ctx: discord.ApplicationContext):
+    async def invites(self, ctx: Context):
         self.bot.log(ctx)
         data = {}
         for i in await ctx.guild.invites():
@@ -113,10 +113,42 @@ class SlashInfo(CogExtension):
             description="\n\n".join(data)
         ))
 
-
     @slash_command(description="查看身分組資訊!")
-    async def roleinfo(self,ctx : discord.ApplicationContext,*,role : discord.Option(discord.Role,"選擇身分組") = None ):
-        await info.roleinfo(ctx, role)
+    @option("role", Role, description="選擇身分組", required = False)
+    async def roleinfo(self, ctx: Context, role: Role):
+        if not role:
+            return await ctx.respond(embed=Embed(
+                title="使用 g!roleinfo 取得身分組資訊!",
+                description="使用方法❓ g!roleinfo `標註身分組/身分組名稱/身分組id`",
+                color=Colour.random(),
+                footer=EmbedFooter("rolenfo | 身分組資訊", self.bot.icon_url)
+            ))
+        
+        return await ctx.respond(
+            embed=Embed(
+                title=f'有關 {role.name} 身分組的資訊',
+                color=role.color,
+                timestamp=get_now_time(),
+                fields=[
+                    EmbedField(**i) for i in {
+                        {"name": "🗒️ 名字", "value": role.mention},
+                        {"name": "💳 id", "value": role.id},
+                        {"name": "📊 人數", "value": len(role.members)},
+                        {"name": "🗓️ 創建時間", "value": role.created_at.strftime('%Y/%m/%d')},
+                        {"name": "👾 貼圖", "value": role.unicode_emoji if role.unicode_emoji else None},
+                    }
+                ]
+            ),
+            view=View(
+                Button(
+                    style=ButtonStyle.success,
+                    label="擁有者",
+                    emoji="📊",
+                    custom_id=f"roleinfo_owner_{role.id}"
+                ),
+                timeout=None
+            )
+        )
 
 def setup(bot):
     bot.add_cog(SlashInfo(bot))

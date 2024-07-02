@@ -1,3 +1,5 @@
+import random
+
 from discord import (
     ButtonStyle,
     Cog,
@@ -14,7 +16,6 @@ from discord.ui import (
     Button,
 )
 
-import random
 from lib.cog import CogExtension
 from lib.role import choose_role
 from lib.functions import get_now_time
@@ -176,6 +177,60 @@ class InteractionEvent(CogExtension):
         if custom_id == "serverinfo_back":
             return await interaction.response.edit_message(**self.bot.get_guild_data(interaction.user, original))
         
+        if custom_id.startswith("roleinfo_owner"):
+            role = list(filter(lambda x: x.id == int(custom_id.split('_')[2]), guild.roles))[0]
+            count = 0
+            while sum(map(lambda x: len(x.mention)+3, role.members)) >= 1010:
+                count += 1
+                role.members.pop()
+                
+            members = "無" if not role.members else ' | '.join(map(lambda x: x.mention, role.members))
+            if count: members += f" +{count} Members..."
+
+            return await interaction.response.edit_message(
+                embed=Embed(
+                    title=f"擁有此身分組的人",
+                    description=members,
+                    color=Colour.random()
+                ), 
+                view=View(
+                    Button(
+                        style=ButtonStyle.primary,
+                        label="回去",
+                        emoji="🔙",
+                        custom_id=f"roleinfo_back_{role.id}"
+                    ),
+                    timeout=None
+                )
+            )  
+            
+        if custom_id.startswith("roleinfo_back"):
+            role = list(filter(lambda x: x.id == int(custom_id.split('_')[2]), guild.roles))[0]
+            return await interaction.response.edit_message(
+                embed=Embed(
+                    title=f'有關 {role.name} 身分組的資訊',
+                    color=role.color,
+                    timestamp=get_now_time(),
+                    fields=[
+                        EmbedField(**i) for i in {
+                            {"name": "🗒️ 名字", "value": role.mention},
+                            {"name": "💳 id", "value": role.id},
+                            {"name": "📊 人數", "value": len(role.members)},
+                            {"name": "🗓️ 創建時間", "value": role.created_at.strftime('%Y/%m/%d')},
+                            {"name": "👾 貼圖", "value": role.unicode_emoji if role.unicode_emoji else None},
+                        }
+                    ]
+                ),
+                view=View(
+                    Button(
+                        style=ButtonStyle.success,
+                        label="擁有者",
+                        emoji="📊",
+                        custom_id=f"roleinfo_owner_{role.id}"
+                    ),
+                    timeout=None
+                )
+            )
         
 def setup(bot):
     bot.add_cog(InteractionEvent(bot))

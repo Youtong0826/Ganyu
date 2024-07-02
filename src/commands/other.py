@@ -1,12 +1,11 @@
 import random
-import discord
-import datetime
 
 from discord import (
     ApplicationContext as Context,
+    AllowedMentions,
+    ButtonStyle,
     Colour,
     Embed,
-    EmbedField,
     EmbedFooter,
     Member,
     option,
@@ -30,10 +29,10 @@ class SlashCucmd(CogExtension):
     async def say(self, ctx: Context, *, msg: str):
         self.bot.log(ctx)
         await ctx.response.send_message("已成功發送訊息!", ephemeral=True)
-        await ctx.send(msg, allowed_mentions=discord.AllowedMentions.none())
+        await ctx.send(msg, allowed_mentions=AllowedMentions.none())
 
     @slash_command(description="查看頭像")
-    async def avatar(self, ctx: Context, *, member: discord.Member = None):
+    async def avatar(self, ctx: Context, *, member: Member = None):
         self.bot.log(ctx)
         await ctx.respond(embed=Embed(
             color=Colour.random(),
@@ -45,16 +44,15 @@ class SlashCucmd(CogExtension):
     @slash_command(description="查看機器人延遲!")
     async def ping(self, ctx: Context):
         self.bot.log(ctx)
-
         await ctx.respond(embed=Embed(
             title=f"Ping: {round(self.bot.latency*1000)} ms 💫 ",
-            color=discord.Colour.random(),
+            color=Colour.random(),
         ))
     
     @slash_command(description="查看有關甘雨的圖片")
     async def pic(self, ctx: Context):
+        self.bot.log(ctx)
         img = random.choice(get_pixiv_images("ganyu"))
-
         await ctx.respond(
             embed=Embed(
                 title=img["title"],
@@ -91,27 +89,28 @@ class SlashCucmd(CogExtension):
         await ctx.respond(embed=Embed(
             title=title,
             description=description,
-            color=discord.Colour.random()
+            color=Colour.random()
         ))
 
     @slash_command(descripton="給點小建議或是回報錯誤")
     async def report(self, ctx: Context):
+        self.bot.log(ctx)
         await ctx.respond(
             embed=Embed(
                 title="錯誤回報",
                 description="可用來回報錯誤 或是有什麼話想對開發者說都可以使用此功能喔<3",
-                color=discord.Colour.random()
+                color=Colour.random()
             ), 
             view=View(
                 Button(
-                    style=discord.ButtonStyle.success,
+                    style=ButtonStyle.success,
                     label="開啟回報表單!",
                     custom_id="open_report_button"
                 ),
                 timeout=None
-            ))
-        
-        
+            )
+        )
+         
     @slash_command()
     async def sptrole(self, ctx : Context):
         if ctx.author.id != 856041155341975582: return await self.bot.dev_warn()
@@ -123,12 +122,12 @@ class SlashCucmd(CogExtension):
             ), 
             view=View(
                 Button(
-                    style=discord.ButtonStyle.success,
+                    style=ButtonStyle.success,
                     label="公告Ping",
                     custom_id="PA_ping"
                 ),
                 Button(
-                    style=discord.ButtonStyle.primary,
+                    style=ButtonStyle.primary,
                     label="機器人更新ping",
                     custom_id="Bu_ping"
                 ),

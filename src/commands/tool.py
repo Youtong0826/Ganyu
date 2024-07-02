@@ -1,5 +1,3 @@
-import datetime
-
 from discord import (
     ApplicationContext as Context,
     ButtonStyle,
@@ -7,7 +5,6 @@ from discord import (
     Embed,
     EmbedField,
     EmbedFooter,
-    Member,
     SelectOption,
     option,
     slash_command
@@ -20,7 +17,6 @@ from discord.ui import (
 )
 
 from lib.cog import CogExtension
-
 from lib.functions import (
     get_now_time,
     wiki_search,

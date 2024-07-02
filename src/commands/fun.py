@@ -27,7 +27,6 @@ from discord.ui import (
 )
 
 from lib.cog import CogExtension
-from lib.bot_config import bot_icon_url
 from lib.functions import get_now_time
 
 class SlashFun(CogExtension):
@@ -97,7 +96,7 @@ class SlashFun(CogExtension):
                 title = "這次想出什麼呢?",
                 color = Colour.random(),
                 timestamp = datetime.now(UTC),
-                footer=EmbedFooter("猜拳", bot_icon_url)
+                footer=EmbedFooter("猜拳", self.bot.icon_url)
             ),
             view=View(
                 Button(
@@ -142,7 +141,7 @@ class SlashFun(CogExtension):
                 "🔯 幸運指數": f"{"▮"*round(point/10) + "▯"*10-round(point/10)} {point}%",
                 "🔷 幸運色" : choice(color),
             }.items()],
-            footer=EmbedField("lucktest | 運氣測試", bot_icon_url)
+            footer=EmbedField("lucktest | 運氣測試", self.bot.icon_url)
         ))
         
 

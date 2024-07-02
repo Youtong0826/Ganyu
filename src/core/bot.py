@@ -145,7 +145,8 @@ class Bot(Bot):
     def database(self):
         return Database(self.__database_path)
       
-    def get_bot_data(self, original: View = View()) -> dict[str, Embed | View]:            
+    def get_bot_data(self, original: View = None) -> dict[str, Embed | View]:            
+        if not original: original = View()
         return {
             "embed": Embed(
                 title=f"{self.user}",
@@ -178,7 +179,7 @@ class Bot(Bot):
             ), original) 
         }
         
-    def get_user_data(self, user: Union[Member, User], original: View = View()) -> dict[str, Embed | View]:
+    def get_user_data(self, user: Union[Member, User], original: View = None) -> dict[str, Embed | View]:
         count = 0
         roles = list(filter(lambda x: x.name != "@everyone", user.roles))
         while sum(map(lambda x: len(x.mention)+3, roles)) >= 1014:
@@ -189,15 +190,7 @@ class Bot(Bot):
         
         if count: roles += f" +{count} Roles..."
         
-        view = View(
-            Button(
-                style=ButtonStyle.primary,
-                label="更多資訊!",
-                emoji= "📘",
-                custom_id="userinfo_moreinfo"
-            ),
-            timeout=None
-        )
+        if not original: original = View()
         
         return {
             "embed": Embed(
@@ -232,7 +225,8 @@ class Bot(Bot):
             ), original) 
         }
     
-    def get_guild_data(self, guild: Guild, original: View = View()): 
+    def get_guild_data(self, guild: Guild, original: View = None): 
+        if not original: original = View()
         return {
             "embed": Embed(
                 title=guild,

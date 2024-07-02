@@ -21,7 +21,10 @@ from discord.ui import (
 
 from lib.cog import CogExtension
 from lib.role import choose_role
-from lib.functions import get_now_time
+from lib.functions import (
+    get_now_time,
+    calculator
+)
 
 class InteractionEvent(CogExtension):
     @Cog.listener()
@@ -233,7 +236,7 @@ class InteractionEvent(CogExtension):
                     EmbedField("詳細敘述:", description)
                 ]
             ))
-            await interaction.response.send_message(content=f"✅ 已成功提出回報，詳細內容請查看私訊",ephemeral=True)
+            return await interaction.response.send_message(content=f"✅ 已成功提出回報，詳細內容請查看私訊", ephemeral=True)
         
         if custom_id.startswith("roleinfo_owner"):
             role = list(filter(lambda x: x.id == int(custom_id.split('_')[2]), guild.roles))[0]
@@ -307,7 +310,154 @@ class InteractionEvent(CogExtension):
                 
                 return await interaction.delete_original_message(delay=5.0)
     
-            await interaction.response.send_message("已取消刪除", ephemeral=True)
+            return await interaction.response.send_message("已取消刪除", ephemeral=True)
+        
+        if custom_id.startswith("math"):
+            __, op = custom_id.split('_')
+            if user != message.author:
+                return await interaction.response.send_message("❌非此指令使用者無法操控!",ephemeral=True)
+            
+
+            value = " "
+            match op:
+                case "=":
+                    value = calculator(value) 
+                case "ac":
+                    value = " "
+                case "c":
+                    value = value[:-1]
+                    
+                case _:
+                    value += op
+                    
+            await interaction.response.edit_message(embed=Embed(
+                title="簡易計算機",
+                description=f"```{value}{"                                        "[len(value):40]}```",
+                color=Colour.random(),
+                timestamp=get_now_time(),
+                footer=EmbedFooter("/math | Ganyu", self.bot.icon_url)
+            ), view=View(
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_1",
+                    label="1",
+                    row=1
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_2",
+                    label="2",
+                    row=1
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_3",
+                    label="3",
+                    row=1
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_4",
+                    label="4",
+                    row=2
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_5",
+                    label="5",
+                    row=2
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_6",
+                    label="6",
+                    row=2
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_7",
+                    label="7",
+                    row=3
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_8",
+                    label="8",
+                    row=3
+                ),
+                Button(
+                    style= ButtonStyle.primary,
+                    custom_id="math_9",
+                    label="9",
+                    row=3
+                ),
+                Button(
+                    style=ButtonStyle.primary,
+                    custom_id="math_0",
+                    label="0",
+                    row=4
+                ),
+                Button(
+                    style=ButtonStyle.gray,
+                    custom_id="math_.",
+                    label=".",
+                    row=4
+                ),
+                Button(
+                    style=ButtonStyle.success,
+                    custom_id="math_=",
+                    label="=",
+                    row=3
+                ),
+                Button(
+                    style=ButtonStyle.gray,
+                    custom_id="math_+",
+                    label="+",
+                    row=1
+                ),
+                Button(
+                    style=ButtonStyle.gray,
+                    custom_id="math_-",
+                    label="-",
+                    row=2
+                ),
+                Button(
+                    style=ButtonStyle.gray,
+                    custom_id="math_×",
+                    label="×",
+                    row=3
+                ),
+                Button(
+                    style=ButtonStyle.gray,
+                    custom_id="math_÷",
+                    label="÷",
+                    row=4
+                ),
+                Button(
+                    style=ButtonStyle.danger,
+                    custom_id="math_ac",
+                    label="AC",
+                    row=1
+                ),
+                Button(
+                    style=ButtonStyle.danger,
+                    custom_id="math_c",
+                    label="C",
+                    row=2
+                ),
+                Button(
+                    style=ButtonStyle.grey,
+                    custom_id="math_(",
+                    label="(",
+                    row=4
+                ),
+                Button(
+                    style=ButtonStyle.grey,
+                    custom_id="math_)",
+                    label=")",
+                    row=4
+                )
+            ))
         
 def setup(bot):
     bot.add_cog(InteractionEvent(bot))

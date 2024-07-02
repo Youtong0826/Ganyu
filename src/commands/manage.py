@@ -180,6 +180,42 @@ class SlashManage(CogExtension):
             title="已解除停權",
             reason=reason,
         )
+        
+    @slash_command(description="新增身分組至另一名成員!")
+    @option("member", Member, description="選擇成員", required=None)
+    @option("role", Member, description="選擇身分組", required=None)
+    async def addrole(self, ctx: Context, member: Member, role: Role):
+        self.bot.log(ctx)
+        if not role or not member:
+            return await ctx.respond(embed=Embed(
+                title="使用 /addrole 對成員新增身分組!",
+                color=Colour.random(),
+                fields=[
+                    EmbedField(
+                        "使用方法", 
+                        "/addrole `提及成員/成員名稱/id` `身分組名稱/id`"
+                    ),
+                    EmbedField(
+                        "特殊情況",
+                        '如果是 `身分組` 或 `成員` 含有空格的話 請在兩邊加上 `"` 範例: `/addrole "You Tong0826" "管理 管理員"`'
+                    )
+                ],
+                footer=EmbedFooter("/addrole | Ganyu", self.bot.icon_url)
+            ))
+
+        if not ctx.author.guild_permissions.manage_roles:
+            await ctx.respond(embed=Embed(
+                title="你沒有權限!",
+                description=f"缺少權限 `mange_roles` `管理身分組`",
+                color=0xff2e2e,
+            ))
+        await member.add_roles(role)
+        await ctx.respond(embed=Embed(
+            title="已成功新增身分組!",
+            color=0xff2e2e,
+            timestamp=get_now_time(),
+            footer=EmbedFooter("/addrole | Ganyu", self.bot.icon_url)
+        ))
 
     @slash_command(description="清理訊息")
     @option("limit", int, description="數量", required=False)

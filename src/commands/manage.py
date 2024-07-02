@@ -10,7 +10,7 @@ from discord import (
     EmbedFooter,
     Member,
     Role,
-    SelectOption,
+    TextChannel,
     option,
     slash_command
 )
@@ -18,7 +18,6 @@ from discord import (
 from discord.ui import (
     View,
     Button,
-    Select,
 )
 
 from lib.cog import CogExtension
@@ -40,6 +39,7 @@ class Management:
     
 
 class SlashManage(CogExtension):
+    
     async def manage(self, ctx: Context, user: Member, member: Member, type: ManageType, title: str, reason: str ="無"):
         match type:
             case ManageType.kick:
@@ -121,10 +121,9 @@ class SlashManage(CogExtension):
             ]
         ))
 
-
     @slash_command(description="踢出成員")
-    @option("member", Member, description="選擇成員", required=None)
-    async def kick(self, ctx: Context, member: Member, *, reason=None):
+    @option("member", Member, description="選擇成員", required=False)
+    async def kick(self, ctx: Context, member: Member, *, required=False):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(
@@ -143,8 +142,8 @@ class SlashManage(CogExtension):
         )
             
     @slash_command(description="停權成員")
-    @option("member", Member, description="選擇成員", required=None)
-    async def ban(self, ctx: Context, member: Member, *, reason=None):
+    @option("member", Member, description="選擇成員", required=False)
+    async def ban(self, ctx: Context, member: Member, *, required=False):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(
@@ -162,15 +161,14 @@ class SlashManage(CogExtension):
         )
         
     @slash_command(description="解除停權")
-    @option("member", Member, description="選擇成員", required=None)
-    async def unban(self, ctx: Context, member: Member, *, reason=None):
+    @option("member", Member, description="選擇成員", required=False)
+    async def unban(self, ctx: Context, member: Member, *, required=False):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(
                 title="/unban 對成員解除停權",
                 description="用法 /unban `提及/id/名字` `原因(可空)`"
             ))
-            
 
         await self.manage(
             ctx=ctx,
@@ -182,8 +180,8 @@ class SlashManage(CogExtension):
         )
         
     @slash_command(description="新增身分組至另一名成員!")
-    @option("member", Member, description="選擇成員", required=None)
-    @option("role", Member, description="選擇身分組", required=None)
+    @option("member", Member, description="選擇成員", required=False)
+    @option("role", Member, description="選擇身分組", required=False)
     async def addrole(self, ctx: Context, member: Member, role: Role):
         self.bot.log(ctx)
         if not role or not member:
@@ -222,89 +220,61 @@ class SlashManage(CogExtension):
     async def clear(self, ctx: Context, limit: int):
         self.bot.log(ctx)
         
+        if not limit:
+            return await ctx.respond(embed=Embed(
+                title="/clear 清理訊息",
+                description="用法: clear `數量`",
+                color=0xff2e2e,
+                timestamp=get_now_time(),
+                footer=EmbedFooter("/clear | Ganyu", self.bot.icon_url)
+            ))
+            
+        if not ctx.author.guild_permissions.manage_messages:
+            return await ctx.respond(embed=Embed(
+                title="你沒有權限!",
+                description="缺少權限 `manage_message` `管理訊息`",
+                color=0xff2e2e,
+                timestamp=get_now_time(),
+                footer=EmbedFooter("/clear | Ganyu", self.bot.icon_url)
+            ))
+            
+  
+        if limit <= 0:
+            return await ctx.response.send_message(f"`無法清理 {limit} 則訊息`", ephemeral=True);
         
-        if limit != None:
-
-            if ctx.author.guild_permissions.manage_messages:
-                if limit <= 0:await ctx.response.send_message("無法清理小於或等於0則訊息",ephemeral=True);return
-
-                def is_excessive(msg):
-                    return limit < 30
-
-                deleted = await ctx.channel.purge(limit=limit,check=is_excessive)
-
-                embed = discord.Embed(
-                    title="已刪除訊息!",
-                    description=f"成功刪除了**{len(deleted)}**則訊息",
-                    color=discord.Colour.green(),
-                    timestamp= datetime.datetime.utcnow()
-                )
-
-                if limit >= 30:
-
-                    yes_button = discord.ui.Button(
-                        style=discord.ButtonStyle.success,
+        if limit >= 25:
+            return await ctx.respond(
+                f"請問您確定要刪除**{limit}**則訊息嗎?", 
+                view=View(
+                    Button(
+                        style=ButtonStyle.success,
                         label="確定",
-                        custom_id="yes"
-                    )
-
-                    no_button = discord.ui.Button(
-                        style=discord.ButtonStyle.danger,
+                        custom_id=f"clear_yes_{limit}"
+                    ),
+                    Button(
+                        style=ButtonStyle.danger,
                         label="取消",
-                        custom_id="no"
+                        custom_id=f"clear_no_{limit}"
                     )
-
-                    async def button_response(interaction:discord.Interaction):
-                        if interaction.user == ctx.author:
-                            if interaction.custom_id == "yes":
-                                await interaction.channel.purge(limit=limit)
-                                await interaction.response.send_message(embed=embed)
-                                await interaction.delete_original_message(delay=5.0)
-
-                            elif interaction.custom_id == "no":
-                                await interaction.message.delete()
-                                await interaction.response.send_message("已取消刪除")
-                                await interaction.delete_original_message(delay=5.0)
-
-                        else:await interaction.response.send_message("只有指令使用者才能進行操作",ephemeral=True)
-
-                    yes_button.callback = button_response
-                    no_button.callback = button_response
-                    view = discord.ui.View(yes_button,no_button)
-
-                    await ctx.respond(f"請問您確定要刪除**{limit}**則訊息嗎?",view=view);return
-
-            else:
-
-                embed = discord.Embed(
-                    title="你沒有權限!",
-                    description="缺少權限 `manage_message` `管理訊息`",
-                    color=discord.Colour.red(),
-                    timestamp=datetime.datetime.utcnow()
                 )
-
-            embed.set_footer(text=ctx.author, icon_url=ctx.author.avatar)
-
-        else:
-            embed = discord.Embed(
-                title="使用clear來清理訊息",
-                description="用法: clear `數量`"
             )
 
-        if isinstance(ctx,commands.Context):
-            msg = await ctx.send(embed=embed)
 
-        elif isinstance(ctx,discord.ApplicationContext):
-            irt = await ctx.respond(embed=embed)
+        deleted = await ctx.channel.purge(limit=limit)
+        msg = await ctx.respond(embed=Embed(
+            title="已刪除訊息!",
+            description=f"成功刪除了**{len(deleted)}**則訊息",
+            color=0xff2e2e,
+            timestamp=get_now_time(),
+        ))
 
-        if deleted :
-            try: await irt.delete_original_message(delay=5.0)
-            except: await msg.delete(delay=5.0)
+        if deleted:
+            await msg.delete_original_message(delay=5.0)
     
-    #@discord.application_command(description="自動給予成員身分組")
-    async def autorole(self,ctx,
-        channel:discord.Option(discord.TextChannel,description="選擇要發送訊息頻道",name="頻道"),
-    ):
+    @slash_command(description="自動給予成員身分組")
+    @option("channnel", TextChannel, description="選擇要發送訊息頻道", required=False)
+    async def autorole(self, ctx: Context, channel: TextChannel):
+        pass
         
         await autorole(ctx,channel)
 

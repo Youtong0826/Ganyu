@@ -28,7 +28,8 @@ class InteractionEvent(CogExtension):
         user = interaction.user
         guild = interaction.guild
         custom_id = interaction.custom_id
-        components = interaction.message.components
+        message = interaction.message
+        components = message.components
         original = list(filter(lambda x: x.type == ComponentType.string_select, components))
         original = original[0] if original else View()
         if custom_id.endswith("ping"):
@@ -231,6 +232,25 @@ class InteractionEvent(CogExtension):
                     timeout=None
                 )
             )
+        
+        if custom_id.startswith("clear"):
+            _, choose, limit = custom_id.split('_')
+            if user != message.author:
+                return await interaction.response.send_message("只有指令使用者才能進行操作",ephemeral=True)
+            
+            await interaction.message.delete()
+            if choose == "yes":
+                deleted = await interaction.channel.purge(limit=int(limit))
+                await interaction.response.send_message(embed=Embed(
+                    title="已刪除訊息!",
+                    description=f"成功刪除了**{len(deleted)}**則訊息",
+                    color=0xff2e2e,
+                    timestamp=get_now_time(),
+                ), ephemeral=True)
+                
+                return await interaction.delete_original_message(delay=5.0)
+    
+            await interaction.response.send_message("已取消刪除", ephemeral=True)
         
 def setup(bot):
     bot.add_cog(InteractionEvent(bot))

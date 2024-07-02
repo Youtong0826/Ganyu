@@ -8,12 +8,15 @@ from discord import (
     Embed,
     EmbedField,
     EmbedFooter,
-    Interaction
+    Interaction,
+    InputTextStyle
 )
 
 from discord.ui import (
     View,
     Button,
+    Modal,
+    InputText,
 )
 
 from lib.cog import CogExtension
@@ -32,6 +35,7 @@ class InteractionEvent(CogExtension):
         components = message.components
         original = list(filter(lambda x: x.type == ComponentType.string_select, components))
         original = original[0] if original else View()
+        
         if custom_id.endswith("ping"):
             if interaction.custom_id == "PA_ping":
                 await choose_role(user, 962261741050413096)
@@ -66,7 +70,7 @@ class InteractionEvent(CogExtension):
                     return await interaction.response.edit_message(**self.bot.get_user_data(user, original))
                     
                 case "server":
-                    ...
+                    return await interaction.response.edit_message(**self.bot.get_guild_data(guild, original))
             
         if custom_id == "userinfo_moreinfo":
             return await interaction.response.edit_message(
@@ -177,6 +181,59 @@ class InteractionEvent(CogExtension):
             
         if custom_id == "serverinfo_back":
             return await interaction.response.edit_message(**self.bot.get_guild_data(interaction.user, original))
+        
+        if custom_id == "open_report_button":
+            await interaction.response.send_modal(Modal(
+                InputText(
+                    style=InputTextStyle.short,
+                    label="名稱",
+                    placeholder="此次回報的名稱"
+                ),
+                InputText(
+                    style=InputTextStyle.long,
+                    label="詳細敘述",
+                    placeholder="此次回報的敘述",
+                    max_length=1024
+                ),
+                title="機器人Bug回報表單",
+                custom_id="report_modal"
+            ))
+        
+        if custom_id == "report_modal":
+            print(self.bot.get_interaction_value())
+            title = ...
+            description = ...
+            user = interaction.user
+            #def bug_callback(title,description,modal,user):
+            #    with open("Error report.txt","a",encoding="utf-8") as f:
+            #        return f.write(f"\
+            #            \n[{datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y/%m/%d %H:%M:%S')}]\
+            #            \n----名稱: {title}\
+            #            \n----詳細敘述: {description}\
+            #            \n----提出者: {interaction.user}  id:{interaction.user.id}")
+
+            report_embed = Embed(
+                title=title,
+                description=description,
+                timestamp=get_now_time,
+                color=Colour.random(),
+                footer=EmbedFooter(f"{user} 提出回報", user.avatar)
+            )
+
+
+            await self.bot.get_channel(966010451643215912).send(embed=report_embed)
+            await user.send(embed=Embed(
+                title=f"感謝您提出回報!!",
+                description=f"以下為您的回報內容",
+                color=Colour.random(),
+                timestamp=get_now_time,
+                footer=EmbedFooter("Error report", self.bot.icon_url),
+                fields=[
+                    EmbedField("回報名稱:", title),
+                    EmbedField("詳細敘述:", description)
+                ]
+            ))
+            await interaction.response.send_message(content=f"✅ 已成功提出回報，詳細內容請查看私訊",ephemeral=True)
         
         if custom_id.startswith("roleinfo_owner"):
             role = list(filter(lambda x: x.id == int(custom_id.split('_')[2]), guild.roles))[0]

@@ -123,7 +123,7 @@ class SlashManage(CogExtension):
 
     @slash_command(description="踢出成員")
     @option("member", Member, description="選擇成員", required=False)
-    async def kick(self, ctx: Context, member: Member, *, required=False):
+    async def kick(self, ctx: Context, member: Member, *, reason: str = None):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(
@@ -143,7 +143,7 @@ class SlashManage(CogExtension):
             
     @slash_command(description="停權成員")
     @option("member", Member, description="選擇成員", required=False)
-    async def ban(self, ctx: Context, member: Member, *, required=False):
+    async def ban(self, ctx: Context, member: Member, *, reason: str = None):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(
@@ -162,7 +162,7 @@ class SlashManage(CogExtension):
         
     @slash_command(description="解除停權")
     @option("member", Member, description="選擇成員", required=False)
-    async def unban(self, ctx: Context, member: Member, *, required=False):
+    async def unban(self, ctx: Context, member: Member, *, reason: str = None):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(

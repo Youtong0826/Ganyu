@@ -18,6 +18,7 @@ from datetime import (
 from discord import (
     Embed
 )
+
 def translate(text, to_language="auto", text_language="auto"):
     GOOGLE_TRANSLATE_URL = 'http://translate.google.com/m?q=%s&tl=%s&sl=%s'
     text = parse.quote(text)
@@ -29,7 +30,6 @@ def translate(text, to_language="auto", text_language="auto"):
     result = re.findall(expr, response.text)
 
     return "" if (len(result) == 0) else html.unescape(result[0])
-
 
 def must_field_embed(embed: Embed, fields: list) -> Embed:
     for i in fields:
@@ -50,7 +50,22 @@ def wiki_info(title:str=None,sentences:int=1,lang:str="zh"):
     try: return wikipedia.summary(title,sentences)
     except: return None
 
-def bullshit(topic,minlen):
+def get_pixiv_images(key: str) -> list[dict[str, str]]:
+    
+    datas = [
+        json.loads(requests.get(f"https://www.pixiv.net/ajax/search/artworks/{key}?word={key}&order=date_d&mode=all&p={str(i)}&s_mode=s_tag_full&type=all&lang=zh_tw").text)["body"]["illustManga"]["data"] 
+        for i in range(1, 4)
+    ]
+    
+    images = [{
+        "title": d["title"],
+        "user": d["userName"],
+        "url": str(d["id"]) + '-1' if d["pageCount"] > 1 else ' '
+    } for data in datas for d in data]
+    
+    return images   
+
+def bullshit(topic, minlen: int):
     url = "https://api.howtobullshit.me/bullshit"
 
     data = {
@@ -148,3 +163,5 @@ def getGenshininfo(uid,server):
 def get_now_time(hours: int = 8) -> datetime:
     return datetime.now(timezone(timedelta(hours=hours)))
 
+if __name__ == "__main__":
+    print(get_pixiv_images("ganyu"))

@@ -3,7 +3,7 @@ from urllib import parse
 import youtube_dl
 import wikipedia
 import requests
-import discord
+
 import random
 import html
 import json
@@ -13,6 +13,10 @@ from datetime import (
     datetime, 
     timedelta, 
     timezone
+)
+
+from discord import (
+    Embed
 )
 def translate(text, to_language="auto", text_language="auto"):
     GOOGLE_TRANSLATE_URL = 'http://translate.google.com/m?q=%s&tl=%s&sl=%s'
@@ -27,9 +31,10 @@ def translate(text, to_language="auto", text_language="auto"):
     return "" if (len(result) == 0) else html.unescape(result[0])
 
 
-def must_field_embed(embed: discord.Embed, fields: list) -> discord.Embed:
+def must_field_embed(embed: Embed, fields: list) -> Embed:
     for i in fields:
         embed.add_field(name=i[0], value=i[1])
+        
     return embed
 
 def wiki_search(*keywords:str,lang:str = "zh"):
@@ -140,7 +145,6 @@ def getGenshininfo(uid,server):
 
     return data
 
-def get_now_time(time: datetime = None, hours = 8) -> datetime:
-    ori = datetime.now(timezone(timedelta(hours=hours))) if not time else time
-    return datetime(ori.year, ori.month, ori.day, ori.hour, ori.minute, ori.second)
+def get_now_time(hours: int = 8) -> datetime:
+    return datetime.now(timezone(timedelta(hours=hours)))
 

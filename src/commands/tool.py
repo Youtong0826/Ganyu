@@ -8,6 +8,7 @@ from discord import (
     EmbedField,
     EmbedFooter,
     Member,
+    SelectOption,
     option,
     slash_command
 )
@@ -15,12 +16,14 @@ from discord import (
 from discord.ui import (
     View,
     Button,
+    Select,
 )
 
 from lib.cog import CogExtension
 
 from lib.functions import (
     get_now_time,
+    wiki_search,
     calculator,
     translate,
     bullshit,
@@ -81,15 +84,16 @@ class SlashTool(CogExtension):
     @option("topic", str, desciption="主題", required=False)
     @option("minlen", int, desciption="字數(上限1000)", required=False)
     async def bullshit(self, ctx: Context, topic: str, minlen: int):
+        self.bot.log(ctx)
         if not topic or not minlen:
             return await ctx.respond(
                 embed=Embed(
-                title="使用 /bullshit唬爛產生器來生成文章!",
-                description="使用方法 /bullshit `主題(如有空格需要用\"包起來)` `字數(上限1000)`",
-                color=Colour.random(),
-                timestamp=get_now_time(),
-                footer=EmbedFooter("唬爛產生器", self.bot.icon_url)
-            )
+                    title="使用 /bullshit唬爛產生器來生成文章!",
+                    description="使用方法 /bullshit `主題(如有空格需要用\"包起來)` `字數(上限1000)`",
+                    color=Colour.random(),
+                    timestamp=get_now_time(),
+                    footer=EmbedFooter("唬爛產生器", self.bot.icon_url)
+                )
             )
 
         try:
@@ -252,10 +256,38 @@ class SlashTool(CogExtension):
             )
         )
 
+    @slash_command(description="搜索維基百科")
+    @option("keywords", str, description="搜索關鍵字")
+    async def wiki(self, ctx: Context, keywords: str):
+        self.bot.log(ctx)
+        results = wiki_search(tuple(keywords.split()))
+        if not results: 
+            return await ctx.respond(f"{self.bot.mention} 徹徹底底地搜索了一遍 但還是找不到結果..")
 
-    @discord.application_command(description="搜索維基百科")
-    async def wiki(self,ctx,keywords:discord.Option(str,"搜索關鍵字")):
-        await tool.wikiInfo(ctx,keywords,self.bot)
+        await ctx.respond(
+            embed=Embed(
+                title=f"以下為有關\"{keywords}\"的搜索結果",
+                color=Colour.random(),
+                timestamp=get_now_time(),
+                footer=EmbedFooter("/wiki | Ganyu", self.bot.icon_url)
+            ), 
+            view=View(
+                Select(
+                    placeholder="選擇相關的搜索結果",
+                    options=[
+                        SelectOption(**i) for i in {
+                            {
+                                "label": v[0],
+                                "value": f"wiki_{v[0]}",
+                                "emoji": v[1]
+                            } for v in zip(results, ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"]) 
+                        }
+                    ],
+                    custom_id="wiki_select"
+                ),
+                timeout=None
+            )
+        )
 
 def setup(bot):
     bot.add_cog(SlashTool(bot))

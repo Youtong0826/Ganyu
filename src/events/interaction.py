@@ -9,7 +9,8 @@ from discord import (
     EmbedField,
     EmbedFooter,
     Interaction,
-    InputTextStyle
+    InputTextStyle,
+    SelectOption,
 )
 
 from discord.ui import (
@@ -17,13 +18,15 @@ from discord.ui import (
     Button,
     Modal,
     InputText,
+    Select,
 )
 
 from lib.cog import CogExtension
 from lib.role import choose_role
 from lib.functions import (
     get_now_time,
-    calculator
+    calculator,
+    wiki_info,
 )
 
 class InteractionEvent(CogExtension):
@@ -237,6 +240,21 @@ class InteractionEvent(CogExtension):
                 ]
             ))
             return await interaction.response.send_message(content=f"✅ 已成功提出回報，詳細內容請查看私訊", ephemeral=True)
+        
+        if custom_id == "wiki_select":
+            value = self.bot.get_select_value(interaction, 0)
+            await interaction.response.edit_message(
+                embed=Embed(
+                    url=f"https://zh.wikipedia.org/wiki/{value[5:]}",
+                    title=value[5:],
+                    description=wiki_info(value[5:]),
+                    color=Colour.random(),
+                    timestamp=get_now_time(),
+                    footer=EmbedFooter("Wikipedia.org", self.bot.icon_url),
+                    thumbnail="https://th.bing.com/th/id/R.d451e7b1661d71fc68ca02b19137497b?rik=MjNkZivLBibrOQ&pid=ImgRaw&r=0"
+                ),
+                view=original
+            )
         
         if custom_id.startswith("roleinfo_owner"):
             role = list(filter(lambda x: x.id == int(custom_id.split('_')[2]), guild.roles))[0]

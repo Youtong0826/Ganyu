@@ -270,13 +270,6 @@ class SlashManage(CogExtension):
 
         if deleted:
             await msg.delete_original_message(delay=5.0)
-    
-    @slash_command(description="自動給予成員身分組")
-    @option("channnel", TextChannel, description="選擇要發送訊息頻道", required=False)
-    async def autorole(self, ctx: Context, channel: TextChannel):
-        pass
-        
-        await autorole(ctx,channel)
 
 def setup(bot):
     bot.add_cog(SlashManage(bot))

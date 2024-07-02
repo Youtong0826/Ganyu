@@ -1,4 +1,4 @@
-from lib.classes import CogExtension
+from lib.cog import CogExtension
 from discord.ext import commands
 import datetime
 import discord

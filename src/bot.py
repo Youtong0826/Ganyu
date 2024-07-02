@@ -1,14 +1,20 @@
-from lib.cog import Log
-from core import Bot
-from dotenv import load_dotenv
 import asyncio
 import os
 
+from dotenv import load_dotenv
+
+from discord import (
+    Intents,
+    Status,
+    Activity,
+    ActivityType
+)
+
+from core import Bot
 
 load_dotenv()
 
 intents = Intents.all()
-
 intents.message_content = False
 intents.presences = False
 
@@ -17,36 +23,8 @@ bot = Bot(
     intents=intents,
 )
 
-for folder in ["commands","events"]: bot.load_extension(folder) 
-
-
-
-@bot.command()
-async def sptrole(ctx : Context):
-    if ctx.author.id != 856041155341975582: return
-
-    embed = Embed(
-        title="索取你要的身分組!",
-        color=Colour.nitro_pink()
-    )
-
-    pa_button = discord.ui.Button(
-        style=discord.ButtonStyle.success,
-        label="公告Ping",
-        custom_id="PA_ping"
-    )
-
-    bu_button = discord.ui.Button(
-        style=discord.ButtonStyle.primary,
-        label="機器人更新ping",
-        custom_id="Bu_ping"
-    )
-
-    view = discord.ui.View(timeout=None)
-    view.add_item(pa_button)
-    view.add_item(bu_button)
-
-    await bot.get_channel(962264203324948500).send(embed=embed,view=view)
+for folder in ["commands","events"]: 
+    bot.load_extension(folder) 
 
 @bot.event
 async def on_ready():
@@ -64,9 +42,9 @@ async def on_ready():
 
         ACTIVITY_OPTION = {
             "application_id": 921673886049910795,
-            "status" : discord.Status.streaming,
+            "status" : Status.streaming,
             "url" : "https://discord.gg/AVCWGuuUex",
-            "type" : discord.ActivityType.watching,
+            "type" : ActivityType.watching,
             "timestamp" : {
                 "start":1000,
                 "end":2000
@@ -85,22 +63,8 @@ async def on_ready():
             }
         }
 
-        STREANING_OPTION = {
-            "platfrom": "Discord",
-            "game" : "/help",
-            "url" : "https://discord.gg/AVCWGuuUex",
-            "detail":"**thinking**",
-            "assets" :{
-                "large_image":"largetest",
-                "large_text":"largetest",
-                "small_image" :"smalltest",
-                "small_text" : "smalltest"
-            },
-        }
-
-        for i in range(len(names)):
-            activity = discord.Activity(name=names[i] ,**ACTIVITY_OPTION)
-            await bot.change_presence(activity=activity,status=discord.Status.idle)
+        for i in names:
+            await bot.change_presence(activity=Activity(name=i ,**ACTIVITY_OPTION), status=Status.idle)
             await asyncio.sleep(10.0)
 
     while True:

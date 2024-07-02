@@ -335,5 +335,8 @@ class Bot(Bot):
     def log(self, ctx: Context):
         print(f'[{get_now_time()}] At the guild - {ctx.author.guild}. {ctx.author} used the command - "{ctx.command}"')
         
+    def error(self, ctx: Context, error: Exception):
+        print(f'[{get_now_time()}] At the guild - {ctx.author.guild}. When {ctx.author} used the command - "{ctx.command}", return a error:{error}')
+    
     async def dev_warn(self, ctx: Context):
         return await ctx.response.send_message('❌ 此為開發者功能!', ephemeral=True)

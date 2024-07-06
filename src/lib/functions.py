@@ -37,18 +37,23 @@ def must_field_embed(embed: Embed, fields: list) -> Embed:
         
     return embed
 
-def wiki_search(*keywords:str,lang:str = "zh"):
+def wiki_search(*keywords: str, lang: str = "zh"):
     if keywords == None: return None
     wikipedia.set_lang(lang)
     
     return wikipedia.search(keywords)
 
-def wiki_info(title:str=None,sentences:int=1,lang:str="zh"):
-    if title == None : return None
+def wiki_info(title: str = None, sentences: int = 1, lang: str = "zh"):
+    if not title:
+        return None
+    
     wikipedia.set_lang(lang)
     
-    try: return wikipedia.summary(title,sentences)
-    except: return None
+    try: 
+        return wikipedia.summary(title, sentences=sentences)
+    
+    except: 
+        return None
 
 def get_pixiv_images(key: str) -> list[dict[str, str]]:
     
@@ -60,7 +65,7 @@ def get_pixiv_images(key: str) -> list[dict[str, str]]:
     images = [{
         "title": d["title"],
         "user": d["userName"],
-        "url": str(d["id"]) + '-1' if d["pageCount"] > 1 else ' '
+        "url": str(d["id"])
     } for data in datas for d in data]
     
     return images   
@@ -164,4 +169,4 @@ def get_now_time(hours: int = 8) -> datetime:
     return datetime.now(timezone(timedelta(hours=hours)))
 
 if __name__ == "__main__":
-    print(get_pixiv_images("ganyu"))
+    print("dada878", f"{'▮'*round((point := __import__('random').randint(0, 100))/10) + '▯'*(10-round(point/10))} {point}% Gay", sep="\n")

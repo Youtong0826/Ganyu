@@ -1,4 +1,4 @@
-from lib.cog import CogExtension
+from core import CogExtension
 
 from discord import (
     ApplicationContext as Context,

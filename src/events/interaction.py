@@ -1,5 +1,4 @@
 import random
-from asyncio import sleep
 
 from discord import (
     ActionRow,
@@ -21,16 +20,13 @@ from discord.ui import (
     Button,
     Modal,
     InputText,
-    Select,
 )
 
-from lib.cog import CogExtension
+from core import CogExtension
 from lib.role import choose_role
-from lib.functions import (
-    get_now_time,
-    calculator,
-    wiki_info,
-)
+from lib.timing import get_now_time
+from lib.api import calculator
+from lib.wiki import wiki_info
 
 class InteractionEvent(CogExtension):
     @Cog.listener()

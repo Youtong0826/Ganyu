@@ -21,9 +21,11 @@ from discord.ui import (
 
 from discord.errors import Forbidden
 
-from lib.cog import CogExtension
-from lib.functions import get_now_time
-from core import Bot
+from lib.timing import get_now_time
+from core import (
+    Bot,
+    CogExtension
+)
 
 class ManageType(Enum):
     kick = 1

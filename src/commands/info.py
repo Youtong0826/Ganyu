@@ -18,9 +18,11 @@ from discord.ui import (
     Select,
 )
 
-from lib.cog import CogExtension
-from lib.functions import get_now_time
-from core import Bot
+from lib.timing import get_now_time
+from core import (
+    Bot,
+    CogExtension
+)
 
 class SlashInfo(CogExtension):
     @slash_command(description="查看所有的資訊!")

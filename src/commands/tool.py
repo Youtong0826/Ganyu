@@ -16,13 +16,13 @@ from discord.ui import (
     Select,
 )
 
-from lib.cog import CogExtension
-from lib.functions import (
-    get_now_time,
-    wiki_search,
+from core.cog import CogExtension
+from lib.timing import get_now_time
+from lib.wiki import wiki_search
+from lib.api import (
     calculator,
     translate,
-    bullshit,
+    bullshit
 )
 
 class SlashTool(CogExtension):

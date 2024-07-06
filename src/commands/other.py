@@ -18,11 +18,11 @@ from discord.ui import (
     Button,
 )
 
-from lib.cog import CogExtension
-from lib.functions import (
-    get_pixiv_images, 
-    get_now_time
-)
+from core import CogExtension
+
+from lib.api import get_pixiv_images
+from lib.timing import get_now_time
+
 
 class SlashCucmd(CogExtension):
     @slash_command(description="讓機器人模仿你說的話!")

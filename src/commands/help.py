@@ -10,8 +10,10 @@ from discord.ui import (
     View
 )
 
-from lib.cog import CogExtension
-from core import Bot
+from core import (
+    Bot,
+    CogExtension
+)
 
 class SlashHelp(CogExtension):
     @slash_command(description="查看指令清單")

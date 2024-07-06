@@ -1,17 +1,17 @@
 import asyncio
-from lib.functions import translate
-from lib.cog import CogExtension
+
 from discord.ext import commands
-
-
+from discord.errors import ApplicationCommandInvokeError
 from discord import (
     ApplicationContext as Context,
     Cog,
+    Colour,
     Embed,
     EmbedField,
 )
 
-import discord
+from lib.api import translate
+from core import CogExtension
 
 class ErrorEvent(CogExtension):
     async def send_background_message(self, ctx: Context, exception: Exception):
@@ -21,7 +21,7 @@ class ErrorEvent(CogExtension):
                 \n**Guild:** `{ctx.guild.name}` **id**: `{ctx.guild.id}`\
                 \n**Channel:** `{ctx.channel.name}` **id:** `{ctx.channel.id}`\
                 \n**Command:** `{ctx.command}`",
-            color=discord.Colour.nitro_pink(),
+            color=Colour.nitro_pink(),
             fields=[EmbedField("Exception", f"```{exception}```")]
         ))
 
@@ -31,7 +31,7 @@ class ErrorEvent(CogExtension):
         msg = await ctx.send(embed=Embed(
             title="錯誤",
             description="以下為回報內容",
-            color=discord.Color.red(),
+            color=Colour.red(),
             fields=[
                 EmbedField("原始內容", f"```{error}```"),
                 EmbedField("翻譯後", f"```{translate(str(error), "zh-TW")}```"),
@@ -46,7 +46,7 @@ class ErrorEvent(CogExtension):
         
 
     @commands.Cog.listener()
-    async def on_application_command_error(self, ctx: Context, error: discord.errors.ApplicationCommandInvokeError):
+    async def on_application_command_error(self, ctx: Context, error: ApplicationCommandInvokeError):
         if isinstance(error.original, asyncio.TimeoutError):
             if ctx.command == "guess": 
                 return await ctx.respond(f"`{ctx.author}` **遊戲已逾時**")
@@ -56,7 +56,7 @@ class ErrorEvent(CogExtension):
         await ctx.response.send_message(embed=Embed(
             title="錯誤",
             description="以下為回報內容",
-            color=discord.Color.red(),
+            color=Colour.red(),
             fields=[
                 EmbedField("原始內容", f"```{error}```"),
                 EmbedField("翻譯後", f"```{translate(str(error), "zh-TW")}```"),

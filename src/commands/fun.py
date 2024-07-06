@@ -5,11 +5,6 @@ from random import (
     randint
 )
 
-from datetime import (
-    datetime, 
-    UTC
-)
-
 from discord import (
     ApplicationContext as Context,
     Colour,
@@ -26,9 +21,11 @@ from discord.ui import (
     Button,
 )
 
-from lib.cog import CogExtension
-from lib.functions import get_now_time
-from core import Bot
+from lib.timing import get_now_time
+from core import (
+    Bot,
+    CogExtension
+)
 
 class SlashFun(CogExtension):
     @slash_command(description="骰骰子")

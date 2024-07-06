@@ -1,10 +1,9 @@
-from lib.cog import CogExtension
-from discord.ext import commands
 import discord
 import random
+from discord.ext import commands
+from core.cog import CogExtension
 
 class MessageEvent(CogExtension):
-
     @commands.Cog.listener()
     async def on_message(self, message:discord.Message):
         if message.author == self.bot.user or message.author.bot : return

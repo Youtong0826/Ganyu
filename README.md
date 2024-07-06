@@ -1,4 +1,5 @@
 Ganyu，一款使用 [Pycord](https://github.com/Pycord-Development/pycord) 製作的 Discord 機器人！
+
 [邀請我~](https://discord.com/oauth2/authorize?client_id=921673886049910795) | [幫我投票 ><](https://discordservers.tw/bots/921673886049910795/home)
 
 分層目錄介紹:

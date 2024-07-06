@@ -1,5 +1,5 @@
 from discord.ext import commands
-import lib.functions as tool
+import lib.genshin as tool
 import discord
 import datetime
 
@@ -22,7 +22,7 @@ async def genshininfo(ctx,uid,server):
 
         server = "os_" + server
     
-        data = tool.getGenshininfo(uid,server)#811312758
+        data = tool.getGenshininfo(uid, server)#811312758
 
         serverkw =  {
             'os_usa': '美服',

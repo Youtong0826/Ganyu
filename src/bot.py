@@ -24,7 +24,7 @@ bot = Bot(
 )
 
 for folder in ["commands", "cogs", "events"]: 
-    bot.load_extension(folder) 
+    bot._load_extension(folder)
 
 @bot.event
 async def on_ready():
@@ -65,7 +65,7 @@ async def on_ready():
 
         for i in names:
             await bot.change_presence(activity=Activity(name=i ,**ACTIVITY_OPTION), status=Status.idle)
-            await asyncio.sleep(10.0)
+            await asyncio.sleep(5.0)
 
     while True:
         await run_activity_loop()

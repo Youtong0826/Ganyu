@@ -1,4 +1,4 @@
-[Ganyu](https://discord.com/oauth2/authorize?client_id=921673886049910795) | 一款使用 Pycord 製作的 Discord 機器人！
+Ganyu，一款使用 [Pycord](https://github.com/Pycord-Development/pycord) 製作的 Discord 機器人！| [邀請我](https://discord.com/oauth2/authorize?client_id=921673886049910795) | [幫我投票 ><](https://discordservers.tw/bots/921673886049910795/home)
 
 分層目錄介紹:
 ```
@@ -18,8 +18,10 @@ src
 │   └── ...
 │
 ├── lib - [函式庫]
-│   ├── functions.py
+│   ├── api.py
 │   └── ...
 │
 └── bot.py [執行檔]
 ```
+
+指令介紹: 使用 `/help` 來取得指令列表

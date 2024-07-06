@@ -32,7 +32,7 @@ class MemberEvent(CogExtension):
             return embed
 
         if member.guild.id == 719198103227465738:
-            channel = self.bot.get_channel(719521057286914129)
+            channel = self.bot.get_channel(1235807068339048470)
             await channel.send(embed=join_message())
 
         elif member.guild.id == 956614306345123923:

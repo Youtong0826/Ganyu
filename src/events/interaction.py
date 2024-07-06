@@ -1,16 +1,19 @@
 import random
+from asyncio import sleep
 
 from discord import (
+    ActionRow,
+    Button as DiscordButton,
     ButtonStyle,
     Cog,
     Colour,
-    ComponentType,
     Embed,
     EmbedField,
     EmbedFooter,
+    EmbedMedia,
     Interaction,
     InputTextStyle,
-    SelectOption,
+    SelectMenu,
 )
 
 from discord.ui import (
@@ -31,16 +34,24 @@ from lib.functions import (
 
 class InteractionEvent(CogExtension):
     @Cog.listener()
-    async def on_interaction(self,interaction:Interaction):
-        if interaction.is_command(): return
+    async def on_interaction(self, interaction:Interaction):
+        if interaction.is_command() or not interaction.custom_id: return
 
         user = interaction.user
         guild = interaction.guild
         custom_id = interaction.custom_id
         message = interaction.message
-        components = message.components
-        original = list(filter(lambda x: x.type == ComponentType.string_select, components))
-        original = original[0] if original else View()
+        components: list[ActionRow | DiscordButton | SelectMenu] = message.components if message else None
+        
+        if custom_id and "info" in custom_id and not "roleinfo" in custom_id:
+            try: 
+                original = list(filter(lambda x: x, [self.bot.from_component(c, "allinfo_select") for c in components]))[0]
+            
+            except IndexError:
+                original = View()
+            
+            except Exception as ex:
+                print(ex)
         
         if custom_id.endswith("ping"):
             if interaction.custom_id == "PA_ping":
@@ -51,19 +62,6 @@ class InteractionEvent(CogExtension):
                 
             return await interaction.response.send_message(content=f"已成功變更身分組✅",ephemeral=True)
     
-        if custom_id == "rpc_punch":
-            result = random.choice([
-                ["你輸了..", "下次再來吧!"],
-                ["平手!", "勢均力敵呢!"],
-                ["你贏了!!", "幹得不錯嘛!"]    
-            ])
-
-            return await interaction.response.edit_message(embed=Embed(
-                title = result[0],
-                description = result[1],
-                color = Colour.random()
-            ))
-            
         if custom_id == "help_select":
             return await interaction.response.edit_message(embed=self.bot.commands_list[self.bot.get_select_value(interaction, 0)])
         
@@ -112,17 +110,17 @@ class InteractionEvent(CogExtension):
                 embed=Embed(
                     title=guild,
                     color=Colour.random(),
-                    thumbnail=guild.icon,
+                    thumbnail=EmbedMedia(guild.icon.url),
                     footer=EmbedFooter("serverinfo | 伺服器資訊", self.bot.icon_url),
                     fields=[
-                        EmbedField(**i) for i in {
+                        EmbedField(**i) for i in [
                             {"name": "⚜️ __加成次數__", "value": guild.premium_subscription_count},
                             {"name": "🔱 __加成等級__", "value": guild.premium_tier},
                             {"name": "📈 __活人__", "value": guild.member_count-robot},
                             {"name": "📊 __機器人__", "value": robot},
                             {"name": "🐷 __表情符號(靜態)__", "value": len(list(filter(lambda x: x.animated, guild.emojis)))},
                             {"name": "🐸 __表情符號(動態)__", "value": len(list(filter(lambda x: not x.animated, guild.emojis)))},
-                        }
+                        ]
                     ]
                 ), 
                 view=self.bot.merge_view(View(
@@ -142,7 +140,7 @@ class InteractionEvent(CogExtension):
                     title=f"加成者們 [{len(guild.premium_subscribers)}]",
                     description='\n'.join(guild.premium_subscribers) if guild.premium_subscribers else "無",
                     color=Colour.random(),
-                    thumbnail=guild.icon,
+                    thumbnail=EmbedMedia(guild.icon.url),
                     footer=EmbedFooter("serverinfo | 伺服器資訊", self.bot.icon_url),
                 ), 
                 view=self.bot.merge_view(View(
@@ -171,7 +169,7 @@ class InteractionEvent(CogExtension):
                     title=f"身分組 [{len(guild.roles)-1}]",
                     description=roles,
                     color=Colour.random(),
-                    thumbnail=guild.icon,
+                    thumbnail=EmbedMedia(guild.icon.url),
                     footer=EmbedFooter("serverinfo | 伺服器資訊", self.bot.icon_url),
                 ), 
                 view=self.bot.merge_view(View(
@@ -186,7 +184,7 @@ class InteractionEvent(CogExtension):
             )
             
         if custom_id == "serverinfo_back":
-            return await interaction.response.edit_message(**self.bot.get_guild_data(interaction.user, original))
+            return await interaction.response.edit_message(**self.bot.get_guild_data(guild, original))
         
         if custom_id == "open_report_button":
             await interaction.response.send_modal(Modal(
@@ -206,10 +204,7 @@ class InteractionEvent(CogExtension):
             ))
         
         if custom_id == "report_modal":
-            print(self.bot.get_interaction_value())
-            title = ...
-            description = ...
-            user = interaction.user
+            title, description = self.bot.get_interaction_value(interaction)
             #def bug_callback(title,description,modal,user):
             #    with open("Error report.txt","a",encoding="utf-8") as f:
             #        return f.write(f"\
@@ -221,18 +216,17 @@ class InteractionEvent(CogExtension):
             report_embed = Embed(
                 title=title,
                 description=description,
-                timestamp=get_now_time,
+                timestamp=get_now_time(),
                 color=Colour.random(),
                 footer=EmbedFooter(f"{user} 提出回報", user.avatar)
             )
-
 
             await self.bot.get_channel(966010451643215912).send(embed=report_embed)
             await user.send(embed=Embed(
                 title=f"感謝您提出回報!!",
                 description=f"以下為您的回報內容",
                 color=Colour.random(),
-                timestamp=get_now_time,
+                timestamp=get_now_time(),
                 footer=EmbedFooter("Error report", self.bot.icon_url),
                 fields=[
                     EmbedField("回報名稱:", title),
@@ -243,25 +237,51 @@ class InteractionEvent(CogExtension):
         
         if custom_id == "wiki_select":
             value = self.bot.get_select_value(interaction, 0)
-            await interaction.response.edit_message(
+            await interaction.response.defer()
+            description = wiki_info(value)
+            #await sleep(1.5)
+            return await interaction.followup.edit_message(
+                message_id=message.id,
                 embed=Embed(
-                    url=f"https://zh.wikipedia.org/wiki/{value[5:]}",
-                    title=value[5:],
-                    description=wiki_info(value[5:]),
+                    url=f"https://zh.wikipedia.org/wiki/{value}",
+                    title=value,
+                    description=description,
                     color=Colour.random(),
                     timestamp=get_now_time(),
                     footer=EmbedFooter("Wikipedia.org", self.bot.icon_url),
                     thumbnail="https://th.bing.com/th/id/R.d451e7b1661d71fc68ca02b19137497b?rik=MjNkZivLBibrOQ&pid=ImgRaw&r=0"
-                ),
-                view=original
+                )
             )
+        
+        if custom_id.startswith("rpc_punch"):
+            _, _, s = custom_id.split('_')
+            result = random.choice(["r", "s", "p"])
+            emoji = {
+                "s": "✂️", "r": "🪨", "p": "🌫️"
+            }
+            
+            if s == result:
+                return await interaction.response.edit_message(content=f"我出 {emoji[result]} ，平手!")
+            
+            match s:
+                case 's':
+                    win = True if result == 'r' else False
+                        
+                case 'r':
+                    win = True if result == 'p' else False
+                
+                case 'p':
+                    win = True if result == 's' else False
+
+            return await interaction.response.edit_message(content=f"我出 {emoji[result]} ，我贏了!" if win else f"我出 {emoji[result]} ，是我輸了...")
         
         if custom_id.startswith("roleinfo_owner"):
             role = list(filter(lambda x: x.id == int(custom_id.split('_')[2]), guild.roles))[0]
+            members = role.members
             count = 0
-            while sum(map(lambda x: len(x.mention)+3, role.members)) >= 1010:
+            while (s := sum(map(lambda x: len(x.mention)+3, members))) >= 1010:
                 count += 1
-                role.members.pop()
+                members.pop()
                 
             members = "無" if not role.members else ' | '.join(map(lambda x: x.mention, role.members))
             if count: members += f" +{count} Members..."
@@ -291,13 +311,13 @@ class InteractionEvent(CogExtension):
                     color=role.color,
                     timestamp=get_now_time(),
                     fields=[
-                        EmbedField(**i) for i in {
+                        EmbedField(**i) for i in [
                             {"name": "🗒️ 名字", "value": role.mention},
                             {"name": "💳 id", "value": role.id},
                             {"name": "📊 人數", "value": len(role.members)},
                             {"name": "🗓️ 創建時間", "value": role.created_at.strftime('%Y/%m/%d')},
-                            {"name": "👾 貼圖", "value": role.unicode_emoji if role.unicode_emoji else None},
-                        }
+                            {"name": "👾 貼圖", "value": role.unicode_emoji if role.unicode_emoji else "無"},
+                        ]
                     ]
                 ),
                 view=View(
@@ -312,9 +332,10 @@ class InteractionEvent(CogExtension):
             )
         
         if custom_id.startswith("clear"):
-            _, choose, limit = custom_id.split('_')
-            if user != message.author:
-                return await interaction.response.send_message("只有指令使用者才能進行操作",ephemeral=True)
+            _, choose, limit, id = custom_id.split('_')
+            
+            if user.id != int(id):
+                return await interaction.response.send_message("只有指令使用者才能進行操作", ephemeral=True)
             
             await interaction.message.delete()
             if choose == "yes":
@@ -331,12 +352,11 @@ class InteractionEvent(CogExtension):
             return await interaction.response.send_message("已取消刪除", ephemeral=True)
         
         if custom_id.startswith("math"):
-            __, op = custom_id.split('_')
-            if user != message.author:
+            __, op, id = custom_id.split('_')
+            if user.id != int(id):
                 return await interaction.response.send_message("❌非此指令使用者無法操控!",ephemeral=True)
             
-
-            value = " "
+            value = interaction.message.embeds[0].description[3:-3].replace(' ', '')
             match op:
                 case "=":
                     value = calculator(value) 
@@ -350,131 +370,8 @@ class InteractionEvent(CogExtension):
                     
             await interaction.response.edit_message(embed=Embed(
                 title="簡易計算機",
-                description=f"```{value}{"                                        "[len(value):40]}```",
-                color=Colour.random(),
-                timestamp=get_now_time(),
-                footer=EmbedFooter("/math | Ganyu", self.bot.icon_url)
-            ), view=View(
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_1",
-                    label="1",
-                    row=1
-                ),
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_2",
-                    label="2",
-                    row=1
-                ),
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_3",
-                    label="3",
-                    row=1
-                ),
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_4",
-                    label="4",
-                    row=2
-                ),
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_5",
-                    label="5",
-                    row=2
-                ),
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_6",
-                    label="6",
-                    row=2
-                ),
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_7",
-                    label="7",
-                    row=3
-                ),
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_8",
-                    label="8",
-                    row=3
-                ),
-                Button(
-                    style= ButtonStyle.primary,
-                    custom_id="math_9",
-                    label="9",
-                    row=3
-                ),
-                Button(
-                    style=ButtonStyle.primary,
-                    custom_id="math_0",
-                    label="0",
-                    row=4
-                ),
-                Button(
-                    style=ButtonStyle.gray,
-                    custom_id="math_.",
-                    label=".",
-                    row=4
-                ),
-                Button(
-                    style=ButtonStyle.success,
-                    custom_id="math_=",
-                    label="=",
-                    row=3
-                ),
-                Button(
-                    style=ButtonStyle.gray,
-                    custom_id="math_+",
-                    label="+",
-                    row=1
-                ),
-                Button(
-                    style=ButtonStyle.gray,
-                    custom_id="math_-",
-                    label="-",
-                    row=2
-                ),
-                Button(
-                    style=ButtonStyle.gray,
-                    custom_id="math_×",
-                    label="×",
-                    row=3
-                ),
-                Button(
-                    style=ButtonStyle.gray,
-                    custom_id="math_÷",
-                    label="÷",
-                    row=4
-                ),
-                Button(
-                    style=ButtonStyle.danger,
-                    custom_id="math_ac",
-                    label="AC",
-                    row=1
-                ),
-                Button(
-                    style=ButtonStyle.danger,
-                    custom_id="math_c",
-                    label="C",
-                    row=2
-                ),
-                Button(
-                    style=ButtonStyle.grey,
-                    custom_id="math_(",
-                    label="(",
-                    row=4
-                ),
-                Button(
-                    style=ButtonStyle.grey,
-                    custom_id="math_)",
-                    label=")",
-                    row=4
-                )
+                description=f"```{(value+"                                      ")[:40]}```",
+                color=Colour.nitro_pink(),
             ))
         
 def setup(bot):

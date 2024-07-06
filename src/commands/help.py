@@ -1,5 +1,3 @@
-from lib.cog import CogExtension
-
 from discord import (
     ApplicationContext as Context,
     SelectOption,
@@ -12,8 +10,10 @@ from discord.ui import (
     View
 )
 
+from lib.cog import CogExtension
+from core import Bot
+
 class SlashHelp(CogExtension):
-    
     @slash_command(description="查看指令清單")
     async def help(self, ctx: Context):
         self.bot.log(ctx)
@@ -84,9 +84,9 @@ class SlashHelp(CogExtension):
 
     @slash_command(description="工具指令清單")
     async def tool(self, ctx: Context):
-        self.bot.log(ctx)
-        await ctx.respond(embed=self.bot.commands_list["tool"])
+       self.bot.log(ctx)
+       await ctx.respond(embed=self.bot.commands_list["tool"])
 
 
-def setup(bot):
+def setup(bot: Bot):
     bot.add_cog(SlashHelp(bot))

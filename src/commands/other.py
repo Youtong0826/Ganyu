@@ -7,6 +7,7 @@ from discord import (
     Colour,
     Embed,
     EmbedFooter,
+    EmbedMedia,
     Member,
     option,
     slash_command
@@ -24,20 +25,21 @@ from lib.functions import (
 )
 
 class SlashCucmd(CogExtension):
-
     @slash_command(description="讓機器人模仿你說的話!")
-    async def say(self, ctx: Context, *, msg: str):
+    @option("文字", str, parameter_name="msg", description="要發送的文字")
+    async def say(self, ctx: Context, msg: str):
         self.bot.log(ctx)
         await ctx.response.send_message("已成功發送訊息!", ephemeral=True)
         await ctx.send(msg, allowed_mentions=AllowedMentions.none())
 
     @slash_command(description="查看頭像")
-    async def avatar(self, ctx: Context, *, member: Member = None):
+    @option("成員", Member, parameter_name="member", description="選擇成員", required=False)
+    async def avatar(self, ctx: Context, member: Member = None):
         self.bot.log(ctx)
         await ctx.respond(embed=Embed(
             color=Colour.random(),
             timestamp=get_now_time(),
-            image=member.avatar if member else ctx.author.avatar,
+            image=EmbedMedia(member.avatar.url if member else ctx.author.avatar.url),
             footer=EmbedFooter("/avatar | Ganyu", self.bot.icon_url)
         ))
 
@@ -76,9 +78,9 @@ class SlashCucmd(CogExtension):
         )
 
     @slash_command(descripton="創建一個嵌入訊息")
-    @option("title", str, description="標題", required=False)
-    @option("title", str, description="敘述", required=False)
-    async def embed(self, ctx: Context, title: str, *, description: str = None):
+    @option("標題", str, parameter_name="title", description="標題", required=False)
+    @option("內容", str, parameter_name="description", description="內容", required=False)
+    async def embed(self, ctx: Context, title: str = None, description: str = None):
         self.bot.log(ctx)
         if not title:
             await ctx.respond(embed=Embed(

@@ -1,6 +1,6 @@
 import asyncio
 from lib.functions import translate
-from lib.cog import CogExtension, Log
+from lib.cog import CogExtension
 from discord.ext import commands
 
 

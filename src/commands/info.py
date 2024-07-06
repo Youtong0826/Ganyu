@@ -20,6 +20,7 @@ from discord.ui import (
 
 from lib.cog import CogExtension
 from lib.functions import get_now_time
+from core import Bot
 
 class SlashInfo(CogExtension):
     @slash_command(description="查看所有的資訊!")
@@ -67,9 +68,10 @@ class SlashInfo(CogExtension):
     @slash_command(description="查看機器人資訊!")
     async def botinfo(self, ctx: Context):
         self.bot.log(ctx)
-        await ctx.respond(**self.bot.get_bot_data(ctx.guild))
+        await ctx.respond(**self.bot.get_bot_data())
 
     @slash_command(description="查看用戶資訊!")
+    @option("成員", Member, parameter_name="member", description="選擇成員", required=False)
     async def userinfo(self, ctx: Context, member: Member = None):
         self.bot.log(ctx)
         await ctx.respond(**self.bot.get_user_data(member if member else ctx.author))
@@ -90,7 +92,8 @@ class SlashInfo(CogExtension):
         self.bot.log(ctx)
         data = {}
         for i in await ctx.guild.invites():
-            data[i.inviter] = data.get(i.inviter, 0) + i.uses
+            if i.inviter: 
+                data[i.inviter.mention] = data.get(i.inviter.mention, 0) + i.uses
 
         rank = [
             ":one: ",
@@ -104,8 +107,9 @@ class SlashInfo(CogExtension):
             ":nine: ",
             ":keycap_ten: "
         ]
-
-        data = list(map(lambda x: f"{rank[x[0]]} {x[1][0]}邀請 {x[1][1]} 人", enumerate(sorted(data.items(), key=lambda x: x[1]))))        
+        
+        
+        data = list(map(lambda x: f"{x[0]} {x[1][0]} 邀請 {x[1][1]} 人", zip(rank, reversed(sorted(data.items(), key=lambda x: x[1])))))       
 
         await ctx.respond(embed=Embed(
             title=f"{ctx.guild.name} 的邀請榜", 
@@ -116,6 +120,7 @@ class SlashInfo(CogExtension):
     @slash_command(description="查看身分組資訊!")
     @option("role", Role, description="選擇身分組", required = False)
     async def roleinfo(self, ctx: Context, role: Role):
+        self.bot.log(ctx)
         if not role:
             return await ctx.respond(embed=Embed(
                 title="使用 g!roleinfo 取得身分組資訊!",
@@ -130,13 +135,13 @@ class SlashInfo(CogExtension):
                 color=role.color,
                 timestamp=get_now_time(),
                 fields=[
-                    EmbedField(**i) for i in {
+                    EmbedField(**i) for i in [
                         {"name": "🗒️ 名字", "value": role.mention},
                         {"name": "💳 id", "value": role.id},
                         {"name": "📊 人數", "value": len(role.members)},
                         {"name": "🗓️ 創建時間", "value": role.created_at.strftime('%Y/%m/%d')},
-                        {"name": "👾 貼圖", "value": role.unicode_emoji if role.unicode_emoji else None},
-                    }
+                        {"name": "👾 貼圖", "value": role.unicode_emoji if role.unicode_emoji else "無"},
+                    ]
                 ]
             ),
             view=View(
@@ -150,5 +155,6 @@ class SlashInfo(CogExtension):
             )
         )
 
-def setup(bot):
+
+def setup(bot: Bot):
     bot.add_cog(SlashInfo(bot))

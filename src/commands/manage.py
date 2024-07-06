@@ -10,7 +10,6 @@ from discord import (
     EmbedFooter,
     Member,
     Role,
-    TextChannel,
     option,
     slash_command
 )
@@ -20,8 +19,11 @@ from discord.ui import (
     Button,
 )
 
+from discord.errors import Forbidden
+
 from lib.cog import CogExtension
 from lib.functions import get_now_time
+from core import Bot
 
 class ManageType(Enum):
     kick = 1
@@ -39,7 +41,6 @@ class Management:
     
 
 class SlashManage(CogExtension):
-    
     async def manage(self, ctx: Context, user: Member, member: Member, type: ManageType, title: str, reason: str ="無"):
         match type:
             case ManageType.kick:
@@ -122,8 +123,9 @@ class SlashManage(CogExtension):
         ))
 
     @slash_command(description="踢出成員")
-    @option("member", Member, description="選擇成員", required=False)
-    async def kick(self, ctx: Context, member: Member, *, reason: str = None):
+    @option("成員", Member, parameter_name="member", description="選擇成員", required=False)
+    @option("原因", Member, parameter_name="reason", description="原因", required=False)
+    async def kick(self, ctx: Context, member: Member = None, reason: str = None):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(
@@ -142,8 +144,9 @@ class SlashManage(CogExtension):
         )
             
     @slash_command(description="停權成員")
-    @option("member", Member, description="選擇成員", required=False)
-    async def ban(self, ctx: Context, member: Member, *, reason: str = None):
+    @option("成員", Member, parameter_name="member", description="選擇成員", required=False)
+    @option("原因", Member, parameter_name="reason", description="原因", required=False)
+    async def ban(self, ctx: Context, member: Member = None, reason: str = None):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(
@@ -161,8 +164,9 @@ class SlashManage(CogExtension):
         )
         
     @slash_command(description="解除停權")
-    @option("member", Member, description="選擇成員", required=False)
-    async def unban(self, ctx: Context, member: Member, *, reason: str = None):
+    @option("成員", Member, parameter_name="member", description="選擇成員", required=False)
+    @option("原因", Member, parameter_name="reason", description="原因", required=False)
+    async def unban(self, ctx: Context, member: Member = None, reason: str = None):
         self.bot.log(ctx)
         if not member:
             return await ctx.respond(embed=Embed(
@@ -180,9 +184,9 @@ class SlashManage(CogExtension):
         )
         
     @slash_command(description="新增身分組至另一名成員!")
-    @option("member", Member, description="選擇成員", required=False)
-    @option("role", Member, description="選擇身分組", required=False)
-    async def addrole(self, ctx: Context, member: Member, role: Role):
+    @option("成員", Member, parameter_name="member", description="選擇成員", required=False)
+    @option("身分組", Role, parameter_name="role", description="選擇身分組", required=False)
+    async def addrole(self, ctx: Context, member: Member = None, role: Role = None):
         self.bot.log(ctx)
         if not role or not member:
             return await ctx.respond(embed=Embed(
@@ -207,7 +211,12 @@ class SlashManage(CogExtension):
                 description=f"缺少權限 `mange_roles` `管理身分組`",
                 color=0xff2e2e,
             ))
-        await member.add_roles(role)
+            
+        try: await member.add_roles(role)
+        except Forbidden as ex:
+            if ex.code == 50013:
+                return await ctx.respond("我的權限不夠嗚嗚..")
+                
         await ctx.respond(embed=Embed(
             title="已成功新增身分組!",
             color=0xff2e2e,
@@ -216,8 +225,8 @@ class SlashManage(CogExtension):
         ))
 
     @slash_command(description="清理訊息")
-    @option("limit", int, description="數量", required=False)
-    async def clear(self, ctx: Context, limit: int):
+    @option("數量", int, parameter_name="limit", description="刪除的數量", required=False)
+    async def clear(self, ctx: Context, limit: int = None):
         self.bot.log(ctx)
         
         if not limit:
@@ -249,12 +258,12 @@ class SlashManage(CogExtension):
                     Button(
                         style=ButtonStyle.success,
                         label="確定",
-                        custom_id=f"clear_yes_{limit}"
+                        custom_id=f"clear_yes_{limit}_{ctx.author.id}"
                     ),
                     Button(
                         style=ButtonStyle.danger,
                         label="取消",
-                        custom_id=f"clear_no_{limit}"
+                        custom_id=f"clear_no_{limit}_{ctx.author.id}"
                     )
                 )
             )
@@ -271,5 +280,5 @@ class SlashManage(CogExtension):
         if deleted:
             await msg.delete_original_message(delay=5.0)
 
-def setup(bot):
+def setup(bot: Bot):
     bot.add_cog(SlashManage(bot))

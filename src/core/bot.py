@@ -16,6 +16,7 @@ from discord import (
     Embed,
     EmbedField,
     EmbedFooter,
+    EmbedMedia,
     Guild,
     Interaction,
     Member,
@@ -45,7 +46,7 @@ class Bot(Bot):
             "ganyu": must_field_embed(
                 Embed(
                     title="Ganyu 指令清單",
-                    description="可使用`/report`來提出建議或回報錯誤ㄛ~",
+                    description="可使用 `/report` 來提出建議或回報錯誤ㄛ~",
                     color=0xec8fff
                 ),
                 [
@@ -63,10 +64,10 @@ class Bot(Bot):
                     color=Colour.random()
                 ),
                 [
-                    ["dice `數字` ", "讓這個機器人幫你骰骰子"],
-                    ["mora","猜拳"],
-                    ["luck","幸運值"],
-                    ["spank","拍屁屁"]
+                    ["/dice", "骰骰子"],
+                    ["/rps","剪刀石頭布"],
+                    ["/luck","幸運值"],
+                    ["/spank","拍屁屁"]
                 ]
             ),
             "info": must_field_embed(
@@ -75,13 +76,13 @@ class Bot(Bot):
                     color=Colour.random()
                 ),
                 [
-                    ["allinfo","一次查看所有資訊!"],
-                    ["userinfo `user`", "查看使用者在此伺服器的資訊"],
-                    ["serinfo", "查看伺服器的資訊"],
-                    ["botinfo", "查看機器人的資訊"],
-                    ["invite", "獲取邀請連結"],
-                    ["invites", "查看本服邀請榜"],
-                    ["roleinfo `身分組`","取得身分組資訊"],
+                    ["/allinfo","一次查看所有資訊!"],
+                    ["/userinfo `用戶`", "查看使用者在此伺服器的資訊"],
+                    ["/serinfo", "查看伺服器的資訊"],
+                    ["/botinfo", "查看機器人的資訊"],
+                    ["/invite", "獲取邀請連結"],
+                    ["/invites", "查看本服邀請榜"],
+                    ["/roleinfo `身分組`","取得身分組資訊"],
                 ]
             ),
             "other": must_field_embed(
@@ -90,9 +91,8 @@ class Bot(Bot):
                     color=Colour.random()
                 ),
                 [
-                    ["ping", "查看機器人延遲"],
-                    ["say `文字`", "讓這個機器人模仿你說話"],
-                    ["dm `成員` `文字`" , "讓 Ganyu 私訊某人"]
+                    ["/ping", "查看機器人延遲"],
+                    ["/say `文字`", "讓這個機器人模仿你說話"],
                 ]
             ),
             "manage": must_field_embed(
@@ -101,10 +101,10 @@ class Bot(Bot):
                     color=Colour.random()
                 ),
                 [
-                    ["ban `成員`", "停權其他用戶"],
-                    ["kick `成員`", "踢出其他用戶"],
-                    ["clear `數量`", "清理訊息"],
-                    ["addrole `成員` `身分組`", "新增身分組至一名用戶" ]
+                    ["/ban `成員`", "停權其他用戶"],
+                    ["/kick `成員`", "踢出其他用戶"],
+                    ["/clear `數量`", "清理訊息"],
+                    ["/addrole `成員` `身分組`", "新增身分組至一名用戶" ]
                 ]
             ),
             "tool": must_field_embed(
@@ -113,12 +113,12 @@ class Bot(Bot):
                     color=Colour.random()
                 ),
                 [
-                    ["translate `要翻譯後的語言` `文字`","翻譯"],
-                    ["embed `標題` `內容`","傳送Embed訊息"],
-                    ["words `句子`","字數轉換"],
-                    ["bullshit `主題` `字數`","唬爛產生器" ],
-                    ["math","計算機"],
-                    ["wiki `關鍵字`","搜索維基百科"]
+                    ["/translate `語言` `文字`","翻譯"],
+                    ["/embed `標題` `內容`","傳送Embed訊息"],
+                    ["/words `句子`","字數轉換"],
+                    ["/bullshit `主題` `字數`","唬爛產生器" ],
+                    ["/math `算式`","計算機"],
+                    ["/wiki `關鍵字`","搜索維基百科"]
                 ]
             ),
             #"music": mustFieldEmbed(
@@ -140,10 +140,15 @@ class Bot(Bot):
         }
         
         self.icon_url = "https://cdn.discordapp.com/avatars/921673886049910795/5f07bb3335678e034600e94bc1515c7f.png?size=256"
+        self.id = 921673886049910795
     
     @property
     def database(self):
         return Database(self.__database_path)
+      
+    @property
+    def mention(self) -> str:
+        return f"<@{self.id}>"
       
     def get_bot_data(self, original: View = None) -> dict[str, Embed | View]:            
         if not original: original = View()
@@ -199,51 +204,38 @@ class Bot(Bot):
                 timestamp=get_now_time(),
                 fields=[
                     EmbedField(**i) for i in [
-                        {"name": "🐬 暱稱", "value": f"{user.nick if user.nick else "無"}", "inline": True},
-                        {"name": "🤖 Bot", "value": f"{"yes" if user.bot else "no"}", "inline": True},
-                        {"name": "💳 ID", "value": f"`{user.id}`", "inline": False},
-                        {"name": "📆 創建時間", "value": user.created_at.strftime('%Y/%m/%d'),"inline": True},
-                        {"name": "📆 加入時間", "value": user.joined_at.strftime('%Y/%m/%d'), "inline": True},
-                        {"name": f"📰 身分組[{len(user.roles)-1}]:", "value": roles, "inline": False}
+                        {"name": "🐬 暱稱", "value": f"`{user.nick if user.nick else "無"}`"},
+                        {"name": "🤖 Bot", "value": f"`{"yes" if user.bot else "no"}`"},
+                        {"name": "💳 ID", "value": f"`{user.id}`"},
+                        {"name": "📆 創建時間", "value": f"`{user.created_at.strftime('%Y/%m/%d')}`"},
+                        {"name": "📆 加入時間", "value": f"`{user.joined_at.strftime('%Y/%m/%d')}`"},
+                        {"name": f"📰 身分組[{len(user.roles)-1}]:", "value": roles}
                     ]       
                 ],
                 footer=EmbedFooter("userinfo | 用戶資訊", self.icon_url)
             ), 
-            "view": self.merge_view(View(
-                Button(
-                    style=ButtonStyle.primary,
-                    label="Invite me!",
-                    emoji="🔗",
-                    url="https://ptb.discord.com/api/oauth2/authorize?client_id=921673886049910795&permissions=380108955712&scope=bot%20applications.commands"
-                ),
-                Button(
-                    label="Support Server",
-                    emoji="❓",
-                    url="https://discord.gg/AVCWGuuUex"
-                ),
-                timeout=None
-            ), original) 
+            "view": original
         }
     
     def get_guild_data(self, guild: Guild, original: View = None): 
         if not original: original = View()
         return {
             "embed": Embed(
-                title=guild,
+                title=guild.name,
                 color=0x9c8fff,
                 timestamp=get_now_time(),
-                thumbnail=guild.icon,
+                thumbnail=EmbedMedia(guild.icon.url) ,
                 footer=EmbedFooter("serverinfo | 伺服器資訊", self.icon_url),
                 fields=[
-                    EmbedField(**i) for i in {
-                        {"name": "🚹 __服主__", "value": guild.owner.mention},
-                        {"name": "💳 __ID__", "value": guild.id},
-                        {"name": "🗓️ __創建時間__", "value": guild.created_at.strftime('%Y/%m/%d')},
-                        {"name": "📈 __人數__", "value": guild.member_count},
-                        {"name": "📊 __頻道數__" , "value": len(guild.channels)},
-                        {"name": "👾 __表情符號__", "value": len(guild.emojis)},
-                        {"name": "📌 __身分組__", "value": len(guild.roles)},
-                    }
+                    EmbedField(**i) for i in [
+                        {"name": "🚹 __服主__", "value": f"`{guild.owner.mention}`"},
+                        {"name": "💳 __ID__", "value": f"`{guild.id}`"},
+                        {"name": "🗓️ __創建時間__", "value": f"`{guild.created_at.strftime('%Y/%m/%d')}`"},
+                        {"name": "📈 __人數__", "value": f"`{guild.member_count}`"},
+                        {"name": "📊 __頻道數__" , "value": f"`{len(guild.channels)}`"},
+                        {"name": "👾 __表情符號__", "value": f"`{len(guild.emojis)}`"},
+                        {"name": "📌 __身分組__", "value": f"`{len(guild.roles)}`"},
+                    ]
                 ]
             ),
             "view": self.merge_view(View(
@@ -274,25 +266,32 @@ class Bot(Bot):
     def get_select_value(self, interaction: Interaction, index: int = -1) -> Union[Any, list[Any]]:
         return interaction.data.get("values")[index] if index != -1 else interaction.data.get("values")
     
-    def from_component(self, view: View, component: Union[ActionRow, DiscordButton, SelectMenu]) -> View:
-        kwargs = component.to_dict()
-        kwargs.pop('type')
+    def from_component(self, component: Union[ActionRow, DiscordButton, SelectMenu], custom_id: str = None, view: View = None) -> View:      
+        if not view:
+            view = View(timeout=None)
+            
+        if custom_id:
+            try:
+                component = list(filter(lambda x: x.custom_id == custom_id, component.children))[0]
+                
+            except:
+                return None
         
         match component.type:
             case ComponentType.button:
-                view.add_item(Button(**kwargs))
+                view.add_item(Button.from_component(component))
                 
             case ComponentType.select:
-                view.add_item(Select(**kwargs))
+                view.add_item(Select.from_component(component))
                 
             case ComponentType.role_select:
-                view.add_item(Select(select_type=ComponentType.role_select, **kwargs))
+                view.add_item(Select.from_component(component))
                 
             case ComponentType.user_select:
-                view.add_item(Select(select_type=ComponentType.user_select, **kwargs))
+                view.add_item(Select.from_component(component))
                 
             case ComponentType.channel_select:
-                view.add_item(Select(select_type=ComponentType.channel_select, **kwargs))
+                view.add_item(Select.from_component(component))
                 
             case _:
                 for c in component.children:
@@ -307,30 +306,56 @@ class Bot(Bot):
             
         return View(*childrens)        
            
-    def load_extension(self, folder: str, mode: str = "load", is_notice: bool = True) -> None:
-
-        loading_method = {
-            "load": super().load_extension,
-            "reload": super().reload_extension,
-            "unload": super().unload_extension
-        }
-
+    def _load_extension(self, folder: str = None, extension: str = None, is_notice: bool = True) -> None:
+        if extension:
+            return self.load_extension(f"{folder}.{extension}")
+        
         if is_notice:
-            print(f"start {mode}ing {folder}")
-
+            print(f"start loading {folder}")
+            
         for Filename in os.listdir(f'src/{folder}'):
             if Filename.endswith(".py"):
-                loading_method[mode](f"{folder}.{Filename[:-3]}")
+                self.load_extension(f"{folder}.{Filename[:-3]}")
                 if is_notice:
-                    print(f'-- {mode}ed "{Filename}"')
+                    print(f'-- loaded "{Filename}"')
 
-        print(f"{mode}ing {folder} end")
+        print(f"loading {folder} end")
         
+    def _unload_extension(self, folder: str = None, extension: str = None, is_notice: bool = True) -> None:
+        if extension:
+            return self.unload_extension(f"{folder}.{extension}")
+        
+        if is_notice:
+            print(f"start unloading {folder}")
+            
+        for Filename in os.listdir(f'src/{folder}'):
+            if Filename.endswith(".py"):
+                self.unload_extension(f"{folder}.{Filename[:-3]}")
+                if is_notice:
+                    print(f'-- unloaded "{Filename}"')
+
+        print(f"unloading {folder} end")
+        
+    def _reload_extension(self, folder: str = None, extension: str = None, is_notice: bool = True) -> None:
+        if extension:
+            return self.reload_extension(f"{folder}.{extension}")
+        
+        if is_notice:
+            print(f"start reloading {folder}")
+            
+        for Filename in os.listdir(f'src/{folder}'):
+            if Filename.endswith(".py"):
+                self.reload_extension(f"{folder}.{Filename[:-3]}")
+                if is_notice:
+                    print(f'-- reloaded "{Filename}"')
+
+        print(f"reloading {folder} end")  
+    
     def log(self, ctx: Context):
-        print(f'[{get_now_time()}] At the guild - {ctx.author.guild}. {ctx.author} used the command - "{ctx.command}"')
+        print(f'[{get_now_time().strftime("%Y/%m/%d %H:%M:%S")}] At the guild - {ctx.author.guild}. {ctx.author} used the command - "{ctx.command}"')
         
     def error(self, ctx: Context, error: Exception):
-        print(f'[{get_now_time()}] At the guild - {ctx.author.guild}. When {ctx.author} used the command - "{ctx.command}", return a error:{error}')
+        print(f'[{get_now_time().strftime("%Y/%m/%d %H:%M:%S")}] At the guild - {ctx.author.guild}. When {ctx.author} used the command - "{ctx.command}", return a error:{error}')
     
     async def dev_warn(self, ctx: Context):
         return await ctx.response.send_message('❌ 此為開發者功能!', ephemeral=True)

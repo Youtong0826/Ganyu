@@ -30,11 +30,8 @@ from discord.ui import (
     Select
 )
 
-from lib.functions import (
-    get_now_time,
-    must_field_embed
-)
-
+from lib.embed import must_field_embed
+from lib.timing import get_now_time
 from database import Database
 
 class Bot(Bot):

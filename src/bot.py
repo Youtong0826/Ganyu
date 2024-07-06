@@ -20,7 +20,7 @@ intents.presences = False
 
 bot = Bot(
     command_prefix="g!",
-    intents=intents,
+    intents=intents
 )
 
 for folder in ["commands", "cogs", "events"]: 

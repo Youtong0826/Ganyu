@@ -41,13 +41,14 @@ async def on_ready():
         ]
 
         ACTIVITY_OPTION = {
+            "status": Status.idle,
             "application_id": 921673886049910795,
             "type" : ActivityType.watching,
         }
 
         for i in names:
-            await bot.change_presence(activity=Activity(name=i ,**ACTIVITY_OPTION), status=Status.idle)
-            await asyncio.sleep(5.0)
+            await bot.change_presence(activity=Activity(name=i ,**ACTIVITY_OPTION))
+            await asyncio.sleep(10.0)
 
     while True:
         await run_activity_loop()

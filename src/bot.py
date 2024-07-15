@@ -42,25 +42,7 @@ async def on_ready():
 
         ACTIVITY_OPTION = {
             "application_id": 921673886049910795,
-            "status" : Status.streaming,
-            "url" : "https://discord.gg/AVCWGuuUex",
             "type" : ActivityType.watching,
-            "timestamp" : {
-                "start":1000,
-                "end":2000
-            },
-            "state":"正在觀看",
-            "detail":"**thinking**",
-            "assets" :{
-                "large_image":"largetest",
-                "large_text":"largetest",
-                "small_image" :"smalltest",
-                "small_text" : "smalltest"
-            },
-            "button" :{
-                "label" : "Support",
-                "url" : "https://discord.gg/AVCWGuuUex "
-            }
         }
 
         for i in names:
